@@ -33,7 +33,7 @@ class CardByName(object):
 		rulings_uri: str		The API uri for the rulings of the card.
 		prints_search_uri: str	TODO: Figure out what this does.
 		collector_number: str	The collector number of the card.
-		
+
 
 	"""
 
@@ -49,7 +49,6 @@ class CardByName(object):
 		self.scryfallJson = loop.run_until_complete(getRequest(url='https://api.scryfall.com/cards/named?', params={'fuzzy':self.cardname}))
 
 		self.session.close()
-		loop.close()
 
 	def object(self):
 		return self.scryfallJson['object']

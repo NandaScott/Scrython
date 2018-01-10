@@ -1,8 +1,8 @@
 import asyncio, aiohttp
 import json
 
-class CardByName(object):
-	"""Gets a card by it's name.
+class CardsNamed(object):
+	""" cards/named
 
 	Attributes:
 		object: str				Returns the type of object it is. (card, error, etc)
@@ -33,7 +33,6 @@ class CardByName(object):
 		rulings_uri: str		The API uri for the rulings of the card.
 		prints_search_uri: str	TODO: Figure out what this does.
 		collector_number: str	The collector number of the card.
-
 
 	"""
 

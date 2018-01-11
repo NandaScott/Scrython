@@ -1,7 +1,7 @@
 import asyncio, aiohttp
 import json
 
-class CardsAutocomplete(object):
+class Autocomplete(object):
 	""" cards/autocomplete
 
 	Parameters:

@@ -1,8 +1,20 @@
 import asyncio, aiohttp
 import json
 
-class CardsNamed(object):
+class Named(object):
 	""" cards/named
+
+	Parameters:
+		exact: str				The exact card name to search for, case insenstive.
+		fuzzy: str				A fuzzy card name to search for.
+		set: str				A set code to limit the search to one set.
+		format: str				The data format to return: json, text, or image. Defaults to json.
+		face: str				If using the image format and this parameter has the value back,
+									the back face of the card will be returned.
+									Will return a 404 if this card has no back face.
+		version: str			The image version to return when using the image
+									format: small, normal, large, png, art_crop, or border_crop. Defaults to large.
+		pretty: bool				If true, the returned JSON will be prettified. Avoid using for production code.
 
 	Attributes:
 		object: str				Returns the type of object it is. (card, error, etc)
@@ -36,8 +48,14 @@ class CardsNamed(object):
 
 	"""
 
-	def __init__(self, cardname):
-		self.cardname = cardname
+	def __init__(self, exact=None, fuzzy=None, _set=None, _format=None, face=None, version=None, pretty=None):
+		self.exact = exact
+		self.fuzzy = fuzzy
+		self.set = _set
+		self.format = _format
+		self.face = face
+		self.version = version
+		self.pretty = pretty
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 
@@ -45,7 +63,17 @@ class CardsNamed(object):
 			async with self.session.get(url, **kwargs) as response:
 				return await response.json()
 
-		self.scryfallJson = loop.run_until_complete(getRequest(url='https://api.scryfall.com/cards/named?', params={'fuzzy':self.cardname}))
+		self.scryfallJson = loop.run_until_complete(getRequest(
+			url='https://api.scryfall.com/cards/named?',
+			params={
+				'exact':self.exact,
+				'fuzzy':self.fuzzy,
+				'set':self.set,
+				'format':self.format,
+				'face':self.face,
+				'version':self.version,
+				'pretty':self.pretty
+			}))
 
 		self.session.close()
 

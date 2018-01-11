@@ -2,7 +2,7 @@ import asyncio, aiohttp
 import json
 
 class Collector(object):
-	""" cards/named
+	""" cards/:code/:collector_number
 
 	Parameters:
 		code: int				The 3 or 4 letter set code.
@@ -82,7 +82,7 @@ class Collector(object):
 				'version':self.version,
 				'pretty':self.pretty
 			}))
-			
+
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
 			self.session.close()

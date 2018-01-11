@@ -2,10 +2,10 @@ import asyncio, aiohttp
 import json
 
 class Mtgo(object):
-	""" cards/named
+	""" cards/mtgo/:id
 
 	Parameters:
-		id: int					The multiverse id of the card.
+		id: int					The mtgo id of the card.
 		format: str				The data format to return: json, text, or image. Defaults to json.
 		face: str				If using the image format and this parameter has the value back,
 									the back face of the card will be returned.

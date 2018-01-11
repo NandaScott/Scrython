@@ -2,7 +2,7 @@ import asyncio, aiohttp
 import json
 
 class Id(object):
-	""" cards/named
+	""" cards/:id
 
 	Parameters:
 		id: str					The Scryfall id of the card.

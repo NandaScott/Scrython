@@ -2,7 +2,7 @@ import asyncio, aiohttp
 import json
 
 class RandomCard(object):
-	""" cards/named
+	""" cards/random
 
 	Parameters:
 		format: str				The data format to return: json, text, or image. Defaults to json.
@@ -78,7 +78,7 @@ class RandomCard(object):
 				'version':self.version,
 				'pretty':self.pretty
 			}))
-			
+
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
 			self.session.close()

@@ -53,7 +53,7 @@ class RandomCard(object):
 		colorshifted: bool		Returns True if the card is colorshifted.
 		futureshifted: bool		Returns True if the card is futureshifted.
 		edhrec_rank: int		The rank of the card on edhrec.com
-		tix: int				The MTGO price of the card
+		currency: str			The various currencies of the card. Modes are usd, eur, tix.
 		related_uris: dict		A dictionary of related websites for this card.
 		purchase_uris: dict		A dictionary of links to purchase the card.
 	"""
@@ -202,8 +202,11 @@ class RandomCard(object):
 	def edhrec_rank(self):
 		return self.scryfallJson['edhrec_rank']
 
-	def tix(self):
-		return self.scryfallJson['tix']
+	def currency(self, mode):
+		modes = ['usd', 'eur', 'tix']
+		if mode not in modes:
+			return KeyError("That currency is not available.")
+		return self.scryfallJson[mode]
 
 	def related_uris(self):
 		return self.scryfallJson['related_uris']

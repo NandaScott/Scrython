@@ -30,6 +30,10 @@ class Autocomplete(object):
 			url='https://api.scryfall.com/cards/autocomplete?',
 			params={'q':self.query, 'pretty':self.pretty, 'format':self.format}))
 
+		if self.scryfallJson['object'] == 'error':
+			raise Exception(self.scryfallJson['details'])
+			self.session.close()
+
 		self.session.close()
 
 	def object(self):

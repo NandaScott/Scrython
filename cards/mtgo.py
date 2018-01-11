@@ -1,13 +1,11 @@
 import asyncio, aiohttp
 import json
 
-class Named(object):
+class Mtgo(object):
 	""" cards/named
 
 	Parameters:
-		exact: str				The exact card name to search for, case insenstive.
-		fuzzy: str				A fuzzy card name to search for.
-		set: str				A set code to limit the search to one set.
+		id: int					The multiverse id of the card.
 		format: str				The data format to return: json, text, or image. Defaults to json.
 		face: str				If using the image format and this parameter has the value back,
 									the back face of the card will be returned.
@@ -61,10 +59,8 @@ class Named(object):
 		purchase_uris: dict		A dictionary of links to purchase the card.
 	"""
 
-	def __init__(self, exact=None, fuzzy=None, _set=None, _format=None, face=None, version=None, pretty=None):
-		self.exact = exact
-		self.fuzzy = fuzzy
-		self.set = _set
+	def __init__(self, _id, _format=None, face=None, version=None, pretty=None):
+		self.mtgoid = _id
 		self.format = _format
 		self.face = face
 		self.version = version
@@ -77,11 +73,8 @@ class Named(object):
 				return await response.json()
 
 		self.scryfallJson = loop.run_until_complete(getRequest(
-			url='https://api.scryfall.com/cards/named?',
+			url='https://api.scryfall.com/cards/mtgo/{}'.format(self.mtgoid),
 			params={
-				'exact':self.exact,
-				'fuzzy':self.fuzzy,
-				'set':self.set,
 				'format':self.format,
 				'face':self.face,
 				'version':self.version,
@@ -89,8 +82,8 @@ class Named(object):
 			}))
 
 		if self.scryfallJson['object'] == 'error':
-			self.session.close()
 			raise Exception(self.scryfallJson['details'])
+			self.session.close()
 
 		self.session.close()
 

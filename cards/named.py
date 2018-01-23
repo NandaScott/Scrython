@@ -14,7 +14,7 @@ class Named(object):
 									Will return a 404 if this card has no back face.
 		version: str			The image version to return when using the image
 									format: small, normal, large, png, art_crop, or border_crop. Defaults to large.
-		pretty: bool				If true, the returned JSON will be prettified. Avoid using for production code.
+		pretty: bool			If true, the returned JSON will be prettified. Avoid using for production code.
 
 	Attributes:
 		object: str				Returns the type of object it is. (card, error, etc)
@@ -27,13 +27,13 @@ class Named(object):
 		scryfall_uri: str		The full Scryfall page of the card.
 		layout: str				The image layout of the card. (normal, transform, etc)
 		highres_image: bool		Returns True if the card has a high res image.
-		card.image_uris: dict	All image uris of the card in various qualities.
+		card_image_uris: dict	All image uris of the card in various qualities.
 		cmc: float				A float of the converted mana cost of the card.
 		type_line: str			The full type line of the card.
 		oracle_text: str		The official oracle text of a card.
 		mana_cost: str			The full mana cost using shorthanded mana symbols.
 		colors: arr				An array of strings with all colors found in the mana cost.
-		color_identity: arr		An array of strings with all colors found in on the card itself.
+		color_identity: arr		An array of strings with all colors found on the card itself.
 		legalities: dict		A dictionary of all formats and their legality.
 		reserved: bool			Returns True if the card is on the reserved list.
 		reprint: bool			Returns True if the card has been reprinted before.

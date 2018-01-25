@@ -1,5 +1,6 @@
-import asyncio, aiohttp
-import json
+import aiohttp
+import asyncio
+
 
 class Named(object):
 	""" cards/named
@@ -79,13 +80,13 @@ class Named(object):
 		self.scryfallJson = loop.run_until_complete(getRequest(
 			url='https://api.scryfall.com/cards/named?',
 			params={
-				'exact':self.exact,
-				'fuzzy':self.fuzzy,
-				'set':self.set,
-				'format':self.format,
-				'face':self.face,
-				'version':self.version,
-				'pretty':self.pretty
+				'exact': self.exact,
+				'fuzzy': self.fuzzy,
+				'set': self.set,
+				'format': self.format,
+				'face': self.face,
+				'version': self.version,
+				'pretty': self.pretty
 			}))
 
 		if self.scryfallJson['object'] == 'error':

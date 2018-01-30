@@ -5,6 +5,7 @@ class Autocomplete(object):
 	""" cards/autocomplete
 
 	Parameters:
+		query: str		The string to autocomplete.
 		format: str		The data format to return. Currently only supports JSON.
 		pretty: bool	If true, the returned JSON will be prettified. Avoid using for production code.
 

@@ -341,3 +341,51 @@ class ScryfallObject(object):
 			return KeyError("This card has no associated purchase uris key.")
 
 		return self.scryfallJson['purchase_uris']
+
+	def life_modifier(self):
+		if self.__checkForKey('life_modifier') is None:
+			return KeyError("This card has no associated life modifier key.")
+
+		return self.scryfallJson['life_modifier']
+
+	def hand_modifier(self):
+		if self.__checkForKey('hand_modifier') is None:
+			return KeyError("This card has no associated hand modifier key.")
+
+		return self.scryfallJson['hand_modifier']
+
+	def color_indicator(self):
+		if self.__checkForKey('color_indicator') is None:
+			return KeyError("This card has no associated color indicator key.")
+
+		return self.scryfallJson['color_indicator']
+
+	def all_parts(self):
+		if self.__checkForKey('all_parts') is None:
+			return KeyError("This card has no associated all parts key.")
+
+		return self.scryfallJson['all_parts']
+
+	def card_faces(self):
+		if self.__checkForKey('card_faces') is None:
+			return KeyError("This card has no associated card faces key.")
+
+		return self.scryfallJson['card_faces']
+
+	def watermark(self):
+		if self.__checkForKey('watermark') is None:
+			return KeyError("This card has no associated watermark key.")
+
+		return self.scryfallJson['watermark']
+
+	def story_spotlight_number(self):
+		if self.__checkForKey('story_spotlight_number') is None:
+			return KeyError("This card has no associated story spotlight number key.")
+
+		return self.scryfallJson['story_spotlight_number']
+
+	def story_spotlight_uri(self):
+		if self.__checkForKey('story_spotlight_uri') is None:
+			return KeyError("This card has no associated story spotlight uri key.")
+
+		return self.scryfallJson['story_spotlight_uri']

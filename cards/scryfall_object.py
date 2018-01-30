@@ -3,18 +3,83 @@ import asyncio
 
 
 class ScryfallObject(object):
-	"""docstring for ScryfallObject."""
-	def __init__(self, **kwargs):
-		self.format = kwargs.get('format')
-		self.face = kwargs.get('face')
-		self.version = kwargs.get('version')
-		self.pretty = kwargs.get('pretty')
+	"""
+	Parameters:
+		format: str				The data format to return: json, text, or image. Defaults to json.
+		face: str				If using the image format and this parameter has the value back,
+									the back face of the card will be returned.
+									Will return a 404 if this card has no back face.
+		version: str			The image version to return when using the image
+									format: small, normal, large, png, art_crop, or border_crop. Defaults to large.
+		pretty: bool			If true, the returned JSON will be prettified. Avoid using for production code.
+
+	Attributes:
+		object: str				Returns the type of object it is. (card, error, etc)
+		id: str					The scryfall id of the card.
+		multiverse_ids: arr		The associated multiverse ids of the card.
+		mtgo_id: int			The Magic Online id of the card.
+		mtgo_foil_id: int		The Magic Online foil id of the card.
+		name: str				The full name of the card. Cards with multiple faces are named with '//' as a seperator.
+		uri: str				The Scryfall API uri for the card.
+		scryfall_uri: str		The full Scryfall page of the card.
+		layout: str				The image layout of the card. (normal, transform, etc)
+		highres_image: bool		Returns True if the card has a high res image.
+		card_image_uris: dict	All image uris of the card in various qualities.
+		cmc: float				A float of the converted mana cost of the card.
+		type_line: str			The full type line of the card.
+		oracle_text: str		The official oracle text of a card.
+		mana_cost: str			The full mana cost using shorthanded mana symbols.
+		colors: arr				An array of strings with all colors found in the mana cost.
+		color_identity: arr		An array of strings with all colors found on the card itself.
+		legalities: dict		A dictionary of all formats and their legality.
+		reserved: bool			Returns True if the card is on the reserved list.
+		reprint: bool			Returns True if the card has been reprinted before.
+		set: str				The 3 letter code for the set of the card.
+		set_name: str			The full name for the set of the card.
+		set_uri: str			The API uri for the full set list of the card.
+		set_search_uri: str		Same output as set_uri.
+		scryfall_set_uri: str	The full link to the set on Scryfall.
+		rulings_uri: str		The API uri for the rulings of the card.
+		prints_search_uri: str	TODO: Figure out what this does.
+		collector_number: str	The collector number of the card.
+		digital: bool			Returns True if the card is the digital version.
+		rarity: str				The rarity of the card.
+		illustration_id: str	The related id of the card art.
+		artist: str				The artist of the card.
+		frame: str				The year of the card frame.
+		full_art: bool			Returns True if the card is considered full art.
+		border_color: str		The color of the card border.
+		timeshifted: bool		Returns True if the card is timeshifted.
+		colorshifted: bool		Returns True if the card is colorshifted.
+		futureshifted: bool		Returns True if the card is futureshifted.
+		edhrec_rank: int		The rank of the card on edhrec.com
+		tix: int				The MTGO price of the card
+		related_uris: dict		A dictionary of related websites for this card.
+		purchase_uris: dict		A dictionary of links to purchase the card.
+	"""
+	def __init__(self, _url, **kwargs):
+		self._url = 'https://api.scryfall.com/' + _url
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 
 		async def getRequest(url, **kwargs):
 			async with self.session.get(url, **kwargs) as response:
 				return await response.json()
+
+		self.scryfallJson = loop.run_until_complete(getRequest(
+			url = self._url,
+			params={
+				'format': kwargs.get('format'),
+				'face': kwargs.get('face'),
+				'version': kwargs.get('version'),
+				'pretty': kwargs.get('pretty')
+			}))
+
+		if self.scryfallJson['object'] == 'error':
+			self.session.close()
+			raise Exception(self.scryfallJson['details'])
+
+		self.session.close()
 
 	def object(self):
 		return self.scryfallJson['object']

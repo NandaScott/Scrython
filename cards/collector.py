@@ -1,4 +1,4 @@
-from scryfall_object import ScryfallObject
+from .scryfall_object import ScryfallObject
 
 class Collector(ScryfallObject):
 	""" cards/:code/:collector_number

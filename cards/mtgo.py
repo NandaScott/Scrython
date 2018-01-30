@@ -1,4 +1,4 @@
-from scryfall_object import ScryfallObject
+from .scryfall_object import ScryfallObject
 import urllib.parse
 
 class Mtgo(ScryfallObject):

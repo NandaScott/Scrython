@@ -1,5 +1,4 @@
 import asyncio, aiohttp
-import json
 
 class Autocomplete(object):
 	""" cards/autocomplete
@@ -32,16 +31,31 @@ class Autocomplete(object):
 			params={'q':self.query, 'pretty':self.pretty, 'format':self.format}))
 
 		if self.scryfallJson['object'] == 'error':
-			raise Exception(self.scryfallJson['details'])
 			self.session.close()
+			raise Exception(self.scryfallJson['details'])
 
 		self.session.close()
 
+	def __checkForKey(self, key):
+		try:
+			return self.scryfallJson[key]
+		except KeyError:
+			return None
+
 	def object(self):
+		if self.__checkForKey('object') is None:
+			return KeyError('This card has no associated object key.')
+
 		return self.scryfallJson['object']
 
 	def total_items(self):
+		if self.__checkForKey('total_items') is None:
+			return KeyError('This card has no associated total items key.')
+
 		return self.scryfallJson['total_items']
 
 	def data(self):
+		if self.__checkForKey('data') is None:
+			return KeyError('This card has no associated data key.')
+
 		return self.scryfallJson['data']

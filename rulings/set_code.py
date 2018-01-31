@@ -1,7 +1,6 @@
 from .rulings_object import RulingsObject
 
 class Code(RulingsObject):
-    """docstring for Code."""
     def __init__(self, code, number):
         self.code = code.lower()
         self.number = str(number)

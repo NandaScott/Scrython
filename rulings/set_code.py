@@ -1,4 +1,4 @@
-from rulings_object import RulingsObject
+from .rulings_object import RulingsObject
 
 class Code(RulingsObject):
     """docstring for Code."""

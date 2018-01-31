@@ -4,4 +4,4 @@ from .cardid import Id
 from .mtgo import Mtgo
 from .multiverse import Multiverse
 from .named import Named
-from .randomcard import RandomCard
+from .randomcard import Random

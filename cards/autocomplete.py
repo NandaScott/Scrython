@@ -15,10 +15,10 @@ class Autocomplete(object):
 
 	"""
 
-	def __init__(self, query, pretty=None, _format=None):
+	def __init__(self, query, **kwargs):
 		self.query = query
-		self.pretty = pretty
-		self.format = _format
+		self.pretty = kwargs.get('pretty')
+		self.format = kwargs.get('format')
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 

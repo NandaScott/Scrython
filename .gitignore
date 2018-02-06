@@ -1,3 +1,4 @@
 __pycache__
 .ropeproject
 scrython.egg-info
+dist

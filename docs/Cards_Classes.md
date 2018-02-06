@@ -6,7 +6,7 @@ Gets a card by the name.
 **Parameters:**
 
 | Param |Required [y/n]| Input type | Function |
-| :---: | :----------: | :-------:  |:-------: |
+| :---: | :---: | :---:  |:---: |
 |fuzzy|Yes|string|Uses the fuzzy parameter for the card name.|
 |exact|Yes|string|Uses the exact parameter for the card name.|
 |set|No|string|Returns the set of the card if specified. If not the card edition will be the most recent printing. Requires the 3 letter set code.
@@ -38,9 +38,10 @@ Example usage:
 ## `cards.Multiverse()`
 Get a card by Multiverse id
 
-Parameters:
+**Parameters:**
+
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+|:---:|:---:|:---:|:---:|
 |id|Yes|Integer or String| This is the associated multiverse id of the given card.
 
 **Attributes:**
@@ -53,9 +54,10 @@ Example usage:
 ## `cards.Mtgo()`
 Get a card by MTGO id.
 
-Parameters:
+**Parameters:**
+
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+|:---:|:---:|:---:|:---:|
 |id|Yes|String|The required mtgo id of the card.
 
 **Attributes:**
@@ -68,9 +70,10 @@ Example usage:
 ## `cards.Collector()`
 Get a card by collector number.
 
-Parameters:
+**Parameters:**
+
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+|:---:|:---:|:---:|:---:|
 |code|Yes|String|This is the 3 letter code for the set|
 |collector_number|Yes|String|This is the collector number of the card.|
 
@@ -87,9 +90,10 @@ Get a card by the Scryfall id.
 **Attributes:**
 The same listed in the `cards` documentation.
 
-Parameters:
+**Parameters:**
+
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+|:---:|:---:|:---:|:---:|
 |id|Yes|String|The Scryfall Id of the card.|
 
 Example usage:
@@ -99,12 +103,13 @@ Example usage:
 ## `cards.Autocomplete()`
 Get a list of potential autocompletion phrases.
 
-Parameters:
+**Parameters:**
+
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+|:---:|:---:|:---:|:---:|
 |query|Yes|String| The query of the autocompletion.|
 
-Attributes:
+**Attributes:**
 |Name|Output Type|Description|
 |:--:|:--:|:--:|
 |`object()`|String|Returns what kind of object it is.|

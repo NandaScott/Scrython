@@ -1,2 +1,2 @@
 aiohttp
-#Requirements for PyPI
+asyncio

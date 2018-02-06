@@ -12,6 +12,9 @@ Versions will be broken down as such:
 It's important to keep up to date with library changes, since it relies on how Scryfall has updated it's own API. If they change something, my library will potentially break or be outdated until a fix is patched.
 
 ## Basic usage
+
+You can install scrython by running `pip install scrython`. Note that it requires `asyncio` and `aiohttp` too.
+
 Scrython can be imported using `import scrython` at the top of your code.
 I've written to library to attempt to be familiar for those who already use it. As such, modules like `cards` are named to reflect the endpoints found in `api.scryfall.com/cards/`and so on.
 For the most part I've kept all the class attributes the same as their key names, except for a few cases where I've found better functionality.

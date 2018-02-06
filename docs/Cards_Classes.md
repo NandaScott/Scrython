@@ -5,7 +5,7 @@ Gets a card by the name.
 
 **Parameters:**
 | Param |Required [y/n]| Input type | Function |
-|:--:|:--:|:--:|:--:|
+| :--: | :--: | :--:  |:--: |
 |fuzzy|Yes|string|Uses the fuzzy parameter for the card name.|
 |exact|Yes|string|Uses the exact parameter for the card name.|
 |set|No|string|Returns the set of the card if specified. If not the card edition will be the most recent printing. Requires the 3 letter set code.

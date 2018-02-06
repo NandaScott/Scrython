@@ -8,10 +8,6 @@ Documentation for a rulings object. These docs will likely not be as detailed as
 All attributes are listed assuming the following
 `rule = scrython.rulings.<Class>()` is the current usage.
 
-## `rule.object()`
-str | Returns the type of object it is. (card, error, etc)
-## `rule.has_more()`
-
 |Name|Data type returned|Description|
 |:---:|:---:|:---:|
 |`object()`|String|Returns the type of object it is. (card, error, etc)|

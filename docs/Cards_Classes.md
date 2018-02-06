@@ -110,6 +110,7 @@ Get a list of potential autocompletion phrases.
 |query|Yes|String| The query of the autocompletion.|
 
 **Attributes:**
+
 |Name|Output Type|Description|
 |:--:|:--:|:--:|
 |`object()`|String|Returns what kind of object it is.|

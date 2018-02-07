@@ -7,7 +7,7 @@ with open('README.md') as f:
 setup(
 	name='scrython',
 	packages=['scrython', 'scrython.cards', 'scrython.rulings'],
-	version='0.1.0',
+	version='0.2.0',
 	description='A wrapper for using the Scryfall API.',
 	long_description=readme,
 	url='https://github.com/NandaScott/Scrython',

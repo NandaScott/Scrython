@@ -1,8 +1,7 @@
-from .scryfall_object import ScryfallObject
+from .cards_object import CardsObject
 
 
-class Random(ScryfallObject):
-    """This will return a random card. No parameters are passed while creating."""
+class Random(CardsObject):
     def __init__(self):
         self.url = 'cards/random'
         super(Random, self).__init__(self.url)

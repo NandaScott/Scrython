@@ -1,12 +1,6 @@
-from .scryfall_object import ScryfallObject
+from .cards_object import CardsObject
 
-class Id(ScryfallObject):
-	""" cards/:id
-
-	Parameters:
-		id: str					The Scryfall id of the card.
-	"""
-
+class Id(CardsObject):
 	def __init__(self, **kwargs):
 		self.id = kwargs.get('id')
 		self.url = 'cards/' + str(self.id)

@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 
-class ScryfallObject(object):
+class CardsObject(object):
 	def __init__(self, _url, **kwargs):
 		self._url = 'https://api.scryfall.com/' + _url
 		loop = asyncio.get_event_loop()

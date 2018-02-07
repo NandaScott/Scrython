@@ -152,7 +152,7 @@ class ScryfallObject(object):
 
 		return self.scryfallJson['reprint']
 
-	def set(self):
+	def set_code(self):
 		if self.__checkForKey('set') is None:
 			return KeyError("This card has no associated set key.")
 

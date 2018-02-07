@@ -41,3 +41,15 @@ class Search(ScryfallObject):
 			return KeyError('This card has no associated data key.')
 
 		return self.scryfallJson['data']
+
+	def next_page(self):
+		if self.__checkForKey('next_page') is None:
+			return KeyError('This card has no associated next page key.')
+
+		return self.scryfallJson['next_page']
+
+	def warnings(self):
+		if self.__checkForKey('warnings') is None:
+			return KeyError('This card has no associated warnings key.')
+
+		return self.scryfallJson['warnings']

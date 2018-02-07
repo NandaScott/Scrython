@@ -29,7 +29,7 @@ All attributes are listed assuming the following
 |`card.legalities()`|Dict | A dictionary of all formats and their legality.
 |`card.reserved()`|Bool | Returns True if the card is on the reserved list.
 |`card.reprint()`|Bool | Returns True if the card has been reprinted before.
-|`card.set()`|String | The 3 letter code for the set of the card.
+|`card.set_code()`|String | The 3 letter code for the set of the card.
 |`card.set_name()`|String | The full name for the set of the card.
 |`card.set_uri()`|String | The API uri for the full set list of the card.
 |`card.set_search_uri()`|String | Same output as set_uri.

@@ -5,7 +5,7 @@ class Named(CardsObject):
 	def __init__(self, **kwargs):
 		self.exact = kwargs.get('exact')
 		self.fuzzy = kwargs.get('fuzzy')
-		self.set = kwargs.get('set')
+		self.set = kwargs.get('set', 'None')
 		self.dict = {}
 
 		if self.exact is not None:

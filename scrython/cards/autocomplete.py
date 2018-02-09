@@ -3,8 +3,8 @@ import asyncio, aiohttp
 class Autocomplete(object):
 	def __init__(self, query, **kwargs):
 		self.query = query
-		self.pretty = kwargs.get('pretty')
-		self.format = kwargs.get('format')
+		self.pretty = kwargs.get('pretty', 'None')
+		self.format = kwargs.get('format', 'None')
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 

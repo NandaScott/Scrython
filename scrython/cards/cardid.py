@@ -2,6 +2,8 @@ from .cards_object import CardsObject
 
 class Id(CardsObject):
 	def __init__(self, **kwargs):
-		self.id = kwargs.get('id')
-		self.url = 'cards/' + str(self.id)
+		if kwargs.get('id') is None:
+			raise TypeError('No id provided to search by')
+
+		self.url = 'cards/' + str(kwargs.get('id'))
 		super(Id, self).__init__(self.url)

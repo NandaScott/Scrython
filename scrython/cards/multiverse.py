@@ -2,6 +2,7 @@ from .cards_object import CardsObject
 
 class Multiverse(CardsObject):
 	def __init__(self, **kwargs):
-		self.multiverseid = kwargs.get('id')
-		self.url = 'cards/multiverse/' + self.multiverseid
+		if kwargs.get('id') is None:
+			raise TypeError('No id provided to search by')
+		self.url = 'cards/multiverse/' + kwargs.get('id')
 		super(Multiverse, self).__init__(self.url)

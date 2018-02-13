@@ -3,19 +3,16 @@ import urllib.parse
 
 class Search(CardsObject):
 	def __init__(self, **kwargs):
-		self.q = kwargs.get('q', 'None')
-		self.order = kwargs.get('order', 'None')
-		self.unique = kwargs.get('unique', 'False')
-		self.dir = kwargs.get('dir', 'Auto')
-		self.include_extras = kwargs.get('include_extras', 'False')
-		self.page = kwargs.get('page', '1')
+		if kwargs.get('q') is None:
+			raise TypeError('No query is specified.')
+
 		self.dict = {
-			'q':self.q,
-			'order':self.order,
-			'unique':self.unique,
-			'dir':self.dir,
-			'include_extras':self.include_extras,
-			'page':self.page
+			'q':kwargs.get('q'),
+			'order':kwargs.get('order', 'none'),
+			'unique':kwargs.get('unique', 'none'),
+			'dir':kwargs.get('dir', 'none'),
+			'include_extras':kwargs.get('include_extras', 'false'),
+			'page':kwargs.get('page', '1')
 			}
 
 		self.args = urllib.parse.urlencode(self.dict)

@@ -3,8 +3,11 @@ import urllib.parse
 
 class Autocomplete(CardsObject):
 	def __init__(self, **kwargs):
+		if kwargs.get('q') is None:
+			raise TypeError('No query provided to search by')
+
 		self.dict = {
-			'q': kwargs.get('query', ''),
+			'q': kwargs.get('q'),
 			'pretty': kwargs.get('pretty', 'false'),
 			'format': kwargs.get('format', 'json')
 			}

@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 
-class ScryfallObject(object):
+class CardsObject(object):
 	def __init__(self, _url, **kwargs):
 		self._url = 'https://api.scryfall.com/' + _url
 		loop = asyncio.get_event_loop()
@@ -14,10 +14,10 @@ class ScryfallObject(object):
 		self.scryfallJson = loop.run_until_complete(getRequest(
 			url = self._url,
 			params={
-				'format': kwargs.get('format'),
-				'face': kwargs.get('face'),
-				'version': kwargs.get('version'),
-				'pretty': kwargs.get('pretty')
+				'format': kwargs.get('format', 'None'),
+				'face': kwargs.get('face', 'None'),
+				'version': kwargs.get('version', 'None'),
+				'pretty': kwargs.get('pretty', 'None')
 			}))
 
 		if self.scryfallJson['object'] == 'error':

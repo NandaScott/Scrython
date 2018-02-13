@@ -3,8 +3,8 @@ import aiohttp
 
 class RulingsObject(object):
 	def __init__(self, _url, **kwargs):
-		self.pretty = kwargs.get('pretty')
-		self.format = kwargs.get('format')
+		self.pretty = kwargs.get('pretty', 'None')
+		self.format = kwargs.get('format', 'None')
 		self._url = 'https://api.scryfall.com/' + _url
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)

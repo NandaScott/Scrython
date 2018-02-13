@@ -1,24 +1,10 @@
 import asyncio, aiohttp
 
 class Autocomplete(object):
-	""" cards/autocomplete
-
-	Parameters:
-		query: str		The string to autocomplete.
-		format: str		The data format to return. Currently only supports JSON.
-		pretty: bool	If true, the returned JSON will be prettified. Avoid using for production code.
-
-	Attributes:
-		object: str			Returns the type of object it is.
-		total_items: int	Returns the number of items in data.
-		data: arr			The full autocompleted list.
-
-	"""
-
 	def __init__(self, query, **kwargs):
 		self.query = query
-		self.pretty = kwargs.get('pretty')
-		self.format = kwargs.get('format')
+		self.pretty = kwargs.get('pretty', 'None')
+		self.format = kwargs.get('format', 'None')
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 

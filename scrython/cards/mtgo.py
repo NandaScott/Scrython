@@ -1,14 +1,7 @@
-from .scryfall_object import ScryfallObject
+from .cards_object import CardsObject
 import urllib.parse
 
-class Mtgo(ScryfallObject):
-	""" cards/mtgo/:id
-
-	Parameters:
-		id: int		The mtgo id of the card.
-
-	"""
-
+class Mtgo(CardsObject):
 	def __init__(self, **kwargs):
 		self.mtgoid = kwargs.get('id')
 		self.url = 'cards/mtgo/' + str(self.mtgoid)

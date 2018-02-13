@@ -1,18 +1,11 @@
-from .scryfall_object import ScryfallObject
+from .cards_object import CardsObject
 import urllib.parse
 
-class Named(ScryfallObject):
-	"""
-	Parameters:
-		exact: str				The exact card name to search for, case insenstive.
-		fuzzy: str				A fuzzy card name to search for.
-		set: str				A set code to limit the search to one set.
-	"""
-
+class Named(CardsObject):
 	def __init__(self, **kwargs):
 		self.exact = kwargs.get('exact')
 		self.fuzzy = kwargs.get('fuzzy')
-		self.set = kwargs.get('set')
+		self.set = kwargs.get('set', 'None')
 		self.dict = {}
 
 		if self.exact is not None:

@@ -1,13 +1,6 @@
-from .scryfall_object import ScryfallObject
+from .cards_object import CardsObject
 
-class Collector(ScryfallObject):
-	""" cards/:code/:collector_number
-
-	Parameters:
-		code: str				The 3 or 4 letter set code.
-		collector_number: int	The collector number of the card.
-	"""
-
+class Collector(CardsObject):
 	def __init__(self, **kwargs):
 		self.code = kwargs.get('code')
 		self.collector_number = kwargs.get('collector_number')

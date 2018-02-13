@@ -31,31 +31,31 @@ class Search(CardsObject):
 
 	def object(self):
 		if self.__checkForKey('object') is None:
-			raise KeyError('This card has no associated object key.')
+			raise KeyError('This object has no key \'object\'')
 
 		return self.scryfallJson['object']
 
 	def total_cards(self):
 		if self.__checkForKey('total_cards') is None:
-			raise KeyError('This card has no associated total cards key.')
+			raise KeyError('This object has no key \'total_cards\'')
 
 		return self.scryfallJson['total_cards']
 
 	def data(self):
 		if self.__checkForKey('data') is None:
-			raise KeyError('This card has no associated data key.')
+			raise KeyError('This object has no key \'data\'')
 
 		return self.scryfallJson['data']
 
 	def next_page(self):
 		if self.__checkForKey('next_page') is None:
-			raise KeyError('This card has no associated next page key.')
+			raise KeyError('This object has no key \'next_page\'')
 
 		return self.scryfallJson['next_page']
 
 	def warnings(self):
 		if self.__checkForKey('warnings') is None:
-			raise KeyError('This card has no associated warnings key.')
+			raise KeyError('This object has no key \'warnings\'')
 
 		return self.scryfallJson['warnings']
 

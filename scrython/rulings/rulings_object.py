@@ -40,25 +40,25 @@ class RulingsObject(object):
 
 	def object(self):
 		if self.__checkForKey('object') is None:
-			return KeyError('This ruling object has no key \'object\'')
+			return KeyError('This object has no key \'object\'')
 
 		return self.scryfallJson['object']
 
 	def has_more(self):
 		if self.__checkForKey('has_more') is None:
-			return KeyError('This ruling object has no key \'has_more\'')
+			return KeyError('This object has no key \'has_more\'')
 
 		return self.scryfallJson['has_more']
 
 	def data(self):
 		if self.__checkForKey('data') is None:
-			return KeyError('This ruling object has no key \'data\'')
+			return KeyError('This object has no key \'data\'')
 
 		return self.scryfallJson['data']
 
 	def data_length(self):
 		if self.__checkForKey('data') is None:
-			return KeyError('This ruling object has no key \'data\'')
+			return KeyError('This object has no key \'data\'')
 
 		return len(self.scryfallJson['data'])
 

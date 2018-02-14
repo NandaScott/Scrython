@@ -1,6 +1,6 @@
 import scrython
 
-getCard = input("What card would you like me to search? ")
+getCard = str(input("What card would you like me to search? "))
 
 card = scrython.cards.Named(fuzzy=getCard)
 

@@ -1,9 +1,17 @@
 import aiohttp
 import asyncio
+import urllib.parse
 
 class CardsObject(object):
 	def __init__(self, _url, **kwargs):
-		self._url = 'https://api.scryfall.com/' + _url
+
+		self.params = {
+			'format': kwargs.get('format', 'json'), 'face': kwargs.get('face', ''),
+			'version': kwargs.get('version', ''), 'pretty': kwargs.get('pretty', '')
+		}
+
+		self.encodedParams = urllib.parse.urlencode(self.params)
+		self._url = 'https://api.scryfall.com/' + _url + "&" + self.encodedParams #Find a fix for this later
 		loop = asyncio.get_event_loop()
 		self.session = aiohttp.ClientSession(loop=loop)
 
@@ -11,14 +19,7 @@ class CardsObject(object):
 			async with self.session.get(url, **kwargs) as response:
 				return await response.json()
 
-		self.scryfallJson = loop.run_until_complete(getRequest(
-			url = self._url,
-			params={
-				'format': kwargs.get('format', 'None'),
-				'face': kwargs.get('face', 'None'),
-				'version': kwargs.get('version', 'None'),
-				'pretty': kwargs.get('pretty', 'None')
-			}))
+		self.scryfallJson = loop.run_until_complete(getRequest(url = self._url))
 
 		if self.scryfallJson['object'] == 'error':
 			self.session.close()
@@ -154,7 +155,7 @@ class CardsObject(object):
 
 	def set_code(self):
 		if self.__checkForKey('set') is None:
-			raise KeyError("This card has no key \'set_code\'")
+			raise KeyError("This card has no key \'set\'")
 
 		return self.scryfallJson['set']
 

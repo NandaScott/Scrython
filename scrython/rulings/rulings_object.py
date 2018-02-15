@@ -1,28 +1,30 @@
 import asyncio
 import aiohttp
+import urllib.parse
 
 class RulingsObject(object):
 	def __init__(self, _url, **kwargs):
-		self._url = 'https://api.scryfall.com/' + _url
-		loop = asyncio.get_event_loop()
-		self.session = aiohttp.ClientSession(loop=loop)
+		self.params = {
+			'format': kwargs.get('format', 'json'), 'face': kwargs.get('face', ''),
+			'version': kwargs.get('version', ''), 'pretty': kwargs.get('pretty', '')
+		}
 
-		async def getRequest(url, **kwargs):
-			async with self.session.get(url, **kwargs) as response:
+		self.encodedParams = urllib.parse.urlencode(self.params)
+		self._url = 'https://api.scryfall.com/' + _url + "&" + self.encodedParams #Find a fix for this later
+
+		async def getRequest(client, url, **kwargs):
+			async with client.get(url, **kwargs) as response:
 				return await response.json()
 
-		self.scryfallJson = loop.run_until_complete(getRequest(
-			url = self._url,
-			params={
-				'format': kwargs.get('format', 'json'),
-				'pretty': kwargs.get('pretty', 'false')
-			}))
+		async def main(loop):
+			async with aiohttp.ClientSession(loop=loop) as client:
+				self.scryfallJson = await getRequest(client, self._url)
+
+		loop = asyncio.get_event_loop()
+		loop.run_until_complete(main(loop))
 
 		if self.scryfallJson['object'] == 'error':
-			self.session.close()
 			raise Exception(self.scryfallJson['details'])
-
-		self.session.close()
 
 	def __checkForKey(self, key):
 		try:

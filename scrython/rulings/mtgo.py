@@ -5,5 +5,5 @@ class Mtgo(RulingsObject):
         if kwargs.get('id') is None:
             raise TypeError('No id provided to search by')
 
-        self.url = 'cards/mtgo/{}/rulings'.format(str(kwargs.get('id')))
+        self.url = 'cards/mtgo/{}/rulings?'.format(str(kwargs.get('id')))
         super(Mtgo, self).__init__(self.url)

@@ -120,5 +120,3 @@ Get a list of potential autocompletion phrases.
 Example usage:
 
     card = scrython.cards.Autocomplete(query="Ezuri")
-
-

@@ -1,7 +1,7 @@
 from .sets_object import SetsObject
 
 class Sets(SetsObject):
-    def __init__(self, arg):
+    def __init__(self):
         self._url = 'sets?'
         super(Sets, self).__init__(self._url)
 
@@ -127,9 +127,6 @@ class Sets(SetsObject):
 
 	#The following attributes are only to override the inherited class attributes.
 	#This class has no matching attributes but we still need the getRequest from SetsObject
-
-    def object(self):
-        raise AttributeError('This object has no key \'object\'')
 
     def code(self):
         raise AttributeError('This object has no key \'code\'')

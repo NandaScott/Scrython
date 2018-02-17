@@ -16,3 +16,4 @@ from scrython.rulings import Code
 
 #Import classes from sets
 from scrython.sets import Code
+from scrython.sets import Sets

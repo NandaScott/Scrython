@@ -17,3 +17,16 @@ from scrython.rulings import Code
 #Import classes from sets
 from scrython.sets import Code
 from scrython.sets import Sets
+
+#Import classes from catalogs
+from scrython.catalog import ArtifactTypes
+from scrython.catalog import CardNames
+from scrython.catalog import CreatureTypes
+from scrython.catalog import LandTypes
+from scrython.catalog import Loyalties
+from scrython.catalog import PlaneswalkerTypes
+from scrython.catalog import Powers
+from scrython.catalog import SpellTypes
+from scrython.catalog import Toughnesses
+from scrython.catalog import Watermarks
+from scrython.catalog import WordBank

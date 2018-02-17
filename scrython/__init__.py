@@ -13,3 +13,6 @@ from scrython.rulings import Mtgo
 from scrython.rulings import Multiverse
 from scrython.rulings import Id
 from scrython.rulings import Code
+
+#Import classes from sets
+from scrython.sets import Code

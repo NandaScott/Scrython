@@ -13,6 +13,7 @@ All classes accept the following parameters.
 |pretty|No|Boolean|Makes the returned JSON prettier. The library may not work properly with this setting.|
 
 **Classes**
+
 |Name|Description|
 |`.ArtifactTypes()`|Returns all unique types of artifacts printed.
 |`.CardNames()`|Returns all unique card names printed.

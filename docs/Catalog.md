@@ -15,6 +15,7 @@ All classes accept the following parameters.
 **Classes**
 
 |Name|Description|
+|:---:|:---:|
 |`.ArtifactTypes()`|Returns all unique types of artifacts printed.
 |`.CardNames()`|Returns all unique card names printed.
 |`.CreatureTypes()`|Returns all unique creature types printed.

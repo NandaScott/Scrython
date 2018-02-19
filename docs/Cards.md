@@ -1,4 +1,5 @@
 ﻿# Cards
+
 Documentation for a card object. These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
 
 >In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`card.scryfallJson`).
@@ -59,3 +60,88 @@ All attributes are listed assuming the following
 |`card.watermark()`|String | The associated watermark of the card, if any.
 |`card.story_spotlight_number()`|Integer | This card's story spotlight number, if any.
 |`card.story_spotlight_uri()`|String | The URI for the card's story article, if any.
+
+## *class* `cards.Named()`
+Gets a card by the name.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+| :---: | :---: | :---:  |:---: |
+|fuzzy|Yes|string|Uses the fuzzy parameter for the card name.|
+|exact|Yes|string|Uses the exact parameter for the card name.|
+|set|No|string|Returns the set of the card if specified. If not the card edition will be the most recent printing. Requires the 3 letter set code.
+
+>Since the `/cards/named` endpoint specifically requires the fuzzy or exact markers, they are required to be explicitly denoted.
+
+---
+
+## *class* `cards.Random()`
+Get a random card.
+
+**Parameters:**
+No parameters are required.
+
+---
+
+## *class* `cards.Multiverse()`
+Get a card by Multiverse id
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|id|Yes|Integer or String| This is the associated multiverse id of the given card.
+
+---
+
+## *class* `cards.Mtgo()`
+Get a card by MTGO id.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|id|Yes|String|The required mtgo id of the card.
+
+---
+
+## *class* `cards.Collector()`
+Get a card by collector number.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|code|Yes|String|This is the 3 letter code for the set|
+|collector_number|Yes|String|This is the collector number of the card.|
+
+---
+
+## *class* `cards.Id()`
+Get a card by the Scryfall id.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|id|Yes|String|The Scryfall Id of the card.|
+
+---
+
+## *class* `cards.Autocomplete()`
+Get a list of potential autocompletion phrases.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|query|Yes|String| The query of the autocompletion.|
+
+**Attributes:**
+
+|Name|Output Type|Description|
+|:--:|:--:|:--:|
+|`object()`|String|Returns what kind of object it is.|
+|`total_items()`|Integer|How many items are in the list.|
+|`data()`|List|The list of potential autocompletes.|

@@ -3,7 +3,7 @@ import urllib.parse
 
 class Autocomplete(CardsObject):
 	def __init__(self, **kwargs):
-		if kwargs.get('q') is None:
+		if kwargs.get('query') is None:
 			raise TypeError('No query provided to search by')
 
 		self.dict = {

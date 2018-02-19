@@ -53,24 +53,3 @@ class ParseMana(SymbologyObject):
 			raise KeyError('This object has no key \'multicolored\'')
 
 		return self.scryfallJson['multicolored']
-
-	#The following attributes are only to override the inherited class attributes.
-	#This class has no matching attributes but we still need the getRequest from SymbologyObject
-
-	def appears_in_mana_costs(self):
-		raise AttributeError('This object has no attribute \'appears_in_mana_costs\'')
-
-	def funny(self):
-		raise AttributeError('This object has no attribute \'funny\'')
-
-	def loose_variant(self):
-		raise AttributeError('This object has no attribute \'loose_variant\'')
-
-	def represents_mana(self):
-		raise AttributeError('This object has no attribute \'represents_mana\'')
-
-	def symbol(self):
-		raise AttributeError('This object has no attribute \'symbol\'')
-
-	def transposable(self):
-		raise AttributeError('This object has no attribute \'transposable\'')

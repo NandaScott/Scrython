@@ -33,4 +33,4 @@ For the most part I've kept all the class attributes the same as their key names
 ## Key features
 
  - Asyncronous requests. This library utilizes the `asyncio` and `aiohttp` libraries to ensure that requests are not blocked when used in asyncronous environments. There is no delay limiting when making a request, so be careful how many objects are created.
- - Full use of all endpoints in a given category. This library uses every endpoint within `cards` and `rulings`as of writing this. I hope to include more as this is developed.
+ - Full use of all endpoints in a given category. This library uses every endpoint within `cards` and `rulings` as of writing this. I hope to include more as this is developed.

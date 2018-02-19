@@ -88,30 +88,3 @@ class Symbology(SymbologyObject):
 			raise KeyError('This object has no key \'colors\'')
 
 		return self.scryfallJson['data'][num]['colors']
-
-	#The following attributes are only to override the inherited class attributes.
-	#This class has no matching attributes but we still need the getRequest from SymbologyObject
-
-	def symbol(self):
-		raise AttributeError('This object has no key \'symbol\'')
-
-	def loose_variant(self):
-		raise AttributeError('This object has no key \'loose_variant\'')
-
-	def transposable(self):
-		raise AttributeError('This object has no key \'transposable\'')
-
-	def represents_mana(self):
-		raise AttributeError('This object has no key \'represents_mana\'')
-
-	def cmc(self):
-		raise AttributeError('This object has no key \'cmc\'')
-
-	def appears_in_mana_costs(self):
-		raise AttributeError('This object has no key \'appears_in_mana_costs\'')
-
-	def funny(self):
-		raise AttributeError('This object has no key \'funny\'')
-
-	def colors(self):
-		raise AttributeError('This object has no key \'colors\'')

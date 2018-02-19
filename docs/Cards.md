@@ -74,15 +74,11 @@ Gets a card by the name.
 
 >Since the `/cards/named` endpoint specifically requires the fuzzy or exact markers, they are required to be explicitly denoted.
 
----
-
 ## *class* `cards.Random()`
 Get a random card.
 
 **Parameters:**
 No parameters are required.
-
----
 
 ## *class* `cards.Multiverse()`
 Get a card by Multiverse id
@@ -93,8 +89,6 @@ Get a card by Multiverse id
 |:---:|:---:|:---:|:---:|
 |id|Yes|Integer or String| This is the associated multiverse id of the given card.
 
----
-
 ## *class* `cards.Mtgo()`
 Get a card by MTGO id.
 
@@ -103,8 +97,6 @@ Get a card by MTGO id.
 | Param |Required [y/n]| Input type | Function |
 |:---:|:---:|:---:|:---:|
 |id|Yes|String|The required mtgo id of the card.
-
----
 
 ## *class* `cards.Collector()`
 Get a card by collector number.
@@ -116,8 +108,6 @@ Get a card by collector number.
 |code|Yes|String|This is the 3 letter code for the set|
 |collector_number|Yes|String|This is the collector number of the card.|
 
----
-
 ## *class* `cards.Id()`
 Get a card by the Scryfall id.
 
@@ -126,8 +116,6 @@ Get a card by the Scryfall id.
 | Param |Required [y/n]| Input type | Function |
 |:---:|:---:|:---:|:---:|
 |id|Yes|String|The Scryfall Id of the card.|
-
----
 
 ## *class* `cards.Autocomplete()`
 Get a list of potential autocompletion phrases.

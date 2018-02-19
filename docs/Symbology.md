@@ -33,7 +33,7 @@ There are no parameters needed to call this class.
 
 | Param |Required [y/n]| Input type | Function |
 |:---:|:---:|:---:|:---:|
-|`cost`|Yes|String|The given mana cost you want. (`RUG`)|
+|cost|Yes|String|The given mana cost you want. (`RUG`)|
 
 **Attributes**
 

@@ -7,6 +7,7 @@ Documentation for a sets object. These docs will likely not be as detailed as th
 ## *class* `Code()`
 
 **Attributes**
+
 All attributes are listed assuming the following
 `card = scrython.sets.<Class>()` is the current usage.
 

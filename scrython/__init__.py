@@ -30,3 +30,7 @@ from scrython.catalog import SpellTypes
 from scrython.catalog import Toughnesses
 from scrython.catalog import Watermarks
 from scrython.catalog import WordBank
+
+#Import symbology
+from scrython.symbology import ParseMana
+from scrython.symbology import Symbology

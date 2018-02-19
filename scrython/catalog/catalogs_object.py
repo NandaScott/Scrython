@@ -8,7 +8,6 @@ class CatalogsObject(object):
 
 		self.encodedParams = urllib.parse.urlencode(self.params)
 		self._url = 'https://api.scryfall.com/' + _url + "&" + self.encodedParams #Find a fix for this later
-		print(self._url)
 
 		async def getRequest(client, url, **kwargs):
 			async with client.get(url, **kwargs) as response:

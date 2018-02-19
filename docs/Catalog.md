@@ -8,17 +8,17 @@ Documentation for a catalog object. These docs will likely not be as detailed as
 
 |Name|Description|
 |:---:|:---:|
-|`.ArtifactTypes()`|Returns all unique types of artifacts printed.|
-|`.CardNames()`|Returns all unique card names printed.|
-|`.CreatureTypes()`|Returns all unique creature types printed.|
-|`.LandTypes()`|Returns all unique land types printed.|
-|`.Loyalties()`|Returns all unique starting loyalties printed.|
-|`.PlaneswalkerTypes()`|Returns all unique planeswalker types printed.|
-|`.Powers()`|Returns all unique power values printed.|
-|`.SpellTypes()`|Returns all unique spell types printed.|
-|`.Toughnesses()`|Returns all unique toughness values printed.|
-|`.Watermarks()`|Returns the name of all unique watermarks printed.|
-|`.WordBanks()`|Returns all unique words ever printed on a card.|
+|`ArtifactTypes()`|Returns all unique types of artifacts printed.|
+|`CardNames()`|Returns all unique card names printed.|
+|`CreatureTypes()`|Returns all unique creature types printed.|
+|`LandTypes()`|Returns all unique land types printed.|
+|`Loyalties()`|Returns all unique starting loyalties printed.|
+|`PlaneswalkerTypes()`|Returns all unique planeswalker types printed.|
+|`Powers()`|Returns all unique power values printed.|
+|`SpellTypes()`|Returns all unique spell types printed.|
+|`Toughnesses()`|Returns all unique toughness values printed.|
+|`Watermarks()`|Returns the name of all unique watermarks printed.|
+|`WordBanks()`|Returns all unique words ever printed on a card.|
 
 **Parameters**
 

@@ -28,6 +28,7 @@ Documentation for a catalog object. These docs will likely not be as detailed as
 |pretty|No|Boolean|Makes the returned JSON prettier. The library may not work properly with this setting.|
 
 **Attributes**
+
 All attributes are listed assuming the following
 `catalog = scrython.catalog.<Class>()` is the current usage.
 

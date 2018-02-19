@@ -6,6 +6,12 @@ Documentation for a sets object. These docs will likely not be as detailed as th
 
 ## *class* `Code()`
 
+**Parameters**
+
+| Param |Required [y/n]| Input type | Description |
+| :---: | :---: | :---:  |:---: |
+|code|Yes|String|The three letter set code of the set you want.|
+
 **Attributes**
 
 All attributes are listed assuming the following

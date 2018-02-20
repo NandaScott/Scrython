@@ -10,7 +10,9 @@ Since Scryfall's API is constantly changing, this library will also be changing.
 Versions will be broken down as such:
 
 0: Overall library version
+
 0.x: Changes that will break previous functionality
+
 0.x.x: Changes that Scryfall has made to break functionality.
 
 It's important to keep up to date with library changes, since it relies on how Scryfall has updated it's own API. If they change something, my library will potentially break or be outdated until a fix is patched.

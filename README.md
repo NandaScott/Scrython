@@ -19,7 +19,7 @@ It's important to keep up to date with library changes, since it relies on how S
 
 ## Basic usage
 
-You can install scrython by running `pip install scrython`. Note that it requires `asyncio` and `aiohttp` too.
+You can install scrython by running `pip install scrython`. Note that it requires `asyncio` and `aiohttp` too. Because of this, the minimum Python version is 3.5.3+.
 
 Scrython can be imported using `import scrython` at the top of your code.
 I've written to library to attempt to be familiar for those who already use it. As such, modules like `cards` are named to reflect the endpoints found in `api.scryfall.com/cards/`and so on.

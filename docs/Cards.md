@@ -133,3 +133,27 @@ Get a list of potential autocompletion phrases.
 |`object()`|String|Returns what kind of object it is.|
 |`total_items()`|Integer|How many items are in the list.|
 |`data()`|List|The list of potential autocompletes.|
+
+## *class* `cards.Search()`
+Uses a search query to gather relevant data.
+
+**Parameters:**
+
+| Param |Required [y/n]| Input type | Function |
+|:---:|:---:|:---:|:---:|
+|`q`|Yes|String| The query to search. This will be updated in the future.|
+|`order`|No|String| The order you'd like the data returned.|
+|`unique`|No|String|A way to filter similar cards.|
+|`dir`|No|String|The direction you'd like to sort. (`asc`, `desc`, `auto`)|
+|`include_extras`|No|Boolean|Includes cards that are normally omitted from search results, like Un-sets.|
+|`page`|No|Integer|The page number you'd like to search, if any.|
+
+**Attributes:**
+
+|Name|Output Type|Description|
+|:--:|:--:|:--:|
+|`object()`|String|Returns what kind of object it is.|
+|`total_cards()`|Integer|How many cards are returned from the query.|
+|`data()`|List|The list of potential autocompletes.|
+|`has_more()`|Boolean|True if there is more than 1 page of results.|
+|`next_page()`|String|The API URI to the next page of the query.|

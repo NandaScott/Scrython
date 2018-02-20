@@ -1,5 +1,9 @@
 ﻿# Scrython
+
 Scrython is a wrapper for the Scryfall API, designed for an easier use. Make sure to familiarize yourself with the docs.
+
+[Here is a link to the Scryfall API documentation.](https://scryfall.com/docs/api)
+
 ## Breaking changes
 Since Scryfall's API is constantly changing, this library will also be changing.
 

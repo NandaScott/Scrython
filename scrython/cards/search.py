@@ -2,6 +2,33 @@ from .cards_object import CardsObject
 import urllib.parse
 
 class Search(CardsObject):
+	"""
+	cards/search
+	Uses a search query to gather relevant data.
+
+	Positional arguments:
+		q : str ...... The query to search. This will be updated in the future.
+
+	Optional arguments:
+		order : str ................... The order you'd like the data returned.
+		unique : str ........................... A way to filter similar cards.
+		dir : str ......... The direction you'd like to sort. (asc, desc, auto)
+		include_extras : bool ... Includes cards that are normally omitted from
+								  search results, like Un-sets.
+		page : int .............. The page number you'd like to search, if any.
+		Inherits all arguments from CardsObject.
+
+	Attributes:
+		object : str ....................... Returns what kind of object it is.
+		total_cards : int ......... How many cards are returned from the query.
+		data : list ...................... The list of potential autocompletes.
+		has_more : bool ......... True if there is more than 1 page of results.
+		next_page : str ............ The API URI to the next page of the query.
+
+	Example usage:
+		>>> search = scrython.cards.Search(q="++e:A25", order="spoiled")
+		>>> search.data()
+	"""
 	def __init__(self, **kwargs):
 		if kwargs.get('q') is None:
 			raise TypeError('No query is specified.')

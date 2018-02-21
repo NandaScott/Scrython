@@ -2,6 +2,25 @@ from .cards_object import CardsObject
 import urllib.parse
 
 class Autocomplete(CardsObject):
+	"""
+	cards/autocomplete
+	Get a list of potential autocompletion phrases.
+
+	Positional arguments:
+		query : str ........... The query of the autocompletion.
+
+	Optional arguments:
+		Inherits arguments from CardsObject.
+
+	Attributes:
+		object : str ........ Returns what kind of object it is.
+		total_items : int ...... How many items are in the list.
+		data : list ....... The list of potential autocompletes.
+
+	Example usage:
+		>>> auto = scrython.cards.Autocomplete(q="Thal")
+		>>> auto.total_items()
+	"""
 	def __init__(self, **kwargs):
 		if kwargs.get('query') is None:
 			raise TypeError('No query provided to search by')

@@ -3,6 +3,22 @@ import aiohttp
 import urllib.parse
 
 class CatalogsObject(object):
+	"""
+	Master object for all catalog objects.
+
+	Positional Arguments:
+		No arguments are required.
+
+	Optional Arguments:
+		format : str ....................... The format to return. Defaults to JSON.
+		pretty : bool ... Makes the returned JSON prettier. The library may not work properly with this setting.
+
+	Attributes:
+		object : str ...... Returns the type of object it is. (card, error, etc)
+		uri : str .................. The API URI for the endpoint you've called.
+		total_values : int ..................... The number of items in `data()`
+		data : list .............. A list of all types returned by the endpoint.
+	"""
 	def __init__(self, _url, **kwargs):
 		self.params = {'format': kwargs.get('format', 'json'), 'pretty': kwargs.get('pretty', '')}
 

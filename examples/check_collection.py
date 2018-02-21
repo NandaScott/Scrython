@@ -3,6 +3,8 @@ This script assumes the following:
 1. All of the names in your collection .csv are on the first column
 2. All of those names are spelled correctly.
 3. The .csv only contains cards that you have in your collection.
+
+Also make sure you run this in the same directory as your .csv
 """
 import csv
 import scrython

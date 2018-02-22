@@ -3,6 +3,19 @@ import aiohttp
 import urllib.parse
 
 class SymbologyObject(object):
+	"""
+	The master class for all symbology objects.
+
+	Positional arguments:
+		No arguments required.
+
+	Optional arguments:
+		format : str ................... The format to return. Defaults to JSON.
+		pretty : bool ... Makes the returned JSON prettier. The library may not work properly with this setting.
+
+	Attributes:
+		No attributes to call.
+	"""
 	def __init__(self, _url, **kwargs):
 		self.params = {'format': kwargs.get('format', 'json'), 'pretty': kwargs.get('pretty', '')}
 

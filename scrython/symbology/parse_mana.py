@@ -1,8 +1,30 @@
 from .symbology_object import SymbologyObject
 
 class ParseMana(SymbologyObject):
-	def __init__(self, **kwargs):
-		self.cost = kwargs.get('cost')
+	"""
+	symbology/parse-mana
+
+	Positional arguments:
+		cost : str ....................... The given mana cost you want. (`RUG`)
+
+	Optional arguments:
+		All arguments are inherited from SymbologyObject
+
+	Attributes:
+		object : str ...... Returns the type of object it is. (card, error, etc)
+		mana_cost : str ............................... The formatted mana cost.
+		cmc : float ....................... The converted mana cost of the card.
+		colors : list ................... A list of all colors in the mana cost.
+		colorless : bool ................... True if the mana cost is colorless.
+		monocolored : bool .............. True if the mana cost is mono colored.
+		multicolored : bool ...... True if the mana cost is a multicolored cost.
+
+	Example usage:
+		>>> mana = scrython.symbology.ParseMana(cost="xcug")
+		>>> mana.colors()
+	"""
+	def __init__(self, cost):
+		self.cost = cost
 		self.url = 'symbology/parse-mana?cost=' + self.cost
 		super(ParseMana, self).__init__(self.url)
 

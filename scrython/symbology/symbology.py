@@ -1,6 +1,34 @@
 from .symbology_object import SymbologyObject
 
 class Symbology(SymbologyObject):
+	"""
+	/symbology
+
+	Positional arguments:
+		No arguments are required.
+
+	Optional arguments:
+		All arguments are inherited from SymbologyObject
+
+	Attributes:
+		object : str . Returns the type of object it is. (card, error, etc)
+		has_more : bool . True if there are more pages to the object.
+		data : list . A list of all data returned.
+		data_length : int . The length of the data returned.
+
+		The following require an integer as an arg, which acts as a tuple.
+		symbol_symbol(num) : str . The plaintext symbol, usually written with curly braces.
+		symbol_loose_variant(num) : str . The alternate version of the symbol, without curly braces.
+		symbol_transposable(num): bool . True if it's possibly to write the symbol backwards.
+		symbol_represents_mana(num): bool . True if this is a mana symbol.
+		symbol_cmc(num): float . The total converted mana cost of the symbol.
+		symbol_appears_in_mana_costs(num): bool . True if the symbol appears on the mana cost of any card.
+		symbol_funny(num): bool . True if the symbol is featured on any funny cards.
+		symbol_colors(num): float . An array of all colors in the given symbol.
+
+	Example usage:
+		>>> symbol = scrython.symbology.Symbology()
+	"""
 	def __init__(self):
 		self.url = 'symbology?'
 		super(Symbology, self).__init__(self.url)

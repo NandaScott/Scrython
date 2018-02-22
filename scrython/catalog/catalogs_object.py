@@ -10,7 +10,7 @@ class CatalogsObject(object):
 		No arguments are required.
 
 	Optional Arguments:
-		format : str ....................... The format to return. Defaults to JSON.
+		format : str ................... The format to return. Defaults to JSON.
 		pretty : bool ... Makes the returned JSON prettier. The library may not work properly with this setting.
 
 	Attributes:

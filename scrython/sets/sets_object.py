@@ -3,6 +3,32 @@ import aiohttp
 import urllib.parse
 
 class SetsObject(object):
+	"""
+	The master class for all sets objects.
+
+	Positional arguments:
+		No arguments required.
+
+	Optional arguments:
+		format : str ................... The format to return. Defaults to JSON.
+		pretty : bool ... Makes the returned JSON prettier. The library may not work properly with this setting.
+
+	Attributes:
+		object : str ...... Returns the type of object it is. (card, error, etc)
+		code : str ........................ The three letter set code of the set
+		mtgo_code : str ........................ The mtgo equivalent of `code()`
+		name : str ................................... The full name of the set.
+		set_type : str ......... The type of the set (expansion, commander, etc)
+		released_at : str ....................... The date the set was launched.
+		block_code : str ..... The the letter code for the block the set was in.
+		block : str ................... The full name of the block a set was in.
+		parent_set_code : str ................. The set code for the parent set.
+		card_count : int ......................  The number of cards in the set.
+		digital : bool .............. True if this set is only featured on MTGO.
+		foil : bool ........................... True if this set only has foils.
+		icon_svg_uri : str ................  A URI to the SVG of the set symbol.
+		search_uri : str .................. The scryfall API url for the search.
+	"""
 	def __init__(self, _url, **kwargs):
 		self.params = {'format': kwargs.get('format', 'json'), 'pretty': kwargs.get('pretty', '')}
 

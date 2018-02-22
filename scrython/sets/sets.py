@@ -1,6 +1,42 @@
 from .sets_object import SetsObject
 
 class Sets(SetsObject):
+    """
+    /sets
+    `Sets()` gets it's own special attributes that don't match with the normal set attributes.
+
+    Positional arguments:
+        code : str ............................... The 3 letter code of the set.
+
+    Optional arguments:
+        All arguments are inherited from SetsObject
+
+    Attributes:
+        object : str ... Returns the type of object it is. (card, error, etc)
+        has_more : bool ... True if there are more pages available.
+        data : list ... List of all data returned.
+        data_length : int ... The length of the data returned.
+
+        The following require an integer as an arg, which acts as a tuple.
+        set_object(num) : str .................................. The set object.
+        set_code(num) : str .............. The three letter set code of the set.
+        set_mtgo_code(num) : str .............. The mtgo equivalent of `code()`.
+        set_name(num) : str .......................... The full name of the set.
+        set_set_type(num) : str ... The type of the set (expansion, commander, etc)
+        set_released_at(num) : str .............. The date the set was launched.
+        set_block_code(num) : str ... The the letter code for the block the set was in.
+        set_block(num) : str .......... The full name of the block a set was in.
+        set_parent_set_code(num) : str ........ The set code for the parent set.
+        set_card_count(num) : int .............. The number of cards in the set.
+        set_digital(num) : bool ..... True if this set is only featured on MTGO.
+        set_foil(num) : bool .................. True if this set only has foils.
+        set_icon_svg_uri(num) : str ........ A URI to the SVG of the set symbol.
+        set_search_uri(num) : str ......... The scryfall API url for the search.
+
+    Example usage:
+        >>> set = scrython.sets.Sets()
+        >>> set.name(5)
+    """
     def __init__(self):
         self._url = 'sets?'
         super(Sets, self).__init__(self._url)

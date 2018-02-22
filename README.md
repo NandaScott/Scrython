@@ -4,18 +4,10 @@ Scrython is a wrapper for the Scryfall API, designed for an easier use. Make sur
 
 [Here is a link to the Scryfall API documentation.](https://scryfall.com/docs/api)
 
-## Breaking changes
-Since Scryfall's API is constantly changing, this library will also be changing.
+## Key features
 
-Versions will be broken down as such:
-
-0: Overall library version
-
-0.x: Changes that will break previous functionality
-
-0.x.x: Changes that Scryfall has made to break functionality.
-
-It's important to keep up to date with library changes, since it relies on how Scryfall has updated it's own API. If they change something, my library will potentially break or be outdated until a fix is patched.
+ - Asyncronous requests. This library utilizes the `asyncio` and `aiohttp` libraries to ensure that requests are not blocked when used in asyncronous environments. There is no delay limiting when making a request, so be careful how many objects are created.
+ - Full use of all endpoints in a given category. This library uses every endpoint within `cards` and `rulings` as of writing this. I hope to include more as this is developed.
 
 ## Basic usage
 
@@ -36,7 +28,28 @@ For the most part I've kept all the class attributes the same as their key names
     '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.'
 ```
 
-## Key features
+## Breaking changes
+Since Scryfall's API is constantly changing, this library will also be changing.
 
- - Asyncronous requests. This library utilizes the `asyncio` and `aiohttp` libraries to ensure that requests are not blocked when used in asyncronous environments. There is no delay limiting when making a request, so be careful how many objects are created.
- - Full use of all endpoints in a given category. This library uses every endpoint within `cards` and `rulings` as of writing this. I hope to include more as this is developed.
+Versions will be broken down as such:
+
+x.0.0: Overall library version
+
+0.x.0: Changes that *I* make that will break previous functionality or improve the library.
+
+0.0.x: Changes that *Scryfall* has made to break functionality.
+
+>It's important to keep up to date with library changes, since it relies on how Scryfall has updated it's own API. If they change something, my library will potentially break or be outdated until a fix is patched.
+
+## Key notes
+There will be no attempts to keep backwards compatibility for the duration of this project.
+
+There is no default rate limiting for this library. Not all projects are created equal, so not all of them will need a universal limit. It's up to the responsibility of the user to make sure they don't overload Scryfall's servers.
+
+The simplest way to prevent sending too many requests too quickly is the following:
+    >>> time.sleep(0.1)
+    >>> card = scrython.cards.Random()
+
+Or in asyncronous applications:
+    >>> await asyncio.sleep(0.1)
+    >>> card = scrython.cards.Random()

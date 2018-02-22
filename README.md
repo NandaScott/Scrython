@@ -47,9 +47,11 @@ There will be no attempts to keep backwards compatibility for the duration of th
 There is no default rate limiting for this library. Not all projects are created equal, so not all of them will need a universal limit. It's up to the responsibility of the user to make sure they don't overload Scryfall's servers.
 
 The simplest way to prevent sending too many requests too quickly is the following:
+
     >>> time.sleep(0.1)
     >>> card = scrython.cards.Random()
 
 Or in asyncronous applications:
+
     >>> await asyncio.sleep(0.1)
     >>> card = scrython.cards.Random()

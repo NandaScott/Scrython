@@ -402,3 +402,29 @@ class CardsObject(object):
 			raise KeyError("This card has no key \'story_spotlight_uri\'")
 
 		return self.scryfallJson['story_spotlight_uri']
+
+	def power(self):
+		if self.__checkForKey('power') is None:
+			raise KeyError("This card has no key \'power\'")
+		
+		return self.scryfallJson['power']
+	
+	def toughness(self):
+		if self.__checkForKey('toughness') is None:
+			raise KeyError("This card has no key \'toughness\'")
+		
+		return self.scryfallJson['toughness']
+	
+	def loyalty(self):
+		if self.__checkForKey('loyalty') is None:
+			raise KeyError("This card has no key \'loyalty\'")
+		
+		return self.scryfallJson['loyalty']
+	
+	def flavor_text(self):
+		if self.__checkForKey('flavor_text') is None:
+			raise KeyError("This card has no key \'flavor_text\'")
+		
+		return self.scryfallJson['flavor_text']
+	
+	

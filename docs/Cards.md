@@ -124,7 +124,7 @@ Get a list of potential autocompletion phrases.
 
 | Param |Required [y/n]| Input type | Function |
 |:---:|:---:|:---:|:---:|
-|query|Yes|String| The query of the autocompletion.|
+|q|Yes|String| The query of the autocompletion.|
 
 **Attributes:**
 

@@ -7,7 +7,7 @@ class Autocomplete(CardsObject):
 	Get a list of potential autocompletion phrases.
 
 	Positional arguments:
-		query : str ........... The query of the autocompletion.
+		q : str ........... The query of the autocompletion.
 
 	Optional arguments:
 		Inherits arguments from CardsObject.
@@ -22,7 +22,7 @@ class Autocomplete(CardsObject):
 		>>> auto.total_items()
 	"""
 	def __init__(self, **kwargs):
-		if kwargs.get('query') is None:
+		if kwargs.get('q') is None:
 			raise TypeError('No query provided to search by')
 
 		self.dict = {

@@ -60,6 +60,9 @@ All attributes are listed assuming the following
 |`card.watermark()`|String | The associated watermark of the card, if any.
 |`card.story_spotlight_number()`|Integer | This card's story spotlight number, if any.
 |`card.story_spotlight_uri()`|String | The URI for the card's story article, if any.
+|`card.power()`|String| The power of the creature, if applicable.
+|`card.toughness()`|String| The toughness of the creature, if applicable.
+|`card.flavor_text()`|String| The flavor text of the card, if any.
 
 ## *class* `cards.Named()`
 Gets a card by the name.

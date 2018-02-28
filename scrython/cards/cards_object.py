@@ -68,6 +68,9 @@ class CardsObject(object):
 		watermark : str  ......... The associated watermark of the card, if any.
 		story_spotlight_number : int  ... This card's story spotlight number, if any.
 		story_spotlight_uri : str  ... The URI for the card's story article, if any.
+		power : str . The power of the creature, if applicable.
+		toughness : str . The toughness of the creature, if applicable.
+		flavor_text : str . The flavor text of the card, if any.
 	"""
 	def __init__(self, _url, **kwargs):
 
@@ -406,25 +409,23 @@ class CardsObject(object):
 	def power(self):
 		if self.__checkForKey('power') is None:
 			raise KeyError("This card has no key \'power\'")
-		
+
 		return self.scryfallJson['power']
-	
+
 	def toughness(self):
 		if self.__checkForKey('toughness') is None:
 			raise KeyError("This card has no key \'toughness\'")
-		
+
 		return self.scryfallJson['toughness']
-	
+
 	def loyalty(self):
 		if self.__checkForKey('loyalty') is None:
 			raise KeyError("This card has no key \'loyalty\'")
-		
+
 		return self.scryfallJson['loyalty']
-	
+
 	def flavor_text(self):
 		if self.__checkForKey('flavor_text') is None:
 			raise KeyError("This card has no key \'flavor_text\'")
-		
+
 		return self.scryfallJson['flavor_text']
-	
-	

@@ -3,3 +3,4 @@ __pycache__
 scrython.egg-info
 dist
 tests
+BotUtils.py

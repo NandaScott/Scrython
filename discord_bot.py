@@ -15,7 +15,7 @@ async def mtg(name):
     getCard = str(name)
 
     await asyncio.sleep(0.05)
-    card = scrython.cards.Named(loop=bot.loop, fuzzy=getCard)
+    card = scrython.cards.Named(fuzzy=getCard)
 
     if card.type_line() == 'Creature':
         PT = "({}/{})".format(card.power(), card.toughness())

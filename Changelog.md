@@ -1,3 +1,14 @@
+## 1.3.0
+
+New Stuff
+- Scrython now uses the threading module to allow for discord.py implementations.
+
+Changes
+- Added `power()`, `toughness()`, and `flavor_text()` attributes to cards_object. Thanks to Mendess2526!
+
+Bugfixes
+- Fixed a bug that would prevent you from creating a cards.Autocomplete() object.
+
 ## 1.2.0
 
 New Stuff

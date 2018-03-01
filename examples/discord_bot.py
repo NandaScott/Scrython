@@ -1,3 +1,7 @@
+# Before running you need to provide a token to run.
+# For safety it's reccommended that you save the token as a variable
+# in another file; in this case BotUtils.py
+
 import discord, scrython, BotUtils, asyncio
 from discord.ext import commands
 

@@ -1,6 +1,7 @@
 import asyncio
 import aiohttp
 import urllib.parse
+from threading import Thread
 
 class CatalogsObject(object):
 	"""
@@ -33,8 +34,13 @@ class CatalogsObject(object):
 			async with aiohttp.ClientSession(loop=loop) as client:
 				self.scryfallJson = await getRequest(client, self._url)
 
-		loop = asyncio.get_event_loop()
-		loop.run_until_complete(main(loop))
+		def do_everything():
+			loop = asyncio.new_event_loop()
+			asyncio.set_event_loop(loop)
+			loop.run_until_complete(main(loop))
+
+		t = Thread(target=do_everything)
+		t.run()
 
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])

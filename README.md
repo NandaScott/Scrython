@@ -4,6 +4,12 @@ Scrython is a wrapper for the Scryfall API, designed for an easier use. Make sur
 
 [Here is a link to the Scryfall API documentation.](https://scryfall.com/docs/api)
 
+# Dependencies
+- `python` >= 3.5.3
+- `asyncio` >= 3.4.3
+- `aiohttp` >= 1.0.5
+- `threading`
+
 ## Key features
 
  - Asyncronous requests. This library utilizes the `asyncio` and `aiohttp` libraries to ensure that requests are not blocked when used in asyncronous environments. There is no delay limiting when making a request, so be careful how many objects are created.
@@ -35,9 +41,9 @@ Versions will be broken down as such:
 
 x.0.0: Overall library version
 
-0.x.0: Changes that *I* make that will break previous functionality or improve the library.
+0.x.0: Major version changes. Includes anything that will break functionality from previous version, or adds upon them.
 
-0.0.x: Changes that *Scryfall* has made to break functionality.
+0.0.x: Minor patch changes.
 
 >It's important to keep up to date with library changes, since it relies on how Scryfall has updated it's own API. If they change something, my library will potentially break or be outdated until a fix is patched.
 

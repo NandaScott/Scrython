@@ -11,7 +11,7 @@ async def on_ready():
     print('------')
 
 @bot.command()
-async def mtg(name):
+async def mtg(*, name):
     getCard = str(name)
 
     await asyncio.sleep(0.05)

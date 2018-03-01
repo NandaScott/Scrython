@@ -28,9 +28,9 @@ async def mtg(name):
         mana_cost = card.mana_cost()
 
     string = """
-    {cardname} {mana_cost}
-    {type_line} {set_code} {rarity}
-    {oracle_text}{power_toughness}
+{cardname} {mana_cost}
+{type_line} {set_code} {rarity}
+{oracle_text}{power_toughness}
     """.format(
         cardname=card.name(),
         mana_cost=mana_cost,
@@ -41,6 +41,6 @@ async def mtg(name):
         power_toughness=PT
     )
 
-    await self.bot.say(string)
+    await bot.say(string)
 
 bot.run(BotUtils.AUTH_TOKEN)

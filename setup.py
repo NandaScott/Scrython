@@ -7,7 +7,7 @@ with open('README.md') as f:
 setup(
 	name='scrython',
 	packages=['scrython', 'scrython.cards', 'scrython.rulings', 'scrython.catalog', 'scrython.sets', 'scrython.symbology'],
-	version='1.2.0',
+	version='1.3.0',
 	description='A wrapper for using the Scryfall API.',
 	long_description=readme,
 	url='https://github.com/NandaScott/Scrython',
@@ -16,5 +16,5 @@ setup(
 	author_email='nanda1123@gmail.com',
 	license='MIT',
 	keywords=['Scryfall', 'magic', 'the gathering', 'scrython', 'wrapper'],
-	install_requires=['aiohttp', 'asyncio']
+	install_requires=['aiohttp', 'asyncio', 'threading']
 	)

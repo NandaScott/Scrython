@@ -45,32 +45,28 @@ class CatalogsObject(object):
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
 
-	def __checkForKey(self, key):
+	def _checkForKey(self, key):
 		try:
 			return self.scryfallJson[key]
-		except KeyError:
-			return None
+		except Exception:
+			raise KeyError('This card has no key \'{}\''.format(key))
 
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError('This object has no key \'object\'')
+		self._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def uri(self):
-		if self.__checkForKey('uri') is None:
-			raise KeyError('This object has no key \'uri\'')
+		self._checkForKey('uri')
 
 		return self.scryfallJson['uri']
 
 	def total_values(self):
-		if self.__checkForKey('total_values') is None:
-			raise KeyError('This object has no key \'total_values\'')
+		self._checkForKey('total_values')
 
 		return self.scryfallJson['total_values']
 
 	def data(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		self._checkForKey('data')
 
 		return self.scryfallJson['data']

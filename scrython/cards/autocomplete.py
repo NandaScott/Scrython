@@ -35,27 +35,18 @@ class Autocomplete(CardsObject):
 		self.url = 'cards/autocomplete?' + self.args
 		super(Autocomplete, self).__init__(self.url)
 
-	def __checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except KeyError:
-			return None
-
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError('This card has no key \'object\'')
+		super(Autocomplete, self)._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def total_items(self):
-		if self.__checkForKey('total_items') is None:
-			raise KeyError('This card has no key \'total_items\'')
+		super(Autocomplete, self)._checkForKey('total_items')
 
 		return self.scryfallJson['total_items']
 
 	def data(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This card has no key \'data\'')
+		super(Autocomplete, self)._checkForKey('data')
 
 		return self.scryfallJson['data']
 

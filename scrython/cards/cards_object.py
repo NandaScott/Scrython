@@ -102,243 +102,210 @@ class CardsObject(object):
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
 
-	def __checkForKey(self, key):
+	def _checkForKey(self, key):
 		try:
 			return self.scryfallJson[key]
-		except KeyError:
-			return None
+		except Exception:
+			raise KeyError('This card has no key \'{}\''.format(key))
+
+	def _checkForTupleKey(self, parent, num, key):
+		try:
+			return self.scryfallJson[parent][num][key]
+		except Exception:
+			raise KeyError('This tuple has no key \'{}\''.format(key))
 
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError("This card has no key \'object\'")
+		self._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def id(self):
-		if self.__checkForKey('id') is None:
-			raise KeyError("This card has no key \'id\'")
+		self._checkForKey('id')
 
 		return self.scryfallJson['id']
 
 	def multiverse_ids(self):
-		if self.__checkForKey('multiverse_ids') is None:
-			raise KeyError("This card has no key \'multiverse_ids\'")
+		self._checkForKey('multiverse_ids')
 
 		return self.scryfallJson['multiverse_ids']
 
 	def mtgo_id(self):
-		if self.__checkForKey('mtgo_id') is None:
-			raise KeyError("This card has no key \'mtgo_id\'")
+		self._checkForKey('mtgo_id')
 
 		return self.scryfallJson['mtgo_id']
 
 	def mtgo_foil_id(self):
-		if self.__checkForKey('mtgo_foil_id') is None:
-			raise KeyError("This card has no key \'mtgo_foil_id\'")
+		self._checkForKey('mtgo_foil_id')
 
 		return self.scryfallJson['mtgo_foil_id']
 
 	def name(self):
-		if self.__checkForKey('name') is None:
-			raise KeyError("This card has no key \'name\'")
+		self._checkForKey('name')
 
 		return self.scryfallJson['name']
 
 	def uri(self):
-		if self.__checkForKey('uri') is None:
-			raise KeyError("This card has no key \'uri\'")
+		self._checkForKey('uri')
 
 		return self.scryfallJson['uri']
 
 	def scryfall_uri(self):
-		if self.__checkForKey('scryfall_uri') is None:
-			raise KeyError("This card has no key \'scryfall_uri\'")
+		self._checkForKey('scryfall_uri')
 
 		return self.scryfallJson['scryfall_uri']
 
 	def layout(self):
-		if self.__checkForKey('layout') is None:
-			raise KeyError("This card has no key \'layout\'")
+		self._checkForKey('layout')
 
 		return self.scryfallJson['layout']
 
 	def highres_image(self):
-		if self.__checkForKey('highres_image') is None:
-			raise KeyError("This card has no key \'highres_image\'")
+		self._checkForKey('highres_image')
 
 		return self.scryfallJson['highres_image']
 
 	def image_uris(self):
-		if self.__checkForKey('image_uris') is None:
-			raise KeyError("This card has no key \'image_uris\'")
+		self._checkForKey('image_uris')
 
 		return self.scryfallJson['image_uris']
 
 	def cmc(self):
-		if self.__checkForKey('cmc') is None:
-			raise KeyError("This card has no key \'cmc\'")
+		self._checkForKey('cmc')
 
 		return self.scryfallJson['cmc']
 
 	def type_line(self):
-		if self.__checkForKey('type_line') is None:
-			raise KeyError("This card has no key \'type_line\'")
+		self._checkForKey('type_line')
 
 		return self.scryfallJson['type_line']
 
 	def oracle_text(self):
-		if self.__checkForKey('oracle_text') is None:
-			raise KeyError("This card has no key \'oracle_text\'")
+		self._checkForKey('oracle_text')
 
 		return self.scryfallJson['oracle_text']
 
 	def mana_cost(self):
-		if self.__checkForKey('mana_cost') is None:
-			raise KeyError("This card has no key \'mana_cost\'")
+		self._checkForKey('mana_cost')
 
 		return self.scryfallJson['mana_cost']
 
 	def colors(self):
-		if self.__checkForKey('colors') is None:
-			raise KeyError("This card has no key \'colors\'")
+		self._checkForKey('colors')
 
 		return self.scryfallJson['colors']
 
 	def color_identity(self):
-		if self.__checkForKey('color_identity') is None:
-			raise KeyError("This card has no key \'color_identity\'")
+		self._checkForKey('color_identity')
 
 		return self.scryfallJson['color_identity']
 
 	def legalities(self):
-		if self.__checkForKey('legalities') is None:
-			raise KeyError("This card has no key \'legalities\'")
+		self._checkForKey('legalities')
 
 		return self.scryfallJson['legalities']
 
 	def reserved(self):
-		if self.__checkForKey('reserved') is None:
-			raise KeyError("This card has no key \'reserved\'")
+		self._checkForKey('reserved')
 
 		return self.scryfallJson['reserved']
 
 	def reprint(self):
-		if self.__checkForKey('reprint') is None:
-			raise KeyError("This card has no key \'reprint\'")
+		self._checkForKey('reprint')
 
 		return self.scryfallJson['reprint']
 
 	def set_code(self):
-		if self.__checkForKey('set') is None:
-			raise KeyError("This card has no key \'set\'")
+		self._checkForKey('set')
 
 		return self.scryfallJson['set']
 
 	def set_name(self):
-		if self.__checkForKey('set_name') is None:
-			raise KeyError("This card has no key \'set_name\'")
+		self._checkForKey('set_name')
 
 		return self.scryfallJson['set_name']
 
 	def set_uri(self):
-		if self.__checkForKey('set_uri') is None:
-			raise KeyError("This card has no key \'set_uri\'")
+		self._checkForKey('set_uri')
 
 		return self.scryfallJson['set_uri']
 
 	def set_search_uri(self):
-		if self.__checkForKey('set_search_uri') is None:
-			raise KeyError("This card has no key \'set_search_uri\'")
+		self._checkForKey('set_search_uri')
 
 		return self.scryfallJson['set_search_uri']
 
 	def scryfall_set_uri(self):
-		if self.__checkForKey('scryfall_set_uri') is None:
-			raise KeyError("This card has no key \'scryfall_set_uri\'")
+		self._checkForKey('scryfall_set_uri')
 
 		return self.scryfallJson['scryfall_set_uri']
 
 	def rulings_uri(self):
-		if self.__checkForKey('rulings_uri') is None:
-			raise KeyError("This card has no key \'rulings_uri\'")
+		self._checkForKey('rulings_uri')
 
 		return self.scryfallJson['rulings_uri']
 
 	def prints_search_uri(self):
-		if self.__checkForKey('prints_search_uri') is None:
-			raise KeyError("This card has no key \'prints_search_uri\'")
+		self._checkForKey('prints_search_uri')
 
 		return self.scryfallJson['prints_search_uri']
 
 	def collector_number(self):
-		if self.__checkForKey('collector_number') is None:
-			raise KeyError("This card has no key \'collector_number\'")
+		self._checkForKey('collector_number')
 
 		return self.scryfallJson['collector_number']
 
 	def digital(self):
-		if self.__checkForKey('digital') is None:
-			raise KeyError("This card has no key \'digital\'")
+		self._checkForKey('digital')
 
 		return self.scryfallJson['digital']
 
 	def rarity(self):
-		if self.__checkForKey('rarity') is None:
-			raise KeyError("This card has no key \'rarity\'")
+		self._checkForKey('rarity')
 
 		return self.scryfallJson['rarity']
 
 	def illustration_id(self):
-		if self.__checkForKey('illustration_id') is None:
-			raise KeyError("This card has no key \'illustration_id\'")
+		self._checkForKey('illustration_id')
 
 		return self.scryfallJson['illustration_id']
 
 	def artist(self):
-		if self.__checkForKey('artist') is None:
-			raise KeyError("This card has no key \'artist\'")
+		self._checkForKey('artist')
 
 		return self.scryfallJson['artist']
 
 	def frame(self):
-		if self.__checkForKey('frame') is None:
-			raise KeyError("This card has no key \'frame\'")
+		self._checkForKey('frame')
 
 		return self.scryfallJson['frame']
 
 	def full_art(self):
-		if self.__checkForKey('') is None:
-			raise KeyError("This card has no key \'full_art\'")
+		self._checkForKey('')
 
 		return self.scryfallJson['full_art']
 
 	def border_color(self):
-		if self.__checkForKey('border_color') is None:
-			raise KeyError("This card has no key \'border_color\'")
+		self._checkForKey('border_color')
 
 		return self.scryfallJson['border_color']
 
 	def timeshifted(self):
-		if self.__checkForKey('timeshifted') is None:
-			raise KeyError("This card has no key \'timeshifted\'")
+		self._checkForKey('timeshifted')
 
 		return self.scryfallJson['timeshifted']
 
 	def colorshifted(self):
-		if self.__checkForKey('colorshifted') is None:
-			raise KeyError("This card has no key \'colorshifted\'")
+		self._checkForKey('colorshifted')
 
 		return self.scryfallJson['colorshifted']
 
 	def futureshifted(self):
-		if self.__checkForKey('futureshifted') is None:
-			raise KeyError("This card has no key \'futureshifted\'")
+		self._checkForKey('futureshifted')
 
 		return self.scryfallJson['futureshifted']
 
 	def edhrec_rank(self):
-		if self.__checkForKey('edhrec_rank') is None:
-			raise KeyError("This card has no key \'edhrec_rank\'")
+		self._checkForKey('edhrec_rank')
 
 		return self.scryfallJson['edhrec_rank']
 
@@ -347,91 +314,76 @@ class CardsObject(object):
 		if mode not in modes:
 			raise KeyError("{} is not a key.".format(mode))
 
-		if self.__checkForKey(mode) is None:
-			raise KeyError("This card has no currency key {}".format(mode))
+		self._checkForKey(mode)
 
 		return self.scryfallJson[mode]
 
 	def related_uris(self):
-		if self.__checkForKey('related_uris') is None:
-			raise KeyError("This card has no key \'related_uris\'")
+		self._checkForKey('related_uris')
 
 		return self.scryfallJson['related_uris']
 
 	def purchase_uris(self):
-		if self.__checkForKey('purchase_uris') is None:
-			raise KeyError("This card has no key \'purchase_uris\'")
+		self._checkForKey('purchase_uris')
 
 		return self.scryfallJson['purchase_uris']
 
 	def life_modifier(self):
-		if self.__checkForKey('life_modifier') is None:
-			raise KeyError("This card has no key \'life_modifier\'")
+		self._checkForKey('life_modifier')
 
 		return self.scryfallJson['life_modifier']
 
 	def hand_modifier(self):
-		if self.__checkForKey('hand_modifier') is None:
-			raise KeyError("This card has no key \'hand_modifier\'")
+		self._checkForKey('hand_modifier')
 
 		return self.scryfallJson['hand_modifier']
 
 	def color_indicator(self):
-		if self.__checkForKey('color_indicator') is None:
-			raise KeyError("This card has no key \'color_indicator\'")
+		self._checkForKey('color_indicator')
 
 		return self.scryfallJson['color_indicator']
 
 	def all_parts(self):
-		if self.__checkForKey('all_parts') is None:
-			raise KeyError("This card has no key \'all_parts\'")
+		self._checkForKey('all_parts')
 
 		return self.scryfallJson['all_parts']
 
 	def card_faces(self):
-		if self.__checkForKey('card_faces') is None:
-			raise KeyError("This card has no key \'card_faces\'")
+		self._checkForKey('card_faces')
 
 		return self.scryfallJson['card_faces']
 
 	def watermark(self):
-		if self.__checkForKey('watermark') is None:
-			raise KeyError("This card has no key \'watermark\'")
+		self._checkForKey('watermark')
 
 		return self.scryfallJson['watermark']
 
 	def story_spotlight_number(self):
-		if self.__checkForKey('story_spotlight_number') is None:
-			raise KeyError("This card has no key \'story_spotlight_number\'")
+		self._checkForKey('story_spotlight_number')
 
 		return self.scryfallJson['story_spotlight_number']
 
 	def story_spotlight_uri(self):
-		if self.__checkForKey('story_spotlight_uri') is None:
-			raise KeyError("This card has no key \'story_spotlight_uri\'")
+		self._checkForKey('story_spotlight_uri')
 
 		return self.scryfallJson['story_spotlight_uri']
 
 	def power(self):
-		if self.__checkForKey('power') is None:
-			raise KeyError("This card has no key \'power\'")
+		self._checkForKey('power')
 
 		return self.scryfallJson['power']
 
 	def toughness(self):
-		if self.__checkForKey('toughness') is None:
-			raise KeyError("This card has no key \'toughness\'")
+		self._checkForKey('toughness')
 
 		return self.scryfallJson['toughness']
 
 	def loyalty(self):
-		if self.__checkForKey('loyalty') is None:
-			raise KeyError("This card has no key \'loyalty\'")
+		self._checkForKey('loyalty')
 
 		return self.scryfallJson['loyalty']
 
 	def flavor_text(self):
-		if self.__checkForKey('flavor_text') is None:
-			raise KeyError("This card has no key \'flavor_text\'")
+		self._checkForKey('flavor_text')
 
 		return self.scryfallJson['flavor_text']

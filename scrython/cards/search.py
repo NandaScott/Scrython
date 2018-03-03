@@ -47,57 +47,38 @@ class Search(CardsObject):
 
 		super(Search, self).__init__(self.url)
 
-	def __checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except KeyError:
-			return None
-
-	def __checkForTupleKey(self, parent, num, key):
-		try:
-			return self.scryfallJson[parent][num][key]
-		except KeyError:
-			return None
-
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError('This object has no key \'object\'')
+		super(Search, self)._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def total_cards(self):
-		if self.__checkForKey('total_cards') is None:
-			raise KeyError('This object has no key \'total_cards\'')
+		super(Search, self)._checkForKey('total_cards')
 
 		return self.scryfallJson['total_cards']
 
 	def data(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		super(Search, self)._checkForKey('data')
 
 		return self.scryfallJson['data']
 
 	def next_page(self):
-		if self.__checkForKey('next_page') is None:
-			raise KeyError('This object has no key \'next_page\'')
+		super(Search, self)._checkForKey('next_page')
 
 		return self.scryfallJson['next_page']
 
 	def warnings(self):
-		if self.__checkForKey('warnings') is None:
-			raise KeyError('This object has no key \'warnings\'')
+		super(Search, self)._checkForKey('warnings')
 
 		return self.scryfallJson['warnings']
 
 	def data_length(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		super(Search, self)._checkForKey('data')
 
 		return len(self.scryfallJson['data'])
 
 	def data_tuple(self, num):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		super(Search, self)._checkForKey('data')
 
 		return self.scryfallJson['data'][num]
 

@@ -28,50 +28,43 @@ class ParseMana(SymbologyObject):
 		self.url = 'symbology/parse-mana?cost=' + self.cost
 		super(ParseMana, self).__init__(self.url)
 
-	def __checkForKey(self, key):
+	def _checkForKey(self, key):
 		try:
 			return self.scryfallJson[key]
-		except KeyError:
-			return None
+		except Exception:
+			raise KeyError('This object has no key \'{}\''.format(key))
 
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError('This object has no key \'object\'')
+		self._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def mana_cost(self):
-		if self.__checkForKey('cost') is None:
-			raise KeyError('This object has no key \'cost\'')
+		self._checkForKey('cost')
 
 		return self.scryfallJson['cost']
 
 	def cmc(self):
-		if self.__checkForKey('cmc') is None:
-			raise KeyError('This object has no key \'cmc\'')
+		self._checkForKey('cmc')
 
 		return self.scryfallJson['cmc']
 
 	def colors(self):
-		if self.__checkForKey('colors') is None:
-			raise KeyError('This object has no key \'colors\'')
+		self._checkForKey('colors')
 
 		return self.scryfallJson['colors']
 
 	def colorless(self):
-		if self.__checkForKey('colorless') is None:
-			raise KeyError('This object has no key \'colorless\'')
+		self._checkForKey('colorless')
 
 		return self.scryfallJson['colorless']
 
 	def monocolored(self):
-		if self.__checkForKey('monocolored') is None:
-			raise KeyError('This object has no key \'monocolored\'')
+		self._checkForKey('monocolored')
 
 		return self.scryfallJson['monocolored']
 
 	def multicolored(self):
-		if self.__checkForKey('multicolored') is None:
-			raise KeyError('This object has no key \'multicolored\'')
+		self._checkForKey('multicolored')
 
 		return self.scryfallJson['multicolored']

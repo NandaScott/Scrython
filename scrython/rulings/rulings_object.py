@@ -59,62 +59,54 @@ class RulingsObject(object):
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
 
-	def __checkForKey(self, key):
+	def _checkForKey(self, key):
 		try:
 			return self.scryfallJson[key]
-		except KeyError:
-			return None
+		except Exception:
+			raise KeyError('This object has no key \'{}\''.format(key))
 
-	def __checkForTupleKey(self, parent, num, key):
+	def _checkForTupleKey(self, parent, num, key):
 		try:
 			return self.scryfallJson[parent][num][key]
-		except KeyError:
-			return None
+		except Exception:
+			raise KeyError('This ruling has no key \'{}\''.format(key))
 
 	def object(self):
-		if self.__checkForKey('object') is None:
-			raise KeyError('This object has no key \'object\'')
+		self._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def has_more(self):
-		if self.__checkForKey('has_more') is None:
-			raise KeyError('This object has no key \'has_more\'')
+		self._checkForKey('has_more')
 
 		return self.scryfallJson['has_more']
 
 	def data(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		self._checkForKey('data')
 
 		return self.scryfallJson['data']
 
 	def data_length(self):
-		if self.__checkForKey('data') is None:
-			raise KeyError('This object has no key \'data\'')
+		self._checkForKey('data')
 
 		return len(self.scryfallJson['data'])
 
 	def ruling_object(self, num):
-		if self.__checkForTupleKey('data', num, 'object') is None:
-			raise KeyError('This ruling has no key \'object\'')
+		self._checkForTupleKey('data', num, 'object')
 
 		return self.scryfallJson['data'][num]['object']
 
 	def ruling_source(self, num):
-		if self.__checkForTupleKey('data', num, 'source') is None:
-			raise KeyError('This ruling has no key \'source\'')
+		self._checkForTupleKey('data', num, 'source')
 
 		return self.scryfallJson['data'][num]['source']
 
 	def ruling_published_at(self, num):
-		if self.__checkForTupleKey('data', num, 'published_at') is None:
-			raise KeyError('This ruling has no key \'published_at\'')
+		self._checkForTupleKey('data', num, 'published_at')
 
 		return self.scryfallJson['data'][num]['published_at']
 
 	def ruling_comment(self, num):
-		if self.__checkForTupleKey('data', num, 'comment') is None:
-			raise KeyError('This ruling has no key \'comment\'')
+		self._checkForTupleKey('data', num, 'comment')
 
 		return self.scryfallJson['data'][num]['comment']

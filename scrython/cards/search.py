@@ -53,6 +53,12 @@ class Search(CardsObject):
 		except KeyError:
 			return None
 
+	def __checkForTupleKey(self, parent, num, key):
+		try:
+			return self.scryfallJson[parent][num][key]
+		except KeyError:
+			return None
+
 	def object(self):
 		if self.__checkForKey('object') is None:
 			raise KeyError('This object has no key \'object\'')
@@ -82,6 +88,18 @@ class Search(CardsObject):
 			raise KeyError('This object has no key \'warnings\'')
 
 		return self.scryfallJson['warnings']
+
+	def data_length(self):
+		if self.__checkForKey('data') is None:
+			raise KeyError('This object has no key \'data\'')
+
+		return len(self.scryfallJson['data'])
+
+	def data_tuple(self, num):
+		if self.__checkForKey('data') is None:
+			raise KeyError('This object has no key \'data\'')
+
+		return self.scryfallJson['data'][num]
 
 	#The following attributes are only to override the inherited class attributes.
 	#This class has no matching attributes but we still need the getRequest function from CardsObject

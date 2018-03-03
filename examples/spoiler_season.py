@@ -53,7 +53,7 @@ while query is not None:
             #Grab the relevant keys
             if keyCheck('card_faces', card):
                 print(nameBar(card['name'], card['card_faces'][0]['mana_cost']))
-                print(typeBar(card['card_faces'][0]['mana_cost']))
+                print(typeBar(card['card_faces'][0]['mana_cost'], card['card_faces'][0]['rarity']))
             else:
                 print(nameBar(card['name'], card['mana_cost']))
                 print(typeBar(card['type_line'], card['rarity']))

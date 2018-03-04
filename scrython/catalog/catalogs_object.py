@@ -24,7 +24,7 @@ class CatalogsObject(object):
 		self.params = {'format': kwargs.get('format', 'json'), 'pretty': kwargs.get('pretty', '')}
 
 		self.encodedParams = urllib.parse.urlencode(self.params)
-		self._url = 'https://api.scryfall.com/' + _url + "&" + self.encodedParams #Find a fix for this later
+		self._url = 'https://api.scryfall.com/{0}&{1}'.format(_url, self.encodedParams)
 
 		async def getRequest(client, url, **kwargs):
 			async with client.get(url, **kwargs) as response:

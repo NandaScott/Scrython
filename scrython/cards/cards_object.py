@@ -81,7 +81,7 @@ class CardsObject(object):
 		}
 
 		self.encodedParams = urllib.parse.urlencode(self.params)
-		self._url = 'https://api.scryfall.com/' + _url + "&" + self.encodedParams
+		self._url = 'https://api.scryfall.com/{0}&{1}'.format(_url, self.encodedParams)
 
 		async def getRequest(client, url, **kwargs):
 			async with client.get(url, **kwargs) as response:

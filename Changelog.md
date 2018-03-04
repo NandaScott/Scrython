@@ -2,6 +2,10 @@
 
 ## 1.3.4
 
+New stuff
+
+- Added attributes `data_length()` and `data_tuple()` to `cards.Search()`.
+
 Changes
 
 - Updates all the classes for readability and DRYness.

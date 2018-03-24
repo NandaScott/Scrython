@@ -5,6 +5,7 @@ Documentation for a card object. These docs will likely not be as detailed as th
 >In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`card.scryfallJson`).
 
 ## Attributes
+
 All attributes are listed assuming the following
 `card = scrython.cards.<Class>()` is the current usage.
 
@@ -65,6 +66,7 @@ All attributes are listed assuming the following
 |`card.flavor_text()`|String| The flavor text of the card, if any.
 
 ## *class* `cards.Named()`
+
 Gets a card by the name.
 
 **Parameters:**
@@ -78,12 +80,14 @@ Gets a card by the name.
 >Since the `/cards/named` endpoint specifically requires the fuzzy or exact markers, they are required to be explicitly denoted.
 
 ## *class* `cards.Random()`
+
 Get a random card.
 
 **Parameters:**
 No parameters are required.
 
 ## *class* `cards.Multiverse()`
+
 Get a card by Multiverse id
 
 **Parameters:**
@@ -93,6 +97,7 @@ Get a card by Multiverse id
 |id|Yes|Integer or String| This is the associated multiverse id of the given card.
 
 ## *class* `cards.Mtgo()`
+
 Get a card by MTGO id.
 
 **Parameters:**
@@ -102,6 +107,7 @@ Get a card by MTGO id.
 |id|Yes|String|The required mtgo id of the card.
 
 ## *class* `cards.Collector()`
+
 Get a card by collector number.
 
 **Parameters:**
@@ -112,6 +118,7 @@ Get a card by collector number.
 |collector_number|Yes|String|This is the collector number of the card.|
 
 ## *class* `cards.Id()`
+
 Get a card by the Scryfall id.
 
 **Parameters:**
@@ -121,6 +128,7 @@ Get a card by the Scryfall id.
 |id|Yes|String|The Scryfall Id of the card.|
 
 ## *class* `cards.Autocomplete()`
+
 Get a list of potential autocompletion phrases.
 
 **Parameters:**
@@ -138,6 +146,7 @@ Get a list of potential autocompletion phrases.
 |`data()`|List|The list of potential autocompletes.|
 
 ## *class* `cards.Search()`
+
 Uses a search query to gather relevant data.
 
 **Parameters:**
@@ -160,3 +169,6 @@ Uses a search query to gather relevant data.
 |`data()`|List|The list of potential autocompletes.|
 |`has_more()`|Boolean|True if there is more than 1 page of results.|
 |`next_page()`|String|The API URI to the next page of the query.|
+|`warnings()`|List| Provides an array of errors, if any.|
+|`data_length()`|Integer| The length of the data returned.|
+|`data_tuple()`|Dict| Accesses an object at the specified index.|

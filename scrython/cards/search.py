@@ -24,6 +24,10 @@ class Search(CardsObject):
 		data : list ...................... The list of potential autocompletes.
 		has_more : bool ......... True if there is more than 1 page of results.
 		next_page : str ............ The API URI to the next page of the query.
+		warnings : list .................. Provides an array of errors, if any.
+		data_length : int .................... The length of the data returned.
+		data_tuple : dict .......... Accesses an object at the specified index.
+
 
 	Example usage:
 		>>> search = scrython.cards.Search(q="++e:A25", order="spoiled")

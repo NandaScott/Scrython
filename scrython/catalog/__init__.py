@@ -1,6 +1,7 @@
 from .artifact_types import ArtifactTypes
 from .card_names import CardNames
 from .creature_types import CreatureTypes
+from .enchantment_types import EnchantmentTypes
 from .land_types import LandTypes
 from .loyalties import Loyalties
 from .planeswalker_types import PlaneswalkerTypes

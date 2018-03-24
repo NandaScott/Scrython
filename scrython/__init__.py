@@ -22,6 +22,7 @@ from scrython.sets import Sets
 from scrython.catalog import ArtifactTypes
 from scrython.catalog import CardNames
 from scrython.catalog import CreatureTypes
+from scrython.catalog import EnchantmentTypes
 from scrython.catalog import LandTypes
 from scrython.catalog import Loyalties
 from scrython.catalog import PlaneswalkerTypes

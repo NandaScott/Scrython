@@ -1,15 +1,11 @@
 from setuptools import setup
 
-readme = ''
-with open('README.md') as f:
-	readme = f.read()
-
 setup(
 	name='scrython',
 	packages=['scrython', 'scrython.cards', 'scrython.rulings', 'scrython.catalog', 'scrython.sets', 'scrython.symbology'],
-	version='1.4.1',
+	version='1.4.2',
 	description='A wrapper for using the Scryfall API.',
-	long_description=readme,
+	long_description='https://github.com/NandaScott/Scrython/blob/master/README.md',
 	url='https://github.com/NandaScott/Scrython',
 	download_url='https://github.com/NandaScott/Scrython/archive/0.1.0.tar.gz',
 	author='Nanda Scott',

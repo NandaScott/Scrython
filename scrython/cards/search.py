@@ -86,6 +86,11 @@ class Search(CardsObject):
 
 		return self.scryfallJson['data'][num]
 
+	def has_more(self):
+		super(Search, self)._checkForKey('has_more')
+
+		return self.scryfallJson['has_more']
+
 	#The following attributes are only to override the inherited class attributes.
 	#This class has no matching attributes but we still need the getRequest function from CardsObject
 

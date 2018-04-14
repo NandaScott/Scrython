@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1
+
+Bugfixes
+
+- `Search().has_more()` has been properly implemented. Whoops.
+
 ## 1.3.4
 
 New stuff

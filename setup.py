@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
 	name='scrython',
 	packages=['scrython', 'scrython.cards', 'scrython.rulings', 'scrython.catalog', 'scrython.sets', 'scrython.symbology'],
-	version='1.4.2',
+	version='1.5.0',
 	description='A wrapper for using the Scryfall API.',
 	long_description='https://github.com/NandaScott/Scrython/blob/master/README.md',
 	url='https://github.com/NandaScott/Scrython',

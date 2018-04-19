@@ -5,7 +5,7 @@
 Changes
 
 - Key errors are now handled more cleanly, and doesn't return two traceback errors.
-- Updated Sets to be more like the other classes in structure.
+- Updated sets to be more like the other classes in structure.
 - Updated symbology to be more like the other classes in structure.
 
 ## 1.4.2

@@ -46,9 +46,7 @@ class CatalogsObject(object):
 			raise Exception(self.scryfallJson['details'])
 
 	def _checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except Exception:
+		if not key in self.scryfallJson:
 			raise KeyError('This card has no key \'{}\''.format(key))
 
 	def object(self):

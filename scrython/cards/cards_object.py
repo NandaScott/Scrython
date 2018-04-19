@@ -103,15 +103,11 @@ class CardsObject(object):
 			raise Exception(self.scryfallJson['details'])
 
 	def _checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except Exception:
+		if not key in self.scryfallJson:
 			raise KeyError('This card has no key \'{}\''.format(key))
 
 	def _checkForTupleKey(self, parent, num, key):
-		try:
-			return self.scryfallJson[parent][num][key]
-		except Exception:
+		if not key in self.scryfallJson[parent][num]:
 			raise KeyError('This tuple has no key \'{}\''.format(key))
 
 	def object(self):

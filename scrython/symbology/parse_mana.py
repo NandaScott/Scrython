@@ -28,43 +28,37 @@ class ParseMana(SymbologyObject):
 		self.url = 'symbology/parse-mana?cost=' + self.cost
 		super(ParseMana, self).__init__(self.url)
 
-	def _checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except Exception:
-			raise KeyError('This object has no key \'{}\''.format(key))
-
 	def object(self):
-		self._checkForKey('object')
+		super(ParseMana, self)._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def mana_cost(self):
-		self._checkForKey('cost')
+		super(ParseMana, self)._checkForKey('cost')
 
 		return self.scryfallJson['cost']
 
 	def cmc(self):
-		self._checkForKey('cmc')
+		super(ParseMana, self)._checkForKey('cmc')
 
 		return self.scryfallJson['cmc']
 
 	def colors(self):
-		self._checkForKey('colors')
+		super(ParseMana, self)._checkForKey('colors')
 
 		return self.scryfallJson['colors']
 
 	def colorless(self):
-		self._checkForKey('colorless')
+		super(ParseMana, self)._checkForKey('colorless')
 
 		return self.scryfallJson['colorless']
 
 	def monocolored(self):
-		self._checkForKey('monocolored')
+		super(ParseMana, self)._checkForKey('monocolored')
 
 		return self.scryfallJson['monocolored']
 
 	def multicolored(self):
-		self._checkForKey('multicolored')
+		super(ParseMana, self)._checkForKey('multicolored')
 
 		return self.scryfallJson['multicolored']

@@ -1,3 +1,3 @@
 aiohttp==3.1.3
-asyncio
+asyncio==3.4.3
 threading

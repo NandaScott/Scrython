@@ -41,3 +41,11 @@ class SymbologyObject(object):
 
 		if self.scryfallJson['object'] == 'error':
 			raise Exception(self.scryfallJson['details'])
+
+	def _checkForKey(self, key):
+		if not key in self.scryfallJson:
+			raise KeyError('This object ahs no key \'{}\''.format(key))
+
+	def _checkForTupleKey(self, parent, num, key):
+		if not key in self.scryfallJson[parent][num]:
+			raise KeyError('This object has no key \'{}\''.format(key))

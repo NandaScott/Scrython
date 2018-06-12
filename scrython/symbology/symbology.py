@@ -33,74 +33,62 @@ class Symbology(SymbologyObject):
 		self.url = 'symbology?'
 		super(Symbology, self).__init__(self.url)
 
-	def _checkForKey(self, key):
-		try:
-			return self.scryfallJson[key]
-		except Exception:
-			raise KeyError('This object ahs no key \'{}\''.format(key))
-
-	def _checkForTupleKey(self, parent, num, key):
-		try:
-			return self.scryfallJson[parent][num][key]
-		except Exception:
-			raise KeyError('This object has no key \'{}\''.format(key))
-
 	def object(self):
-		self._checkForKey('object')
+		super(Symbology, self)._checkForKey('object')
 
 		return self.scryfallJson['object']
 
 	def has_more(self):
-		self._checkForKey('has_more')
+		super(Symbology, self)._checkForKey('has_more')
 
 		return self.scryfallJson['has_more']
 
 	def data(self):
-		self._checkForKey('has_more')
+		super(Symbology, self)._checkForKey('has_more')
 
 		return self.scryfallJson['data']
 
 	def data_length(self):
-		self._checkForKey('data')
+		super(Symbology, self)._checkForKey('data')
 
 		return len(self.scryfallJson['data'])
 
 	def symbol_symbol(self, num):
-		self._checkForTupleKey('data', num, 'symbol')
+		super(Symbology, self)._checkForTupleKey('data', num, 'symbol')
 
 		return self.scryfallJson['data'][num]['symbol']
 
 	def symbol_loose_variant(self, num):
-		self._checkForTupleKey('data', num, 'loose_variant')
+		super(Symbology, self)._checkForTupleKey('data', num, 'loose_variant')
 
 		return self.scryfallJson['data'][num]['loose_variant']
 
 	def symbol_transposable(self, num):
-		self._checkForTupleKey('data', num, 'transposable')
+		super(Symbology, self)._checkForTupleKey('data', num, 'transposable')
 
 		return self.scryfallJson['data'][num]['transposable']
 
 	def symbol_represents_mana(self, num):
-		self._checkForTupleKey('data', num, 'represents_mana')
+		super(Symbology, self)._checkForTupleKey('data', num, 'represents_mana')
 
 		return self.scryfallJson['data'][num]['represents_mana']
 
 	def symbol_cmc(self, num):
-		self._checkForTupleKey('data', num, 'cmc')
+		super(Symbology, self)._checkForTupleKey('data', num, 'cmc')
 
 		return self.scryfallJson['data'][num]['cmc']
 
 	def symbol_appears_in_mana_costs(self, num):
-		self._checkForTupleKey('data', num, 'appears_in_mana_costs')
+		super(Symbology, self)._checkForTupleKey('data', num, 'appears_in_mana_costs')
 
 		return self.scryfallJson['data'][num]['appears_in_mana_costs']
 
 	def symbol_funny(self, num):
-		self._checkForTupleKey('data', num, 'funny')
+		super(Symbology, self)._checkForTupleKey('data', num, 'funny')
 
 		return self.scryfallJson['data'][num]['funny']
 
 	def symbol_colors(self, num):
-		self._checkForTupleKey('data', num, 'colors')
+		super(Symbology, self)._checkForTupleKey('data', num, 'colors')
 
 		return self.scryfallJson['data'][num]['colors']

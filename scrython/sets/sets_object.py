@@ -56,8 +56,12 @@ class SetsObject(object):
 			raise Exception(self.scryfallJson['details'])
 
 	def _checkForKey(self, key):
+		if not key in self.scryfallJson:
+			raise KeyError('This object has no key \'{}\''.format(key))
+
+	def _checkForTupleKey(self, parent, num, key):
 		try:
-			return self.scryfallJson[key]
+			return self.scryfallJson[parent][num][key]
 		except Exception:
 			raise KeyError('This object has no key \'{}\''.format(key))
 

@@ -41,105 +41,93 @@ class Sets(SetsObject):
         self._url = 'sets?'
         super(Sets, self).__init__(self._url)
 
-    def _checkForKey(self, key):
-        try:
-            return self.scryfallJson[key]
-        except Exception:
-            raise KeyError('This object has no key \'{}\''.format(key))
-
-    def _checkForTupleKey(self, parent, num, key):
-        try:
-            return self.scryfallJson[parent][num][key]
-        except Exception:
-            raise KeyError('This object has no key \'{}\''.format(key))
-
     def object(self):
-        self._checkForKey('object')
+        super(Sets, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def has_more(self):
-        self._checkForKey('has_more')
+        super(Sets, self)._checkForKey('has_more')
 
         return self.scryfallJson['has_more']
 
     def data(self):
-        self._checkForKey('data')
+        super(Sets, self)._checkForKey('data')
 
         return self.scryfallJson['data']
 
     def data_length(self):
-        self._checkForKey('data')
+        super(Sets, self)._checkForKey('data')
 
         return len(self.scryfallJson['data'])
 
     def set_object(self, num):
-        self._checkForTupleKey('data', num, 'object')
+        super(Sets, self)._checkForTupleKey('data', num, 'object')
 
         return self.scryfallJson['data'][num]['object']
 
     def set_code(self, num):
-        self._checkForTupleKey('data', num, 'code')
+        super(Sets, self)._checkForTupleKey('data', num, 'code')
 
         return self.scryfallJson['data'][num]['code']
 
     def set_mtgo_code(self, num):
-        self._checkForTupleKey('data', num, 'mtgo_code')
+        super(Sets, self)._checkForTupleKey('data', num, 'mtgo_code')
 
         return self.scryfallJson['data'][num]['mtgo_code']
 
     def set_name(self, num):
-        self._checkForTupleKey('data', num, 'name')
+        super(Sets, self)._checkForTupleKey('data', num, 'name')
 
         return self.scryfallJson['data'][num]['name']
 
     def set_set_type(self, num):
-        self._checkForTupleKey('data', num, 'set_type')
+        super(Sets, self)._checkForTupleKey('data', num, 'set_type')
 
         return self.scryfallJson['data'][num]['set_type']
 
     def set_released_at(self, num):
-        self._checkForTupleKey('data', num, 'released_at')
+        super(Sets, self)._checkForTupleKey('data', num, 'released_at')
 
         return self.scryfallJson['data'][num]['released_at']
 
     def set_block_code(self, num):
-        self._checkForTupleKey('data', num, 'block_code')
+        super(Sets, self)._checkForTupleKey('data', num, 'block_code')
 
         return self.scryfallJson['data'][num]['block_code']
 
     def set_block(self, num):
-        self._checkForTupleKey('data', num, 'block')
+        super(Sets, self)._checkForTupleKey('data', num, 'block')
 
         return self.scryfallJson['data'][num]['block']
 
     def set_parent_set_code(self, num):
-        self._checkForTupleKey('data', num, 'parent_set_code')
+        super(Sets, self)._checkForTupleKey('data', num, 'parent_set_code')
 
         return self.scryfallJson['data'][num]['parent_set_code']
 
     def set_card_count(self, num):
-        self._checkForTupleKey('data', num, 'card_count')
+        super(Sets, self)._checkForTupleKey('data', num, 'card_count')
 
         return self.scryfallJson['data'][num]['card_count']
 
     def set_digital(self, num):
-        self._checkForTupleKey('data', num, 'digital')
+        super(Sets, self)._checkForTupleKey('data', num, 'digital')
 
         return self.scryfallJson['data'][num]['digital']
 
     def set_foil(self, num):
-        self._checkForTupleKey('data', num, 'foil')
+        super(Sets, self)._checkForTupleKey('data', num, 'foil')
 
         return self.scryfallJson['data'][num]['foil']
 
     def set_icon_svg_uri(self, num):
-        self._checkForTupleKey('data', num, 'icon_svg_uri')
+        super(Sets, self)._checkForTupleKey('data', num, 'icon_svg_uri')
 
         return self.scryfallJson['data'][num]['icon_svg_uri']
 
     def set_search_uri(self, num):
-        self._checkForTupleKey('data', num, 'search_uri')
+        super(Sets, self)._checkForTupleKey('data', num, 'search_uri')
 
         return self.scryfallJson['data'][num]['search_uri']
 

@@ -121,11 +121,6 @@ Get a card by collector number.
 |:---:|:---:|:---:|:---:|
 |code|Yes|String|This is the 3 letter code for the set|
 |collector_number|Yes|String|This is the collector number of the card.|
-
-**Parameters:**
-
-| Param|Required[y/n]|Input type| Function|
-|:---:|:---:|:---:|:---:|
 |lang|No|String|A 2-3 letter that denotes to what language you want. Defaults to `en` if not specified.|
 
 ## *class* `cards.Id()`

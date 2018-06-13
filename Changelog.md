@@ -6,6 +6,9 @@ New stuff
 
 - Arena IDs are now accessible from all `cards` objects with `arena_id()`.
 - The `lang` attribute is now accessible from all `cards` objects with `lang()`
+- `printed_name()`, `printed_type_line()`, `printed_text()` have been added to all `card`
+    objects.
+- `lang` optional argument has now been added to `Collector()` object. Defaults to `en`
 
 Changes
 

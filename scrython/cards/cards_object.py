@@ -393,3 +393,18 @@ class CardsObject(object):
 		self._checkForKey('lang')
 
 		return self.scryfallJson['lang']
+
+	def printed_name(self):
+		self._checkForKey('printed_name')
+
+		return self.scryfallJson['printed_name']
+
+	def printed_type_line(self):
+		self._checkForKey('printed_type_line')
+
+		return self.scryfallJson['printed_type_line']
+
+	def printed_text(self):
+		self._checkForKey('printed_text')
+
+		return self.scryfallJson['printed_text']

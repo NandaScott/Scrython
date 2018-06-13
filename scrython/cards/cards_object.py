@@ -69,9 +69,14 @@ class CardsObject(object):
 		watermark : str  ......... The associated watermark of the card, if any.
 		story_spotlight_number : int  ... This card's story spotlight number, if any.
 		story_spotlight_uri : str  ... The URI for the card's story article, if any.
-		power : str . The power of the creature, if applicable.
-		toughness : str . The toughness of the creature, if applicable.
-		flavor_text : str . The flavor text of the card, if any.
+		power : str ................. The power of the creature, if applicable.
+		toughness : str ......... The toughness of the creature, if applicable.
+		flavor_text : str ................ The flavor text of the card, if any.
+		arena_id : int ...................... The Arena ID of the card, if any.
+		lang : str ... The language of the card.
+		printed_name : str .. If the card is in a non-English language, this will be the name as it appears on the card.
+		printed_type_line : str .. If the card is in a non-English language, this will be the type line as it appears on the card.
+		printed_text : str ... If the card is in a non-English language, this will be the rules text as it appears on the card.
 	"""
 	def __init__(self, _url, **kwargs):
 

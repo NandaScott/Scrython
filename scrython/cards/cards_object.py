@@ -388,3 +388,8 @@ class CardsObject(object):
 		self._checkForKey('arena_id')
 
 		return self.scryfallJson['arena_id']
+
+	def lang(self):
+		self._checkForKey('lang')
+
+		return self.scryfallJson['lang']

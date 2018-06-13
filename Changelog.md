@@ -4,7 +4,8 @@
 
 New stuff
 
-- The Arena IDs are now accessible from all `cards` objects with `arena_id()`
+- Arena IDs are now accessible from all `cards` objects with `arena_id()`.
+- The `lang` attribute is now accessible from all `cards` objects with `lang()`
 
 Changes
 

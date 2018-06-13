@@ -64,6 +64,11 @@ All attributes are listed assuming the following
 |`card.power()`|String| The power of the creature, if applicable.
 |`card.toughness()`|String| The toughness of the creature, if applicable.
 |`card.flavor_text()`|String| The flavor text of the card, if any.
+|`card.arena_id()`|Integer| The Arena ID of the card, if any.
+|`card.lang()`|String| The language of the card.
+|`card.printed_name()`|String| If the card is in a non-English language, this will be the name as it appears on the card.
+|`card.printed_type_line()`|String| If the card is in a non-English language, this will be the type line as it appears on the card.
+|`card.printed_text()`|String| If the card is in a non-English language, this will be the rules text as it appears on the card.
 
 ## *class* `cards.Named()`
 
@@ -116,6 +121,12 @@ Get a card by collector number.
 |:---:|:---:|:---:|:---:|
 |code|Yes|String|This is the 3 letter code for the set|
 |collector_number|Yes|String|This is the collector number of the card.|
+
+**Parameters:**
+
+| Param|Required[y/n]|Input type| Function|
+|:---:|:---:|:---:|:---:|
+|lang|No|String|A 2-3 letter that denotes to what language you want. Defaults to `en` if not specified.|
 
 ## *class* `cards.Id()`
 

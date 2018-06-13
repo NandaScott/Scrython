@@ -383,3 +383,8 @@ class CardsObject(object):
 		self._checkForKey('flavor_text')
 
 		return self.scryfallJson['flavor_text']
+
+	def arena_id(self):
+		self._checkForKey('arena_id')
+
+		return self.scryfallJson['arena_id']

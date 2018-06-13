@@ -2,6 +2,10 @@
 
 ## 1.5.0
 
+New stuff
+
+- The Arena IDs are now accessible from all `cards` objects with `arena_id()`
+
 Changes
 
 - Key errors are now handled more cleanly, and doesn't return two traceback errors.

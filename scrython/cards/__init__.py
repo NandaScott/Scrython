@@ -6,3 +6,4 @@ from .multiverse import Multiverse
 from .named import Named
 from .randomcard import Random
 from .search import Search
+from .arena_id import ArenaId

@@ -7,6 +7,7 @@ from scrython.cards import Multiverse
 from scrython.cards import Named
 from scrython.cards import Random
 from scrython.cards import Search
+from scrython.cards import ArenaId
 
 #Import classes from rulings
 from scrython.rulings import Mtgo

@@ -131,8 +131,8 @@ class Sets(SetsObject):
 
         return self.scryfallJson['data'][num]['search_uri']
 
-	#The following attributes are only to override the inherited class attributes.
-	#This class has no matching attributes but we still need the getRequest from SetsObject
+    #The following attributes are only to override the inherited class attributes.
+    #This class has no matching attributes but we still need the getRequest from SetsObject
 
     def code(self):
         raise AttributeError('This object has no key \'code\'')

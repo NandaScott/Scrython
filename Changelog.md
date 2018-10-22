@@ -5,6 +5,7 @@
 New stuff
 - Artist names have been added to `catalog`
 - Multiple new functions have been added to `Cards`, `Symbology`
+- Added the `bulk-data` endpoint to Scrython
 
 Changes
 - Scrython has been changed to use spaces rather than tabs.

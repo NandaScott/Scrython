@@ -19,12 +19,14 @@ class Symbology(SymbologyObject):
         The following require an integer as an arg, which acts as a tuple.
         symbol_symbol(num) : str . The plaintext symbol, usually written with curly braces.
         symbol_loose_variant(num) : str . The alternate version of the symbol, without curly braces.
+        symbol_english(num): str .. An english sentence describing the mana cost.
         symbol_transposable(num): bool . True if it's possibly to write the symbol backwards.
         symbol_represents_mana(num): bool . True if this is a mana symbol.
-        symbol_cmc(num): float . The total converted mana cost of the symbol.
         symbol_appears_in_mana_costs(num): bool . True if the symbol appears on the mana cost of any card.
+        symbol_cmc(num): float . The total converted mana cost of the symbol.
         symbol_funny(num): bool . True if the symbol is featured on any funny cards.
-        symbol_colors(num): float . An array of all colors in the given symbol.
+        symbol_colors(num): array . An array of all colors in the given symbol.
+        symbol_gatherer_alternates(num): array .. An array of Gatherer like costs.
 
     Example usage:
         >>> symbol = scrython.symbology.Symbology()
@@ -92,3 +94,13 @@ class Symbology(SymbologyObject):
         super(Symbology, self)._checkForTupleKey('data', num, 'colors')
 
         return self.scryfallJson['data'][num]['colors']
+
+    def symbol_english(self, num):
+        super(Symbology, self)._checkForTupleKey('data', num, 'english')
+
+        return self.scryfallJson['data'][num]['english']
+
+    def symbol_gatherer_alternates(self, num):
+        super(Symbology, self)._checkForTupleKey('data', num, 'gatherer_alternates')
+
+        return self.scryfallJson['data'][num]['gatherer_alternates']

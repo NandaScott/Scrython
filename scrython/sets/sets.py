@@ -29,7 +29,7 @@ class Sets(SetsObject):
         set_parent_set_code(num) : str ........ The set code for the parent set.
         set_card_count(num) : int .............. The number of cards in the set.
         set_digital(num) : bool ..... True if this set is only featured on MTGO.
-        set_foil(num) : bool .................. True if this set only has foils.
+        set_foil_only(num) : bool ............. True if this set only has foils.
         set_icon_svg_uri(num) : str ........ A URI to the SVG of the set symbol.
         set_search_uri(num) : str ......... The scryfall API url for the search.
 
@@ -116,10 +116,10 @@ class Sets(SetsObject):
 
         return self.scryfallJson['data'][num]['digital']
 
-    def set_foil(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'foil')
+    def set_foil_only(self, num):
+        super(Sets, self)._checkForTupleKey('data', num, 'foil_only')
 
-        return self.scryfallJson['data'][num]['foil']
+        return self.scryfallJson['data'][num]['foil_only']
 
     def set_icon_svg_uri(self, num):
         super(Sets, self)._checkForTupleKey('data', num, 'icon_svg_uri')
@@ -164,8 +164,8 @@ class Sets(SetsObject):
     def digital(self):
         raise AttributeError('This object has no key \'digital\'')
 
-    def foil(self):
-        raise AttributeError('This object has no key \'foil\'')
+    def foil_only(self):
+        raise AttributeError('This object has no key \'foil_only\'')
 
     def icon_svg_uri(self):
         raise AttributeError('This object has no key \'icon_svg_uri\'')

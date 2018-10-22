@@ -26,7 +26,7 @@ class SetsObject(object):
         parent_set_code : str ................. The set code for the parent set.
         card_count : int ......................  The number of cards in the set.
         digital : bool .............. True if this set is only featured on MTGO.
-        foil : bool ........................... True if this set only has foils.
+        foil_only : bool ........................... True if this set only has foils.
         icon_svg_uri : str ................  A URI to the SVG of the set symbol.
         search_uri : str .................. The scryfall API url for the search.
     """
@@ -120,10 +120,10 @@ class SetsObject(object):
 
         return self.scryfallJson['digital']
 
-    def foil(self):
-        self._checkForKey('foil')
+    def foil_only(self):
+        self._checkForKey('foil_only')
 
-        return self.scryfallJson['foil']
+        return self.scryfallJson['foil_only']
 
     def icon_svg_uri(self):
         self._checkForKey('icon_svg_uri')

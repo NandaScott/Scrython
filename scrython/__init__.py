@@ -31,6 +31,7 @@ from scrython.catalog import SpellTypes
 from scrython.catalog import Toughnesses
 from scrython.catalog import Watermarks
 from scrython.catalog import WordBank
+from scrython.catalog import ArtistNames
 
 #Import symbology
 from scrython.symbology import ParseMana

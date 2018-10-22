@@ -3,9 +3,13 @@
 ## 1.6.0
 
 New stuff
+- Artist names have been added to `catalog`
+- Multiple new functions have been added to `Cards`, `Symbology`
 
 Changes
 - Scrython has been changed to use spaces rather than tabs.
+- Multiple functions have had their names updated to properly reflect the new key names.
+- Some functions have been deleted entirely
 
 Bugfixes
 

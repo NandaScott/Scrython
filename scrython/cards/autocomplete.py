@@ -54,148 +54,181 @@ class Autocomplete(CardsObject):
     #This class has no matching attributes but we still need the getRequest function from CardsObject
 
     def id(self):
-        raise AttributeError('Search object has no attribute \'id\'')
+        raise AttributeError('Autocomplete object has no attribute \'id\'')
 
     def multiverse_ids(self):
-        raise AttributeError('Search object has no attribute \'multiverse_ids\'')
+        raise AttributeError('Autocomplete object has no attribute \'multiverse_ids\'')
 
     def mtgo_id(self):
-        raise AttributeError('Search object has no attribute \'mtgo_id\'')
+        raise AttributeError('Autocomplete object has no attribute \'mtgo_id\'')
 
     def mtgo_foil_id(self):
-        raise AttributeError('Search object has no attribute \'mtgo_foil_id\'')
+        raise AttributeError('Autocomplete object has no attribute \'mtgo_foil_id\'')
 
     def name(self):
-        raise AttributeError('Search object has no attribute \'name\'')
+        raise AttributeError('Autocomplete object has no attribute \'name\'')
 
     def uri(self):
-        raise AttributeError('Search object has no attribute \'uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'uri\'')
 
     def scryfall_uri(self):
-        raise AttributeError('Search object has no attribute \'scryfall_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'scryfall_uri\'')
 
     def layout(self):
-        raise AttributeError('Search object has no attribute \'layout\'')
+        raise AttributeError('Autocomplete object has no attribute \'layout\'')
 
     def highres_image(self):
-        raise AttributeError('Search object has no attribute \'highres_image\'')
+        raise AttributeError('Autocomplete object has no attribute \'highres_image\'')
 
     def image_uris(self):
-        raise AttributeError('Search object has no attribute \'image_uris\'')
+        raise AttributeError('Autocomplete object has no attribute \'image_uris\'')
 
     def cmc(self):
-        raise AttributeError('Search object has no attribute \'cmc\'')
+        raise AttributeError('Autocomplete object has no attribute \'cmc\'')
 
     def type_line(self):
-        raise AttributeError('Search object has no attribute \'type_line\'')
+        raise AttributeError('Autocomplete object has no attribute \'type_line\'')
 
     def oracle_text(self):
-        raise AttributeError('Search object has no attribute \'oracle_text\'')
+        raise AttributeError('Autocomplete object has no attribute \'oracle_text\'')
 
     def mana_cost(self):
-        raise AttributeError('Search object has no attribute \'mana_cost\'')
+        raise AttributeError('Autocomplete object has no attribute \'mana_cost\'')
 
     def colors(self):
-        raise AttributeError('Search object has no attribute \'colors\'')
+        raise AttributeError('Autocomplete object has no attribute \'colors\'')
 
     def color_identity(self):
-        raise AttributeError('Search object has no attribute \'color_identity\'')
+        raise AttributeError('Autocomplete object has no attribute \'color_identity\'')
 
     def legalities(self):
-        raise AttributeError('Search object has no attribute \'legalities\'')
+        raise AttributeError('Autocomplete object has no attribute \'legalities\'')
 
     def reserved(self):
-        raise AttributeError('Search object has no attribute \'reserved\'')
+        raise AttributeError('Autocomplete object has no attribute \'reserved\'')
 
     def reprint(self):
-        raise AttributeError('Search object has no attribute \'reprint\'')
+        raise AttributeError('Autocomplete object has no attribute \'reprint\'')
 
     def set_code(self):
-        raise AttributeError('Search object has no attribute \'	def set_code\'')
+        raise AttributeError('Autocomplete object has no attribute \'set_code\'')
 
     def set_name(self):
-        raise AttributeError('Search object has no attribute \'	def set_name\'')
+        raise AttributeError('Autocomplete object has no attribute \'set_name\'')
 
     def set_uri(self):
-        raise AttributeError('Search object has no attribute \'set_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'set_uri\'')
 
     def set_search_uri(self):
-        raise AttributeError('Search object has no attribute \'set_search_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'set_search_uri\'')
 
     def scryfall_set_uri(self):
-        raise AttributeError('Search object has no attribute \'scryfall_set_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'scryfall_set_uri\'')
 
     def rulings_uri(self):
-        raise AttributeError('Search object has no attribute \'rulings_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'rulings_uri\'')
 
     def prints_search_uri(self):
-        raise AttributeError('Search object has no attribute \'prints_search_uri\'')
+        raise AttributeError('Autocomplete object has no attribute \'prints_search_uri\'')
 
     def collector_number(self):
-        raise AttributeError('Search object has no attribute \'collector_number\'')
+        raise AttributeError('Autocomplete object has no attribute \'collector_number\'')
 
     def digital(self):
-        raise AttributeError('Search object has no attribute \'digital\'')
+        raise AttributeError('Autocomplete object has no attribute \'digital\'')
 
     def rarity(self):
-        raise AttributeError('Search object has no attribute \'rarity\'')
+        raise AttributeError('Autocomplete object has no attribute \'rarity\'')
 
     def illustration_id(self):
-        raise AttributeError('Search object has no attribute \'illustration_id\'')
+        raise AttributeError('Autocomplete object has no attribute \'illustration_id\'')
 
     def artist(self):
-        raise AttributeError('Search object has no attribute \'artist\'')
+        raise AttributeError('Autocomplete object has no attribute \'artist\'')
 
     def frame(self):
-        raise AttributeError('Search object has no attribute \'frame\'')
+        raise AttributeError('Autocomplete object has no attribute \'frame\'')
 
     def full_art(self):
-        raise AttributeError('Search object has no attribute \'full_art\'')
+        raise AttributeError('Autocomplete object has no attribute \'full_art\'')
 
     def border_color(self):
-        raise AttributeError('Search object has no attribute \'border_color\'')
+        raise AttributeError('Autocomplete object has no attribute \'border_color\'')
 
     def timeshifted(self):
-        raise AttributeError('Search object has no attribute \'timeshifted\'')
+        raise AttributeError('Autocomplete object has no attribute \'timeshifted\'')
 
     def colorshifted(self):
-        raise AttributeError('Search object has no attribute \'colorshifted\'')
+        raise AttributeError('Autocomplete object has no attribute \'colorshifted\'')
 
     def futureshifted(self):
-        raise AttributeError('Search object has no attribute \'futureshifted\'')
+        raise AttributeError('Autocomplete object has no attribute \'futureshifted\'')
 
     def edhrec_rank(self):
-        raise AttributeError('Search object has no attribute \'edhrec_rank\'')
+        raise AttributeError('Autocomplete object has no attribute \'edhrec_rank\'')
 
     def currency(self, mode):
-        raise AttributeError('Search object has no attribute \'currency(self,\'')
+        raise AttributeError('Autocomplete object has no attribute \'currency\'')
 
     def related_uris(self):
-        raise AttributeError('Search object has no attribute \'related_uris\'')
+        raise AttributeError('Autocomplete object has no attribute \'related_uris\'')
 
     def purchase_uris(self):
-        raise AttributeError('Search object has no attribute \'purchase_uris\'')
+        raise AttributeError('Autocomplete object has no attribute \'purchase_uris\'')
 
     def life_modifier(self):
-        raise AttributeError('Search object has no attribute \'life_modifier\'')
+        raise AttributeError('Autocomplete object has no attribute \'life_modifier\'')
 
     def hand_modifier(self):
-        raise AttributeError('Search object has no attribute \'hand_modifier\'')
+        raise AttributeError('Autocomplete object has no attribute \'hand_modifier\'')
 
     def color_indicator(self):
-        raise AttributeError('Search object has no attribute \'color_indicator\'')
+        raise AttributeError('Autocomplete object has no attribute \'color_indicator\'')
 
     def all_parts(self):
-        raise AttributeError('Search object has no attribute \'all_parts\'')
+        raise AttributeError('Autocomplete object has no attribute \'all_parts\'')
 
     def card_faces(self):
-        raise AttributeError('Search object has no attribute \'card_faces\'')
+        raise AttributeError('Autocomplete object has no attribute \'card_faces\'')
 
     def watermark(self):
-        raise AttributeError('Search object has no attribute \'watermark\'')
+        raise AttributeError('Autocomplete object has no attribute \'watermark\'')
 
-    def story_spotlight_number(self):
-        raise AttributeError('Search object has no attribute \'story_spotlight_number\'')
+    def story_spotlight(self):
+        raise AttributeError('Autocomplete object has no attribute \'story_spotlight\'')
 
-    def story_spotlight_uri(self):
-        raise AttributeError('Search object has no attribute \'story_spotlight_uri\'')
+    def power(self):
+        raise AttributeError('Autocomplete object has no attribute \'power\'')
+
+    def toughness(self):
+        raise AttributeError('Autocomplete object has no attribute \'toughness\'')
+
+    def loyalty(self):
+        raise AttributeError('Autocomplete object has no attribute \'loyalty\'')
+
+    def flavor_text(self):
+        raise AttributeError('Autocomplete object has no attribute \'flavor_text\'')
+
+    def arena_id(self):
+        raise AttributeError('Autocomplete object has no attribute \'arena_id\'')
+
+    def lang(self):
+        raise AttributeError('Autocomplete object has no attribute \'lang\'')
+
+    def printed_name(self):
+        raise AttributeError('Autocomplete object has no attribute \'printed_name\'')
+
+    def printed_type_line(self):
+        raise AttributeError('Autocomplete object has no attribute \'printed_type_line\'')
+
+    def printed_text(self):
+        raise AttributeError('Autocomplete object has no attribute \'printed_text\'')
+
+    def oracle_id(self):
+        raise AttributeError('Autocomplete object has no attribute \'oracle_id\'')
+
+    def nonfoil(self):
+        raise AttributeError('Autocomplete object has no attribute \'nonfoil\'')
+
+    def oversized(self):
+        raise AttributeError('Autocomplete object has no attribute \'oversized\'')

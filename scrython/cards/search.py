@@ -152,10 +152,10 @@ class Search(CardsObject):
         raise AttributeError('Search object has no attribute \'reprint\'')
 
     def set_code(self):
-        raise AttributeError('Search object has no attribute \'	def set_code\'')
+        raise AttributeError('Search object has no attribute \'set_code\'')
 
     def set_name(self):
-        raise AttributeError('Search object has no attribute \'	def set_name\'')
+        raise AttributeError('Search object has no attribute \'set_name\'')
 
     def set_uri(self):
         raise AttributeError('Search object has no attribute \'set_uri\'')
@@ -209,7 +209,7 @@ class Search(CardsObject):
         raise AttributeError('Search object has no attribute \'edhrec_rank\'')
 
     def currency(self, mode):
-        raise AttributeError('Search object has no attribute \'currency(self,\'')
+        raise AttributeError('Search object has no attribute \'currency\'')
 
     def related_uris(self):
         raise AttributeError('Search object has no attribute \'related_uris\'')
@@ -235,8 +235,41 @@ class Search(CardsObject):
     def watermark(self):
         raise AttributeError('Search object has no attribute \'watermark\'')
 
-    def story_spotlight_number(self):
-        raise AttributeError('Search object has no attribute \'story_spotlight_number\'')
+    def story_spotlight(self):
+        raise AttributeError('Search object has no attribute \'story_spotlight\'')
 
-    def story_spotlight_uri(self):
-        raise AttributeError('Search object has no attribute \'story_spotlight_uri\'')
+    def power(self):
+        raise AttributeError('Search object has no attribute \'power\'')
+
+    def toughness(self):
+        raise AttributeError('Search object has no attribute \'toughness\'')
+
+    def loyalty(self):
+        raise AttributeError('Search object has no attribute \'loyalty\'')
+
+    def flavor_text(self):
+        raise AttributeError('Search object has no attribute \'flavor_text\'')
+
+    def arena_id(self):
+        raise AttributeError('Search object has no attribute \'arena_id\'')
+
+    def lang(self):
+        raise AttributeError('Search object has no attribute \'lang\'')
+
+    def printed_name(self):
+        raise AttributeError('Search object has no attribute \'printed_name\'')
+
+    def printed_type_line(self):
+        raise AttributeError('Search object has no attribute \'printed_type_line\'')
+
+    def printed_text(self):
+        raise AttributeError('Search object has no attribute \'printed_text\'')
+
+    def oracle_id(self):
+        raise AttributeError('Search object has no attribute \'oracle_id\'')
+
+    def nonfoil(self):
+        raise AttributeError('Search object has no attribute \'nonfoil\'')
+
+    def oversized(self):
+        raise AttributeError('Search object has no attribute \'oversized\'')

@@ -67,8 +67,7 @@ class CardsObject(object):
         all_parts : list  ... This this card is closely related to other cards, this property will be an array with it.
         card_faces : list  ... If it exists, all parts found on a card's face will be found as an object from this array.
         watermark : str  ......... The associated watermark of the card, if any.
-        story_spotlight_number : int  ... This card's story spotlight number, if any.
-        story_spotlight_uri : str  ... The URI for the card's story article, if any.
+        story_spotlight : bool .... True if this card is featured in the story.
         power : str ................. The power of the creature, if applicable.
         toughness : str ......... The toughness of the creature, if applicable.
         flavor_text : str ................ The flavor text of the card, if any.
@@ -77,6 +76,11 @@ class CardsObject(object):
         printed_name : str .. If the card is in a non-English language, this will be the name as it appears on the card.
         printed_type_line : str .. If the card is in a non-English language, this will be the type line as it appears on the card.
         printed_text : str ... If the card is in a non-English language, this will be the rules text as it appears on the card.
+        oracle_id : str .............. A unique ID for this card's oracle text.
+        foil : bool ........... True if this printing exists in a foil version.
+        loyalty : str .... This card's loyalty. Some loyalties may be X rather than a number.
+        non_foil : bool ......... True if this printing does not exist in foil.
+        oversized : bool .......... True if this printing is an oversized card.
     """
     def __init__(self, _url, **kwargs):
 
@@ -359,15 +363,10 @@ class CardsObject(object):
 
         return self.scryfallJson['watermark']
 
-    def story_spotlight_number(self):
-        self._checkForKey('story_spotlight_number')
+    def story_spotlight(self):
+        self._checkForKey('story_spotlight')
 
-        return self.scryfallJson['story_spotlight_number']
-
-    def story_spotlight_uri(self):
-        self._checkForKey('story_spotlight_uri')
-
-        return self.scryfallJson['story_spotlight_uri']
+        return self.scryfallJson['story_spotlight']
 
     def power(self):
         self._checkForKey('power')
@@ -413,3 +412,18 @@ class CardsObject(object):
         self._checkForKey('printed_text')
 
         return self.scryfallJson['printed_text']
+
+    def oracle_id(self):
+        self._checkForKey('oracle_id')
+
+        return self.scryfallJson['oracle_id']
+
+    def nonfoil(self):
+        self._checkForKey('foil')
+
+        return self.scryfallJson['nonfoil']
+
+    def oversized(self):
+        self._checkForKey('oversized')
+
+        return self.scryfallJson['oversized']

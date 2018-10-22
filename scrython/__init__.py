@@ -36,3 +36,6 @@ from scrython.catalog import ArtistNames
 #Import symbology
 from scrython.symbology import ParseMana
 from scrython.symbology import Symbology
+
+#Import bulk-data
+from scrython.bulk_data import BulkData

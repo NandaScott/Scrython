@@ -10,3 +10,4 @@ from .spell_types import SpellTypes
 from .toughnesses import Toughnesses
 from .watermarks import Watermarks
 from .word_bank import WordBank
+from .artist_names import ArtistNames

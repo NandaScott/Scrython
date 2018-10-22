@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.0
+
+New stuff
+
+Changes
+- Scrython has been changed to use spaces rather than tabs.
+
+Bugfixes
+
 ## 1.5.0
 
 New stuff

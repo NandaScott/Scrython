@@ -26,7 +26,7 @@ class BulkData(object):
         bulk_content_type(num) : str ................ The MIME type of the file
         bulk_content_encoding(num) : str ............. The encoding of the file
     """
-    def __init__(self, _url, **kwargs):
+    def __init__(self, **kwargs):
 
         self._url = 'https://api.scryfall.com/bulk-data'
 
@@ -62,11 +62,6 @@ class BulkData(object):
 
         return self.scryfallJson['object']
 
-    def total_values(self):
-        self._checkForKey('total_values')
-
-        return self.scryfallJson['total_values']
-
     def has_more(self):
         self._checkForKey('has_more')
 
@@ -78,51 +73,61 @@ class BulkData(object):
         return self.scryfallJson['data']
 
     def bulk_object(self, num):
-        self._checkForTupleKey('data', num, 'bulk_object')
+        self._checkForTupleKey('data', num, 'object')
 
-        return self.scryfallJson['data'][num]['bulk_object']
+        return self.scryfallJson['data'][num]['object']
 
     def bulk_id(self, num):
-        self._checkForTupleKey('data', num, 'bulk_id')
+        self._checkForTupleKey('data', num, 'id')
 
-        return self.scryfallJson['data'][num]['bulk_id']
+        return self.scryfallJson['data'][num]['id']
 
     def bulk_type(self, num):
-        self._checkForTupleKey('data', num, 'bulk_type')
+        self._checkForTupleKey('data', num, 'type')
 
-        return self.scryfallJson['data'][num]['bulk_type']
+        return self.scryfallJson['data'][num]['type']
 
     def bulk_updated_at(self, num):
-        self._checkForTupleKey('data', num, 'bulk_updated_at')
+        self._checkForTupleKey('data', num, 'updated_at')
 
-        return self.scryfallJson['data'][num]['bulk_updated_at']
+        return self.scryfallJson['data'][num]['updated_at']
 
     def bulk_name(self, num):
-        self._checkForTupleKey('data', num, 'bulk_name')
+        self._checkForTupleKey('data', num, 'name')
 
-        return self.scryfallJson['data'][num]['bulk_name']
+        return self.scryfallJson['data'][num]['name']
 
     def bulk_description(self, num):
-        self._checkForTupleKey('data', num, 'bulk_description')
+        self._checkForTupleKey('data', num, 'description')
 
-        return self.scryfallJson['data'][num]['bulk_description']
+        return self.scryfallJson['data'][num]['description']
 
-    def bulk_compressed_size(self, num):
-        self._checkForTupleKey('data', num, 'bulk_compressed_size')
+    def bulk_compressed_size(self, num, human_readable=False):
+        self._checkForTupleKey('data', num, 'compressed_size')
 
-        return self.scryfallJson['data'][num]['bulk_compressed_size']
+        if human_readable:
+            before = self.scryfallJson['data'][num]['compressed_size']
+
+            for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']:
+                if abs(before) < 1024.0:
+                    return '%3.1f%s' % (before, unit)
+                before /= 1024.0
+
+            return '%.1f%s' % (before, 'YiB')
+
+        return self.scryfallJson['data'][num]['compressed_size']
 
     def bulk_permalink_uri(self, num):
-        self._checkForTupleKey('data', num, 'bulk_permalink_uri')
+        self._checkForTupleKey('data', num, 'permalink_uri')
 
-        return self.scryfallJson['data'][num]['bulk_permalink_uri']
+        return self.scryfallJson['data'][num]['permalink_uri']
 
     def bulk_content_type(self, num):
-        self._checkForTupleKey('data', num, 'bulk_content_type')
+        self._checkForTupleKey('data', num, 'content_type')
 
-        return self.scryfallJson['data'][num]['bulk_content_type']
+        return self.scryfallJson['data'][num]['content_type']
 
     def bulk_content_encoding(self, num):
-        self._checkForTupleKey('data', num, 'bulk_content_encoding')
+        self._checkForTupleKey('data', num, 'content_encoding')
 
-        return self.scryfallJson['data'][num]['bulk_content_encoding']
+        return self.scryfallJson['data'][num]['content_encoding']

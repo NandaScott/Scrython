@@ -6,6 +6,7 @@ from scrython.cards import Id, Autocomplete, Search, Collector
 import unittest
 import time
 
+# Cards for TestCardObjects
 mtgo_card = Id(id='e3285e6b-3e79-4d7c-bf96-d920f973b122'); time.sleep(0.1)
 non_online_card = Id(id='15016e8e-2f6b-4470-865a-ec13da3cb968'); time.sleep(0.1)
 arena_card = Id(id='5aa75f2b-53c5-47c5-96d2-ab796358a96f'); time.sleep(0.1)
@@ -15,6 +16,10 @@ transform = Id(id='aae6fb12-b252-453b-bca7-1ea2a0d6c8dc'); time.sleep(0.1)
 vanguard = Id(id='87c1234b-3834-4bba-bef2-05707bb1e8e2'); time.sleep(0.1)
 alt_lang_card = Collector(code='ths', collector_number='75', lang='ja'); time.sleep(0.1)
 planeswalker = Id(id='4c565076-5db2-47ea-8ee0-4a4fd7bb353d'); time.sleep(0.1)
+
+autocomplete = Autocomplete(q='Thal'); time.sleep(0.1)
+
+search = Search(q='f:commander')
 
 class TestCardObjects(unittest.TestCase):
 
@@ -199,7 +204,6 @@ class TestCardObjects(unittest.TestCase):
 
     def test_edhrec_rank(self):
         self.assertIsInstance(non_online_card.edhrec_rank(), int)
-        self.assertEqual(non_online_card.edhrec_rank(), 15314)
 
     def test_currency(self):
         self.assertIsInstance(non_online_card.currency('eur'), str)
@@ -372,9 +376,50 @@ class TestCardObjects(unittest.TestCase):
         self.assertIsInstance(non_online_card.oversized(), bool)
         self.assertEqual(non_online_card.oversized(), False)
 
+class TestAutocomplete(unittest.TestCase):
+
+    def test_object(self):
+        self.assertIsInstance(autocomplete.object(), str)
+        self.assertEqual(autocomplete.object(), 'catalog')
+
+    def test_total_items(self):
+        self.assertIsInstance(autocomplete.total_values(), int)
+
+    def test_data(self):
+        self.assertIsInstance(autocomplete.data(), list)
+
+    def test_errors(self):
+        self.assertRaises(AttributeError, autocomplete.id)
+
+class TestSearch(unittest.TestCase):
+
+    def test_object(self):
+        self.assertIsInstance(search.object(), str)
+        self.assertEqual(search.object(), 'list')
+
+    def test_total_cards(self):
+        self.assertIsInstance(search.total_cards(), int)
+
+    def test_data(self):
+        self.assertIsInstance(search.data(), list)
+
+    def test_has_more(self):
+        self.assertIsInstance(search.has_more(), bool)
+
+    def test_next_page(self):
+        self.assertIsInstance(search.next_page(), str)
+
+    def test_data_length(self):
+        self.assertIsInstance(search.data_length(), int)
+
+    def test_data_tuple(self):
+        self.assertIsInstance(search.data_tuple(0), dict)
+
 if __name__ == '__main__':
     test_classes_to_run = [
-        TestCardObjects
+        TestCardObjects,
+        TestSearch,
+        TestAutocomplete
     ]
 
     loader = unittest.TestLoader()

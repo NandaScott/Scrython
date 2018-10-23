@@ -6,16 +6,24 @@ class Autocomplete(CardsObject):
     cards/autocomplete
     Get a list of potential autocompletion phrases.
 
-    Positional arguments:
-        q : str ........... The query of the autocompletion.
-
-    Optional arguments:
-        Inherits arguments from CardsObject.
-
-    Attributes:
-        object : str ........ Returns what kind of object it is.
-        total_values : int ...... How many items are in the list.
-        data : list ....... The list of potential autocompletes.
+    Args:
+        q (string):
+            The query of the autocompletion.
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format,
+            this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify
+            if you want the small, normal, large, etc version of the image.
+        pretty (string, optional): 
+            Defaults to empty string.
+            Returns a prettier version of the json object. 
+            Note that this may break functionality with Scrython.
 
     Example usage:
         >>> auto = scrython.cards.Autocomplete(q="Thal")
@@ -25,210 +33,104 @@ class Autocomplete(CardsObject):
         if kwargs.get('q') is None:
             raise TypeError('No query provided to search by')
 
-        self.dict = {
-            'q': kwargs.get('q'),
-            'pretty': kwargs.get('pretty', 'false'),
-            'format': kwargs.get('format', 'json')
-            }
+        self.dict = { 'q': kwargs.get('q') }
 
         self.args = urllib.parse.urlencode(self.dict)
         self.url = 'cards/autocomplete?' + self.args
         super(Autocomplete, self).__init__(self.url)
 
+        # The following block of methods are not compatible with object returned from
+        # the cards/autocomplete endpoint. Doing it this way as to not repeat defining another
+        # getRequest function in the __init__. Will be refactored in the future.
+        del CardsObject.id
+        del CardsObject.multiverse_ids
+        del CardsObject.mtgo_id
+        del CardsObject.mtgo_foil_id
+        del CardsObject.name
+        del CardsObject.uri
+        del CardsObject.scryfall_uri
+        del CardsObject.layout
+        del CardsObject.highres_image
+        del CardsObject.image_uris
+        del CardsObject.cmc
+        del CardsObject.type_line
+        del CardsObject.oracle_text
+        del CardsObject.mana_cost
+        del CardsObject.colors
+        del CardsObject.color_identity
+        del CardsObject.legalities
+        del CardsObject.reserved
+        del CardsObject.reprint
+        del CardsObject.set_code
+        del CardsObject.set_name
+        del CardsObject.set_uri
+        del CardsObject.set_search_uri
+        del CardsObject.scryfall_set_uri
+        del CardsObject.rulings_uri
+        del CardsObject.prints_search_uri
+        del CardsObject.collector_number
+        del CardsObject.digital
+        del CardsObject.rarity
+        del CardsObject.illustration_id
+        del CardsObject.artist
+        del CardsObject.frame
+        del CardsObject.full_art
+        del CardsObject.border_color
+        del CardsObject.timeshifted
+        del CardsObject.colorshifted
+        del CardsObject.futureshifted
+        del CardsObject.edhrec_rank
+        del CardsObject.currency
+        del CardsObject.related_uris
+        del CardsObject.purchase_uris
+        del CardsObject.life_modifier
+        del CardsObject.hand_modifier
+        del CardsObject.color_indicator
+        del CardsObject.all_parts
+        del CardsObject.card_faces
+        del CardsObject.watermark
+        del CardsObject.story_spotlight
+        del CardsObject.power
+        del CardsObject.toughness
+        del CardsObject.loyalty
+        del CardsObject.flavor_text
+        del CardsObject.arena_id
+        del CardsObject.lang
+        del CardsObject.printed_name
+        del CardsObject.printed_type_line
+        del CardsObject.printed_text
+        del CardsObject.oracle_id
+        del CardsObject.foil
+        del CardsObject.nonfoil
+        del CardsObject.oversized
+
     def object(self):
+        """Returns the type of object it is.
+        (card, error, etc)
+        
+        Returns:
+            string: The type of object
+        """
         super(Autocomplete, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def total_values(self):
+        """How many items are returned in `data`
+        
+        Returns:
+            int: The number of items in the `data` key
+        """
         super(Autocomplete, self)._checkForKey('total_values')
 
         return self.scryfallJson['total_values']
 
     def data(self):
+        """The list of potential autocompletes
+        
+        Returns:
+            list: A list of possible corrections
+        """
         super(Autocomplete, self)._checkForKey('data')
 
         return self.scryfallJson['data']
-
-    #The following attributes are only to override the inherited class attributes.
-    #This class has no matching attributes but we still need the getRequest function from CardsObject
-
-    def id(self):
-        raise AttributeError('Autocomplete object has no attribute \'id\'')
-
-    def multiverse_ids(self):
-        raise AttributeError('Autocomplete object has no attribute \'multiverse_ids\'')
-
-    def mtgo_id(self):
-        raise AttributeError('Autocomplete object has no attribute \'mtgo_id\'')
-
-    def mtgo_foil_id(self):
-        raise AttributeError('Autocomplete object has no attribute \'mtgo_foil_id\'')
-
-    def name(self):
-        raise AttributeError('Autocomplete object has no attribute \'name\'')
-
-    def uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'uri\'')
-
-    def scryfall_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'scryfall_uri\'')
-
-    def layout(self):
-        raise AttributeError('Autocomplete object has no attribute \'layout\'')
-
-    def highres_image(self):
-        raise AttributeError('Autocomplete object has no attribute \'highres_image\'')
-
-    def image_uris(self):
-        raise AttributeError('Autocomplete object has no attribute \'image_uris\'')
-
-    def cmc(self):
-        raise AttributeError('Autocomplete object has no attribute \'cmc\'')
-
-    def type_line(self):
-        raise AttributeError('Autocomplete object has no attribute \'type_line\'')
-
-    def oracle_text(self):
-        raise AttributeError('Autocomplete object has no attribute \'oracle_text\'')
-
-    def mana_cost(self):
-        raise AttributeError('Autocomplete object has no attribute \'mana_cost\'')
-
-    def colors(self):
-        raise AttributeError('Autocomplete object has no attribute \'colors\'')
-
-    def color_identity(self):
-        raise AttributeError('Autocomplete object has no attribute \'color_identity\'')
-
-    def legalities(self):
-        raise AttributeError('Autocomplete object has no attribute \'legalities\'')
-
-    def reserved(self):
-        raise AttributeError('Autocomplete object has no attribute \'reserved\'')
-
-    def reprint(self):
-        raise AttributeError('Autocomplete object has no attribute \'reprint\'')
-
-    def set_code(self):
-        raise AttributeError('Autocomplete object has no attribute \'set_code\'')
-
-    def set_name(self):
-        raise AttributeError('Autocomplete object has no attribute \'set_name\'')
-
-    def set_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'set_uri\'')
-
-    def set_search_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'set_search_uri\'')
-
-    def scryfall_set_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'scryfall_set_uri\'')
-
-    def rulings_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'rulings_uri\'')
-
-    def prints_search_uri(self):
-        raise AttributeError('Autocomplete object has no attribute \'prints_search_uri\'')
-
-    def collector_number(self):
-        raise AttributeError('Autocomplete object has no attribute \'collector_number\'')
-
-    def digital(self):
-        raise AttributeError('Autocomplete object has no attribute \'digital\'')
-
-    def rarity(self):
-        raise AttributeError('Autocomplete object has no attribute \'rarity\'')
-
-    def illustration_id(self):
-        raise AttributeError('Autocomplete object has no attribute \'illustration_id\'')
-
-    def artist(self):
-        raise AttributeError('Autocomplete object has no attribute \'artist\'')
-
-    def frame(self):
-        raise AttributeError('Autocomplete object has no attribute \'frame\'')
-
-    def full_art(self):
-        raise AttributeError('Autocomplete object has no attribute \'full_art\'')
-
-    def border_color(self):
-        raise AttributeError('Autocomplete object has no attribute \'border_color\'')
-
-    def timeshifted(self):
-        raise AttributeError('Autocomplete object has no attribute \'timeshifted\'')
-
-    def colorshifted(self):
-        raise AttributeError('Autocomplete object has no attribute \'colorshifted\'')
-
-    def futureshifted(self):
-        raise AttributeError('Autocomplete object has no attribute \'futureshifted\'')
-
-    def edhrec_rank(self):
-        raise AttributeError('Autocomplete object has no attribute \'edhrec_rank\'')
-
-    def currency(self, mode):
-        raise AttributeError('Autocomplete object has no attribute \'currency\'')
-
-    def related_uris(self):
-        raise AttributeError('Autocomplete object has no attribute \'related_uris\'')
-
-    def purchase_uris(self):
-        raise AttributeError('Autocomplete object has no attribute \'purchase_uris\'')
-
-    def life_modifier(self):
-        raise AttributeError('Autocomplete object has no attribute \'life_modifier\'')
-
-    def hand_modifier(self):
-        raise AttributeError('Autocomplete object has no attribute \'hand_modifier\'')
-
-    def color_indicator(self):
-        raise AttributeError('Autocomplete object has no attribute \'color_indicator\'')
-
-    def all_parts(self):
-        raise AttributeError('Autocomplete object has no attribute \'all_parts\'')
-
-    def card_faces(self):
-        raise AttributeError('Autocomplete object has no attribute \'card_faces\'')
-
-    def watermark(self):
-        raise AttributeError('Autocomplete object has no attribute \'watermark\'')
-
-    def story_spotlight(self):
-        raise AttributeError('Autocomplete object has no attribute \'story_spotlight\'')
-
-    def power(self):
-        raise AttributeError('Autocomplete object has no attribute \'power\'')
-
-    def toughness(self):
-        raise AttributeError('Autocomplete object has no attribute \'toughness\'')
-
-    def loyalty(self):
-        raise AttributeError('Autocomplete object has no attribute \'loyalty\'')
-
-    def flavor_text(self):
-        raise AttributeError('Autocomplete object has no attribute \'flavor_text\'')
-
-    def arena_id(self):
-        raise AttributeError('Autocomplete object has no attribute \'arena_id\'')
-
-    def lang(self):
-        raise AttributeError('Autocomplete object has no attribute \'lang\'')
-
-    def printed_name(self):
-        raise AttributeError('Autocomplete object has no attribute \'printed_name\'')
-
-    def printed_type_line(self):
-        raise AttributeError('Autocomplete object has no attribute \'printed_type_line\'')
-
-    def printed_text(self):
-        raise AttributeError('Autocomplete object has no attribute \'printed_text\'')
-
-    def oracle_id(self):
-        raise AttributeError('Autocomplete object has no attribute \'oracle_id\'')
-
-    def nonfoil(self):
-        raise AttributeError('Autocomplete object has no attribute \'nonfoil\'')
-
-    def oversized(self):
-        raise AttributeError('Autocomplete object has no attribute \'oversized\'')

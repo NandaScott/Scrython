@@ -43,6 +43,7 @@ class Search(CardsObject):
             'unique':kwargs.get('unique', 'none'),
             'dir':kwargs.get('dir', 'none'),
             'include_extras':kwargs.get('include_extras', 'false'),
+            'include_multilingual':kwargs.get('include_multilingual', 'false'),
             'page':kwargs.get('page', '1')
             }
 
@@ -70,11 +71,6 @@ class Search(CardsObject):
         super(Search, self)._checkForKey('next_page')
 
         return self.scryfallJson['next_page']
-
-    def warnings(self):
-        super(Search, self)._checkForKey('warnings')
-
-        return self.scryfallJson['warnings']
 
     def data_length(self):
         super(Search, self)._checkForKey('data')

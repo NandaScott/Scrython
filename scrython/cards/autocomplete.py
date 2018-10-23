@@ -14,7 +14,7 @@ class Autocomplete(CardsObject):
 
     Attributes:
         object : str ........ Returns what kind of object it is.
-        total_items : int ...... How many items are in the list.
+        total_values : int ...... How many items are in the list.
         data : list ....... The list of potential autocompletes.
 
     Example usage:
@@ -40,10 +40,10 @@ class Autocomplete(CardsObject):
 
         return self.scryfallJson['object']
 
-    def total_items(self):
-        super(Autocomplete, self)._checkForKey('total_items')
+    def total_values(self):
+        super(Autocomplete, self)._checkForKey('total_values')
 
-        return self.scryfallJson['total_items']
+        return self.scryfallJson['total_values']
 
     def data(self):
         super(Autocomplete, self)._checkForKey('data')

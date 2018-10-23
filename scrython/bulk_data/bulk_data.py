@@ -110,10 +110,10 @@ class BulkData(object):
 
             for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']:
                 if abs(before) < 1024.0:
-                    return '%3.1f%s' % (before, unit)
+                    return '{:3.1f}{}'.format(before, unit)
                 before /= 1024.0
 
-            return '%.1f%s' % (before, 'YiB')
+            return '{:.1f}{}'.format(before, 'YiB')
 
         return self.scryfallJson['data'][num]['compressed_size']
 

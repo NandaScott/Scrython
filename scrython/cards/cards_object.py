@@ -285,7 +285,7 @@ class CardsObject(object):
         return self.scryfallJson['frame']
 
     def full_art(self):
-        self._checkForKey('')
+        self._checkForKey('full_art')
 
         return self.scryfallJson['full_art']
 
@@ -343,10 +343,10 @@ class CardsObject(object):
 
         return self.scryfallJson['hand_modifier']
 
-    def color_indicator(self):
-        self._checkForKey('color_indicator')
+    def color_indicator(self, num):
+        self._checkForTupleKey('card_faces', num, 'color_indicator')
 
-        return self.scryfallJson['color_indicator']
+        return self.scryfallJson['card_faces'][num]['color_indicator']
 
     def all_parts(self):
         self._checkForKey('all_parts')
@@ -418,8 +418,13 @@ class CardsObject(object):
 
         return self.scryfallJson['oracle_id']
 
-    def nonfoil(self):
+    def foil(self):
         self._checkForKey('foil')
+
+        return self.scryfallJson['foil']
+
+    def nonfoil(self):
+        self._checkForKey('nonfoil')
 
         return self.scryfallJson['nonfoil']
 

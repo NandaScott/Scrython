@@ -1,9 +1,12 @@
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 import aiohttp
 import asyncio
 import urllib.parse
 from threading import Thread
 
-class CardsObject(object):
+class CardsObject(FoundationObject):
     """
     Master class that all card objects inherit from.
 
@@ -70,64 +73,6 @@ class CardsObject(object):
         non_foil : bool ......... True if this printing does not exist in foil.
         oversized : bool .......... True if this printing is an oversized card.
     """
-    def __init__(self, _url, **kwargs):
-
-        self.params = {
-            'format': kwargs.get('format', 'json'), 'face': kwargs.get('face', ''),
-            'version': kwargs.get('version', ''), 'pretty': kwargs.get('pretty', '')
-        }
-
-        self.encodedParams = urllib.parse.urlencode(self.params)
-        self._url = 'https://api.scryfall.com/{0}&{1}'.format(_url, self.encodedParams)
-
-        async def getRequest(client, url, **kwargs):
-            async with client.get(url, **kwargs) as response:
-                return await response.json()
-
-        async def main(loop):
-            async with aiohttp.ClientSession(loop=loop) as client:
-                self.scryfallJson = await getRequest(client, self._url)
-
-        def do_everything():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(main(loop))
-
-        t = Thread(target=do_everything)
-        t.run()
-
-        if self.scryfallJson['object'] == 'error':
-            raise Exception(self.scryfallJson['details'])
-
-    def _checkForKey(self, key):
-        """Checks for a key in the scryfallJson object.
-        This function should be considered private, and
-        should not be accessed in production.
-        
-        Args:
-            key (string): The key to check
-        
-        Raises:
-            KeyError: If key is not found.
-        """
-        if not key in self.scryfallJson:
-            raise KeyError('This card has no key \'{}\''.format(key))
-
-    def _checkForTupleKey(self, parent, num, key):
-        """Checks for a key of an object in an array.
-        This function should be considered private, and
-        should not be accessed in production.
-        
-        Args:
-            parent (string): The key for the array to be accessed
-            num (int): The index of the array
-            key (string): The key to check
-        
-        Raises:
-            KeyError: If key is not found.
-        """
-        if not key in self.scryfallJson[parent][num]:
-            raise KeyError('This tuple has no key \'{}\''.format(key))
 
     def object(self):
         """Returns the type of object it is
@@ -136,7 +81,7 @@ class CardsObject(object):
         Returns:
             string: The type of object
         """
-        self._checkForKey('object')
+        super(CardsObject, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
@@ -146,7 +91,7 @@ class CardsObject(object):
         Returns:
             string: The scryfall id of the card
         """
-        self._checkForKey('id')
+        super(CardsObject, self)._checkForKey('id')
 
         return self.scryfallJson['id']
 
@@ -156,7 +101,7 @@ class CardsObject(object):
         Returns:
             list: The associated multiverse ids of the card
         """
-        self._checkForKey('multiverse_ids')
+        super(CardsObject, self)._checkForKey('multiverse_ids')
 
         return self.scryfallJson['multiverse_ids']
 
@@ -166,7 +111,7 @@ class CardsObject(object):
         Returns:
             integer: The Magic Online id of the card
         """
-        self._checkForKey('mtgo_id')
+        super(CardsObject, self)._checkForKey('mtgo_id')
 
         return self.scryfallJson['mtgo_id']
 
@@ -176,7 +121,7 @@ class CardsObject(object):
         Returns:
             integer: The Magic Online foil id of the card
         """
-        self._checkForKey('mtgo_foil_id')
+        super(CardsObject, self)._checkForKey('mtgo_foil_id')
 
         return self.scryfallJson['mtgo_foil_id']
 
@@ -186,7 +131,7 @@ class CardsObject(object):
         Returns:
             string: The card name
         """
-        self._checkForKey('name')
+        super(CardsObject, self)._checkForKey('name')
 
         return self.scryfallJson['name']
 
@@ -196,7 +141,7 @@ class CardsObject(object):
         Returns:
             string: An API uri for the card
         """
-        self._checkForKey('uri')
+        super(CardsObject, self)._checkForKey('uri')
 
         return self.scryfallJson['uri']
 
@@ -207,7 +152,7 @@ class CardsObject(object):
         Returns:
             string: The Scryfall URL for the card
         """
-        self._checkForKey('scryfall_uri')
+        super(CardsObject, self)._checkForKey('scryfall_uri')
 
         return self.scryfallJson['scryfall_uri']
 
@@ -217,7 +162,7 @@ class CardsObject(object):
         Returns:
             string: The card layout
         """
-        self._checkForKey('layout')
+        super(CardsObject, self)._checkForKey('layout')
 
         return self.scryfallJson['layout']
 
@@ -227,7 +172,7 @@ class CardsObject(object):
         Returns:
             boolean: True if card has a highres image available
         """
-        self._checkForKey('highres_image')
+        super(CardsObject, self)._checkForKey('highres_image')
 
         return self.scryfallJson['highres_image']
 
@@ -237,7 +182,7 @@ class CardsObject(object):
         Returns:
             dict: The dictionary of image uris
         """
-        self._checkForKey('image_uris')
+        super(CardsObject, self)._checkForKey('image_uris')
 
         return self.scryfallJson['image_uris']
 
@@ -247,142 +192,142 @@ class CardsObject(object):
         Returns:
             float: The cmc of the card
         """
-        self._checkForKey('cmc')
+        super(CardsObject, self)._checkForKey('cmc')
 
         return self.scryfallJson['cmc']
 
     def type_line(self):
-        self._checkForKey('type_line')
+        super(CardsObject, self)._checkForKey('type_line')
 
         return self.scryfallJson['type_line']
 
     def oracle_text(self):
-        self._checkForKey('oracle_text')
+        super(CardsObject, self)._checkForKey('oracle_text')
 
         return self.scryfallJson['oracle_text']
 
     def mana_cost(self):
-        self._checkForKey('mana_cost')
+        super(CardsObject, self)._checkForKey('mana_cost')
 
         return self.scryfallJson['mana_cost']
 
     def colors(self):
-        self._checkForKey('colors')
+        super(CardsObject, self)._checkForKey('colors')
 
         return self.scryfallJson['colors']
 
     def color_identity(self):
-        self._checkForKey('color_identity')
+        super(CardsObject, self)._checkForKey('color_identity')
 
         return self.scryfallJson['color_identity']
 
     def legalities(self):
-        self._checkForKey('legalities')
+        super(CardsObject, self)._checkForKey('legalities')
 
         return self.scryfallJson['legalities']
 
     def reserved(self):
-        self._checkForKey('reserved')
+        super(CardsObject, self)._checkForKey('reserved')
 
         return self.scryfallJson['reserved']
 
     def reprint(self):
-        self._checkForKey('reprint')
+        super(CardsObject, self)._checkForKey('reprint')
 
         return self.scryfallJson['reprint']
 
     def set_code(self):
-        self._checkForKey('set')
+        super(CardsObject, self)._checkForKey('set')
 
         return self.scryfallJson['set']
 
     def set_name(self):
-        self._checkForKey('set_name')
+        super(CardsObject, self)._checkForKey('set_name')
 
         return self.scryfallJson['set_name']
 
     def set_uri(self):
-        self._checkForKey('set_uri')
+        super(CardsObject, self)._checkForKey('set_uri')
 
         return self.scryfallJson['set_uri']
 
     def set_search_uri(self):
-        self._checkForKey('set_search_uri')
+        super(CardsObject, self)._checkForKey('set_search_uri')
 
         return self.scryfallJson['set_search_uri']
 
     def scryfall_set_uri(self):
-        self._checkForKey('scryfall_set_uri')
+        super(CardsObject, self)._checkForKey('scryfall_set_uri')
 
         return self.scryfallJson['scryfall_set_uri']
 
     def rulings_uri(self):
-        self._checkForKey('rulings_uri')
+        super(CardsObject, self)._checkForKey('rulings_uri')
 
         return self.scryfallJson['rulings_uri']
 
     def prints_search_uri(self):
-        self._checkForKey('prints_search_uri')
+        super(CardsObject, self)._checkForKey('prints_search_uri')
 
         return self.scryfallJson['prints_search_uri']
 
     def collector_number(self):
-        self._checkForKey('collector_number')
+        super(CardsObject, self)._checkForKey('collector_number')
 
         return self.scryfallJson['collector_number']
 
     def digital(self):
-        self._checkForKey('digital')
+        super(CardsObject, self)._checkForKey('digital')
 
         return self.scryfallJson['digital']
 
     def rarity(self):
-        self._checkForKey('rarity')
+        super(CardsObject, self)._checkForKey('rarity')
 
         return self.scryfallJson['rarity']
 
     def illustration_id(self):
-        self._checkForKey('illustration_id')
+        super(CardsObject, self)._checkForKey('illustration_id')
 
         return self.scryfallJson['illustration_id']
 
     def artist(self):
-        self._checkForKey('artist')
+        super(CardsObject, self)._checkForKey('artist')
 
         return self.scryfallJson['artist']
 
     def frame(self):
-        self._checkForKey('frame')
+        super(CardsObject, self)._checkForKey('frame')
 
         return self.scryfallJson['frame']
 
     def full_art(self):
-        self._checkForKey('full_art')
+        super(CardsObject, self)._checkForKey('full_art')
 
         return self.scryfallJson['full_art']
 
     def border_color(self):
-        self._checkForKey('border_color')
+        super(CardsObject, self)._checkForKey('border_color')
 
         return self.scryfallJson['border_color']
 
     def timeshifted(self):
-        self._checkForKey('timeshifted')
+        super(CardsObject, self)._checkForKey('timeshifted')
 
         return self.scryfallJson['timeshifted']
 
     def colorshifted(self):
-        self._checkForKey('colorshifted')
+        super(CardsObject, self)._checkForKey('colorshifted')
 
         return self.scryfallJson['colorshifted']
 
     def futureshifted(self):
-        self._checkForKey('futureshifted')
+        super(CardsObject, self)._checkForKey('futureshifted')
 
         return self.scryfallJson['futureshifted']
 
     def edhrec_rank(self):
-        self._checkForKey('edhrec_rank')
+        super(CardsObject, self)._checkForKey('edhrec_rank')
 
         return self.scryfallJson['edhrec_rank']
 
@@ -391,27 +336,27 @@ class CardsObject(object):
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
 
-        self._checkForKey(mode)
+        super(CardsObject, self)._checkForKey(mode)
 
         return self.scryfallJson[mode]
 
     def related_uris(self):
-        self._checkForKey('related_uris')
+        super(CardsObject, self)._checkForKey('related_uris')
 
         return self.scryfallJson['related_uris']
 
     def purchase_uris(self):
-        self._checkForKey('purchase_uris')
+        super(CardsObject, self)._checkForKey('purchase_uris')
 
         return self.scryfallJson['purchase_uris']
 
     def life_modifier(self):
-        self._checkForKey('life_modifier')
+        super(CardsObject, self)._checkForKey('life_modifier')
 
         return self.scryfallJson['life_modifier']
 
     def hand_modifier(self):
-        self._checkForKey('hand_modifier')
+        super(CardsObject, self)._checkForKey('hand_modifier')
 
         return self.scryfallJson['hand_modifier']
 
@@ -421,86 +366,86 @@ class CardsObject(object):
         return self.scryfallJson['card_faces'][num]['color_indicator']
 
     def all_parts(self):
-        self._checkForKey('all_parts')
+        super(CardsObject, self)._checkForKey('all_parts')
 
         return self.scryfallJson['all_parts']
 
     def card_faces(self):
-        self._checkForKey('card_faces')
+        super(CardsObject, self)._checkForKey('card_faces')
 
         return self.scryfallJson['card_faces']
 
     def watermark(self):
-        self._checkForKey('watermark')
+        super(CardsObject, self)._checkForKey('watermark')
 
         return self.scryfallJson['watermark']
 
     def story_spotlight(self):
-        self._checkForKey('story_spotlight')
+        super(CardsObject, self)._checkForKey('story_spotlight')
 
         return self.scryfallJson['story_spotlight']
 
     def power(self):
-        self._checkForKey('power')
+        super(CardsObject, self)._checkForKey('power')
 
         return self.scryfallJson['power']
 
     def toughness(self):
-        self._checkForKey('toughness')
+        super(CardsObject, self)._checkForKey('toughness')
 
         return self.scryfallJson['toughness']
 
     def loyalty(self):
-        self._checkForKey('loyalty')
+        super(CardsObject, self)._checkForKey('loyalty')
 
         return self.scryfallJson['loyalty']
 
     def flavor_text(self):
-        self._checkForKey('flavor_text')
+        super(CardsObject, self)._checkForKey('flavor_text')
 
         return self.scryfallJson['flavor_text']
 
     def arena_id(self):
-        self._checkForKey('arena_id')
+        super(CardsObject, self)._checkForKey('arena_id')
 
         return self.scryfallJson['arena_id']
 
     def lang(self):
-        self._checkForKey('lang')
+        super(CardsObject, self)._checkForKey('lang')
 
         return self.scryfallJson['lang']
 
     def printed_name(self):
-        self._checkForKey('printed_name')
+        super(CardsObject, self)._checkForKey('printed_name')
 
         return self.scryfallJson['printed_name']
 
     def printed_type_line(self):
-        self._checkForKey('printed_type_line')
+        super(CardsObject, self)._checkForKey('printed_type_line')
 
         return self.scryfallJson['printed_type_line']
 
     def printed_text(self):
-        self._checkForKey('printed_text')
+        super(CardsObject, self)._checkForKey('printed_text')
 
         return self.scryfallJson['printed_text']
 
     def oracle_id(self):
-        self._checkForKey('oracle_id')
+        super(CardsObject, self)._checkForKey('oracle_id')
 
         return self.scryfallJson['oracle_id']
 
     def foil(self):
-        self._checkForKey('foil')
+        super(CardsObject, self)._checkForKey('foil')
 
         return self.scryfallJson['foil']
 
     def nonfoil(self):
-        self._checkForKey('nonfoil')
+        super(CardsObject, self)._checkForKey('nonfoil')
 
         return self.scryfallJson['nonfoil']
 
     def oversized(self):
-        self._checkForKey('oversized')
+        super(CardsObject, self)._checkForKey('oversized')
 
         return self.scryfallJson['oversized']

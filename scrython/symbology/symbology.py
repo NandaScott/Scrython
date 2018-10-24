@@ -1,6 +1,8 @@
-from .symbology_object import SymbologyObject
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 
-class Symbology(SymbologyObject):
+class Symbology(FoundationObject):
     """
     /symbology
 

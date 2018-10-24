@@ -1,6 +1,8 @@
-from .symbology_object import SymbologyObject
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 
-class ParseMana(SymbologyObject):
+class ParseMana(FoundationObject):
     """
     symbology/parse-mana
 

@@ -1,9 +1,12 @@
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 import asyncio
 import aiohttp
 import urllib.parse
 from threading import Thread
 
-class SetsObject(object):
+class SetsObject(FoundationObject):
     """
     The master class for all sets objects.
 
@@ -30,30 +33,6 @@ class SetsObject(object):
         icon_svg_uri : str ................  A URI to the SVG of the set symbol.
         search_uri : str .................. The scryfall API url for the search.
     """
-    def __init__(self, _url, **kwargs):
-        self.params = {'format': kwargs.get('format', 'json'), 'pretty': kwargs.get('pretty', '')}
-
-        self.encodedParams = urllib.parse.urlencode(self.params)
-        self._url = 'https://api.scryfall.com/{0}&{1}'.format(_url, self.encodedParams)
-
-        async def getRequest(client, url, **kwargs):
-            async with client.get(url, **kwargs) as response:
-                return await response.json()
-
-        async def main(loop):
-            async with aiohttp.ClientSession(loop=loop) as client:
-                self.scryfallJson = await getRequest(client, self._url)
-
-        def do_everything():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(main(loop))
-
-        t = Thread(target=do_everything)
-        t.run()
-
-        if self.scryfallJson['object'] == 'error':
-            raise Exception(self.scryfallJson['details'])
 
     def _checkForKey(self, key):
         if not key in self.scryfallJson:

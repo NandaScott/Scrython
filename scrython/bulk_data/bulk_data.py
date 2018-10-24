@@ -1,9 +1,12 @@
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 import asyncio
 import aiohttp
 import urllib.parse
 from threading import Thread
 
-class BulkData(object):
+class BulkData(FoundationObject):
     """
     /bulk-data
     Queries and creates an object relating to the /bulk-data endpoint.
@@ -18,26 +21,8 @@ class BulkData(object):
     """
     def __init__(self, **kwargs):
 
-        self._url = 'https://api.scryfall.com/bulk-data'
-
-        async def getRequest(client, url, **kwargs):
-            async with client.get(url, **kwargs) as response:
-                return await response.json()
-
-        async def main(loop):
-            async with aiohttp.ClientSession(loop=loop) as client:
-                self.scryfallJson = await getRequest(client, self._url)
-
-        def do_everything():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(main(loop))
-
-        t = Thread(target=do_everything)
-        t.run()
-
-        if self.scryfallJson['object'] == 'error':
-            raise Exception(self.scryfallJson['details'])
+        self.url = 'https://api.scryfall.com/bulk-data'
+        super(BulkData, self).__init__(self.url, True)
 
     def _checkForKey(self, key):
         """Checks for a key in the scryfallJson object.

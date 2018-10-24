@@ -1,7 +1,10 @@
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 from .cards_object import CardsObject
 import urllib.parse
 
-class Search(CardsObject):
+class Search(FoundationObject):
     """
     cards/search
     Uses a search query to gather relevant data.
@@ -69,71 +72,6 @@ class Search(CardsObject):
         self.url = 'cards/search?' + self.args
 
         super(Search, self).__init__(self.url)
-
-        # The following block of methods are not compatible with object returned from
-        # the cards/autocomplete endpoint. Doing it this way as to not repeat defining another
-        # getRequest function in the __init__. Will be refactored in the future.
-        del CardsObject.id
-        del CardsObject.multiverse_ids
-        del CardsObject.mtgo_id
-        del CardsObject.mtgo_foil_id
-        del CardsObject.name
-        del CardsObject.uri
-        del CardsObject.scryfall_uri
-        del CardsObject.layout
-        del CardsObject.highres_image
-        del CardsObject.image_uris
-        del CardsObject.cmc
-        del CardsObject.type_line
-        del CardsObject.oracle_text
-        del CardsObject.mana_cost
-        del CardsObject.colors
-        del CardsObject.color_identity
-        del CardsObject.legalities
-        del CardsObject.reserved
-        del CardsObject.reprint
-        del CardsObject.set_code
-        del CardsObject.set_name
-        del CardsObject.set_uri
-        del CardsObject.set_search_uri
-        del CardsObject.scryfall_set_uri
-        del CardsObject.rulings_uri
-        del CardsObject.prints_search_uri
-        del CardsObject.collector_number
-        del CardsObject.digital
-        del CardsObject.rarity
-        del CardsObject.illustration_id
-        del CardsObject.artist
-        del CardsObject.frame
-        del CardsObject.full_art
-        del CardsObject.border_color
-        del CardsObject.timeshifted
-        del CardsObject.colorshifted
-        del CardsObject.futureshifted
-        del CardsObject.edhrec_rank
-        del CardsObject.currency
-        del CardsObject.related_uris
-        del CardsObject.purchase_uris
-        del CardsObject.life_modifier
-        del CardsObject.hand_modifier
-        del CardsObject.color_indicator
-        del CardsObject.all_parts
-        del CardsObject.card_faces
-        del CardsObject.watermark
-        del CardsObject.story_spotlight
-        del CardsObject.power
-        del CardsObject.toughness
-        del CardsObject.loyalty
-        del CardsObject.flavor_text
-        del CardsObject.arena_id
-        del CardsObject.lang
-        del CardsObject.printed_name
-        del CardsObject.printed_type_line
-        del CardsObject.printed_text
-        del CardsObject.oracle_id
-        del CardsObject.foil
-        del CardsObject.nonfoil
-        del CardsObject.oversized
 
     def object(self):
         """Returns the type of object it is.

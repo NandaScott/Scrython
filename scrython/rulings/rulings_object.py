@@ -53,8 +53,15 @@ class RulingsObject(FoundationObject):
 
         return self.scryfallJson['has_more']
 
-    def data(self):
+    def data(self, index=None, key=None):
         self._checkForKey('data')
+
+        if index is not None:
+            if key is not None:
+                self._checkForTupleKey('data', index, key)
+                return self.scryfallJson['data'][index][key]
+
+            return self.scryfallJson['data'][index]
 
         return self.scryfallJson['data']
 

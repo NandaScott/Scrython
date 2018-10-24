@@ -171,7 +171,8 @@ class BulkData(FoundationObject):
             human_readable (bool, optional): Defaults to False. Converts the bytes into a human readable format
         
         Returns:
-            integer or string: Returns integer by default. If human_readable is True, returns a string.
+            integer: Returns integer by default. 
+            string: If human_readable is True, returns a string.
         """
         self._checkForTupleKey('data', num, 'compressed_size')
 

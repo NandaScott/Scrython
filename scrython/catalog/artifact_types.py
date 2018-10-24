@@ -6,15 +6,6 @@ class ArtifactTypes(CatalogsObject):
 
     Catalog object for all known artifact types
 
-    Positional Arguments:
-        No arguments are required.
-
-    Optional Arguments:
-        All arguments are inherited from CatalogsObject
-
-    Attributes:
-        All attributes are inherited from CatalogsObject
-
     Example usage:
         >>> catalog = scrython.catalog.ArtifactTypes()
         >>> catalog.data()

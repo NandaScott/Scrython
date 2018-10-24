@@ -6,14 +6,25 @@ class Random(CardsObject):
     cards/random
     Get a random card.
 
-    Positional arguments:
-        No arguments are required.
+    Args:
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format,
+            this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify
+            if you want the small, normal, large, etc version of the image.
+        pretty (string, optional): 
+            Defaults to empty string.
+            Returns a prettier version of the json object. 
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        All arguments are inherited from CardsObject
-
-    Attributes:
-        All attributes are inherited from CardsObject
+    Raises:
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.Random()

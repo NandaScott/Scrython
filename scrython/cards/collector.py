@@ -5,17 +5,15 @@ class Collector(CardsObject):
     cards/collector
     Get a card by collector number.
 
-    Positional arguments:
-        code : str ....................... This is the 3 letter code for the set
-        collector_number : str ........ This is the collector number of the card
+    Args:
+        code (string): This is the 3 letter code for the set
+        collector_number (string): This is the collector number of the card
+        lang (string, optional): Defaults to 'en'. A 2-3 character language code.
 
-    Optional arguments:
-        Inherits all arguments from CardsObject
-
-        lang : str ............................... A 2-3 character language code
-
-    Attributes:
-        Inherits all attributes from CardsObject
+    Raises:
+        Exception: If the 'code' parameter is not provided.
+        Exception: If the 'collector_number' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.Collector(code='exo', collector_number='96')
@@ -23,7 +21,9 @@ class Collector(CardsObject):
     """
     def __init__(self, **kwargs):
         if kwargs.get('code') is None:
-            raise TypeError('No code provided to search by')
+            raise Exception('No code provided to search by')
+        elif kwargs.get('collector_number') is None:
+            raise Exception('No collector number provided to search by')
 
         self.url = 'cards/{}/{}/{}?'.format(
             kwargs.get('code'),

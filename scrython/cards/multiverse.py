@@ -5,14 +5,27 @@ class Multiverse(CardsObject):
     cards/multiverse
     Get a card by Multiverse id
 
-    Positional arguments:
-        id : str ....... This is the associated multiverse id of the given card.
+    Args:
+        id (string):
+            The Multiverse Id of the card.
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the small, normal,
+            large, etc version of the image.
+        pretty (string, optional):
+            Defaults to empty string.
+            Returns a prettier version of the json object.
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        Inherits all arguments from CardsObject
-
-    Attributes:
-        Inherits all attributes from CardsObject
+    Raises:
+        Exception: If the 'id' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.Multiverse(id='96865')

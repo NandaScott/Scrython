@@ -6,23 +6,40 @@ class Named(CardsObject):
     cards/named
     Gets a card by the name.
 
-    Positional arguments:
-        fuzzy : str ................ Uses the fuzzy parameter for the card name.
-        or
-        exact : str ................ Uses the exact parameter for the card name.
+    Args:
+        fuzzy (string): Uses the fuzzy parameter for the card name.
+        exact (string): Uses the exact parameter for the card name.
+        set (string, optional):
+            Defaults to empty string.
+            Returns the set of the card if specified.
+            Requires the 3 letter set code.
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the small, normal,
+            large, etc version of the image.
+        pretty (string, optional):
+            Defaults to empty string.
+            Returns a prettier version of the json object.
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        set : str . Returns the set of the card if specified. Requires the 3 letter set code.
-        All arguments are inherited from CardsObject
-
-    Attributes:
-        All attributes are inherited from CardsObject
+    Raises:
+        Exception: If the 'fuzzy' or 'exact' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.Named(exact="Black Lotus")
         >>> card.colors()
     """
     def __init__(self, **kwargs):
+        if kwargs.get('exact') is None or kwargs.get('fuzzy') is None:
+            raise Exception('You must provide a `fuzzy` or `exact` parameter.')
+
         self.dict = {
             'set':kwargs.get('set', '')
         }

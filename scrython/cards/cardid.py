@@ -5,14 +5,27 @@ class Id(CardsObject):
     cards/id
     Get a card by the Scryfall id.
 
-    Positional arguments:
-        id : str ....................... The Scryfall Id of the card.
+    Args:
+        id (string):
+            The Scryfall Id of the card.
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the small, normal,
+            large, etc version of the image.
+        pretty (string, optional):
+            Defaults to empty string.
+            Returns a prettier version of the json object.
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        Inherits all arguments from CardsObject.
-
-    Attributes:
-        All attributes are inherited from CardsObject.
+    Raises:
+        Exception: If the 'id' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.Id(id="5386a61c-4928-4bd1-babe-5b089ab8b2d9")
@@ -20,7 +33,7 @@ class Id(CardsObject):
     """
     def __init__(self, **kwargs):
         if kwargs.get('id') is None:
-            raise TypeError('No id provided to search by')
+            raise Exception('No id provided to search by')
 
         self.url = 'cards/{}?'.format(str(kwargs.get('id')))
         super(Id, self).__init__(self.url)

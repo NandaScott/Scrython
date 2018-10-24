@@ -19,18 +19,6 @@ class CardsObject(object):
         pretty : str ... Returns a prettier version of the json object. Note that
                           this may break functionality with Scrython.
     Attributes:
-        object : str  ..... Returns the type of object it is. (card, error, etc)
-        id : str  ................................. The scryfall id of the card.
-        multiverse_ids : list  ...... The associated multiverse ids of the card.
-        mtgo_id : int  ........................ The Magic Online id of the card.
-        mtgo_foil_id : int  .............. The Magic Online foil id of the card.
-        name : str  ................................. The full name of the card.
-        uri : str  .......................... The Scryfall API uri for the card.
-        scryfall_uri : str  ................ The full Scryfall page of the card.
-        layout : str  ... The image layout of the card. (normal, transform, etc)
-        highres_image : bool  ... Returns True if the card has a high res image.
-        image_uris : dict  .... All image uris of the card in various qualities.
-        cmc : float  ........... A float of the converted mana cost of the card.
         type_line : str  ....................... The full type line of the card.
         oracle_text : str  ................. The official oracle text of a card.
         mana_cost : str  .... The full mana cost using shorthanded mana symbols.
@@ -112,69 +100,153 @@ class CardsObject(object):
             raise Exception(self.scryfallJson['details'])
 
     def _checkForKey(self, key):
+        """Checks for a key in the scryfallJson object.
+        This function should be considered private, and
+        should not be accessed in production.
+        
+        Args:
+            key (string): The key to check
+        
+        Raises:
+            KeyError: If key is not found.
+        """
         if not key in self.scryfallJson:
             raise KeyError('This card has no key \'{}\''.format(key))
 
     def _checkForTupleKey(self, parent, num, key):
+        """Checks for a key of an object in an array.
+        This function should be considered private, and
+        should not be accessed in production.
+        
+        Args:
+            parent (string): The key for the array to be accessed
+            num (int): The index of the array
+            key (string): The key to check
+        
+        Raises:
+            KeyError: If key is not found.
+        """
         if not key in self.scryfallJson[parent][num]:
             raise KeyError('This tuple has no key \'{}\''.format(key))
 
     def object(self):
+        """Returns the type of object it is
+        (card, error, etc)
+        
+        Returns:
+            string: The type of object
+        """
         self._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def id(self):
+        """A unique ID for the returned card object
+        
+        Returns:
+            string: The scryfall id of the card
+        """
         self._checkForKey('id')
 
         return self.scryfallJson['id']
 
     def multiverse_ids(self):
+        """The official Gatherer multiverse ids of the card
+        
+        Returns:
+            list: The associated multiverse ids of the card
+        """
         self._checkForKey('multiverse_ids')
 
         return self.scryfallJson['multiverse_ids']
 
     def mtgo_id(self):
+        """The official MTGO id of the of the card
+        
+        Returns:
+            integer: The Magic Online id of the card
+        """
         self._checkForKey('mtgo_id')
 
         return self.scryfallJson['mtgo_id']
 
     def mtgo_foil_id(self):
+        """The corresponding MTGO foil ID of the card
+        
+        Returns:
+            integer: The Magic Online foil id of the card
+        """
         self._checkForKey('mtgo_foil_id')
 
         return self.scryfallJson['mtgo_foil_id']
 
     def name(self):
+        """The oracle name of the card
+        
+        Returns:
+            string: The card name
+        """
         self._checkForKey('name')
 
         return self.scryfallJson['name']
 
     def uri(self):
+        """The Scryfall API uri for the card
+        
+        Returns:
+            string: An API uri for the card
+        """
         self._checkForKey('uri')
 
         return self.scryfallJson['uri']
 
     def scryfall_uri(self):
+        """The full Scryfall page of the card
+        As if it was a URL from the site.
+        
+        Returns:
+            string: The Scryfall URL for the card
+        """
         self._checkForKey('scryfall_uri')
 
         return self.scryfallJson['scryfall_uri']
 
     def layout(self):
+        """The image layout of the card. (normal, transform, etc)
+        
+        Returns:
+            string: The card layout
+        """
         self._checkForKey('layout')
 
         return self.scryfallJson['layout']
 
     def highres_image(self):
+        """Determine if a card has a highres scan available
+        
+        Returns:
+            boolean: True if card has a highres image available
+        """
         self._checkForKey('highres_image')
 
         return self.scryfallJson['highres_image']
 
     def image_uris(self):
+        """All image uris of the card in various qualities
+        
+        Returns:
+            dict: The dictionary of image uris
+        """
         self._checkForKey('image_uris')
 
         return self.scryfallJson['image_uris']
 
     def cmc(self):
+        """A float of the converted mana cost of the card
+        
+        Returns:
+            float: The cmc of the card
+        """
         self._checkForKey('cmc')
 
         return self.scryfallJson['cmc']

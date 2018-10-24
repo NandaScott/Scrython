@@ -25,13 +25,17 @@ class Autocomplete(CardsObject):
             Returns a prettier version of the json object. 
             Note that this may break functionality with Scrython.
 
+    Raises:
+        Exception: If the 'q' parameter is not provided.
+        Exception: If the object returned is an error.
+
     Example usage:
         >>> auto = scrython.cards.Autocomplete(q="Thal")
         >>> auto.total_items()
     """
     def __init__(self, **kwargs):
         if kwargs.get('q') is None:
-            raise TypeError('No query provided to search by')
+            raise Exception('No query provided to search by')
 
         self.dict = { 'q': kwargs.get('q') }
 

@@ -7,7 +7,7 @@ class ArenaId(CardsObject):
 
     Args:
         id (string):
-            The Scryfall Id of the card.
+            The Arena Id of the card.
         format (string, optional):
             Defaults to 'json'.
             Returns data in the specified method.
@@ -23,8 +23,9 @@ class ArenaId(CardsObject):
             Returns a prettier version of the json object.
             Note that this may break functionality with Scrython.
 
-    Attributes:
-        All attributes are inherited from CardsObject.
+    Raises:
+        Exception: If the 'id' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> card = scrython.cards.ArenaId(id="66975")
@@ -32,7 +33,7 @@ class ArenaId(CardsObject):
     """
     def __init__(self, **kwargs):
         if kwargs.get('id') is None:
-            raise TypeError('No id provided to search by')
+            raise Exception('No id provided to search by')
 
         self.url = 'cards/arena/{}?'.format(str(kwargs.get('id')))
         super(ArenaId, self).__init__(self.url)

@@ -6,28 +6,46 @@ class Search(CardsObject):
     cards/search
     Uses a search query to gather relevant data.
 
-    Positional arguments:
-        q : str ...... The query to search. This will be updated in the future.
+    Args:
+        q (string):
+            The query to search. This will be updated in the future.
+        order (string, optional):
+            Defaults to 'none'
+            The order you'd like the data returned.
+        unique (string, optional):
+            Defaults to 'none'
+            A way to filter similar cards.
+        dir (string, optional)
+            Defaults to 'none'
+            The direction you'd like to sort. (asc, desc, auto)
+        include_extras (boolean, optional): 
+            Defaults to 'false'
+            Includes cards that are normally omitted from search results, like Un-sets.
+        include_multilingual (boolean, optional):
+            Defaults to 'false'
+            Includes cards that are in the language specified. (en, ja, etc).
+        page (integer, optional):
+            Defaults to '1'
+            The page number you'd like to search, if any.
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format,
+            this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify
+            if you want the small, normal, large, etc version of the image.
+        pretty (string, optional): 
+            Defaults to empty string.
+            Returns a prettier version of the json object. 
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        order : str ................... The order you'd like the data returned.
-        unique : str ........................... A way to filter similar cards.
-        dir : str ......... The direction you'd like to sort. (asc, desc, auto)
-        include_extras : bool ... Includes cards that are normally omitted from
-                                  search results, like Un-sets.
-        page : int .............. The page number you'd like to search, if any.
-        Inherits all arguments from CardsObject.
-
-    Attributes:
-        object : str ....................... Returns what kind of object it is.
-        total_cards : int ......... How many cards are returned from the query.
-        data : list ...................... The list of potential autocompletes.
-        has_more : bool ......... True if there is more than 1 page of results.
-        next_page : str ............ The API URI to the next page of the query.
-        warnings : list .................. Provides an array of errors, if any.
-        data_length : int .................... The length of the data returned.
-        data_tuple : dict .......... Accesses an object at the specified index.
-
+    Raises:
+        Exception: If the 'q' parameter is not provided.
+        Exception: If the object returned is an error.
 
     Example usage:
         >>> search = scrython.cards.Search(q="++e:A25", order="spoiled")
@@ -35,7 +53,7 @@ class Search(CardsObject):
     """
     def __init__(self, **kwargs):
         if kwargs.get('q') is None:
-            raise TypeError('No query is specified.')
+            raise Exception('No query is specified.')
 
         self.dict = {
             'q':kwargs.get('q'),
@@ -52,220 +70,141 @@ class Search(CardsObject):
 
         super(Search, self).__init__(self.url)
 
+        # The following block of methods are not compatible with object returned from
+        # the cards/autocomplete endpoint. Doing it this way as to not repeat defining another
+        # getRequest function in the __init__. Will be refactored in the future.
+        del CardsObject.id
+        del CardsObject.multiverse_ids
+        del CardsObject.mtgo_id
+        del CardsObject.mtgo_foil_id
+        del CardsObject.name
+        del CardsObject.uri
+        del CardsObject.scryfall_uri
+        del CardsObject.layout
+        del CardsObject.highres_image
+        del CardsObject.image_uris
+        del CardsObject.cmc
+        del CardsObject.type_line
+        del CardsObject.oracle_text
+        del CardsObject.mana_cost
+        del CardsObject.colors
+        del CardsObject.color_identity
+        del CardsObject.legalities
+        del CardsObject.reserved
+        del CardsObject.reprint
+        del CardsObject.set_code
+        del CardsObject.set_name
+        del CardsObject.set_uri
+        del CardsObject.set_search_uri
+        del CardsObject.scryfall_set_uri
+        del CardsObject.rulings_uri
+        del CardsObject.prints_search_uri
+        del CardsObject.collector_number
+        del CardsObject.digital
+        del CardsObject.rarity
+        del CardsObject.illustration_id
+        del CardsObject.artist
+        del CardsObject.frame
+        del CardsObject.full_art
+        del CardsObject.border_color
+        del CardsObject.timeshifted
+        del CardsObject.colorshifted
+        del CardsObject.futureshifted
+        del CardsObject.edhrec_rank
+        del CardsObject.currency
+        del CardsObject.related_uris
+        del CardsObject.purchase_uris
+        del CardsObject.life_modifier
+        del CardsObject.hand_modifier
+        del CardsObject.color_indicator
+        del CardsObject.all_parts
+        del CardsObject.card_faces
+        del CardsObject.watermark
+        del CardsObject.story_spotlight
+        del CardsObject.power
+        del CardsObject.toughness
+        del CardsObject.loyalty
+        del CardsObject.flavor_text
+        del CardsObject.arena_id
+        del CardsObject.lang
+        del CardsObject.printed_name
+        del CardsObject.printed_type_line
+        del CardsObject.printed_text
+        del CardsObject.oracle_id
+        del CardsObject.foil
+        del CardsObject.nonfoil
+        del CardsObject.oversized
+
     def object(self):
+        """Returns the type of object it is.
+        (card, error, etc)
+        
+        Returns:
+            string: The type of object
+        """
         super(Search, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def total_cards(self):
+        """How many cards are returned from the query
+        
+        Returns:
+            integer: The number of cards returned
+        """
         super(Search, self)._checkForKey('total_cards')
 
         return self.scryfallJson['total_cards']
 
     def data(self):
+        """The data returned from the query
+        
+        Returns:
+            list: A list of card objects
+        """
         super(Search, self)._checkForKey('data')
 
         return self.scryfallJson['data']
 
     def next_page(self):
+        """The API URI to the next page of the query
+        
+        Returns:
+            string: A URI to the next page of the query
+        """
         super(Search, self)._checkForKey('next_page')
 
         return self.scryfallJson['next_page']
 
     def data_length(self):
+        """
+        
+        Returns:
+            integer: The length of data returned
+        """
         super(Search, self)._checkForKey('data')
 
         return len(self.scryfallJson['data'])
 
     def data_tuple(self, num):
+        """Accesses an object at the specified index
+        
+        Args:
+            num (int): The index of the object in the `data` key
+        
+        Returns:
+            dict: The card object at the specified index
+        """
         super(Search, self)._checkForKey('data')
 
         return self.scryfallJson['data'][num]
 
     def has_more(self):
+        """Determines if there are more pages of results.
+        
+        Returns:
+            boolean: True if there is more than 1 page of results
+        """
         super(Search, self)._checkForKey('has_more')
 
         return self.scryfallJson['has_more']
-
-    #The following attributes are only to override the inherited class attributes.
-    #This class has no matching attributes but we still need the getRequest function from CardsObject
-
-    def id(self):
-        raise AttributeError('Search object has no attribute \'id\'')
-
-    def multiverse_ids(self):
-        raise AttributeError('Search object has no attribute \'multiverse_ids\'')
-
-    def mtgo_id(self):
-        raise AttributeError('Search object has no attribute \'mtgo_id\'')
-
-    def mtgo_foil_id(self):
-        raise AttributeError('Search object has no attribute \'mtgo_foil_id\'')
-
-    def name(self):
-        raise AttributeError('Search object has no attribute \'name\'')
-
-    def uri(self):
-        raise AttributeError('Search object has no attribute \'uri\'')
-
-    def scryfall_uri(self):
-        raise AttributeError('Search object has no attribute \'scryfall_uri\'')
-
-    def layout(self):
-        raise AttributeError('Search object has no attribute \'layout\'')
-
-    def highres_image(self):
-        raise AttributeError('Search object has no attribute \'highres_image\'')
-
-    def image_uris(self):
-        raise AttributeError('Search object has no attribute \'image_uris\'')
-
-    def cmc(self):
-        raise AttributeError('Search object has no attribute \'cmc\'')
-
-    def type_line(self):
-        raise AttributeError('Search object has no attribute \'type_line\'')
-
-    def oracle_text(self):
-        raise AttributeError('Search object has no attribute \'oracle_text\'')
-
-    def mana_cost(self):
-        raise AttributeError('Search object has no attribute \'mana_cost\'')
-
-    def colors(self):
-        raise AttributeError('Search object has no attribute \'colors\'')
-
-    def color_identity(self):
-        raise AttributeError('Search object has no attribute \'color_identity\'')
-
-    def legalities(self):
-        raise AttributeError('Search object has no attribute \'legalities\'')
-
-    def reserved(self):
-        raise AttributeError('Search object has no attribute \'reserved\'')
-
-    def reprint(self):
-        raise AttributeError('Search object has no attribute \'reprint\'')
-
-    def set_code(self):
-        raise AttributeError('Search object has no attribute \'set_code\'')
-
-    def set_name(self):
-        raise AttributeError('Search object has no attribute \'set_name\'')
-
-    def set_uri(self):
-        raise AttributeError('Search object has no attribute \'set_uri\'')
-
-    def set_search_uri(self):
-        raise AttributeError('Search object has no attribute \'set_search_uri\'')
-
-    def scryfall_set_uri(self):
-        raise AttributeError('Search object has no attribute \'scryfall_set_uri\'')
-
-    def rulings_uri(self):
-        raise AttributeError('Search object has no attribute \'rulings_uri\'')
-
-    def prints_search_uri(self):
-        raise AttributeError('Search object has no attribute \'prints_search_uri\'')
-
-    def collector_number(self):
-        raise AttributeError('Search object has no attribute \'collector_number\'')
-
-    def digital(self):
-        raise AttributeError('Search object has no attribute \'digital\'')
-
-    def rarity(self):
-        raise AttributeError('Search object has no attribute \'rarity\'')
-
-    def illustration_id(self):
-        raise AttributeError('Search object has no attribute \'illustration_id\'')
-
-    def artist(self):
-        raise AttributeError('Search object has no attribute \'artist\'')
-
-    def frame(self):
-        raise AttributeError('Search object has no attribute \'frame\'')
-
-    def full_art(self):
-        raise AttributeError('Search object has no attribute \'full_art\'')
-
-    def border_color(self):
-        raise AttributeError('Search object has no attribute \'border_color\'')
-
-    def timeshifted(self):
-        raise AttributeError('Search object has no attribute \'timeshifted\'')
-
-    def colorshifted(self):
-        raise AttributeError('Search object has no attribute \'colorshifted\'')
-
-    def futureshifted(self):
-        raise AttributeError('Search object has no attribute \'futureshifted\'')
-
-    def edhrec_rank(self):
-        raise AttributeError('Search object has no attribute \'edhrec_rank\'')
-
-    def currency(self, mode):
-        raise AttributeError('Search object has no attribute \'currency\'')
-
-    def related_uris(self):
-        raise AttributeError('Search object has no attribute \'related_uris\'')
-
-    def purchase_uris(self):
-        raise AttributeError('Search object has no attribute \'purchase_uris\'')
-
-    def life_modifier(self):
-        raise AttributeError('Search object has no attribute \'life_modifier\'')
-
-    def hand_modifier(self):
-        raise AttributeError('Search object has no attribute \'hand_modifier\'')
-
-    def color_indicator(self):
-        raise AttributeError('Search object has no attribute \'color_indicator\'')
-
-    def all_parts(self):
-        raise AttributeError('Search object has no attribute \'all_parts\'')
-
-    def card_faces(self):
-        raise AttributeError('Search object has no attribute \'card_faces\'')
-
-    def watermark(self):
-        raise AttributeError('Search object has no attribute \'watermark\'')
-
-    def story_spotlight(self):
-        raise AttributeError('Search object has no attribute \'story_spotlight\'')
-
-    def power(self):
-        raise AttributeError('Search object has no attribute \'power\'')
-
-    def toughness(self):
-        raise AttributeError('Search object has no attribute \'toughness\'')
-
-    def loyalty(self):
-        raise AttributeError('Search object has no attribute \'loyalty\'')
-
-    def flavor_text(self):
-        raise AttributeError('Search object has no attribute \'flavor_text\'')
-
-    def arena_id(self):
-        raise AttributeError('Search object has no attribute \'arena_id\'')
-
-    def lang(self):
-        raise AttributeError('Search object has no attribute \'lang\'')
-
-    def printed_name(self):
-        raise AttributeError('Search object has no attribute \'printed_name\'')
-
-    def printed_type_line(self):
-        raise AttributeError('Search object has no attribute \'printed_type_line\'')
-
-    def printed_text(self):
-        raise AttributeError('Search object has no attribute \'printed_text\'')
-
-    def oracle_id(self):
-        raise AttributeError('Search object has no attribute \'oracle_id\'')
-
-    def nonfoil(self):
-        raise AttributeError('Search object has no attribute \'nonfoil\'')
-
-    def oversized(self):
-        raise AttributeError('Search object has no attribute \'oversized\'')

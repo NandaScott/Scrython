@@ -388,9 +388,6 @@ class TestAutocomplete(unittest.TestCase):
     def test_data(self):
         self.assertIsInstance(autocomplete.data(), list)
 
-    def test_errors(self):
-        self.assertRaises(AttributeError, autocomplete.id)
-
 class TestSearch(unittest.TestCase):
 
     def test_object(self):

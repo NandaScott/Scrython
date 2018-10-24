@@ -7,68 +7,24 @@ class CardsObject(object):
     """
     Master class that all card objects inherit from.
 
-    Positional arguments:
-        No positional arguments are required.
+    Args:
+        format (string, optional):
+            Defaults to 'json'.
+            Returns data in the specified method.
+        face (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            Defaults to empty string.
+            If you're using the `image` format, this will specify if you want the small, normal,
+            large, etc version of the image.
+        pretty (string, optional):
+            Defaults to empty string.
+            Returns a prettier version of the json object.
+            Note that this may break functionality with Scrython.
 
-    Optional arguments:
-        format : str ... Returns data in the specified method. Defaults to JSON.
-        face : str ... If you're using the `image` format, this will specify if
-                        you want the front or back face.
-        version : str ... If you're using the `image` format, this will specify if
-                        you want the small, normal, large, etc version of the image.
-        pretty : str ... Returns a prettier version of the json object. Note that
-                          this may break functionality with Scrython.
-    Attributes:
-        type_line : str  ....................... The full type line of the card.
-        oracle_text : str  ................. The official oracle text of a card.
-        mana_cost : str  .... The full mana cost using shorthanded mana symbols.
-        colors : list  ... An array of strings with all colors found in the mana cost.
-        color_identity : list  ... An array of strings with all colors found on the card itself.
-        legalities : dict  ..... A dictionary of all formats and their legality.
-        reserved : bool  ..... Returns True if the card is on the reserved list.
-        reprint : bool  .... Returns True if the card has been reprinted before.
-        set_code : str  ............. The 3 letter code for the set of the card.
-        set_name : str  ................. The full name for the set of the card.
-        set_uri : str  .......... The API uri for the full set list of the card.
-        set_search_uri : str  .......................... Same output as set_uri.
-        scryfall_set_uri : str  .......... The full link to the set on Scryfall.
-        rulings_uri : str  ............ The API uri for the rulings of the card.
-        prints_search_uri : str  ... A link to where you can begin paginating all re/prints for this card on Scryfall’s API.
-        collector_number : str  .............. The collector number of the card.
-        digital : bool  ....... Returns True if the card is the digital version.
-        rarity : str  .................................. The rarity of the card.
-        illuStringation_id : str  .............. The related id of the card art.
-        artist : str  .................................. The artist of the card.
-        frame : str  ............................... The year of the card frame.
-        full_art : bool  ...... Returns True if the card is considered full art.
-        border_color : str  ...................... The color of the card border.
-        timeshifted : bool  ........... Returns True if the card is timeshifted.
-        colorshifted : bool  ......... Returns True if the card is colorshifted.
-        futureshifted : bool  ....... Returns True if the card is futureshifted.
-        edhrec_rank : int  .................. The rank of the card on edhrec.com
-        currency("<mode>")` : str  ...  Returns currency from modes `usd`, `eur`, and `tix`.
-        related_uris : dict  ... A dictionary of related websites for this card.
-        purchase_uris : dict  ...... A dictionary of links to purchase the card.
-        life_modifier : str  ... This is the cards life modifier value, assuming it's a Vanguard card.
-        hand_modifier : str  ... This cards hand modifier value, assuming it's a Vanguard card.
-        color_indicator : list  ... An array of all colors found in this card's color indicator.
-        all_parts : list  ... This this card is closely related to other cards, this property will be an array with it.
-        card_faces : list  ... If it exists, all parts found on a card's face will be found as an object from this array.
-        watermark : str  ......... The associated watermark of the card, if any.
-        story_spotlight : bool .... True if this card is featured in the story.
-        power : str ................. The power of the creature, if applicable.
-        toughness : str ......... The toughness of the creature, if applicable.
-        flavor_text : str ................ The flavor text of the card, if any.
-        arena_id : int ...................... The Arena ID of the card, if any.
-        lang : str ... The language of the card.
-        printed_name : str .. If the card is in a non-English language, this will be the name as it appears on the card.
-        printed_type_line : str .. If the card is in a non-English language, this will be the type line as it appears on the card.
-        printed_text : str ... If the card is in a non-English language, this will be the rules text as it appears on the card.
-        oracle_id : str .............. A unique ID for this card's oracle text.
-        foil : bool ........... True if this printing exists in a foil version.
-        loyalty : str .... This card's loyalty. Some loyalties may be X rather than a number.
-        non_foil : bool ......... True if this printing does not exist in foil.
-        oversized : bool .......... True if this printing is an oversized card.
+    Raises:
+        Exception: If the object returned is an error.
     """
     def __init__(self, _url, **kwargs):
 
@@ -114,13 +70,13 @@ class CardsObject(object):
             raise KeyError('This card has no key \'{}\''.format(key))
 
     def _checkForTupleKey(self, parent, num, key):
-        """Checks for a key of an object in an array.
+        """Checks for a key of an object in an list.
         This function should be considered private, and
         should not be accessed in production.
         
         Args:
-            parent (string): The key for the array to be accessed
-            num (int): The index of the array
+            parent (string): The key for the list to be accessed
+            num (int): The index of the list
             key (string): The key to check
         
         Raises:
@@ -134,7 +90,7 @@ class CardsObject(object):
         (card, error, etc)
         
         Returns:
-            string: The type of object
+            string
         """
         self._checkForKey('object')
 
@@ -144,7 +100,7 @@ class CardsObject(object):
         """A unique ID for the returned card object
         
         Returns:
-            string: The scryfall id of the card
+            string
         """
         self._checkForKey('id')
 
@@ -154,7 +110,7 @@ class CardsObject(object):
         """The official Gatherer multiverse ids of the card
         
         Returns:
-            list: The associated multiverse ids of the card
+            list
         """
         self._checkForKey('multiverse_ids')
 
@@ -184,7 +140,7 @@ class CardsObject(object):
         """The oracle name of the card
         
         Returns:
-            string: The card name
+            string
         """
         self._checkForKey('name')
 
@@ -194,7 +150,7 @@ class CardsObject(object):
         """The Scryfall API uri for the card
         
         Returns:
-            string: An API uri for the card
+            string
         """
         self._checkForKey('uri')
 
@@ -205,7 +161,7 @@ class CardsObject(object):
         As if it was a URL from the site.
         
         Returns:
-            string: The Scryfall URL for the card
+            string
         """
         self._checkForKey('scryfall_uri')
 
@@ -215,7 +171,7 @@ class CardsObject(object):
         """The image layout of the card. (normal, transform, etc)
         
         Returns:
-            string: The card layout
+            string
         """
         self._checkForKey('layout')
 
@@ -225,7 +181,7 @@ class CardsObject(object):
         """Determine if a card has a highres scan available
         
         Returns:
-            boolean: True if card has a highres image available
+            boolean
         """
         self._checkForKey('highres_image')
 
@@ -235,7 +191,7 @@ class CardsObject(object):
         """All image uris of the card in various qualities
         
         Returns:
-            dict: The dictionary of image uris
+            dict
         """
         self._checkForKey('image_uris')
 
@@ -252,141 +208,287 @@ class CardsObject(object):
         return self.scryfallJson['cmc']
 
     def type_line(self):
+        """The full type line of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('type_line')
 
         return self.scryfallJson['type_line']
 
     def oracle_text(self):
+        """The official oracle text of a card
+        
+        Returns:
+            string
+        """
         self._checkForKey('oracle_text')
 
         return self.scryfallJson['oracle_text']
 
     def mana_cost(self):
+        """The full mana cost using shorthanded mana symbols
+        
+        Returns:
+            string
+        """
         self._checkForKey('mana_cost')
 
         return self.scryfallJson['mana_cost']
 
     def colors(self):
+        """A list of strings with all colors found in the mana cost
+        
+        Returns:
+            list
+        """
         self._checkForKey('colors')
 
         return self.scryfallJson['colors']
 
     def color_identity(self):
+        """A list of strings with all colors found on the card itself
+        
+        Returns:
+            list
+        """
         self._checkForKey('color_identity')
 
         return self.scryfallJson['color_identity']
 
     def legalities(self):
+        """A dictionary of all formats and their legality
+        
+        Returns:
+            dict
+        """
         self._checkForKey('legalities')
 
         return self.scryfallJson['legalities']
 
     def reserved(self):
+        """Returns True if the card is on the reserved list
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('reserved')
 
         return self.scryfallJson['reserved']
 
     def reprint(self):
+        """Returns True if the card has been reprinted before
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('reprint')
 
         return self.scryfallJson['reprint']
 
     def set_code(self):
+        """The 3 letter code for the set of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('set')
 
         return self.scryfallJson['set']
 
     def set_name(self):
+        """The full name for the set of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('set_name')
 
         return self.scryfallJson['set_name']
 
     def set_uri(self):
+        """The API uri for the full set list of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('set_uri')
 
         return self.scryfallJson['set_uri']
 
     def set_search_uri(self):
+        """Same output as set_uri
+        
+        Returns:
+            string
+        """
         self._checkForKey('set_search_uri')
 
         return self.scryfallJson['set_search_uri']
 
     def scryfall_set_uri(self):
+        """The full link to the set on Scryfall
+        
+        Returns:
+            string
+        """
         self._checkForKey('scryfall_set_uri')
 
         return self.scryfallJson['scryfall_set_uri']
 
     def rulings_uri(self):
+        """The API uri for the rulings of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('rulings_uri')
 
         return self.scryfallJson['rulings_uri']
 
     def prints_search_uri(self):
+        """A link to where you can begin paginating all re/prints for this card on Scryfall’s API
+        
+        Returns:
+            string
+        """
         self._checkForKey('prints_search_uri')
 
         return self.scryfallJson['prints_search_uri']
 
     def collector_number(self):
+        """The collector number of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('collector_number')
 
         return self.scryfallJson['collector_number']
 
     def digital(self):
+        """Returns True if the card is the digital version
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('digital')
 
         return self.scryfallJson['digital']
 
     def rarity(self):
+        """The rarity of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('rarity')
 
         return self.scryfallJson['rarity']
 
     def illustration_id(self):
+        """The related id of the card art
+        
+        Returns:
+            string
+        """
         self._checkForKey('illustration_id')
 
         return self.scryfallJson['illustration_id']
 
     def artist(self):
+        """The artist of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('artist')
 
         return self.scryfallJson['artist']
 
     def frame(self):
+        """The year of the card frame
+        
+        Returns:
+            string
+        """
         self._checkForKey('frame')
 
         return self.scryfallJson['frame']
 
     def full_art(self):
+        """Returns True if the card is considered full art
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('full_art')
 
         return self.scryfallJson['full_art']
 
     def border_color(self):
+        """The color of the card border
+        
+        Returns:
+            string
+        """
         self._checkForKey('border_color')
 
         return self.scryfallJson['border_color']
 
     def timeshifted(self):
+        """Returns True if the card is timeshifted
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('timeshifted')
 
         return self.scryfallJson['timeshifted']
 
     def colorshifted(self):
+        """Returns True if the card is colorshifted
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('colorshifted')
 
         return self.scryfallJson['colorshifted']
 
     def futureshifted(self):
+        """Returns True if the card is futureshifted
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('futureshifted')
 
         return self.scryfallJson['futureshifted']
 
     def edhrec_rank(self):
+        """The rank of the card on edhrec.co
+        
+        Returns:
+            int: The rank of the card on edhrec.co
+        """
         self._checkForKey('edhrec_rank')
 
         return self.scryfallJson['edhrec_rank']
 
     def currency(self, mode):
+        """Returns currency from modes `usd`, `eur`, and `tix`
+        
+        Args:
+            mode (string): The currency to get
+        
+        Raises:
+            KeyError: If the mode parameter does not match a known key
+        
+        Returns:
+            float: The currency as a float
+        """
         modes = ['usd', 'eur', 'tix']
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
@@ -396,111 +498,221 @@ class CardsObject(object):
         return self.scryfallJson[mode]
 
     def related_uris(self):
+        """A dictionary of related websites for this card
+        
+        Returns:
+            dict
+        """
         self._checkForKey('related_uris')
 
         return self.scryfallJson['related_uris']
 
     def purchase_uris(self):
+        """A dictionary of links to purchase the card
+        
+        Returns:
+            dict
+        """
         self._checkForKey('purchase_uris')
 
         return self.scryfallJson['purchase_uris']
 
     def life_modifier(self):
+        """This is the cards life modifier value, assuming it's a Vanguard card
+        
+        Returns:
+            string
+        """
         self._checkForKey('life_modifier')
 
         return self.scryfallJson['life_modifier']
 
     def hand_modifier(self):
+        """This cards hand modifier value, assuming it's a Vanguard card
+        
+        Returns:
+            string
+        """
         self._checkForKey('hand_modifier')
 
         return self.scryfallJson['hand_modifier']
 
     def color_indicator(self, num):
+        """An list of all colors found in this card's color indicator
+        
+        Returns:
+            list
+        """
         self._checkForTupleKey('card_faces', num, 'color_indicator')
 
         return self.scryfallJson['card_faces'][num]['color_indicator']
 
     def all_parts(self):
+        """This this card is closely related to other cards, this property will be an list with it
+        
+        Returns:
+            list
+        """
         self._checkForKey('all_parts')
 
         return self.scryfallJson['all_parts']
 
     def card_faces(self):
+        """If it exists, all parts found on a card's face will be found as an object from this list
+        
+        Returns:
+            list
+        """
         self._checkForKey('card_faces')
 
         return self.scryfallJson['card_faces']
 
     def watermark(self):
+        """The associated watermark of the card, if any
+        
+        Returns:
+            string
+        """
         self._checkForKey('watermark')
 
         return self.scryfallJson['watermark']
 
     def story_spotlight(self):
+        """True if this card is featured in the story
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('story_spotlight')
 
         return self.scryfallJson['story_spotlight']
 
     def power(self):
+        """The power of the creature, if applicable
+        
+        Returns:
+            string
+        """
         self._checkForKey('power')
 
         return self.scryfallJson['power']
 
     def toughness(self):
+        """The toughness of the creature, if applicable
+        
+        Returns:
+            string
+        """
         self._checkForKey('toughness')
 
         return self.scryfallJson['toughness']
 
-    def loyalty(self):
-        self._checkForKey('loyalty')
-
-        return self.scryfallJson['loyalty']
-
     def flavor_text(self):
+        """The flavor text of the card, if any
+        
+        Returns:
+            string
+        """
         self._checkForKey('flavor_text')
 
         return self.scryfallJson['flavor_text']
 
     def arena_id(self):
+        """The Arena ID of the card, if any
+        
+        Returns:
+            int: The Arena ID of the card, if any
+        """
         self._checkForKey('arena_id')
 
         return self.scryfallJson['arena_id']
 
     def lang(self):
+        """The language of the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('lang')
 
         return self.scryfallJson['lang']
 
     def printed_name(self):
+        """If the card is in a non-English language, this will be the name as it appears on the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('printed_name')
 
         return self.scryfallJson['printed_name']
 
     def printed_type_line(self):
+        """If the card is in a non-English language, this will be the type line as it appears on the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('printed_type_line')
 
         return self.scryfallJson['printed_type_line']
 
     def printed_text(self):
+        """If the card is in a non-English language, this will be the rules text as it appears on the card
+        
+        Returns:
+            string
+        """
         self._checkForKey('printed_text')
 
         return self.scryfallJson['printed_text']
 
     def oracle_id(self):
+        """A unique ID for this card's oracle text
+        
+        Returns:
+            string
+        """
         self._checkForKey('oracle_id')
 
         return self.scryfallJson['oracle_id']
 
     def foil(self):
+        """True if this printing exists in a foil version
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('foil')
 
         return self.scryfallJson['foil']
 
+    def loyalty(self):
+        """This card's loyalty. Some loyalties may be X rather than a number
+        
+        Returns:
+            string
+        """
+        self._checkForKey('loyalty')
+
+        return self.scryfallJson['loyalty']
+
     def nonfoil(self):
+        """True if this printing does not exist in foil
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('nonfoil')
 
         return self.scryfallJson['nonfoil']
 
     def oversized(self):
+        """True if this printing is an oversized card
+        
+        Returns:
+            boolean
+        """
         self._checkForKey('oversized')
 
         return self.scryfallJson['oversized']

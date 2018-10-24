@@ -6,15 +6,6 @@ class Toughnesses(CatalogsObject):
 
     Catalog object for all known toughnesses.
 
-    Positional Arguments:
-        No arguments are required.
-
-    Optional Arguments:
-        All arguments are inherited from CatalogsObject
-
-    Attributes:
-        All attributes are inherited from CatalogsObject
-
     Example usage:
         >>> catalog = scrython.catalog.Toughnesses()
         >>> catalog.data()

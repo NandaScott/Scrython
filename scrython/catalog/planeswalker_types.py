@@ -6,15 +6,6 @@ class PlaneswalkerTypes(CatalogsObject):
 
     Catalog object for all known planeswalker types.
 
-    Positional Arguments:
-        No arguments are required.
-
-    Optional Arguments:
-        All arguments are inherited from CatalogsObject
-
-    Attributes:
-        All attributes are inherited from CatalogsObject
-
     Example usage:
         >>> catalog = scrython.catalog.PlaneswalkerTypes()
         >>> catalog.data()

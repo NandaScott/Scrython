@@ -6,14 +6,15 @@ class Multiverse(RulingsObject):
 
     Gets the ruling of a card by the Multiverse Id.
 
-    Positional arguments:
-        id : str ........... The multiverse id of the card you want rulings for.
-
-    Optional arguments:
-        All arguments inherited from RulingsObject
-
-    Attributes:
-        All attributes inherited from RulingsObject
+    Args:
+        id (string): The multiverse id of the card you want rulings for.
+        format (string, optional): Returns data in the specified method. Defaults to JSON.
+        face (string, optional): 
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            If you're using the `image` format, this will specify if you want the small, normal, large, etc version of the image.
+        pretty (string, optional):
+            Returns a prettier version of the json object. Note that this may break functionality with Scrython.
 
     Example usage:
         >>> rule = scrython.rulings.Id(id='4301')

@@ -6,15 +6,16 @@ class Code(RulingsObject):
 
     Gets the ruling of a card by the set and collector number.
 
-    Positional arguments:
-        set : str ...... The 3 letter set code of the card you want rulings for.
-        collector_number : ................... The collector number of the card.
-
-    Optional arguments:
-        All arguments inherited from RulingsObject
-
-    Attributes:
-        All attributes inherited from RulingsObject
+    Args:
+        set (string): The 3 letter set code of the card you want rulings for.
+        collector_number (string): The collector number of the card.
+        format (string, optional): Returns data in the specified method. Defaults to JSON.
+        face (string, optional): 
+            If you're using the `image` format, this will specify if you want the front or back face.
+        version (string, optional):
+            If you're using the `image` format, this will specify if you want the small, normal, large, etc version of the image.
+        pretty (string, optional):
+            Returns a prettier version of the json object. Note that this may break functionality with Scrython.
 
     Example usage:
         >>> rule = scrython.rulings.Code(code='ddg', collector_number='42')

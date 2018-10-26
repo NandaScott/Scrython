@@ -6,30 +6,6 @@ class Symbology(FoundationObject):
     """
     /symbology
 
-    Positional arguments:
-        No arguments are required.
-
-    Optional arguments:
-        All arguments are inherited from SymbologyObject
-
-    Attributes:
-        object : str . Returns the type of object it is. (card, error, etc)
-        has_more : bool . True if there are more pages to the object.
-        data : list . A list of all data returned.
-        data_length : int . The length of the data returned.
-
-        The following require an integer as an arg, which acts as a tuple.
-        symbol_symbol(num) : str . The plaintext symbol, usually written with curly braces.
-        symbol_loose_variant(num) : str . The alternate version of the symbol, without curly braces.
-        symbol_english(num): str .. An english sentence describing the mana cost.
-        symbol_transposable(num): bool . True if it's possibly to write the symbol backwards.
-        symbol_represents_mana(num): bool . True if this is a mana symbol.
-        symbol_appears_in_mana_costs(num): bool . True if the symbol appears on the mana cost of any card.
-        symbol_cmc(num): float . The total converted mana cost of the symbol.
-        symbol_funny(num): bool . True if the symbol is featured on any funny cards.
-        symbol_colors(num): array . An array of all colors in the given symbol.
-        symbol_gatherer_alternates(num): array .. An array of Gatherer like costs.
-
     Example usage:
         >>> symbol = scrython.symbology.Symbology()
     """
@@ -38,71 +14,67 @@ class Symbology(FoundationObject):
         super(Symbology, self).__init__(self.url)
 
     def object(self):
+        """Returns the type of object it is
+        (card, error, etc)
+
+        Returns:
+            string
+        """
         super(Symbology, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def has_more(self):
+        """True if there are more pages to the object
+        
+        Returns:
+            boolean
+        """
         super(Symbology, self)._checkForKey('has_more')
 
         return self.scryfallJson['has_more']
 
-    def data(self):
+    def data(self, index=None, key=None):
+        """The data returned from the query
+
+        Acceptable keys:
+            symbol (string): The plaintext symbol, usually written with curly braces
+            loose_variant (string): The alternate version of the symbol, without curly braces
+            transposable (boolean): True if it's possibly to write the symbol backwards
+            represents_mana (boolean): True if this is a mana symbol
+            cmc (float): The total converted mana cost of the symbol
+            appears_in_mana_costs (boolean): True if the symbol appears on the mana cost of any card
+            funny (boolean): True if the symbol is featured on any funny cards
+            colors (array): An array of all colors in the given symbol
+            english (string): An english sentence describing the mana cost
+            gatherer_alternate (array): An array of Gatherer like costs
+
+        Args:
+            index (integer, optional): Defaults to None. Access a specific index.
+            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
+
+        Returns:
+            List: The full list of data.
+            Dictionary: If given an index
+            String: If given an index and key.
+        """
         super(Symbology, self)._checkForKey('has_more')
+
+        if index is not None:
+            if key is not None:
+                super(Symbology, self)._checkForTupleKey('data', index, key)
+                return self.scryfallJson['data'][index][key]
+
+            return self.scryfallJson['data'][index]
 
         return self.scryfallJson['data']
 
     def data_length(self):
+        """The length of the data returned
+        
+        Returns:
+            integer
+        """
         super(Symbology, self)._checkForKey('data')
 
         return len(self.scryfallJson['data'])
-
-    def symbol_symbol(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'symbol')
-
-        return self.scryfallJson['data'][num]['symbol']
-
-    def symbol_loose_variant(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'loose_variant')
-
-        return self.scryfallJson['data'][num]['loose_variant']
-
-    def symbol_transposable(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'transposable')
-
-        return self.scryfallJson['data'][num]['transposable']
-
-    def symbol_represents_mana(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'represents_mana')
-
-        return self.scryfallJson['data'][num]['represents_mana']
-
-    def symbol_cmc(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'cmc')
-
-        return self.scryfallJson['data'][num]['cmc']
-
-    def symbol_appears_in_mana_costs(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'appears_in_mana_costs')
-
-        return self.scryfallJson['data'][num]['appears_in_mana_costs']
-
-    def symbol_funny(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'funny')
-
-        return self.scryfallJson['data'][num]['funny']
-
-    def symbol_colors(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'colors')
-
-        return self.scryfallJson['data'][num]['colors']
-
-    def symbol_english(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'english')
-
-        return self.scryfallJson['data'][num]['english']
-
-    def symbol_gatherer_alternates(self, num):
-        super(Symbology, self)._checkForTupleKey('data', num, 'gatherer_alternates')
-
-        return self.scryfallJson['data'][num]['gatherer_alternates']

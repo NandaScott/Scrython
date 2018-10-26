@@ -6,20 +6,12 @@ class ParseMana(FoundationObject):
     """
     symbology/parse-mana
 
-    Positional arguments:
-        cost : str ....................... The given mana cost you want. (`RUG`)
-
-    Optional arguments:
-        All arguments are inherited from SymbologyObject
-
-    Attributes:
-        object : str ...... Returns the type of object it is. (card, error, etc)
-        mana_cost : str ............................... The formatted mana cost.
-        cmc : float ....................... The converted mana cost of the card.
-        colors : list ................... A list of all colors in the mana cost.
-        colorless : bool ................... True if the mana cost is colorless.
-        monocolored : bool .............. True if the mana cost is mono colored.
-        multicolored : bool ...... True if the mana cost is a multicolored cost.
+    Args:
+        cost (string): The given mana cost you want. (`RUG`)
+        format (string, optional):
+            Returns data in the specified method. Defaults to JSON.
+        pretty (string, optional):
+            Returns a prettier version of the json object. Note that this may break functionality with Scrython.
 
     Example usage:
         >>> mana = scrython.symbology.ParseMana(cost="xcug")
@@ -31,36 +23,72 @@ class ParseMana(FoundationObject):
         super(ParseMana, self).__init__(self.url)
 
     def object(self):
+        """Returns the type of object it is
+        (card, error, etc)
+
+        Returns:
+            string
+        """
         super(ParseMana, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def mana_cost(self):
+        """The formatted mana cost
+        
+        Returns:
+            string
+        """
         super(ParseMana, self)._checkForKey('cost')
 
         return self.scryfallJson['cost']
 
     def cmc(self):
+        """The converted mana cost of the card 
+        
+        Returns:
+            float
+        """
         super(ParseMana, self)._checkForKey('cmc')
 
         return self.scryfallJson['cmc']
 
     def colors(self):
+        """A list of all colors in the mana cost
+        
+        Returns:
+            list
+        """
         super(ParseMana, self)._checkForKey('colors')
 
         return self.scryfallJson['colors']
 
     def colorless(self):
+        """True if the mana cost is colorless
+        
+        Returns:
+            boolean
+        """
         super(ParseMana, self)._checkForKey('colorless')
 
         return self.scryfallJson['colorless']
 
     def monocolored(self):
+        """True if the mana cost is mono colored
+        
+        Returns:
+            boolean
+        """
         super(ParseMana, self)._checkForKey('monocolored')
 
         return self.scryfallJson['monocolored']
 
     def multicolored(self):
+        """True if the mana cost is a multicolored cost
+        
+        Returns:
+            boolean
+        """
         super(ParseMana, self)._checkForKey('multicolored')
 
         return self.scryfallJson['multicolored']

@@ -1,6 +1,8 @@
-from .sets_object import SetsObject
+import sys
+sys.path.append('..')
+from scrython.foundation import FoundationObject
 
-class Sets(SetsObject):
+class Sets(FoundationObject):
     """
     /sets
     `Sets()` gets it's own special attributes that don't match with the normal set attributes.
@@ -130,45 +132,3 @@ class Sets(SetsObject):
         super(Sets, self)._checkForTupleKey('data', num, 'search_uri')
 
         return self.scryfallJson['data'][num]['search_uri']
-
-    #The following attributes are only to override the inherited class attributes.
-    #This class has no matching attributes but we still need the getRequest from SetsObject
-
-    def code(self):
-        raise AttributeError('This object has no key \'code\'')
-
-    def mtgo_code(self):
-        raise AttributeError('This object has no key \'mtgo_code\'')
-
-    def name(self):
-        raise AttributeError('This object has no key \'name\'')
-
-    def set_type(self):
-        raise AttributeError('This object has no key \'set_type\'')
-
-    def released_at(self):
-        raise AttributeError('This object has no key \'released_at\'')
-
-    def block_code(self):
-        raise AttributeError('This object has no key \'block_code\'')
-
-    def block(self):
-        raise AttributeError('This object has no key \'block\'')
-
-    def parent_set_code(self):
-        raise AttributeError('This object has no key \'parent_set_code\'')
-
-    def card_count(self):
-        raise AttributeError('This object has no key \'card_count\'')
-
-    def digital(self):
-        raise AttributeError('This object has no key \'digital\'')
-
-    def foil_only(self):
-        raise AttributeError('This object has no key \'foil_only\'')
-
-    def icon_svg_uri(self):
-        raise AttributeError('This object has no key \'icon_svg_uri\'')
-
-    def search_uri(self):
-        raise AttributeError('This object has no key \'search_uri\'')

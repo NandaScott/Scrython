@@ -3,11 +3,13 @@ import scrython
 from scrython import *
 import re
 
-intro = """These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
-
->In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`{Class_name}().scryfallJson`)."""
-
 for _class in scrython.__all__:
+
+
+    intro = """These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
+
+    >In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`{}().scryfallJson`).
+    """.format(eval(_class).__name__)
 
     match = list(filter(None, (token.strip() for token in re.findall(r'[^\n]*', eval(_class).__doc__))))
 

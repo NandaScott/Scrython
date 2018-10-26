@@ -7,8 +7,7 @@ Scrython is a wrapper for the Scryfall API, designed for an easier use. Make sur
 # Dependencies
 - `python` >= 3.5.3
 - `asyncio` >= 3.4.3
-- `aiohttp` >= 1.0.5
-- `threading`
+- `aiohttp` >= 3.4.4
 
 ## Key features
 

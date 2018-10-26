@@ -5,130 +5,88 @@ from scrython.foundation import FoundationObject
 class Sets(FoundationObject):
     """
     /sets
-    `Sets()` gets it's own special attributes that don't match with the normal set attributes.
 
-    Positional arguments:
-        code : str ............................... The 3 letter code of the set.
-
-    Optional arguments:
-        All arguments are inherited from SetsObject
-
-    Attributes:
-        object : str ... Returns the type of object it is. (card, error, etc)
-        has_more : bool ... True if there are more pages available.
-        data : list ... List of all data returned.
-        data_length : int ... The length of the data returned.
-
-        The following require an integer as an arg, which acts as a tuple.
-        set_object(num) : str .................................. The set object.
-        set_code(num) : str .............. The three letter set code of the set.
-        set_mtgo_code(num) : str .............. The mtgo equivalent of `code()`.
-        set_name(num) : str .......................... The full name of the set.
-        set_set_type(num) : str ... The type of the set (expansion, commander, etc)
-        set_released_at(num) : str .............. The date the set was launched.
-        set_block_code(num) : str ... The the letter code for the block the set was in.
-        set_block(num) : str .......... The full name of the block a set was in.
-        set_parent_set_code(num) : str ........ The set code for the parent set.
-        set_card_count(num) : int .............. The number of cards in the set.
-        set_digital(num) : bool ..... True if this set is only featured on MTGO.
-        set_foil_only(num) : bool ............. True if this set only has foils.
-        set_icon_svg_uri(num) : str ........ A URI to the SVG of the set symbol.
-        set_search_uri(num) : str ......... The scryfall API url for the search.
+    Args:
+        code (string): The 3 letter code of the set
+        format (string, optional):
+            Returns data in the specified method. Defaults to JSON.
+        pretty (string, optional):
+            Returns a prettier version of the json object. Note that this may break functionality with Scrython.
 
     Example usage:
         >>> set = scrython.sets.Sets()
-        >>> set.name(5)
+        >>> set.data(3, 'name')
     """
     def __init__(self):
         self._url = 'sets?'
         super(Sets, self).__init__(self._url)
 
     def object(self):
+        """Returns the type of object it is
+        (card, error, etc)
+        
+        Returns:
+            string
+        """
         super(Sets, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
     def has_more(self):
+        """True if there are more pages available
+        
+        Returns:
+            boolean
+        """
         super(Sets, self)._checkForKey('has_more')
 
         return self.scryfallJson['has_more']
 
-    def data(self):
+    def data(self, index=None, key=None):
+        """The data returned from the query
+
+        Acceptable keys:
+            object (string): The set object.
+            code (string): The three letter set code of the set.
+            mtgo_code (string): The mtgo equivalent of `code()`.
+            name (string): The full name of the set.
+            set_type (string): The type of the set (expansion, commander, etc)
+            released_at (string): The date the set was launched.
+            block_code (string): The the letter code for the block the set was in.
+            block (string): The full name of the block a set was in.
+            parent_set_code (string): The set code for the parent set.
+            card_count (integer): The number of cards in the set.
+            digital (boolean): True if this set is only featured on MTGO.
+            foil_only (boolean): True if this set only has foils.
+            icon_svg_uri (string): A URI to the SVG of the set symbol.
+            search_uri (string): The scryfall API url for the search.
+
+        Args:
+            index (integer, optional): Defaults to None. Access a specific index.
+            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
+        
+        Returns:
+            List: The full list of data.
+            Dictionary: If given an index
+            String: If given an index and key.
+        """
         super(Sets, self)._checkForKey('data')
+
+        if index is not None:
+            if key is not None:
+                super(Sets, self)._checkForTupleKey('data', index, key)
+                return self.scryfallJson['data'][index][key]
+
+            return self.scryfallJson['data'][index]
 
         return self.scryfallJson['data']
 
     def data_length(self):
+        """The length of the data returned
+        
+        Returns:
+            integer
+        """
         super(Sets, self)._checkForKey('data')
 
         return len(self.scryfallJson['data'])
-
-    def set_object(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'object')
-
-        return self.scryfallJson['data'][num]['object']
-
-    def set_code(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'code')
-
-        return self.scryfallJson['data'][num]['code']
-
-    def set_mtgo_code(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'mtgo_code')
-
-        return self.scryfallJson['data'][num]['mtgo_code']
-
-    def set_name(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'name')
-
-        return self.scryfallJson['data'][num]['name']
-
-    def set_set_type(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'set_type')
-
-        return self.scryfallJson['data'][num]['set_type']
-
-    def set_released_at(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'released_at')
-
-        return self.scryfallJson['data'][num]['released_at']
-
-    def set_block_code(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'block_code')
-
-        return self.scryfallJson['data'][num]['block_code']
-
-    def set_block(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'block')
-
-        return self.scryfallJson['data'][num]['block']
-
-    def set_parent_set_code(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'parent_set_code')
-
-        return self.scryfallJson['data'][num]['parent_set_code']
-
-    def set_card_count(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'card_count')
-
-        return self.scryfallJson['data'][num]['card_count']
-
-    def set_digital(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'digital')
-
-        return self.scryfallJson['data'][num]['digital']
-
-    def set_foil_only(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'foil_only')
-
-        return self.scryfallJson['data'][num]['foil_only']
-
-    def set_icon_svg_uri(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'icon_svg_uri')
-
-        return self.scryfallJson['data'][num]['icon_svg_uri']
-
-    def set_search_uri(self, num):
-        super(Sets, self)._checkForTupleKey('data', num, 'search_uri')
-
-        return self.scryfallJson['data'][num]['search_uri']

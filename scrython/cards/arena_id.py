@@ -23,11 +23,14 @@ class ArenaId(CardsObject):
             Returns a prettier version of the json object.
             Note that this may break functionality with Scrython.
 
+    Returns:
+        N/A
+
     Raises:
         Exception: If the 'id' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.ArenaId(id="66975")
         >>> card.name()
     """

@@ -6,7 +6,16 @@ class ArtistNames(CatalogsObject):
 
     Catalog object for all known card names.
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> catalog = scrython.catalog.CardNames()
         >>> catalog.data()
     """

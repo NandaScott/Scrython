@@ -6,7 +6,16 @@ class LandTypes(CatalogsObject):
 
     Catalog object for all known land types.
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> catalog = scrython.catalog.LandTypes()
         >>> catalog.data()
     """

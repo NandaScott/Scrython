@@ -10,6 +10,9 @@ class Collector(CardsObject):
         collector_number (string): This is the collector number of the card
         lang (string, optional): Defaults to 'en'. A 2-3 character language code.
 
+    Returns:
+        N/A
+
     Raises:
         Exception: If the 'code' parameter is not provided.
         Exception: If the 'collector_number' parameter is not provided.

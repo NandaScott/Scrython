@@ -10,14 +10,19 @@ class BulkData(FoundationObject):
     """
     /bulk-data
     Queries and creates an object relating to the /bulk-data endpoint.
-    
-    Raises:
-        Exception: Raised if Scryfall sends an error object.
-        KeyError: Raised if you attempt to access a key that doesn't exist.
-        KeyError: Raise if you attempt to access a tuple key that doesn't exist.
-    
+
+    Args:
+        N/A
+
     Returns:
         object: The Scryfall endpoint object.
+
+    Raises:
+        Exception: Raised if Scryfall sends an error object.
+
+    Examples:
+        >>> data = scrython.bulk_data.BulkData()
+        >>> data.bulk_compressed_size()
     """
     def __init__(self, **kwargs):
 

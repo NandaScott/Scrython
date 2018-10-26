@@ -6,7 +6,16 @@ class Loyalties(CatalogsObject):
 
     Catalog object for all known starting loyalties.
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> catalog = scrython.catalog.Loyalties()
         >>> catalog.data()
     """

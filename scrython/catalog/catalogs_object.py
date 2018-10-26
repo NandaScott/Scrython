@@ -14,6 +14,15 @@ class CatalogsObject(FoundationObject):
             Defaults to empty string.
             Returns a prettier version of the json object.
             Note that this may break functionality with Scrython.
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
+        N/A
     """
 
     def object(self):

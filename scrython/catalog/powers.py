@@ -6,7 +6,16 @@ class Powers(CatalogsObject):
 
     Catalog object for all known powers.
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> catalog = scrython.catalog.Powers()
         >>> catalog.data()
     """

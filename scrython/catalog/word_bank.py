@@ -6,7 +6,16 @@ class WordBank(CatalogsObject):
 
     Catalog object for all known words on all cards.
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> catalog = scrython.catalog.WordBank()
         >>> catalog.data()
     """

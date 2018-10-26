@@ -27,11 +27,14 @@ class Autocomplete(FoundationObject):
             Returns a prettier version of the json object. 
             Note that this may break functionality with Scrython.
 
+    Returns:
+        N/A
+
     Raises:
         Exception: If the 'q' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> auto = scrython.cards.Autocomplete(q="Thal")
         >>> auto.total_items()
     """

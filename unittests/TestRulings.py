@@ -22,18 +22,6 @@ class TestRulings(unittest.TestCase):
     def test_object(self):
         self.assertIsInstance(rules.object(), str)
 
-    def test_ruling_comment(self):
-        self.assertIsInstance(rules.ruling_comment(0), str)
-
-    def test_ruling_object(self):
-        self.assertIsInstance(rules.ruling_object(0), str)
-
-    def test_ruling_published_at(self):
-        self.assertIsInstance(rules.ruling_published_at(0), str)
-
-    def test_ruling_source(self):
-        self.assertIsInstance(rules.ruling_source(0), str)
-
 
 if __name__ == '__main__':
     unittest.main()

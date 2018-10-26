@@ -54,36 +54,6 @@ class TestSymbology(unittest.TestCase):
     def test_data_length(self):
         self.assertIsInstance(symbology.data_length(), int)
 
-    def test_symbol_symbol(self):
-        self.assertIsInstance(symbology.symbol_symbol(0), str)
-
-    def test_symbol_loose_variant(self):
-        self.assertIsInstance(symbology.symbol_loose_variant(5), str)
-
-    def test_symbol_transposable(self):
-        self.assertIsInstance(symbology.symbol_transposable(0), bool)
-
-    def test_symbol_represents_mana(self):
-        self.assertIsInstance(symbology.symbol_represents_mana(0), bool)
-
-    def test_symbol_cmc(self):
-        self.assertIsInstance(symbology.symbol_cmc(0), float)
-
-    def test_symbol_appears_in_mana_costs(self):
-        self.assertIsInstance(symbology.symbol_appears_in_mana_costs(0), bool)
-
-    def test_symbol_funny(self):
-        self.assertIsInstance(symbology.symbol_funny(0), bool)
-
-    def test_symbol_colors(self):
-        self.assertIsInstance(symbology.symbol_colors(0), list)
-
-    def test_symbol_english(self):
-        self.assertIsInstance(symbology.symbol_english(0), str)
-
-    def test_symbol_gatherer_alternates(self):
-        self.assertIsInstance(symbology.symbol_gatherer_alternates(0), list)
-
 if __name__ == '__main__':
 
     test_classes_to_run = [

@@ -24,36 +24,6 @@ class BulkData(FoundationObject):
         self.url = 'https://api.scryfall.com/bulk-data'
         super(BulkData, self).__init__(self.url, True)
 
-    def _checkForKey(self, key):
-        """Checks for a key in the scryfallJson object.
-        This function should be considered private, and
-        should not be accessed in production.
-        
-        Args:
-            key (string): The key to check
-        
-        Raises:
-            KeyError: If key is not found.
-        """
-        if not key in self.scryfallJson:
-            raise KeyError('This card has no key \'{}\''.format(key))
-
-    def _checkForTupleKey(self, parent, num, key):
-        """Checks for a key of an object in an array.
-        This function should be considered private, and
-        should not be accessed in production.
-        
-        Args:
-            parent (string): The key for the array to be accessed
-            num (int): The index of the array
-            key (string): The key to check
-        
-        Raises:
-            KeyError: If key is not found.
-        """
-        if not key in self.scryfallJson[parent][num]:
-            raise KeyError('This tuple has no key \'{}\''.format(key))
-
     def object(self):
         """Returns the type of object it is.
         (card, error, etc)
@@ -61,7 +31,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The type of object
         """
-        self._checkForKey('object')
+        super(BulkData, self)._checkForKey('object')
 
         return self.scryfallJson['object']
 
@@ -71,7 +41,7 @@ class BulkData(FoundationObject):
         Returns:
             boolean: True if there are more results
         """
-        self._checkForKey('has_more')
+        super(BulkData, self)._checkForKey('has_more')
 
         return self.scryfallJson['has_more']
 
@@ -81,7 +51,7 @@ class BulkData(FoundationObject):
         Returns:
             list: List of all types
         """
-        self._checkForKey('data')
+        super(BulkData, self)._checkForKey('data')
 
         return self.scryfallJson['data']
 
@@ -94,7 +64,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The type of object
         """
-        self._checkForTupleKey('data', num, 'object')
+        super(BulkData, self)._checkForTupleKey('data', num, 'object')
 
         return self.scryfallJson['data'][num]['object']
 
@@ -107,7 +77,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The Scryfall id of the object
         """
-        self._checkForTupleKey('data', num, 'id')
+        super(BulkData, self)._checkForTupleKey('data', num, 'id')
 
         return self.scryfallJson['data'][num]['id']
 
@@ -120,7 +90,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The type of the data item
         """
-        self._checkForTupleKey('data', num, 'type')
+        super(BulkData, self)._checkForTupleKey('data', num, 'type')
 
         return self.scryfallJson['data'][num]['type']
 
@@ -133,7 +103,7 @@ class BulkData(FoundationObject):
         Returns:
             string: Timestamp
         """
-        self._checkForTupleKey('data', num, 'updated_at')
+        super(BulkData, self)._checkForTupleKey('data', num, 'updated_at')
 
         return self.scryfallJson['data'][num]['updated_at']
 
@@ -146,7 +116,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The name of the data item
         """
-        self._checkForTupleKey('data', num, 'name')
+        super(BulkData, self)._checkForTupleKey('data', num, 'name')
 
         return self.scryfallJson['data'][num]['name']
 
@@ -159,7 +129,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The description of the data item
         """
-        self._checkForTupleKey('data', num, 'description')
+        super(BulkData, self)._checkForTupleKey('data', num, 'description')
 
         return self.scryfallJson['data'][num]['description']
 
@@ -174,7 +144,7 @@ class BulkData(FoundationObject):
             integer: Returns integer by default. 
             string: If human_readable is True, returns a string.
         """
-        self._checkForTupleKey('data', num, 'compressed_size')
+        super(BulkData, self)._checkForTupleKey('data', num, 'compressed_size')
 
         if human_readable:
             before = self.scryfallJson['data'][num]['compressed_size']
@@ -197,7 +167,7 @@ class BulkData(FoundationObject):
         Returns:
             string: A URI to download the compressed data
         """
-        self._checkForTupleKey('data', num, 'permalink_uri')
+        super(BulkData, self)._checkForTupleKey('data', num, 'permalink_uri')
 
         return self.scryfallJson['data'][num]['permalink_uri']
 
@@ -210,7 +180,7 @@ class BulkData(FoundationObject):
         Returns:
             string: The MIME type
         """
-        self._checkForTupleKey('data', num, 'content_type')
+        super(BulkData, self)._checkForTupleKey('data', num, 'content_type')
 
         return self.scryfallJson['data'][num]['content_type']
 
@@ -223,6 +193,6 @@ class BulkData(FoundationObject):
         Returns:
             string: The encoding of the file
         """
-        self._checkForTupleKey('data', num, 'content_encoding')
+        super(BulkData, self)._checkForTupleKey('data', num, 'content_encoding')
 
         return self.scryfallJson['data'][num]['content_encoding']

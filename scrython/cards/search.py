@@ -94,13 +94,28 @@ class Search(FoundationObject):
 
         return self.scryfallJson['total_cards']
 
-    def data(self):
+    def data(self, index=None, key=None):
         """The data returned from the query
+
+        You may reference any keys that could be accessed in a card object.
+        There are far too many to list here, but you may find a list if applicable
+        keys in the documentation.
+
+        Args:
+            index (integer, optional): Defaults to None. Access a specific index.
+            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
         
         Returns:
-            list: A list of card objects
+            List: The full list of data.
+            Dictionary: If given an index.
+            String: If given an index and key.
         """
         super(Search, self)._checkForKey('data')
+
+        if index is not None:
+            if key is not None:
+                super(Search, self)._checkForTupleKey('data', index, key)
+                return self.scryfallJson['data'][index][key]
 
         return self.scryfallJson['data']
 
@@ -123,19 +138,6 @@ class Search(FoundationObject):
         super(Search, self)._checkForKey('data')
 
         return len(self.scryfallJson['data'])
-
-    def data_tuple(self, num):
-        """Accesses an object at the specified index
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            dict: The card object at the specified index
-        """
-        super(Search, self)._checkForKey('data')
-
-        return self.scryfallJson['data'][num]
 
     def has_more(self):
         """Determines if there are more pages of results.

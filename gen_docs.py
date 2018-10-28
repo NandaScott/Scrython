@@ -1,7 +1,8 @@
 import sys
 import scrython
-from scrython import *
 import re
+from scrython import *
+from types import FunctionType
 
 def format_args(string, f):
     f.write('\n## Args\n\n|arg|type|description|\n|:---:|:---:|:---:|\n')
@@ -64,34 +65,14 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 
     examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
 
-    with open('{}.md'.format(_class), 'w') as f:
-        f.write('# **class** `{}()`\n'.format(_class))
-        f.write(intro)
-        format_args(args, f)
-        format_returns(returns, f)
-        format_raises(raises, f)
-        format_examples(examples, f)
+    functions = [x for x, y in eval(_class).__dict__.items() if type(y) == FunctionType and y.__name__ != '__init__']
 
-    break
-
-
-    # match = list(filter(None, (token.strip() for token in re.findall(r'[^\n]*', eval(_class).__doc__))))
-
-    # with open('{}.md'.format(eval(_class).__name__), 'w') as f:
-    #     f.write('# **class** `{}()`\n'.format(eval(_class).__name__))
+    # with open('{}.md'.format(_class), 'w') as f:
+    #     f.write('# **class** `{}()`\n'.format(_class))
     #     f.write(intro)
-    #     for token in match:
-    #         if re.findall(r'[A-Z][a-z].*:', token) and ':' in re.findall(r':.*', token): # Match section header
-    #             f.write('\n\n## {}\n\n'.format(token.replace(':', '')))
-    #             if 'Example' in token:
-    #                 f.write(token)
-    #             else:
-    #                 f.write('| arg | description |\n|:---:|:---:|')
-    #         elif re.findall(r'[\w]+\s\(.+\):', token): # Match args description
-    #             if 'Defaults' in token:
-    #                 f.write(token)
-    #             else:
-    #                 f.write('\n|{}|'.format(token))
-    #         else:
-    #             f.write('\n|{}|'.format(token))
+    #     format_args(args, f)
+    #     format_returns(returns, f)
+    #     format_raises(raises, f)
+    #     format_examples(examples, f)
+
     break

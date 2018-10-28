@@ -32,8 +32,8 @@ def format_returns(string, f):
 
 def format_raises(string, f):
 
-    if string == 'N/A':
-        f.write('\n## Raises\n\nN/A')
+    if 'N/A' in string:
+        f.write('\n## Raises\nN/A\n')
         return
 
     f.write('\n## Raises\n\n|exception type|reason|\n|:---:|:---:|\n')

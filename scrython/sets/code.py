@@ -22,7 +22,7 @@ class Code(FoundationObject):
         N/A
 
     Examples:
-        >>> set = scrython.sets.Code(code='por')
+        >>> set = scrython.sets.Code(code="por")
         >>> set.name()
     """
     def __init__(self, code):

@@ -23,7 +23,7 @@ class Arena(RulingsObject):
         N/A
 
     Examples:
-        >>> rule = scrython.rulings.Arena(id='66975')
+        >>> rule = scrython.rulings.Arena(id="66975")
         >>> rule.data_length()
     """
     def __init__(self, **kwargs):

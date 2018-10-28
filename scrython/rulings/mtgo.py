@@ -23,7 +23,7 @@ class Mtgo(RulingsObject):
         N/A
 
     Examples:
-        >>> rule = scrython.rulings.Mtgo(id='9611')
+        >>> rule = scrython.rulings.Mtgo(id="9611")
         >>> rule.data_length()
     """
     def __init__(self, **kwargs):

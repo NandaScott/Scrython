@@ -23,7 +23,7 @@ class Id(RulingsObject):
         N/A
 
     Examples:
-        >>> rule = scrython.rulings.Id(id='5976c352-ac49-4e0d-a4c0-ec9b6b78db9c')
+        >>> rule = scrython.rulings.Id(id="5976c352-ac49-4e0d-a4c0-ec9b6b78db9c")
         >>> rule.data_length()
     """
     def __init__(self, **kwargs):

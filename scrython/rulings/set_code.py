@@ -24,7 +24,7 @@ class Code(RulingsObject):
         N/A
 
     Examples:
-        >>> rule = scrython.rulings.Code(code='ddg', collector_number='42')
+        >>> rule = scrython.rulings.Code(code="ddg", collector_number="42")
         >>> rule.data_length()
     """
     def __init__(self, code, collector_number):

@@ -19,7 +19,7 @@ class Collector(CardsObject):
         Exception: If the object returned is an error.
 
     Examples:
-        >>> card = scrython.cards.Collector(code='exo', collector_number='96')
+        >>> card = scrython.cards.Collector(code="exo", collector_number="96")
         >>> card.id()
     """
     def __init__(self, **kwargs):

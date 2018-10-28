@@ -21,7 +21,7 @@ class Sets(FoundationObject):
 
     Examples:
         >>> set = scrython.sets.Sets()
-        >>> set.data(3, 'name')
+        >>> set.data(3, "name")
     """
     def __init__(self):
         self._url = 'sets?'

@@ -6,7 +6,22 @@ import re
 def format_args(string):
     start = '|arg|type|description|\n|:---:|:---:|:---:|'
 
-    names = re.findall(r'(\w*\s\([\w,\s]*\):)', string)
+    print(start)
+
+    arg_list = re.findall(r'(\w*\s*\(\w+[,\s\w]{1,}\):[\w\s\'\\`,.]*[^\w\s\(])', string)
+
+    for arg in arg_list:
+        arg_name = re.findall(r'[^\s]*', arg)[0]
+
+        description = re.findall(r'(?<=:\s)(.*)', arg)[0]
+
+        type_and_optional = re.findall(r'(?<=\()\w+[,\s\w]+(?=\))', arg)[0]
+
+        if len(type_and_optional) > 1:
+            print('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
+
+        else:
+            print('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
 
 for _class in scrython.__all__:
 
@@ -20,7 +35,6 @@ for _class in scrython.__all__:
     remove_extra_spaces = re.sub(' +', ' ', class_docstring)
 
     args = re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces)[0]
-    format_args(args)
 
     returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
 

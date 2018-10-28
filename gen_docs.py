@@ -1,7 +1,12 @@
 import sys
 import scrython
 import re
-from scrython import *
+from scrython.bulk_data import *
+from scrython.cards import *
+from scrython.catalog import *
+from scrython.rulings import *
+from scrython.sets import *
+from scrython.symbology import *
 from types import FunctionType
 
 def format_args(string, f):
@@ -56,44 +61,53 @@ def format_functions(_class, function_list, f):
 
         f.write('\n```\n{}\n```'.format(function_docstring))
 
-for _class in scrython.__all__:
+def main(subpackage):
+    for _class in subpackage.__all__:
 
-    intro = """
-These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
+        intro = """
+    These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
 
->In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`{}().scryfallJson`).
-""".format(eval(_class).__name__)
+    >In the event that a key isn't found or has been changed, you can access the full JSON output with the `scryfallJson` variable (`{}().scryfallJson`).
+    """.format(eval(_class).__name__)
 
-    class_docstring = repr(re.sub(r'\n+', '', eval(_class).__doc__)) # removes newlines
+        class_docstring = repr(re.sub(r'\n+', '', eval(_class).__doc__)) # removes newlines
 
-    remove_extra_spaces = re.sub(' +', ' ', class_docstring)
+        remove_extra_spaces = re.sub(' +', ' ', class_docstring)
 
-    try:
-        args = re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces)[0]
+        try:
+            args = re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces)[0]
 
-        returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
+            returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
 
-        raises = re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces)[0]
+            raises = re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces)[0]
 
-        examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
+            examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
 
-        functions = [x for x in dir(eval(_class)) if not x.startswith('_')]
+            functions = [x for x in dir(eval(_class)) if not x.startswith('_')]
 
-        with open('./docs/{}.md'.format(_class), 'w') as f:
-            f.write('# **class** `{}()`\n'.format(_class))
-            f.write(intro)
-            format_args(args, f)
-            format_returns(returns, f)
-            format_raises(raises, f)
-            format_examples(examples, f)
-            format_functions(_class, functions, f)
+            with open('./docs/{}/{}.md'.format(subpackage.__name__, _class), 'w') as f:
+                f.write('# **class** `{}.{}()`\n'.format(subpackage.__name__, _class))
+                f.write(intro)
+                format_args(args, f)
+                format_returns(returns, f)
+                format_raises(raises, f)
+                format_examples(examples, f)
+                format_functions(_class, functions, f)
 
-    except Exception as e:
-        print(_class.upper())
-        print(repr(eval(_class).__doc__))
-        print('Args: ', re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces))
-        print('Returns: ', re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces))
-        print('Raises: ', re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces))
-        print('Examples: ', re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces))
-        print(e)
-        print('~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        except Exception as e:
+            print(_class.upper())
+            print(repr(eval(_class).__doc__))
+            print('Args: ', re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces))
+            print('Returns: ', re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces))
+            print('Raises: ', re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces))
+            print('Examples: ', re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces))
+            print(e)
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+if __name__ == '__main__':
+    main(scrython.bulk_data)
+    main(scrython.cards)
+    main(scrython.catalog)
+    main(scrython.rulings)
+    main(scrython.sets)
+    main(scrython.symbology)

@@ -32,8 +32,8 @@ N/A
 
 ## Methods
 
-### `object()`
 ---
+### `object()`
 
 ```
 Returns the type of object it is.
@@ -43,8 +43,8 @@ Returns the type of object it is.
             string: The type of object
         
 ```
-### `total_values()`
 ---
+### `total_values()`
 
 ```
 How many items are returned in `data`
@@ -53,8 +53,8 @@ How many items are returned in `data`
             int: The number of items in the `data` key
         
 ```
-### `data()`
 ---
+### `data()`
 
 ```
 The list of potential autocompletes

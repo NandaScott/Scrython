@@ -42,3 +42,21 @@ Returns the type of object it is.
             string: The type of object
         
 ```
+### `total_values()`
+
+```
+How many items are returned in `data`
+        
+        Returns:
+            int: The number of items in the `data` key
+        
+```
+### `data()`
+
+```
+The list of potential autocompletes
+        
+        Returns:
+            list: A list of possible corrections
+        
+```

@@ -34,9 +34,11 @@ N/A
 
 ### `object()`
 
+```
 Returns the type of object it is.
         (card, error, etc)
         
         Returns:
             string: The type of object
         
+```

@@ -43,7 +43,18 @@ def format_examples(string, f):
     example_list = re.findall(r'>{3}[\s\w=.("+:,)]+', string)
 
     f.write('\n## Examples\n')
-    f.write('```\n{}\n```'.format('\n'.join(example_list)))
+    f.write('```python\n{}\n```\n'.format('\n'.join(example_list)))
+
+def format_functions(_class, function_list, f):
+
+    f.write('\n## Methods\n')
+
+    for function in function_list:
+        function_docstring = getattr(eval(_class), function).__doc__
+
+        f.write('\n---\n### `{}()`\n'.format(getattr(eval(_class), function).__name__))
+
+        f.write('\n```\n{}\n```'.format(function_docstring))
 
 for _class in scrython.__all__:
 
@@ -57,22 +68,32 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 
     remove_extra_spaces = re.sub(' +', ' ', class_docstring)
 
-    args = re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces)[0]
+    try:
+        args = re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces)[0]
 
-    returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
+        returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
 
-    raises = re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces)[0]
+        raises = re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces)[0]
 
-    examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
+        examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
 
-    functions = [x for x, y in eval(_class).__dict__.items() if type(y) == FunctionType and y.__name__ != '__init__']
+        functions = [x for x in dir(eval(_class)) if not x.startswith('_')]
 
-    # with open('{}.md'.format(_class), 'w') as f:
-    #     f.write('# **class** `{}()`\n'.format(_class))
-    #     f.write(intro)
-    #     format_args(args, f)
-    #     format_returns(returns, f)
-    #     format_raises(raises, f)
-    #     format_examples(examples, f)
+        with open('./docs/{}.md'.format(_class), 'w') as f:
+            f.write('# **class** `{}()`\n'.format(_class))
+            f.write(intro)
+            format_args(args, f)
+            format_returns(returns, f)
+            format_raises(raises, f)
+            format_examples(examples, f)
+            format_functions(_class, functions, f)
 
-    break
+    except Exception as e:
+        print(_class.upper())
+        print(repr(eval(_class).__doc__))
+        print('Args: ', re.findall(r'(?<=Args:)(.*)(?=Returns:)', remove_extra_spaces))
+        print('Returns: ', re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces))
+        print('Raises: ', re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces))
+        print('Examples: ', re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces))
+        print(e)
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~')

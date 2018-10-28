@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
 	name='scrython',
-	packages=['scrython', 'scrython.cards', 'scrython.rulings', 'scrython.catalog', 'scrython.sets', 'scrython.symbology'],
-	version='1.6.0',
+	packages=['scrython', 'scrython.cards', 'scrython.rulings', 'scrython.catalog', 'scrython.sets', 'scrython.symbology', 'scrython.bulk_data'],
+	version='1.6.1',
 	description='A wrapper for using the Scryfall API.',
 	long_description='https://github.com/NandaScott/Scrython/blob/master/README.md',
 	url='https://github.com/NandaScott/Scrython',

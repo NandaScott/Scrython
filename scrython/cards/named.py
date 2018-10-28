@@ -35,7 +35,7 @@ class Named(CardsObject):
         Exception: If the 'fuzzy' or 'exact' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Named(exact="Black Lotus")
         >>> card.colors()
     """

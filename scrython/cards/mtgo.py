@@ -31,7 +31,7 @@ class Mtgo(CardsObject):
         Exception: If the 'id' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Mtgo(id="48296")
         >>> card.set_name()
     """

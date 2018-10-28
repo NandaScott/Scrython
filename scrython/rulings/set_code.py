@@ -17,7 +17,13 @@ class Code(RulingsObject):
         pretty (string, optional):
             Returns a prettier version of the json object. Note that this may break functionality with Scrython.
 
-    Example usage:
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> rule = scrython.rulings.Code(code='ddg', collector_number='42')
         >>> rule.data_length()
     """

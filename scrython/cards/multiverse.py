@@ -30,7 +30,7 @@ class Multiverse(CardsObject):
         Exception: If the 'id' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Multiverse(id='96865')
         >>> card.name()
     """

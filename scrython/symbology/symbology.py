@@ -6,7 +6,16 @@ class Symbology(FoundationObject):
     """
     /symbology
 
-    Example usage:
+    Args:
+        N/A
+
+    Returns:
+        N/A
+
+    Raises:
+        N/A
+
+    Examples:
         >>> symbol = scrython.symbology.Symbology()
     """
     def __init__(self):

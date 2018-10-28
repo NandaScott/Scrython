@@ -18,7 +18,7 @@ class Collector(CardsObject):
         Exception: If the 'collector_number' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Collector(code='exo', collector_number='96')
         >>> card.id()
     """

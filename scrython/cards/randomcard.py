@@ -29,7 +29,7 @@ class Random(CardsObject):
     Raises:
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Random()
         >>> card.purchase_uris()
     """

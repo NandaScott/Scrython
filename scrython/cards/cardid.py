@@ -30,7 +30,7 @@ class Id(CardsObject):
         Exception: If the 'id' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> card = scrython.cards.Id(id="5386a61c-4928-4bd1-babe-5b089ab8b2d9")
         >>> card.name()
     """

@@ -15,9 +15,7 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 N/A
 
 ## Raises
-
-|exception type|reason|
-|:---:|:---:|
+N/A
 
 ## Examples
 ```python

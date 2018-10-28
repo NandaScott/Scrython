@@ -7,7 +7,8 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 ## Args
 
 |arg|type|description|
-|:---:|:---:|:---:||q|string|The query of the autocompletion.|
+|:---:|:---:|:---:|
+|q|string|The query of the autocompletion.|
 |format|string, optional|Defaults to \'json\'. Returns data in the specified method.|
 |face|string, optional|Defaults to empty string. If you\'re using the `image` format, this will specify if you want the front or back face.|
 |version|string, optional|Defaults to empty string. If you\'re using the `image` format, this will specify if you want the small, normal, large, etc version of the image.|
@@ -19,7 +20,8 @@ N/A
 ## Raises
 
 |exception type|reason|
-|:---:|:---:||Exception|If the \'q\' parameter is not provided.|
+|:---:|:---:|
+|Exception|If the \'q\' parameter is not provided.|
 |Exception|If the object returned is an error.|
 
 ## Examples

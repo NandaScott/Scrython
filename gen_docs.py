@@ -4,7 +4,7 @@ from scrython import *
 import re
 
 def format_args(string, f):
-    f.write('\n## Args\n\n|arg|type|description|\n|:---:|:---:|:---:|')
+    f.write('\n## Args\n\n|arg|type|description|\n|:---:|:---:|:---:|\n')
 
     arg_list = re.findall(r'(\w*\s*\(\w+[,\s\w]{1,}\):[\w\s\'\\`,.]*[^\w\s\(])', string)
 
@@ -26,7 +26,7 @@ def format_returns(string, f):
 
 def format_raises(string, f):
 
-    f.write('\n## Raises\n\n|exception type|reason|\n|:---:|:---:|')
+    f.write('\n## Raises\n\n|exception type|reason|\n|:---:|:---:|\n')
 
     exception_list = re.findall(r'\w+:[\w\s\\\']+[^\s\w:]', string)
 

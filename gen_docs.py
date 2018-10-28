@@ -3,10 +3,8 @@ import scrython
 from scrython import *
 import re
 
-def format_args(string):
-    start = '|arg|type|description|\n|:---:|:---:|:---:|'
-
-    print(start)
+def format_args(string, f):
+    f.write('|arg|type|description|\n|:---:|:---:|:---:|')
 
     arg_list = re.findall(r'(\w*\s*\(\w+[,\s\w]{1,}\):[\w\s\'\\`,.]*[^\w\s\(])', string)
 
@@ -18,12 +16,30 @@ def format_args(string):
         type_and_optional = re.findall(r'(?<=\()\w+[,\s\w]+(?=\))', arg)[0]
 
         if len(type_and_optional) > 1:
-            print('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
+            f.write('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
 
         else:
-            print('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
+            f.write('|{}|{}|{}|'.format(arg_name, type_and_optional, description))
 
-for _class in scrython.__all__:
+def format_returns(string):
+    if string == 'N/A':
+        return
+
+def format_raises(string):
+
+    print('## Raises\n')
+    print('|exception type|reason|\n|:---:|:---:|')
+
+    exception_list = re.findall(r'\w+:[\w\s\\\']+[^\s\w:]', string)
+
+    for exception in exception_list:
+        exception_name = re.findall(r'[^:]*', exception)[0]
+
+        exception_description = re.findall(r'(?<=:\s)([\w\s\.\'\\]*)', exception)[0]
+
+        print('|{}|{}|'.format(exception_name, exception_description))
+
+for _class in scrython.__all__[7:]:
 
     intro = """These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
 
@@ -39,6 +55,7 @@ for _class in scrython.__all__:
     returns = re.findall(r'(?<=Returns:)(.*)(?=Raises:)', remove_extra_spaces)[0]
 
     raises = re.findall(r'(?<=Raises:)(.*)(?=Examples:)', remove_extra_spaces)[0]
+    format_raises(raises)
 
     examples = re.findall(r'(?<=Examples:)(.*)', remove_extra_spaces)[0]
 

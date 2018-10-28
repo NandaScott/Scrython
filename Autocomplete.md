@@ -25,7 +25,7 @@ N/A
 |Exception|If the object returned is an error.|
 
 ## Examples
-```
+```python
 >>> auto = scrython.cards.Autocomplete(q="Thal") 
 >>> auto.total_items() 
 ```
@@ -33,6 +33,7 @@ N/A
 ## Methods
 
 ### `object()`
+---
 
 ```
 Returns the type of object it is.
@@ -43,6 +44,7 @@ Returns the type of object it is.
         
 ```
 ### `total_values()`
+---
 
 ```
 How many items are returned in `data`
@@ -52,6 +54,7 @@ How many items are returned in `data`
         
 ```
 ### `data()`
+---
 
 ```
 The list of potential autocompletes

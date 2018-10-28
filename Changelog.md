@@ -3,15 +3,24 @@
 ## 1.6.0
 
 New stuff
-- Artist names have been added to `catalog`
-- Multiple new functions have been added to `Cards`, `Symbology`
-- Added the `bulk-data` endpoint to Scrython
-- Added the Arena ID endpoint to Scrython
+- Artist names have been added to `catalog`.
+- Multiple new functions have been added to `Cards`, `Symbology`.
+- Added the `bulk-data` endpoint to Scrython.
+- Added the Arena ID endpoint to Scrython.
+- Added the following classes:
+    cards.ArenaId
+    catalog.ArtistNames
+    bulk_data.BulkData
+- You can now properly `*` import Scrython.
+- Created unit tests for all classes.
 
 Changes
 - Scrython has been changed to use spaces rather than tabs.
 - Multiple functions have had their names updated to properly reflect the new key names.
-- Some functions have been deleted entirely
+- Some functions have been deleted entirely.
+- Documentation has been created and updated based on docstrings.
+- Threading has been removed as a dependency.
+- Reduced redundancy by creating a unified foundation object to handle requests.
 
 Bugfixes
 

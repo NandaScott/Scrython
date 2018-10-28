@@ -53,7 +53,7 @@ class Search(FoundationObject):
         Exception: If the 'q' parameter is not provided.
         Exception: If the object returned is an error.
 
-    Example usage:
+    Examples:
         >>> search = scrython.cards.Search(q="++e:A25", order="spoiled")
         >>> search.data()
     """

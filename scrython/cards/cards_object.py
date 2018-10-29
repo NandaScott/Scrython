@@ -132,15 +132,45 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['highres_image']
 
-    def image_uris(self):
+    def image_uris(self, **kwargs):
         """All image uris of the card in various qualities
         
         Returns:
             dict
         """
-        super(CardsObject, self)._checkForKey('image_uris')
 
-        return self.scryfallJson['image_uris']
+        layouts = {
+            'normal': lambda num: self.scryfallJson['image_uris'],
+            'split': lambda num: self.scryfallJson['image_uris'],
+            'flip': lambda num: self.scryfallJson['image_uris'],
+            'transform': lambda num: self.scryfallJson['card_faces'][num]['image_uris'],
+            'meld': lambda num: self.scryfallJson['image_uris'],
+            'leveler': lambda num: self.scryfallJson['image_uris'],
+            'saga': lambda num: self.scryfallJson['image_uris'],
+            'planar': lambda num: self.scryfallJson['image_uris'],
+            'scheme': lambda num: self.scryfallJson['image_uris'],
+            'vanguard': lambda num: self.scryfallJson['image_uris'],
+            'token': lambda num: self.scryfallJson['image_uris'],
+            'double_faced_token': lambda num: self.scryfallJson['card_faces'][num]['image_uris'],
+            'emblem': lambda num: self.scryfallJson['image_uris'],
+            'augment': lambda num: self.scryfallJson['image_uris'],
+            'host': lambda num: self.scryfallJson['image_uris']
+        }
+
+        image_types = {
+            'small': lambda d: d['small'],
+            'normal': lambda d: d['normal'],
+            'large': lambda d: d['large'],
+            'png': lambda d: d['png'],
+            'art_crop': lambda d: d['art_crop'],
+            'border_crop': lambda d: d['border_crop']
+        }
+
+        images_dict = layouts.get(self.scryfallJson['layout'])
+
+        _format = image_types.get(kwargs.get('image_format'))
+
+        
 
     def cmc(self):
         """A float of the converted mana cost of the card

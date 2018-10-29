@@ -120,6 +120,8 @@ class Search(FoundationObject):
                 super(Search, self)._checkForTupleKey('data', index, key)
                 return self.scryfallJson['data'][index][key]
 
+            return self.scryfallJson['data'][index]
+
         return self.scryfallJson['data']
 
     def next_page(self):

@@ -40,18 +40,17 @@ class Named(CardsObject):
         >>> card.colors()
     """
     def __init__(self, **kwargs):
-        if kwargs.get('exact') is None or kwargs.get('fuzzy') is None:
-            raise Exception('You must provide a `fuzzy` or `exact` parameter.')
 
         self.dict = {
             'set':kwargs.get('set', '')
         }
 
-        if kwargs.get('exact') is not None:
+        if 'exact' in kwargs:
             self.dict['exact'] = kwargs.get('exact')
-
-        if kwargs.get('fuzzy') is not None:
+        elif 'fuzzy' in kwargs:
             self.dict['fuzzy'] = kwargs.get('fuzzy')
+        else:
+            raise Exception('You must provide a `fuzzy` or `exact` parameter.')
 
         self.args = urllib.parse.urlencode(self.dict)
         self.url = 'cards/named?' + self.args

@@ -77,8 +77,8 @@ class TestCardObjects(unittest.TestCase):
             "border_crop": "https://img.scryfall.com/cards/border_crop/en/ced/64.jpg?1517813031"
         })
         self.assertEqual(non_online_card.image_uris(0, 'normal'), 'https://img.scryfall.com/cards/normal/en/ced/64.jpg?1517813031')
-        self.assertRaises(Exception, non_online_card.image_uris('normal'))
-        self.assertRaises(KeyError, non_online_card.image_uris(0, 'foo'))
+        self.assertRaises(Exception, non_online_card.image_uris, 'normal')
+        self.assertRaises(KeyError, non_online_card.image_uris, 0, 'foo')
 
     def test_cmc(self):
         self.assertIsInstance(non_online_card.cmc(), float)

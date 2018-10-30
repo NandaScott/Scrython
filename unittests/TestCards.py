@@ -76,6 +76,9 @@ class TestCardObjects(unittest.TestCase):
             "art_crop": "https://img.scryfall.com/cards/art_crop/en/ced/64.jpg?1517813031",
             "border_crop": "https://img.scryfall.com/cards/border_crop/en/ced/64.jpg?1517813031"
         })
+        self.assertEqual(non_online_card.image_uris(0, 'normal'), 'https://img.scryfall.com/cards/normal/en/ced/64.jpg?1517813031')
+        self.assertRaises(Exception, non_online_card.image_uris('normal'))
+        self.assertRaises(KeyError, non_online_card.image_uris(0, 'foo'))
 
     def test_cmc(self):
         self.assertIsInstance(non_online_card.cmc(), float)
@@ -409,8 +412,6 @@ class TestSearch(unittest.TestCase):
     def test_data_length(self):
         self.assertIsInstance(search.data_length(), int)
 
-    def test_data_tuple(self):
-        self.assertIsInstance(search.data_tuple(0), dict)
 
 if __name__ == '__main__':
     test_classes_to_run = [

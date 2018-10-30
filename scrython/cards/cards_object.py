@@ -132,11 +132,21 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['highres_image']
 
-    def image_uris(self, **kwargs):
+    def image_uris(self, index=0, image_type=None):
         """All image uris of the card in various qualities
-        
+
+        An index and an image type must be supplied a single uri.
+
+        If the card has additional faces, the returned dict will
+        default to the front of the card.
+
         Returns:
-            dict
+            dict: If given no arguments
+            string: If given an index and image_type
+
+        Raises:
+            Exception: If given no index
+            KeyError: If the given image type is not a known type
         """
 
         layouts = {
@@ -168,9 +178,16 @@ class CardsObject(FoundationObject):
 
         images_dict = layouts.get(self.scryfallJson['layout'])
 
-        _format = image_types.get(kwargs.get('image_format'))
+        uri = image_types.get(image_type)
 
-        
+        if index == 0 and image_type is None:
+            return images_dict(0)
+        elif not isinstance(index, int):
+            raise Exception('You must supply an index to get a uri')
+        elif image_type not in list(image_types.keys()):
+            raise KeyError('Image type not in known types')
+
+        return uri(images_dict(index))
 
     def cmc(self):
         """A float of the converted mana cost of the card

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.6.2
+
+Changes
+- You can now pass arguments into `card.image_uris` to specify a single uri.
+
+## 1.6.1
+
+Bugfixes
+- Forgot to add bulk_data subpackage to Scrython, fixing import issues.
+
 ## 1.6.0
 
 New stuff

@@ -8,66 +8,394 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 
 |arg|type|description|
 |:---:|:---:|:---:|
-|id|string|The mtgo id of the card you want rulings for.|
-|format|string, optional|Returns data in the specified method. Defaults to JSON.|
-|face|string, optional|If you\'re using the `image` format, this will specify if you want the front or back face.|
-|version|string, optional|If you\'re using the `image` format, this will specify if you want the small, normal, large, etc version of the image.|
-|pretty|string, optional|Returns a prettier version of the json object. Note that this may break functionality with Scrython.|
+|id|string|The MTGO Id of the card.|
+|format|string, optional|Defaults to \'json\'. Returns data in the specified method.|
+|face|string, optional|Defaults to empty string. If you\'re using the `image` format, this will specify if you want the front or back face.|
+|version|string, optional|Defaults to empty string. If you\'re using the `image` format, this will specify if you want the small, normal, large, etc version of the image.|
+|pretty|string, optional|Defaults to empty string. Returns a prettier version of the json object. Note that this may break functionality with Scrython.|
 
 ## Returns
 N/A
 
 ## Raises
-N/A
+
+|exception type|reason|
+|:---:|:---:|
+|Exception|If the \'id\' parameter is not provided.|
+|Exception|If the object returned is an error.|
 
 ## Examples
 ```python
->>> rule = scrython.rulings.Mtgo(id="9611") 
->>> rule.data_length() 
+>>> card = scrython.cards.Mtgo(id="48296") 
+>>> card.set_name() 
 ```
 
 ## Methods
 
 ---
-### `data()`
+### `all_parts()`
 
 ```
-The data returned from the query
+This this card is closely related to other cards, this property will be an list with it
+        
+        Returns:
+            list
+        
+```
+---
+### `arena_id()`
 
-        Acceptable keys:
-            object (string): The type of object for a given ruling.
-            source (string): The source of the ruling.
-            published_at (string): The date when the ruling was published.
-            comment (string): The effective ruling.
+```
+The Arena ID of the card, if any
+        
+        Returns:
+            int: The Arena ID of the card, if any
+        
+```
+---
+### `artist()`
 
+```
+The artist of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `border_color()`
+
+```
+The color of the card border
+        
+        Returns:
+            string
+        
+```
+---
+### `card_faces()`
+
+```
+If it exists, all parts found on a card's face will be found as an object from this list
+        
+        Returns:
+            list
+        
+```
+---
+### `cmc()`
+
+```
+A float of the converted mana cost of the card
+        
+        Returns:
+            float: The cmc of the card
+        
+```
+---
+### `collector_number()`
+
+```
+The collector number of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `color_identity()`
+
+```
+A list of strings with all colors found on the card itself
+        
+        Returns:
+            list
+        
+```
+---
+### `color_indicator()`
+
+```
+An list of all colors found in this card's color indicator
+        
+        Returns:
+            list
+        
+```
+---
+### `colors()`
+
+```
+A list of strings with all colors found in the mana cost
+        
+        Returns:
+            list
+        
+```
+---
+### `colorshifted()`
+
+```
+Returns True if the card is colorshifted
+        
+        Returns:
+            boolean
+        
+```
+---
+### `currency()`
+
+```
+Returns currency from modes `usd`, `eur`, and `tix`
+        
         Args:
-            index (integer, optional): Defaults to None. Access a specific index.
-            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
+            mode (string): The currency to get
+        
+        Raises:
+            KeyError: If the mode parameter does not match a known key
         
         Returns:
-            List: The full list of data.
-            Dictionary: If given an index
-            String: If given an index and key.
+            float: The currency as a float
         
 ```
 ---
-### `data_length()`
+### `digital()`
 
 ```
-The length of the `data` list.
+Returns True if the card is the digital version
         
         Returns:
-            Integer
+            boolean
         
 ```
 ---
-### `has_more()`
+### `edhrec_rank()`
 
 ```
-True if there is more than one page of results
+The rank of the card on edhrec.com
         
         Returns:
-            boolean: True if there are more results
+            int: The rank of the card on edhrec.co
+        
+```
+---
+### `flavor_text()`
+
+```
+The flavor text of the card, if any
+        
+        Returns:
+            string
+        
+```
+---
+### `foil()`
+
+```
+True if this printing exists in a foil version
+        
+        Returns:
+            boolean
+        
+```
+---
+### `frame()`
+
+```
+The year of the card frame
+        
+        Returns:
+            string
+        
+```
+---
+### `full_art()`
+
+```
+Returns True if the card is considered full art
+        
+        Returns:
+            boolean
+        
+```
+---
+### `futureshifted()`
+
+```
+Returns True if the card is futureshifted
+        
+        Returns:
+            boolean
+        
+```
+---
+### `hand_modifier()`
+
+```
+This cards hand modifier value, assuming it's a Vanguard card
+        
+        Returns:
+            string
+        
+```
+---
+### `highres_image()`
+
+```
+Determine if a card has a highres scan available
+        
+        Returns:
+            boolean
+        
+```
+---
+### `id()`
+
+```
+A unique ID for the returned card object
+        
+        Returns:
+            string
+        
+```
+---
+### `illustration_id()`
+
+```
+The related id of the card art
+        
+        Returns:
+            string
+        
+```
+---
+### `image_uris()`
+
+```
+All image uris of the card in various qualities
+
+        An index and an image type must be supplied a single uri.
+
+        If the card has additional faces, the returned dict will
+        default to the front of the card.
+
+        Returns:
+            dict: If given no arguments
+            string: If given an index and image_type
+
+        Raises:
+            Exception: If given no index
+            KeyError: If the given image type is not a known type
+        
+```
+---
+### `lang()`
+
+```
+The language of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `layout()`
+
+```
+The image layout of the card. (normal, transform, etc)
+        
+        Returns:
+            string
+        
+```
+---
+### `legalities()`
+
+```
+A dictionary of all formats and their legality
+        
+        Returns:
+            dict
+        
+```
+---
+### `life_modifier()`
+
+```
+This is the cards life modifier value, assuming it's a Vanguard card
+        
+        Returns:
+            string
+        
+```
+---
+### `loyalty()`
+
+```
+This card's loyalty. Some loyalties may be X rather than a number
+        
+        Returns:
+            string
+        
+```
+---
+### `mana_cost()`
+
+```
+The full mana cost using shorthanded mana symbols
+        
+        Returns:
+            string
+        
+```
+---
+### `mtgo_foil_id()`
+
+```
+The corresponding MTGO foil ID of the card
+        
+        Returns:
+            integer: The Magic Online foil id of the card
+        
+```
+---
+### `mtgo_id()`
+
+```
+The official MTGO id of the of the card
+        
+        Returns:
+            integer: The Magic Online id of the card
+        
+```
+---
+### `multiverse_ids()`
+
+```
+The official Gatherer multiverse ids of the card
+        
+        Returns:
+            list
+        
+```
+---
+### `name()`
+
+```
+The oracle name of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `nonfoil()`
+
+```
+True if this printing does not exist in foil
+        
+        Returns:
+            boolean
         
 ```
 ---
@@ -76,6 +404,267 @@ True if there is more than one page of results
 ```
 Returns the type of object it is
         (card, error, etc)
+        
+        Returns:
+            string
+        
+```
+---
+### `oracle_id()`
+
+```
+A unique ID for this card's oracle text
+        
+        Returns:
+            string
+        
+```
+---
+### `oracle_text()`
+
+```
+The official oracle text of a card
+        
+        Returns:
+            string
+        
+```
+---
+### `oversized()`
+
+```
+True if this printing is an oversized card
+        
+        Returns:
+            boolean
+        
+```
+---
+### `power()`
+
+```
+The power of the creature, if applicable
+        
+        Returns:
+            string
+        
+```
+---
+### `printed_name()`
+
+```
+If the card is in a non-English language, this will be the name as it appears on the card
+        
+        Returns:
+            string
+        
+```
+---
+### `printed_text()`
+
+```
+If the card is in a non-English language, this will be the rules text as it appears on the card
+        
+        Returns:
+            string
+        
+```
+---
+### `printed_type_line()`
+
+```
+If the card is in a non-English language, this will be the type line as it appears on the card
+        
+        Returns:
+            string
+        
+```
+---
+### `prints_search_uri()`
+
+```
+A link to where you can begin paginating all re/prints for this card on Scryfall’s API
+        
+        Returns:
+            string
+        
+```
+---
+### `purchase_uris()`
+
+```
+A dictionary of links to purchase the card
+        
+        Returns:
+            dict
+        
+```
+---
+### `rarity()`
+
+```
+The rarity of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `related_uris()`
+
+```
+A dictionary of related websites for this card
+        
+        Returns:
+            dict
+        
+```
+---
+### `reprint()`
+
+```
+Returns True if the card has been reprinted before
+        
+        Returns:
+            boolean
+        
+```
+---
+### `reserved()`
+
+```
+Returns True if the card is on the reserved list
+        
+        Returns:
+            boolean
+        
+```
+---
+### `rulings_uri()`
+
+```
+The API uri for the rulings of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `scryfall_set_uri()`
+
+```
+The full link to the set on Scryfall
+        
+        Returns:
+            string
+        
+```
+---
+### `scryfall_uri()`
+
+```
+The full Scryfall page of the card
+        As if it was a URL from the site.
+        
+        Returns:
+            string
+        
+```
+---
+### `set_code()`
+
+```
+The 3 letter code for the set of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `set_name()`
+
+```
+The full name for the set of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `set_search_uri()`
+
+```
+Same output as set_uri
+        
+        Returns:
+            string
+        
+```
+---
+### `set_uri()`
+
+```
+The API uri for the full set list of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `story_spotlight()`
+
+```
+True if this card is featured in the story
+        
+        Returns:
+            boolean
+        
+```
+---
+### `timeshifted()`
+
+```
+Returns True if the card is timeshifted
+        
+        Returns:
+            boolean
+        
+```
+---
+### `toughness()`
+
+```
+The toughness of the creature, if applicable
+        
+        Returns:
+            string
+        
+```
+---
+### `type_line()`
+
+```
+The full type line of the card
+        
+        Returns:
+            string
+        
+```
+---
+### `uri()`
+
+```
+The Scryfall API uri for the card
+        
+        Returns:
+            string
+        
+```
+---
+### `watermark()`
+
+```
+The associated watermark of the card, if any
         
         Returns:
             string

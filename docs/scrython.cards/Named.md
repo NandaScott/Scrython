@@ -275,9 +275,19 @@ The related id of the card art
 
 ```
 All image uris of the card in various qualities
-        
+
+        An index and an image type must be supplied a single uri.
+
+        If the card has additional faces, the returned dict will
+        default to the front of the card.
+
         Returns:
-            dict
+            dict: If given no arguments
+            string: If given an index and image_type
+
+        Raises:
+            Exception: If given no index
+            KeyError: If the given image type is not a known type
         
 ```
 ---

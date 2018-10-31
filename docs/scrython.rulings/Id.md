@@ -22,7 +22,7 @@ N/A
 
 ## Examples
 ```python
->>> rule = scrython.rulings.Id(id="5976c352
+>>> rule = scrython.rulings.Id(id="5976c352-ac49-4e0d-a4c0-ec9b6b78db9c") 
 >>> rule.data_length() 
 ```
 

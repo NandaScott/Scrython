@@ -49,7 +49,7 @@ def format_raises(string, f):
 
 def format_examples(string, f):
 
-    example_list = re.findall(r'>{3}[\s\w=.("+:,)]+', string)
+    example_list = re.findall(r'>{3}[\s\w=.("+:,\-)]+', string)
 
     f.write('\n## Examples\n')
     f.write('```python\n{}\n```\n'.format('\n'.join(example_list)))

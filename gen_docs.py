@@ -7,7 +7,6 @@ from scrython.catalog import *
 from scrython.rulings import *
 from scrython.sets import *
 from scrython.symbology import *
-from types import FunctionType
 
 def format_args(string, f):
     f.write('\n## Args\n\n|arg|type|description|\n|:---:|:---:|:---:|\n')

@@ -1,12 +1,7 @@
 import sys
 import scrython
 import re
-from scrython.bulk_data import *
-from scrython.cards import *
-from scrython.catalog import *
-from scrython.rulings import *
-from scrython.sets import *
-from scrython.symbology import *
+import os
 
 def format_args(string, f):
     f.write('\n## Args\n\n|arg|type|description|\n|:---:|:---:|:---:|\n')
@@ -48,7 +43,7 @@ def format_raises(string, f):
 
 def format_examples(string, f):
 
-    example_list = re.findall(r'>{3}[\s\w=.("+:,)]+', string)
+    example_list = re.findall(r'>{3}[\s\w=.("+:,\-)]+', string)
 
     f.write('\n## Examples\n')
     f.write('```python\n{}\n```\n'.format('\n'.join(example_list)))
@@ -88,6 +83,9 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 
             functions = [x for x in dir(eval(_class)) if not x.startswith('_')]
 
+            if not os.path.exists('./docs/{}'.format(subpackage.__name__)):
+                os.makedirs('./docs/{}'.format(subpackage.__name__))
+
             with open('./docs/{}/{}.md'.format(subpackage.__name__, _class), 'w') as f:
                 f.write('# **class** `{}.{}()`\n'.format(subpackage.__name__, _class))
                 f.write(intro)
@@ -108,9 +106,26 @@ These docs will likely not be as detailed as the official Scryfall Documentation
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 if __name__ == '__main__':
+    from scrython.bulk_data import *
     main(scrython.bulk_data)
+    del scrython.bulk_data
+
+    from scrython.cards import *
     main(scrython.cards)
+    del scrython.cards
+
+    from scrython.catalog import *
     main(scrython.catalog)
+    del scrython.catalog
+
+    from scrython.rulings import *
     main(scrython.rulings)
+    del scrython.rulings
+
+    from scrython.sets import *
     main(scrython.sets)
+    del scrython.sets
+
+    from scrython.symbology import *
     main(scrython.symbology)
+    del scrython.symbology

@@ -73,7 +73,6 @@ class Search(FoundationObject):
             }
         self.args = urllib.parse.urlencode(self.dict)
         self.url = 'cards/search?' + self.args
-        #print("URL: " + self.url)
 
         super(Search, self).__init__(self.url)
 

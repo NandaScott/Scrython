@@ -66,11 +66,11 @@ class Search(FoundationObject):
             'order':kwargs.get('order', 'none'),
             'unique':kwargs.get('unique', 'none'),
             'dir':kwargs.get('dir', 'none'),
+            'include_variations':kwargs.get('include_variations','false'),
             'include_extras':kwargs.get('include_extras', 'false'),
             'include_multilingual':kwargs.get('include_multilingual', 'false'),
             'page':kwargs.get('page', '1')
             }
-
         self.args = urllib.parse.urlencode(self.dict)
         self.url = 'cards/search?' + self.args
 

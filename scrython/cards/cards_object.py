@@ -81,6 +81,16 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['mtgo_foil_id']
 
+    def tcgplayer_id(self):
+        """The `productId` of the card on TCGplayer.
+
+        Returns:
+            integer: The TCGplayer id of the card
+        """
+        super(CardsObject, self)._checkForKey('tcgplayer_id')
+
+        return self.scryfallJson['tcgplayer_id']
+
     def name(self):
         """The oracle name of the card
         
@@ -409,6 +419,16 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['frame']
 
+    def frame_effect(self):
+        """The card's frame effect, if any. (miracle, nyxtouched, etc.)
+        
+        Returns:
+            string: The card's frame effect.
+        """
+        super(CardsObject, self)._checkForKey('frame_effect')
+
+        return self.scryfallJson['frame_effect']
+
     def full_art(self):
         """Returns True if the card is considered full art
         
@@ -429,36 +449,6 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['border_color']
 
-    def timeshifted(self):
-        """Returns True if the card is timeshifted
-        
-        Returns:
-            boolean
-        """
-        super(CardsObject, self)._checkForKey('timeshifted')
-
-        return self.scryfallJson['timeshifted']
-
-    def colorshifted(self):
-        """Returns True if the card is colorshifted
-        
-        Returns:
-            boolean
-        """
-        super(CardsObject, self)._checkForKey('colorshifted')
-
-        return self.scryfallJson['colorshifted']
-
-    def futureshifted(self):
-        """Returns True if the card is futureshifted
-        
-        Returns:
-            boolean
-        """
-        super(CardsObject, self)._checkForKey('futureshifted')
-
-        return self.scryfallJson['futureshifted']
-
     def edhrec_rank(self):
         """The rank of the card on edhrec.com
         
@@ -469,17 +459,17 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['edhrec_rank']
 
-    def currency(self, mode):
-        """Returns currency from modes `usd`, `eur`, and `tix`
+    def prices(self, mode):
+        """Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
         
         Args:
-            mode (string): The currency to get
+            mode (string): The prices to get
         
         Raises:
             KeyError: If the mode parameter does not match a known key
         
         Returns:
-            float: The currency as a float
+            float: The prices as a float
         """
         modes = ['usd', 'eur', 'tix']
         if mode not in modes:
@@ -708,3 +698,33 @@ class CardsObject(FoundationObject):
         super(CardsObject, self)._checkForKey('oversized')
 
         return self.scryfallJson['oversized']
+
+    def games(self):
+        """A list of games that this card print is available in.
+
+        Returns:
+            array: A list of games
+        """
+        super(CardsObject, self)._checkForKey('games')
+
+        return self.scryfallJson['games']
+
+    def promo(self):
+        """True if this card is a promotional print.
+
+        Returns:
+            boolean
+        """
+        super(CardsObject, self)._checkForKey('promo')
+
+        return self.scryfallJson['promo']
+
+    def released_at(self):
+        """The date this card was first released.
+        
+        Returns:
+            string: The date in ISO format
+        """
+        super(CardsObject, self)._checkForKey('released_at')
+
+        return self.scryfallJson['released_at']

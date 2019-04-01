@@ -6,3 +6,4 @@ tests
 BotUtils.py
 .vscode
 example_objects
+venv

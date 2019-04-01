@@ -131,32 +131,6 @@ A list of strings with all colors found in the mana cost
         
 ```
 ---
-### `colorshifted()`
-
-```
-Returns True if the card is colorshifted
-        
-        Returns:
-            boolean
-        
-```
----
-### `currency()`
-
-```
-Returns currency from modes `usd`, `eur`, and `tix`
-        
-        Args:
-            mode (string): The currency to get
-        
-        Raises:
-            KeyError: If the mode parameter does not match a known key
-        
-        Returns:
-            float: The currency as a float
-        
-```
----
 ### `digital()`
 
 ```
@@ -207,6 +181,16 @@ The year of the card frame
         
 ```
 ---
+### `frame_effect()`
+
+```
+The card's frame effect, if any. (miracle, nyxtouched, etc.)
+        
+        Returns:
+            string: The card's frame effect.
+        
+```
+---
 ### `full_art()`
 
 ```
@@ -217,13 +201,13 @@ Returns True if the card is considered full art
         
 ```
 ---
-### `futureshifted()`
+### `games()`
 
 ```
-Returns True if the card is futureshifted
-        
+A list of games that this card print is available in.
+
         Returns:
-            boolean
+            array: A list of games
         
 ```
 ---
@@ -448,6 +432,22 @@ The power of the creature, if applicable
         
 ```
 ---
+### `prices()`
+
+```
+Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
+        
+        Args:
+            mode (string): The prices to get
+        
+        Raises:
+            KeyError: If the mode parameter does not match a known key
+        
+        Returns:
+            float: The prices as a float
+        
+```
+---
 ### `printed_name()`
 
 ```
@@ -488,6 +488,16 @@ A link to where you can begin paginating all re/prints for this card on Scryfall
         
 ```
 ---
+### `promo()`
+
+```
+True if this card is a promotional print.
+
+        Returns:
+            boolean
+        
+```
+---
 ### `purchase_uris()`
 
 ```
@@ -515,6 +525,16 @@ A dictionary of related websites for this card
         
         Returns:
             dict
+        
+```
+---
+### `released_at()`
+
+```
+The date this card was first released.
+        
+        Returns:
+            string: The date in ISO format
         
 ```
 ---
@@ -619,13 +639,13 @@ True if this card is featured in the story
         
 ```
 ---
-### `timeshifted()`
+### `tcgplayer_id()`
 
 ```
-Returns True if the card is timeshifted
-        
+The `productId` of the card on TCGplayer.
+
         Returns:
-            boolean
+            integer: The TCGplayer id of the card
         
 ```
 ---

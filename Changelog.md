@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.7.0
+
+Changes
+- Added the following methods for card objects
+    - `tcgplayer_id`
+    - `frame_effect`
+    - `games`
+    - `promo`
+    - `released_at`
+- Removed the following methods for card objects
+    - `timeshifted`
+    - `colorshifted`
+    - `futureshifted`
+- Renamed the following methods for card objects
+    - `currency` is now `prices`
+
+- Created new endpoint object `TCGPlayerId()`
+
 ## 1.6.2
 
 Changes

@@ -2,6 +2,12 @@ import aiohttp
 import asyncio
 import urllib
 
+class ScryfallError(Exception):
+    def __init__(self, error_obj, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        self.error_details = **error_obj
+
+
 class FoundationObject(object):
 
     def __init__(self, _url, override=False, **kwargs):
@@ -28,7 +34,7 @@ class FoundationObject(object):
         loop.run_until_complete(main(loop))
 
         if self.scryfallJson['object'] == 'error':
-            raise Exception(self.scryfallJson['details'])
+            raise ScryfallError(self.scryfallJson, message=self.scryfallJson['details'])
 
     def _checkForKey(self, key):
         """Checks for a key in the scryfallJson object.

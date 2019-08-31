@@ -5,7 +5,8 @@ import urllib
 class ScryfallError(Exception):
     def __init__(self, error_obj, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
-        self.error_details = **error_obj
+        self.error_details = {}
+        self.error_details.update(error_obj)
 
 
 class FoundationObject(object):

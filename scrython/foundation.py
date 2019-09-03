@@ -35,7 +35,7 @@ class FoundationObject(object):
         loop.run_until_complete(main(loop))
 
         if self.scryfallJson['object'] == 'error':
-            raise ScryfallError(self.scryfallJson, message=self.scryfallJson['details'])
+            raise ScryfallError(self.scryfallJson, self.scryfallJson['details'])
 
     def _checkForKey(self, key):
         """Checks for a key in the scryfallJson object.

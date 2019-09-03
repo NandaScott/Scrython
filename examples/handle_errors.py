@@ -5,4 +5,4 @@ import scrython
 try:
     search = scrython.cards.Search(q="!Black Lotus")
 except scrython.ScryfallError as e:
-    print(str(e.status) + ' ' + e.code + ': ' + e.details)
+    print(str(e.error_details['status']) + ' ' + e.error_details['code'] + ': ' + e.error_details['details'])

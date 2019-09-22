@@ -164,7 +164,8 @@ class CardsObject(FoundationObject):
             'double_faced_token': lambda num: self.scryfallJson['card_faces'][num]['image_uris'],
             'emblem': lambda num: self.scryfallJson['image_uris'],
             'augment': lambda num: self.scryfallJson['image_uris'],
-            'host': lambda num: self.scryfallJson['image_uris']
+            'host': lambda num: self.scryfallJson['image_uris'],
+            'adventure': lambda num: self.scryfallJson['image_uris']
         }
 
         image_types = {

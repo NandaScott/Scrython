@@ -41,6 +41,9 @@ from scrython.symbology import Symbology
 #Import bulk-data
 from scrython.bulk_data import BulkData
 
+#Utility
+from scrython.foundation import ScryfallError
+
 __all__ = [
     'Autocomplete',
     'Collector',
@@ -72,5 +75,6 @@ __all__ = [
     'ArtistNames',
     'ParseMana',
     'Symbology',
-    'BulkData'
+    'BulkData',
+    'ScryfallError',
 ]

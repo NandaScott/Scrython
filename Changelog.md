@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.1
+New stuff
+- Added image uri compatability for adventure cards
+- Custom Scryfall based errors
+
 ## 1.7.0
 
 Changes

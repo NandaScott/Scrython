@@ -471,7 +471,7 @@ class CardsObject(FoundationObject):
         Returns:
             float: The prices as a float
         """
-        modes = ['usd', 'eur', 'tix']
+        modes = ['usd', 'usd_foil', 'eur', 'tix']
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
 

@@ -240,8 +240,8 @@ class TestSearch(unittest.TestCase):
     def test_tcgplayer_id(self):
         self.assertIsInstance(non_online_card.tcgplayer_id(), int)
 
-    def test_frame_effect(self):
-        self.assertIsInstance(transform.frame_effect(), str)
+    def test_frame_effects(self):
+        self.assertIsInstance(transform.frame_effects(), list)
 
     def test_games(self):
         self.assertIsInstance(non_online_card.games(), list)

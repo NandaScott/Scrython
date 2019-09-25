@@ -37,7 +37,7 @@ class FoundationObject(object):
         if self.scryfallJson['object'] == 'error':
             raise ScryfallError(self.scryfallJson, self.scryfallJson['details'])
 
-    def _checkForKey(self, key):
+    def _checkForKey(self, key, nested_key=None):
         """Checks for a key in the scryfallJson object.
         This function should be considered private, and
         should not be accessed in production.
@@ -50,6 +50,11 @@ class FoundationObject(object):
         """
         if not key in self.scryfallJson:
             raise KeyError('This card has no key \'{}\''.format(key))
+
+        if nested_key:
+            if not nested_key in self.scryfallJson[key]:
+                raise KeyError('This card has no key \'{}.{}\''.format(key, nested_key))
+
 
     def _checkForTupleKey(self, parent, num, key):
         """Checks for a key of an object in an array.

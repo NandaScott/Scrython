@@ -475,9 +475,9 @@ class CardsObject(FoundationObject):
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
 
-        super(CardsObject, self)._checkForKey(mode)
+        super(CardsObject, self)._checkForKey('prices', mode)
 
-        return self.scryfallJson[mode]
+        return self.scryfallJson['prices'][mode]
 
     def related_uris(self):
         """A dictionary of related websites for this card

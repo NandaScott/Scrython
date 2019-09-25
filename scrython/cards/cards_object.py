@@ -419,15 +419,15 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['frame']
 
-    def frame_effect(self):
+    def frame_effects(self):
         """The card's frame effect, if any. (miracle, nyxtouched, etc.)
         
         Returns:
-            string: The card's frame effect.
+            list: The card's frame effects.
         """
-        super(CardsObject, self)._checkForKey('frame_effect')
+        super(CardsObject, self)._checkForKey('frame_effects')
 
-        return self.scryfallJson['frame_effect']
+        return self.scryfallJson['frame_effects']
 
     def full_art(self):
         """Returns True if the card is considered full art

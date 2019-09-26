@@ -181,13 +181,13 @@ The year of the card frame
         
 ```
 ---
-### `frame_effect()`
+### `frame_effects()`
 
 ```
 The card's frame effect, if any. (miracle, nyxtouched, etc.)
         
         Returns:
-            string: The card's frame effect.
+            list: The card's frame effects.
         
 ```
 ---

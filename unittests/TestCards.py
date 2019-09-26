@@ -8,7 +8,8 @@ import time
 
 # Cards for TestCardObjects
 mtgo_card = Id(id='e3285e6b-3e79-4d7c-bf96-d920f973b122'); time.sleep(0.1)
-non_online_card = Id(id='15016e8e-2f6b-4470-865a-ec13da3cb968'); time.sleep(0.1)
+non_online_card = Id(id='cfdd00f0-c6aa-4e8b-a035-fb3403711741'); time.sleep(0.1)
+frame_effected_card = Id(id='f185a734-a32a-4244-88e8-dabafbfd064f'); time.sleep(0.1)
 arena_card = Id(id='5aa75f2b-53c5-47c5-96d2-ab796358a96f'); time.sleep(0.1)
 augment = Id(id='abe9fdfa-c361-465e-9639-097d441a3f74'); time.sleep(0.1)
 meld = Id(id='0900e494-962d-48c6-8e78-66a489be4bb2'); time.sleep(0.1)
@@ -241,7 +242,7 @@ class TestSearch(unittest.TestCase):
         self.assertIsInstance(non_online_card.tcgplayer_id(), int)
 
     def test_frame_effects(self):
-        self.assertIsInstance(transform.frame_effects(), list)
+        self.assertIsInstance(frame_effected_card.frame_effects(), list)
 
     def test_games(self):
         self.assertIsInstance(non_online_card.games(), list)

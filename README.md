@@ -9,11 +9,6 @@ Scrython is a wrapper for the Scryfall API, designed for an easier use. Make sur
 - `asyncio` >= 3.4.3
 - `aiohttp` >= 3.4.4
 
-## Key features
-
- - Asyncronous requests. This library utilizes the `asyncio` and `aiohttp` libraries to ensure that requests are not blocked when used in asyncronous environments. There is no delay limiting when making a request, so be careful how many objects are created.
- - Full use of all endpoints in a given category. This library uses every endpoint within `cards` and `rulings` as of writing this. I hope to include more as this is developed.
-
 ## Basic usage
 
 You can install scrython by running `pip install scrython`. Note that it requires `asyncio` and `aiohttp` too.

@@ -51,7 +51,3 @@ The simplest way to prevent sending too many requests too quickly is the followi
     >>> time.sleep(0.1)
     >>> card = scrython.cards.Random()
 
-Or in asyncronous applications:
-
-    >>> await asyncio.sleep(0.1)
-    >>> card = scrython.cards.Random()

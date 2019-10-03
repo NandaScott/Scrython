@@ -436,6 +436,22 @@ The power of the creature, if applicable
         
 ```
 ---
+### `preview()`
+
+```
+Preview information for this card, if any.
+        You may pass the name of a valid key to return the value of that key.
+        Such as a source_uri.
+        
+        Args:
+            key (string): A key for specific information about the preview.
+
+        Returns:
+            dict: If provided no key, the entire dict is returned.
+            string: If provided a key, the value of that key is returned.
+        
+```
+---
 ### `prices()`
 
 ```

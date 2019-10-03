@@ -729,3 +729,22 @@ class CardsObject(FoundationObject):
         super(CardsObject, self)._checkForKey('released_at')
 
         return self.scryfallJson['released_at']
+
+    def preview(self, key=None):
+        """Preview information for this card, if any.
+        You may pass the name of a valid key to return the value of that key.
+        Such as a source_uri.
+        
+        Args:
+            key (string): A key for specific information about the preview.
+
+        Returns:
+            dict: If provided no key, the entire dict is returned.
+            string: If provided a key, the value of that key is returned.
+        """
+        super(CardsObject, self)._checkForKey('preview')
+
+        if key in self.scryfallJson['preview']:
+            return self.scryfallJson['preview'][key]
+
+        return self.scryfallJson['preview']

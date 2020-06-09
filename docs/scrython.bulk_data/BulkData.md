@@ -123,14 +123,7 @@ Returns the type of object the specified index is
 ### `bulk_permalink_uri()`
 
 ```
-The URL that hosts the bulk file
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: A URI to download the compressed data
-        
+None
 ```
 ---
 ### `bulk_type()`
@@ -156,6 +149,19 @@ The time the item was last updated
         
         Returns:
             string: Timestamp
+        
+```
+---
+### `bulk_uri()`
+
+```
+The URL that hosts the bulk file
+        
+        Args:
+            num (int): The index of the object in the `data` key
+        
+        Returns:
+            string: A URI to download the compressed data
         
 ```
 ---

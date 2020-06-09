@@ -17,6 +17,7 @@ transform = Id(id='aae6fb12-b252-453b-bca7-1ea2a0d6c8dc'); time.sleep(0.1)
 vanguard = Id(id='87c1234b-3834-4bba-bef2-05707bb1e8e2'); time.sleep(0.1)
 alt_lang_card = Collector(code='ths', collector_number='75', lang='ja'); time.sleep(0.1)
 planeswalker = Id(id='4c565076-5db2-47ea-8ee0-4a4fd7bb353d'); time.sleep(0.1)
+preview_check = Id(id='fb6b12e7-bb93-4eb6-bad1-b256a6ccff4e'); time.sleep(0.1)
 
 autocomplete = Autocomplete(q='Thal'); time.sleep(0.1)
 
@@ -206,6 +207,10 @@ class TestCardObjects(unittest.TestCase):
 
     def test_oversized(self):
         self.assertIsInstance(non_online_card.oversized(), bool)
+
+    def test_preview(self):
+        self.assertIsInstance(preview_check.preview(), dict)
+        self.assertIsInstance(preview_check.preview('source'), str)
 
 class TestAutocomplete(unittest.TestCase):
 

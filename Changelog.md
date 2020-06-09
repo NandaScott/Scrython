@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.0
+
+Changes
+- CI tests have now been added
+- Bulk data uri method has been updated, with a deprecation warning for the previous method.
+- `preview()` method has been added to all card methods.
+- Tests have been updated to reflect new changes.
+
 ## 1.7.1
 New stuff
 - Added image uri compatability for adventure cards

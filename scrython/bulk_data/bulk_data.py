@@ -5,6 +5,7 @@ import asyncio
 import aiohttp
 import urllib.parse
 from threading import Thread
+import warnings
 
 class BulkData(FoundationObject):
     """
@@ -164,6 +165,10 @@ class BulkData(FoundationObject):
         return self.scryfallJson['data'][num]['compressed_size']
 
     def bulk_permalink_uri(self, num):
+        warnings.warn("This method has been renamed to bulk_uri as per https://scryfall.com/blog/updates-to-bulk-data-and-cards-deprecation-notice-217", DeprecationWarning)
+        return self.bulk_uri(num)
+
+    def bulk_uri(self, num):
         """The URL that hosts the bulk file
         
         Args:
@@ -172,9 +177,9 @@ class BulkData(FoundationObject):
         Returns:
             string: A URI to download the compressed data
         """
-        super(BulkData, self)._checkForTupleKey('data', num, 'permalink_uri')
+        super(BulkData, self)._checkForTupleKey('data', num, 'uri')
 
-        return self.scryfallJson['data'][num]['permalink_uri']
+        return self.scryfallJson['data'][num]['uri']
 
     def bulk_content_type(self, num):
         """The MIME type of the file

@@ -41,8 +41,8 @@ class TestBulk(unittest.TestCase):
         self.assertIsInstance(bulk.bulk_compressed_size(0), int)
         self.assertIsInstance(bulk.bulk_compressed_size(0, True), str)
 
-    def test_bulk_permalink_uri(self):
-        self.assertIsInstance(bulk.bulk_permalink_uri(0), str)
+    def test_bulk_uri(self):
+        self.assertIsInstance(bulk.bulk_uri(0), str)
 
     def test_bulk_content_type(self):
         self.assertIsInstance(bulk.bulk_content_type(0), str)

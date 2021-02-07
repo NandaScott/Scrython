@@ -1,61 +1,76 @@
 # Changelog
 
+## 1.8.1
+
+Changes
+
+- Added support for `modal_dfc` to `image_uris()`.
+
 ## 1.8.0
 
 Changes
+
 - CI tests have now been added
 - Bulk data uri method has been updated, with a deprecation warning for the previous method.
 - `preview()` method has been added to all card methods.
 - Tests have been updated to reflect new changes.
 
 ## 1.7.1
+
 New stuff
+
 - Added image uri compatability for adventure cards
 - Custom Scryfall based errors
 
 ## 1.7.0
 
 Changes
+
 - Added the following methods for card objects
-    - `tcgplayer_id`
-    - `frame_effect`
-    - `games`
-    - `promo`
-    - `released_at`
+  - `tcgplayer_id`
+  - `frame_effect`
+  - `games`
+  - `promo`
+  - `released_at`
 - Removed the following methods for card objects
-    - `timeshifted`
-    - `colorshifted`
-    - `futureshifted`
+  - `timeshifted`
+  - `colorshifted`
+  - `futureshifted`
 - Renamed the following methods for card objects
-    - `currency` is now `prices`
+
+  - `currency` is now `prices`
 
 - Created new endpoint object `TCGPlayerId()`
 
 ## 1.6.2
 
 Changes
+
 - You can now pass arguments into `card.image_uris` to specify a single uri.
 
 ## 1.6.1
 
 Bugfixes
+
 - Forgot to add bulk_data subpackage to Scrython, fixing import issues.
 
 ## 1.6.0
 
 New stuff
+
 - Artist names have been added to `catalog`.
 - Multiple new functions have been added to `Cards`, `Symbology`.
 - Added the `bulk-data` endpoint to Scrython.
 - Added the Arena ID endpoint to Scrython.
 - Added the following classes:
-    cards.ArenaId
-    catalog.ArtistNames
-    bulk_data.BulkData
+  cards.ArenaId
+  catalog.ArtistNames
+  bulk_data.BulkData
 - You can now properly `*` import Scrython.
 - Created unit tests for all classes.
 
 Changes
+
 - Scrython has been changed to use spaces rather than tabs.
 - Multiple functions have had their names updated to properly reflect the new key names.
 - Some functions have been deleted entirely.
@@ -72,7 +87,7 @@ New stuff
 - Arena IDs are now accessible from all `cards` objects with `arena_id()`.
 - The `lang` attribute is now accessible from all `cards` objects with `lang()`
 - `printed_name()`, `printed_type_line()`, `printed_text()` have been added to all `card`
-    objects.
+  objects.
 - `lang` optional argument has now been added to `Collector()` object. Defaults to `en`
 
 Changes

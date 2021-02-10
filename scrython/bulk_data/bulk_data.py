@@ -1,10 +1,7 @@
 import sys
 sys.path.append('..')
 from scrython.foundation import FoundationObject
-import asyncio
-import aiohttp
 import urllib.parse
-from threading import Thread
 import warnings
 
 class BulkData(FoundationObject):

@@ -4,7 +4,6 @@ sys.path.append('..')
 
 from scrython.sets import Code
 import unittest
-import time
 
 promo_khans = Code('PKTK')
 

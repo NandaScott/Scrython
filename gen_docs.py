@@ -1,4 +1,3 @@
-import sys
 import scrython
 import re
 import os

@@ -48,11 +48,11 @@ class FoundationObject(object):
         Raises:
             KeyError: If key is not found.
         """
-        if not key in self.scryfallJson:
+        if key not in self.scryfallJson:
             raise KeyError('This card has no key \'{}\''.format(key))
 
         if nested_key:
-            if not nested_key in self.scryfallJson[key]:
+            if nested_key not in self.scryfallJson[key]:
                 raise KeyError('This card has no key \'{}.{}\''.format(key, nested_key))
 
 
@@ -69,5 +69,5 @@ class FoundationObject(object):
         Raises:
             KeyError: If key is not found.
         """
-        if not key in self.scryfallJson[parent][num]:
+        if key not in self.scryfallJson[parent][num]:
             raise KeyError('This tuple has no key \'{}\''.format(key))

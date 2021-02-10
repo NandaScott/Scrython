@@ -4,7 +4,6 @@ sys.path.append('..')
 
 from scrython.rulings import Id
 import unittest
-import time
 
 rules = Id(id='a985cfb0-6bae-4b1c-902e-d9d7a1aeec61')
 

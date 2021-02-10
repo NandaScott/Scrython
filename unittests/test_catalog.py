@@ -4,7 +4,6 @@ sys.path.append('..')
 
 from scrython.catalog import ArtifactTypes
 import unittest
-import time
 
 artifacts = ArtifactTypes()
 

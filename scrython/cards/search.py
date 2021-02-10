@@ -1,7 +1,6 @@
 import sys
 sys.path.append('..')
 from scrython.foundation import FoundationObject
-from .cards_object import CardsObject
 import urllib.parse
 
 class Search(FoundationObject):

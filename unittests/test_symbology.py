@@ -4,7 +4,6 @@ sys.path.append('..')
 
 from scrython.symbology import ParseMana, Symbology
 import unittest
-import time
 
 parse = ParseMana('URX')
 

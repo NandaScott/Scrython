@@ -1,10 +1,7 @@
 import sys
 sys.path.append('..')
 from scrython.foundation import FoundationObject
-import aiohttp
-import asyncio
 import urllib.parse
-from threading import Thread
 
 class CardsObject(FoundationObject):
     """

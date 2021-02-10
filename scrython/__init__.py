@@ -8,15 +8,7 @@ from scrython.cards import Named
 from scrython.cards import Random
 from scrython.cards import Search
 from scrython.cards import ArenaId
-
-#Import classes from rulings
-from scrython.rulings import Mtgo
-from scrython.rulings import Multiverse
-from scrython.rulings import Id
 from scrython.rulings import Code
-
-#Import classes from sets
-from scrython.sets import Code
 from scrython.sets import Sets
 
 #Import classes from catalogs

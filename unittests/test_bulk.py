@@ -4,7 +4,6 @@ sys.path.append('..')
 
 from scrython.bulk_data import BulkData
 import unittest
-import time
 
 bulk = BulkData()
 

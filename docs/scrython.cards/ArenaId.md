@@ -253,6 +253,16 @@ The related id of the card art
         
 ```
 ---
+### `image_status()`
+
+```
+Provides insight to the status of the images of the card.
+
+        Returns:
+            string: An enum of 'missing', 'placeholder', 'lowres', 'highres_scan'
+        
+```
+---
 ### `image_uris()`
 
 ```

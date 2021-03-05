@@ -749,3 +749,13 @@ class CardsObject(FoundationObject):
             return self.scryfallJson['preview'][key]
 
         return self.scryfallJson['preview']
+
+    def image_status(self):
+        """Provides insight to the status of the images of the card.
+
+        Returns:
+            string: An enum of 'missing', 'placeholder', 'lowres', 'highres_scan'
+        """
+        super(CardsObject, self)._checkForKey('image_status')
+
+        return self.scryfallJson['image_status']

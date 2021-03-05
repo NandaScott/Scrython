@@ -212,6 +212,9 @@ class TestCardObjects(unittest.TestCase):
         self.assertIsInstance(preview_check.preview(), dict)
         self.assertIsInstance(preview_check.preview('source'), str)
 
+    def test_image_status(self):
+        self.assertIsInstance(non_online_card.image_status(), str)
+
 class TestAutocomplete(unittest.TestCase):
 
     def test_object(self):

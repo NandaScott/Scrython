@@ -30,7 +30,7 @@ class BulkData(FoundationObject):
         self.url = 'https://api.scryfall.com/bulk-data'
         super(BulkData, self).__init__(self.url, True)
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is.
         (card, error, etc)
         
@@ -41,7 +41,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def has_more(self):
+    def has_more(self) -> bool:
         """True if there is more than one page of results
         
         Returns:
@@ -51,7 +51,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['has_more']
 
-    def data(self):
+    def data(self) -> list:
         """A list of all types of types returned by the endpoints
         
         Returns:
@@ -61,7 +61,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data']
 
-    def bulk_object(self, num):
+    def bulk_object(self, num: int) -> str:
         """Returns the type of object the specified index is
         
         Args:
@@ -74,7 +74,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['object']
 
-    def bulk_id(self, num):
+    def bulk_id(self, num: int) -> str:
         """The unique ID of the bulk item
         
         Args:
@@ -87,7 +87,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['id']
 
-    def bulk_type(self, num):
+    def bulk_type(self, num: int) -> str:
         """The type of bulk data
         
         Args:
@@ -100,7 +100,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['type']
 
-    def bulk_updated_at(self, num):
+    def bulk_updated_at(self, num: int) -> str:
         """The time the item was last updated
         
         Args:
@@ -113,7 +113,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['updated_at']
 
-    def bulk_name(self, num):
+    def bulk_name(self, num: int) -> str:
         """The name of the type of bulk data object
         
         Args:
@@ -126,7 +126,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['name']
 
-    def bulk_description(self, num):
+    def bulk_description(self, num: int) -> str:
         """A description of the object
         
         Args:
@@ -139,36 +139,44 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['description']
 
-    def bulk_compressed_size(self, num, human_readable=False):
+    def bulk_compressed_size(self, num: int) -> int:
         """The size of the file in bytes
         
         Args:
             num (int): The index of the object in the `data` key
-            human_readable (bool, optional): Defaults to False. Converts the bytes into a human readable format
         
         Returns:
             integer: Returns integer by default. 
-            string: If human_readable is True, returns a string.
         """
         super(BulkData, self)._checkForTupleKey('data', num, 'compressed_size')
 
-        if human_readable:
-            before = self.scryfallJson['data'][num]['compressed_size']
-
-            for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']:
-                if abs(before) < 1024.0:
-                    return '{:3.1f}{}'.format(before, unit)
-                before /= 1024.0
-
-            return '{:.1f}{}'.format(before, 'YiB')
-
         return self.scryfallJson['data'][num]['compressed_size']
 
-    def bulk_permalink_uri(self, num):
+    def bulk_compressed_size_human_readable(self, num: int) -> str:
+        """The size of the file in bytes
+        
+        Args:
+            num (int): The index of the object in the `data` key
+        
+        Returns: 
+            string: returns a human redable version of bulk_compressed_size.
+        """
+        super(BulkData, self)._checkForTupleKey('data', num, 'compressed_size')
+
+        before = self.scryfallJson['data'][num]['compressed_size']
+
+        for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']:
+            if abs(before) < 1024.0:
+                return '{:3.1f}{}'.format(before, unit)
+            before /= 1024.0
+
+        return '{:.1f}{}'.format(before, 'YiB')
+
+    def bulk_permalink_uri(self, num: int) -> str:
         warnings.warn("This method has been renamed to bulk_uri as per https://scryfall.com/blog/updates-to-bulk-data-and-cards-deprecation-notice-217", DeprecationWarning)
         return self.bulk_uri(num)
 
-    def bulk_uri(self, num):
+    def bulk_uri(self, num: int) -> str:
         """The URL that hosts the bulk file
         
         Args:
@@ -181,7 +189,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['uri']
 
-    def bulk_content_type(self, num):
+    def bulk_content_type(self, num: int) -> str:
         """The MIME type of the file
         
         Args:
@@ -194,7 +202,7 @@ class BulkData(FoundationObject):
 
         return self.scryfallJson['data'][num]['content_type']
 
-    def bulk_content_encoding(self, num):
+    def bulk_content_encoding(self, num: int) -> str:
         """The encoding of the file
         
         Args:

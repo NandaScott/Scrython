@@ -1,4 +1,5 @@
 import sys
+from typing import Optional
 sys.path.append('..')
 from scrython.foundation import FoundationObject
 
@@ -17,7 +18,7 @@ class RulingsObject(FoundationObject):
 
     """
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
         
@@ -28,7 +29,7 @@ class RulingsObject(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def has_more(self):
+    def has_more(self) -> bool:
         """True if there is more than one page of results
         
         Returns:
@@ -38,7 +39,7 @@ class RulingsObject(FoundationObject):
 
         return self.scryfallJson['has_more']
 
-    def data(self, index=None, key=None):
+    def data(self, index: Optional[int]=None, key: Optional[str]=None):
         """The data returned from the query
 
         Acceptable keys:
@@ -67,7 +68,7 @@ class RulingsObject(FoundationObject):
 
         return self.scryfallJson['data']
 
-    def data_length(self):
+    def data_length(self) -> int:
         """The length of the `data` list.
         
         Returns:

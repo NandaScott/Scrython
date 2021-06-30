@@ -29,7 +29,7 @@ class Code(FoundationObject):
         self._url = 'sets/{}?'.format(code)
         super(Code, self).__init__(self._url)
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
         
@@ -40,7 +40,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def code(self):
+    def code(self) -> str:
         """The three letter set code of the set
         
         Returns:
@@ -50,7 +50,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['code']
 
-    def mtgo_code(self):
+    def mtgo_code(self) -> str:
         """The mtgo equivalent of `code()`
         
         Returns:
@@ -60,7 +60,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['mtgo_code']
 
-    def name(self):
+    def name(self) -> str:
         """The full name of the set
         
         Returns:
@@ -70,7 +70,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['name']
 
-    def set_type(self):
+    def set_type(self) -> str:
         """The type of the set (expansion, commander, etc)
         
         Returns:
@@ -80,7 +80,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['set_type']
 
-    def released_at(self):
+    def released_at(self) -> str:
         """The date the set was launched
         
         Returns:
@@ -90,7 +90,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['released_at']
 
-    def block_code(self):
+    def block_code(self) -> str:
         """The the letter code for the block the set was in
         
         Returns:
@@ -100,7 +100,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['block_code']
 
-    def block(self):
+    def block(self) -> str:
         """The full name of the block a set was in
         
         Returns:
@@ -110,7 +110,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['block']
 
-    def parent_set_code(self):
+    def parent_set_code(self) -> str:
         """The set code for the parent set
         
         Returns:
@@ -120,7 +120,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['parent_set_code']
 
-    def card_count(self):
+    def card_count(self) -> int:
         """The number of cards in the set
         
         Returns:
@@ -130,7 +130,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['card_count']
 
-    def digital(self):
+    def digital(self) -> bool:
         """True if this set is only featured on MTGO
         
         Returns:
@@ -140,7 +140,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['digital']
 
-    def foil_only(self):
+    def foil_only(self) -> bool:
         """True if this set only has foils
         
         Returns:
@@ -150,7 +150,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['foil_only']
 
-    def icon_svg_uri(self):
+    def icon_svg_uri(self) -> str:
         """A URI to the SVG of the set symbol
         
         Returns:
@@ -160,7 +160,7 @@ class Code(FoundationObject):
 
         return self.scryfallJson['icon_svg_uri']
 
-    def search_uri(self):
+    def search_uri(self) -> str:
         """The scryfall API url for the search
         
         Returns:

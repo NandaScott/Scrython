@@ -1,3 +1,4 @@
+from asyncio.events import AbstractEventLoop
 import aiohttp
 import asyncio
 import urllib
@@ -23,11 +24,11 @@ class FoundationObject(object):
         if override:
             self._url = _url
 
-        async def getRequest(client, url, **kwargs):
+        async def getRequest(client, url: str, **kwargs):
             async with client.get(url, **kwargs) as response:
                 return await response.json()
 
-        async def main(loop):
+        async def main(loop: AbstractEventLoop):
             async with aiohttp.ClientSession(loop=loop) as client:
                 self.scryfallJson = await getRequest(client, self._url)
 
@@ -37,7 +38,7 @@ class FoundationObject(object):
         if self.scryfallJson['object'] == 'error':
             raise ScryfallError(self.scryfallJson, self.scryfallJson['details'])
 
-    def _checkForKey(self, key, nested_key=None):
+    def _checkForKey(self, key: str, nested_key=None):
         """Checks for a key in the scryfallJson object.
         This function should be considered private, and
         should not be accessed in production.
@@ -56,7 +57,7 @@ class FoundationObject(object):
                 raise KeyError('This card has no key \'{}.{}\''.format(key, nested_key))
 
 
-    def _checkForTupleKey(self, parent, num, key):
+    def _checkForTupleKey(self, parent: str, num: int, key: str):
         """Checks for a key of an object in an array.
         This function should be considered private, and
         should not be accessed in production.

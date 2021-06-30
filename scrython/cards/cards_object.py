@@ -1,4 +1,5 @@
 import sys
+from typing import Optional
 sys.path.append('..')
 from scrython.foundation import FoundationObject
 import aiohttp
@@ -30,7 +31,7 @@ class CardsObject(FoundationObject):
         Exception: If the object returned is an error.
     """
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
         
@@ -41,7 +42,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def id(self):
+    def id(self) -> str:
         """A unique ID for the returned card object
         
         Returns:
@@ -51,7 +52,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['id']
 
-    def multiverse_ids(self):
+    def multiverse_ids(self) -> list[str]:
         """The official Gatherer multiverse ids of the card
         
         Returns:
@@ -61,7 +62,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['multiverse_ids']
 
-    def mtgo_id(self):
+    def mtgo_id(self) -> int:
         """The official MTGO id of the of the card
         
         Returns:
@@ -71,7 +72,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['mtgo_id']
 
-    def mtgo_foil_id(self):
+    def mtgo_foil_id(self) -> int:
         """The corresponding MTGO foil ID of the card
         
         Returns:
@@ -81,7 +82,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['mtgo_foil_id']
 
-    def tcgplayer_id(self):
+    def tcgplayer_id(self) -> int:
         """The `productId` of the card on TCGplayer.
 
         Returns:
@@ -91,7 +92,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['tcgplayer_id']
 
-    def name(self):
+    def name(self) -> str:
         """The oracle name of the card
         
         Returns:
@@ -101,7 +102,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['name']
 
-    def uri(self):
+    def uri(self) -> str:
         """The Scryfall API uri for the card
         
         Returns:
@@ -111,7 +112,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['uri']
 
-    def scryfall_uri(self):
+    def scryfall_uri(self) -> str:
         """The full Scryfall page of the card
         As if it was a URL from the site.
         
@@ -122,7 +123,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['scryfall_uri']
 
-    def layout(self):
+    def layout(self) -> str:
         """The image layout of the card. (normal, transform, etc)
         
         Returns:
@@ -132,7 +133,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['layout']
 
-    def highres_image(self):
+    def highres_image(self) -> bool:
         """Determine if a card has a highres scan available
         
         Returns:
@@ -201,7 +202,7 @@ class CardsObject(FoundationObject):
 
         return uri(images_dict(index))
 
-    def cmc(self):
+    def cmc(self) -> float:
         """A float of the converted mana cost of the card
         
         Returns:
@@ -211,7 +212,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['cmc']
 
-    def type_line(self):
+    def type_line(self) -> str:
         """The full type line of the card
         
         Returns:
@@ -221,7 +222,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['type_line']
 
-    def oracle_text(self):
+    def oracle_text(self) -> str:
         """The official oracle text of a card
         
         Returns:
@@ -231,7 +232,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['oracle_text']
 
-    def mana_cost(self):
+    def mana_cost(self) -> str:
         """The full mana cost using shorthanded mana symbols
         
         Returns:
@@ -241,7 +242,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['mana_cost']
 
-    def colors(self):
+    def colors(self) -> list[str]:
         """A list of strings with all colors found in the mana cost
         
         Returns:
@@ -251,7 +252,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['colors']
 
-    def color_identity(self):
+    def color_identity(self) -> list[str]:
         """A list of strings with all colors found on the card itself
         
         Returns:
@@ -261,7 +262,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['color_identity']
 
-    def legalities(self):
+    def legalities(self) -> dict[str, str]:
         """A dictionary of all formats and their legality
         
         Returns:
@@ -271,7 +272,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['legalities']
 
-    def reserved(self):
+    def reserved(self) -> bool:
         """Returns True if the card is on the reserved list
         
         Returns:
@@ -281,7 +282,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['reserved']
 
-    def reprint(self):
+    def reprint(self) -> bool:
         """Returns True if the card has been reprinted before
         
         Returns:
@@ -291,7 +292,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['reprint']
 
-    def set_code(self):
+    def set_code(self) -> str:
         """The 3 letter code for the set of the card
         
         Returns:
@@ -301,7 +302,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['set']
 
-    def set_name(self):
+    def set_name(self) -> str:
         """The full name for the set of the card
         
         Returns:
@@ -311,7 +312,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['set_name']
 
-    def set_uri(self):
+    def set_uri(self) -> str:
         """The API uri for the full set list of the card
         
         Returns:
@@ -321,7 +322,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['set_uri']
 
-    def set_search_uri(self):
+    def set_search_uri(self) -> str:
         """Same output as set_uri
         
         Returns:
@@ -331,7 +332,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['set_search_uri']
 
-    def scryfall_set_uri(self):
+    def scryfall_set_uri(self) -> str:
         """The full link to the set on Scryfall
         
         Returns:
@@ -341,7 +342,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['scryfall_set_uri']
 
-    def rulings_uri(self):
+    def rulings_uri(self) -> str:
         """The API uri for the rulings of the card
         
         Returns:
@@ -351,7 +352,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['rulings_uri']
 
-    def prints_search_uri(self):
+    def prints_search_uri(self) -> str:
         """A link to where you can begin paginating all re/prints for this card on Scryfall’s API
         
         Returns:
@@ -361,7 +362,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['prints_search_uri']
 
-    def collector_number(self):
+    def collector_number(self) -> str:
         """The collector number of the card
         
         Returns:
@@ -371,7 +372,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['collector_number']
 
-    def digital(self):
+    def digital(self) -> bool:
         """Returns True if the card is the digital version
         
         Returns:
@@ -381,7 +382,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['digital']
 
-    def rarity(self):
+    def rarity(self) -> str:
         """The rarity of the card
         
         Returns:
@@ -391,7 +392,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['rarity']
 
-    def illustration_id(self):
+    def illustration_id(self) -> str:
         """The related id of the card art
         
         Returns:
@@ -401,7 +402,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['illustration_id']
 
-    def artist(self):
+    def artist(self) -> str:
         """The artist of the card
         
         Returns:
@@ -411,7 +412,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['artist']
 
-    def frame(self):
+    def frame(self) -> str:
         """The year of the card frame
         
         Returns:
@@ -421,7 +422,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['frame']
 
-    def frame_effects(self):
+    def frame_effects(self) -> list[str]:
         """The card's frame effect, if any. (miracle, nyxtouched, etc.)
         
         Returns:
@@ -431,7 +432,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['frame_effects']
 
-    def full_art(self):
+    def full_art(self) -> bool:
         """Returns True if the card is considered full art
         
         Returns:
@@ -441,7 +442,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['full_art']
 
-    def border_color(self):
+    def border_color(self) -> str:
         """The color of the card border
         
         Returns:
@@ -451,7 +452,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['border_color']
 
-    def edhrec_rank(self):
+    def edhrec_rank(self) -> int:
         """The rank of the card on edhrec.com
         
         Returns:
@@ -461,7 +462,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['edhrec_rank']
 
-    def prices(self, mode):
+    def prices(self, mode: str) -> float:
         """Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
         
         Args:
@@ -481,7 +482,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['prices'][mode]
 
-    def related_uris(self):
+    def related_uris(self) -> dict[str, str]:
         """A dictionary of related websites for this card
         
         Returns:
@@ -491,7 +492,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['related_uris']
 
-    def purchase_uris(self):
+    def purchase_uris(self) -> dict[str, str]:
         """A dictionary of links to purchase the card
         
         Returns:
@@ -501,7 +502,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['purchase_uris']
 
-    def life_modifier(self):
+    def life_modifier(self) -> str:
         """This is the cards life modifier value, assuming it's a Vanguard card
         
         Returns:
@@ -511,7 +512,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['life_modifier']
 
-    def hand_modifier(self):
+    def hand_modifier(self) -> str:
         """This cards hand modifier value, assuming it's a Vanguard card
         
         Returns:
@@ -521,9 +522,12 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['hand_modifier']
 
-    def color_indicator(self, num):
+    def color_indicator(self, num: int=0):
         """An list of all colors found in this card's color indicator
         
+        Argument:
+            num (int): cardface default 0
+
         Returns:
             list
         """
@@ -531,7 +535,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['card_faces'][num]['color_indicator']
 
-    def all_parts(self):
+    def all_parts(self) -> list[str]:
         """This this card is closely related to other cards, this property will be an list with it
         
         Returns:
@@ -541,7 +545,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['all_parts']
 
-    def card_faces(self):
+    def card_faces(self) -> list[str]:
         """If it exists, all parts found on a card's face will be found as an object from this list
         
         Returns:
@@ -551,7 +555,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['card_faces']
 
-    def watermark(self):
+    def watermark(self) -> str:
         """The associated watermark of the card, if any
         
         Returns:
@@ -561,7 +565,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['watermark']
 
-    def story_spotlight(self):
+    def story_spotlight(self) -> bool:
         """True if this card is featured in the story
         
         Returns:
@@ -571,7 +575,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['story_spotlight']
 
-    def power(self):
+    def power(self) -> str:
         """The power of the creature, if applicable
         
         Returns:
@@ -581,7 +585,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['power']
 
-    def toughness(self):
+    def toughness(self) -> str:
         """The toughness of the creature, if applicable
         
         Returns:
@@ -591,7 +595,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['toughness']
 
-    def loyalty(self):
+    def loyalty(self) -> str:
         """This card's loyalty. Some loyalties may be X rather than a number
         
         Returns:
@@ -601,7 +605,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['loyalty']
 
-    def flavor_text(self):
+    def flavor_text(self) -> str:
         """The flavor text of the card, if any
         
         Returns:
@@ -611,7 +615,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['flavor_text']
 
-    def arena_id(self):
+    def arena_id(self) -> str:
         """The Arena ID of the card, if any
         
         Returns:
@@ -621,7 +625,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['arena_id']
 
-    def lang(self):
+    def lang(self) -> str:
         """The language of the card
         
         Returns:
@@ -631,7 +635,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['lang']
 
-    def printed_name(self):
+    def printed_name(self) -> str:
         """If the card is in a non-English language, this will be the name as it appears on the card
         
         Returns:
@@ -641,7 +645,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['printed_name']
 
-    def printed_type_line(self):
+    def printed_type_line(self) -> str:
         """If the card is in a non-English language, this will be the type line as it appears on the card
         
         Returns:
@@ -651,7 +655,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['printed_type_line']
 
-    def printed_text(self):
+    def printed_text(self) -> str:
         """If the card is in a non-English language, this will be the rules text as it appears on the card
         
         Returns:
@@ -661,7 +665,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['printed_text']
 
-    def oracle_id(self):
+    def oracle_id(self) -> str:
         """A unique ID for this card's oracle text
         
         Returns:
@@ -671,7 +675,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['oracle_id']
 
-    def foil(self):
+    def foil(self) -> str:
         """True if this printing exists in a foil version
         
         Returns:
@@ -681,7 +685,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['foil']
 
-    def nonfoil(self):
+    def nonfoil(self) -> bool:
         """True if this printing does not exist in foil
         
         Returns:
@@ -691,7 +695,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['nonfoil']
 
-    def oversized(self):
+    def oversized(self) -> bool:
         """True if this printing is an oversized card
         
         Returns:
@@ -701,17 +705,17 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['oversized']
 
-    def games(self):
+    def games(self) -> list[str]:
         """A list of games that this card print is available in.
 
         Returns:
-            array: A list of games
+            list: A list of games
         """
         super(CardsObject, self)._checkForKey('games')
 
         return self.scryfallJson['games']
 
-    def promo(self):
+    def promo(self) -> bool:
         """True if this card is a promotional print.
 
         Returns:
@@ -721,7 +725,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['promo']
 
-    def released_at(self):
+    def released_at(self) -> str:
         """The date this card was first released.
         
         Returns:
@@ -731,7 +735,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['released_at']
 
-    def preview(self, key=None):
+    def preview(self, key: Optional[str]=None) :
         """Preview information for this card, if any.
         You may pass the name of a valid key to return the value of that key.
         Such as a source_uri.
@@ -750,7 +754,7 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['preview']
 
-    def image_status(self):
+    def image_status(self) -> str:
         """Provides insight to the status of the images of the card.
 
         Returns:

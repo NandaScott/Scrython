@@ -25,7 +25,7 @@ class CatalogsObject(FoundationObject):
         N/A
     """
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
         
@@ -36,7 +36,7 @@ class CatalogsObject(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def uri(self):
+    def uri(self) -> str:
         """The API URI for the endpoint you've called.
         
         Returns:
@@ -46,7 +46,7 @@ class CatalogsObject(FoundationObject):
 
         return self.scryfallJson['uri']
 
-    def total_values(self):
+    def total_values(self) -> int:
         """The number of items in `data()`
         
         Returns:
@@ -56,7 +56,7 @@ class CatalogsObject(FoundationObject):
 
         return self.scryfallJson['total_values']
 
-    def data(self):
+    def data(self) -> list[str]:
         """A list of all types returned by the endpoint
         
         Returns:

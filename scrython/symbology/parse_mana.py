@@ -28,7 +28,7 @@ class ParseMana(FoundationObject):
         self.url = 'symbology/parse-mana?cost=' + self.cost
         super(ParseMana, self).__init__(self.url)
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
 
@@ -39,7 +39,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def mana_cost(self):
+    def mana_cost(self) -> str:
         """The formatted mana cost
         
         Returns:
@@ -49,7 +49,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['cost']
 
-    def cmc(self):
+    def cmc(self) -> float:
         """The converted mana cost of the card 
         
         Returns:
@@ -59,7 +59,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['cmc']
 
-    def colors(self):
+    def colors(self) -> list:
         """A list of all colors in the mana cost
         
         Returns:
@@ -69,7 +69,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['colors']
 
-    def colorless(self):
+    def colorless(self) -> bool:
         """True if the mana cost is colorless
         
         Returns:
@@ -79,7 +79,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['colorless']
 
-    def monocolored(self):
+    def monocolored(self) -> bool:
         """True if the mana cost is mono colored
         
         Returns:
@@ -89,7 +89,7 @@ class ParseMana(FoundationObject):
 
         return self.scryfallJson['monocolored']
 
-    def multicolored(self):
+    def multicolored(self) -> bool:
         """True if the mana cost is a multicolored cost
         
         Returns:

@@ -22,7 +22,7 @@ class Symbology(FoundationObject):
         self.url = 'symbology?'
         super(Symbology, self).__init__(self.url)
 
-    def object(self):
+    def object(self) -> str:
         """Returns the type of object it is
         (card, error, etc)
 
@@ -33,7 +33,7 @@ class Symbology(FoundationObject):
 
         return self.scryfallJson['object']
 
-    def has_more(self):
+    def has_more(self) -> bool:
         """True if there are more pages to the object
         
         Returns:
@@ -78,7 +78,7 @@ class Symbology(FoundationObject):
 
         return self.scryfallJson['data']
 
-    def data_length(self):
+    def data_length(self) -> int:
         """The length of the data returned
         
         Returns:

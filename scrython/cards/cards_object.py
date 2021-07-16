@@ -167,6 +167,7 @@ class CardsObject(FoundationObject):
             'meld': lambda num: self.scryfallJson['image_uris'],
             'leveler': lambda num: self.scryfallJson['image_uris'],
             'saga': lambda num: self.scryfallJson['image_uris'],
+            'class': lambda num: self.scryfallJson['image_uris'],
             'planar': lambda num: self.scryfallJson['image_uris'],
             'scheme': lambda num: self.scryfallJson['image_uris'],
             'vanguard': lambda num: self.scryfallJson['image_uris'],

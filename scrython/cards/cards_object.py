@@ -760,3 +760,14 @@ class CardsObject(FoundationObject):
         super(CardsObject, self)._checkForKey('image_status')
 
         return self.scryfallJson['image_status']
+
+    def finishes(self):
+        """A list of computer-readable flags that indicate if this card
+        can come in foil, nonfoil, etched, or glossy finishes.
+
+        Returns:
+            list: A list of all finishes.
+        """
+        super(CardsObject, self)._checkForKey('finishes')
+
+        return self.scryfallJson['finishes']

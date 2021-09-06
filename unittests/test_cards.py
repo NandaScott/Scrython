@@ -18,6 +18,8 @@ vanguard = Id(id='87c1234b-3834-4bba-bef2-05707bb1e8e2'); time.sleep(0.1)
 alt_lang_card = Collector(code='ths', collector_number='75', lang='ja'); time.sleep(0.1)
 planeswalker = Id(id='4c565076-5db2-47ea-8ee0-4a4fd7bb353d'); time.sleep(0.1)
 preview_check = Id(id='fb6b12e7-bb93-4eb6-bad1-b256a6ccff4e'); time.sleep(0.1)
+class_card = Id(id='37d6343a-c514-4ca6-a415-62d1a473ae20'); time.sleep(0.1)
+meld_card = Id(id='5a7a212e-e0b6-4f12-a95c-173cae023f93'); time.sleep(0.1)
 
 autocomplete = Autocomplete(q='Thal'); time.sleep(0.1)
 
@@ -158,7 +160,7 @@ class TestCardObjects(unittest.TestCase):
         self.assertIsInstance(transform.color_indicator(1), list)
 
     def test_all_parts(self):
-        self.assertIsInstance(transform.all_parts(), list)
+        self.assertIsInstance(meld_card.all_parts(), list)
 
     def non_online_card_faces(self):
         self.assertIsInstance(transform.card_faces(), list)

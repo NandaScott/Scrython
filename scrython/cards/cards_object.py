@@ -673,22 +673,30 @@ class CardsObject(FoundationObject):
         return self.scryfallJson['oracle_id']
 
     def foil(self):
-        """True if this printing exists in a foil version
+        """True if this printing exists in a foil version.
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
         
         Returns:
             boolean
         """
         super(CardsObject, self)._checkForKey('foil')
 
+        print('WARNING: This method will be deprecated on Nov 1, 2021. Please use the `finishes` method instead.')
+
         return self.scryfallJson['foil']
 
     def nonfoil(self):
         """True if this printing does not exist in foil
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
         
         Returns:
             boolean
         """
         super(CardsObject, self)._checkForKey('nonfoil')
+
+        print('WARNING: This method will be deprecated on Nov 1, 2021. Please use the `finishes` method instead.')
 
         return self.scryfallJson['nonfoil']
 

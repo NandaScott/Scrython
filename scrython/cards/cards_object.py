@@ -463,7 +463,7 @@ class CardsObject(FoundationObject):
         return self.scryfallJson['edhrec_rank']
 
     def prices(self, mode):
-        """Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
+        """Returns prices from modes `usd`, `usd_foil`, `usd_etched`, `usd_glossy`, `eur`, and `tix`
         
         Args:
             mode (string): The prices to get
@@ -474,7 +474,7 @@ class CardsObject(FoundationObject):
         Returns:
             float: The prices as a float
         """
-        modes = ['usd', 'usd_foil', 'eur', 'tix']
+        modes = ['usd', 'usd_foil', 'usd_etched', 'usd_glossy', 'eur', 'tix']
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
 

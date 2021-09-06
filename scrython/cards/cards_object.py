@@ -91,6 +91,16 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['tcgplayer_id']
 
+    def tcgplayer_etched_id(self):
+        """The `etched_id` of the card on TCGplayer.
+
+        Returns:
+            integer: The TCGplayer etched id of the card
+        """
+        super(CardsObject, self)._checkForKey('tcgplayer_etched_id')
+
+        return self.scryfallJson['tcgplayer_etched_id']
+
     def name(self):
         """The oracle name of the card
         
@@ -676,7 +686,7 @@ class CardsObject(FoundationObject):
         """True if this printing exists in a foil version.
 
         DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
-        
+
         Returns:
             boolean
         """

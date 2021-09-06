@@ -155,6 +155,17 @@ The rank of the card on edhrec.com
         
 ```
 ---
+### `finishes()`
+
+```
+A list of computer-readable flags that indicate if this card
+        can come in foil, nonfoil, etched, or glossy finishes.
+
+        Returns:
+            list: A list of all finishes.
+        
+```
+---
 ### `flavor_text()`
 
 ```
@@ -168,8 +179,10 @@ The flavor text of the card, if any
 ### `foil()`
 
 ```
-True if this printing exists in a foil version
-        
+True if this printing exists in a foil version.
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
+
         Returns:
             boolean
         
@@ -389,6 +402,8 @@ The oracle name of the card
 
 ```
 True if this printing does not exist in foil
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
         
         Returns:
             boolean
@@ -465,7 +480,7 @@ Preview information for this card, if any.
 ### `prices()`
 
 ```
-Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
+Returns prices from modes `usd`, `usd_foil`, `usd_etched`, `usd_glossy`, `eur`, and `tix`
         
         Args:
             mode (string): The prices to get
@@ -666,6 +681,16 @@ True if this card is featured in the story
         
         Returns:
             boolean
+        
+```
+---
+### `tcgplayer_etched_id()`
+
+```
+The `etched_id` of the card on TCGplayer.
+
+        Returns:
+            integer: The TCGplayer etched id of the card
         
 ```
 ---

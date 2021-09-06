@@ -91,6 +91,16 @@ class CardsObject(FoundationObject):
 
         return self.scryfallJson['tcgplayer_id']
 
+    def tcgplayer_etched_id(self):
+        """The `etched_id` of the card on TCGplayer.
+
+        Returns:
+            integer: The TCGplayer etched id of the card
+        """
+        super(CardsObject, self)._checkForKey('tcgplayer_etched_id')
+
+        return self.scryfallJson['tcgplayer_etched_id']
+
     def name(self):
         """The oracle name of the card
         
@@ -167,6 +177,7 @@ class CardsObject(FoundationObject):
             'meld': lambda num: self.scryfallJson['image_uris'],
             'leveler': lambda num: self.scryfallJson['image_uris'],
             'saga': lambda num: self.scryfallJson['image_uris'],
+            'class': lambda num: self.scryfallJson['image_uris'],
             'planar': lambda num: self.scryfallJson['image_uris'],
             'scheme': lambda num: self.scryfallJson['image_uris'],
             'vanguard': lambda num: self.scryfallJson['image_uris'],
@@ -462,7 +473,7 @@ class CardsObject(FoundationObject):
         return self.scryfallJson['edhrec_rank']
 
     def prices(self, mode):
-        """Returns prices from modes `usd`, `usd_foil`, `eur`, and `tix`
+        """Returns prices from modes `usd`, `usd_foil`, `usd_etched`, `usd_glossy`, `eur`, and `tix`
         
         Args:
             mode (string): The prices to get
@@ -473,7 +484,7 @@ class CardsObject(FoundationObject):
         Returns:
             float: The prices as a float
         """
-        modes = ['usd', 'usd_foil', 'eur', 'tix']
+        modes = ['usd', 'usd_foil', 'usd_etched', 'usd_glossy', 'eur', 'tix']
         if mode not in modes:
             raise KeyError("{} is not a key.".format(mode))
 
@@ -672,22 +683,30 @@ class CardsObject(FoundationObject):
         return self.scryfallJson['oracle_id']
 
     def foil(self):
-        """True if this printing exists in a foil version
-        
+        """True if this printing exists in a foil version.
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
+
         Returns:
             boolean
         """
         super(CardsObject, self)._checkForKey('foil')
 
+        print('WARNING: This method will be deprecated on Nov 1, 2021. Please use the `finishes` method instead.')
+
         return self.scryfallJson['foil']
 
     def nonfoil(self):
         """True if this printing does not exist in foil
+
+        DEPRECATION NOTICE: This method will be deprecated on Nov 1, 2021.
         
         Returns:
             boolean
         """
         super(CardsObject, self)._checkForKey('nonfoil')
+
+        print('WARNING: This method will be deprecated on Nov 1, 2021. Please use the `finishes` method instead.')
 
         return self.scryfallJson['nonfoil']
 
@@ -759,3 +778,14 @@ class CardsObject(FoundationObject):
         super(CardsObject, self)._checkForKey('image_status')
 
         return self.scryfallJson['image_status']
+
+    def finishes(self):
+        """A list of computer-readable flags that indicate if this card
+        can come in foil, nonfoil, etched, or glossy finishes.
+
+        Returns:
+            list: A list of all finishes.
+        """
+        super(CardsObject, self)._checkForKey('finishes')
+
+        return self.scryfallJson['finishes']

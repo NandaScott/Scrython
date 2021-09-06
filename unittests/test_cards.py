@@ -18,6 +18,8 @@ vanguard = Id(id='87c1234b-3834-4bba-bef2-05707bb1e8e2'); time.sleep(0.1)
 alt_lang_card = Collector(code='ths', collector_number='75', lang='ja'); time.sleep(0.1)
 planeswalker = Id(id='4c565076-5db2-47ea-8ee0-4a4fd7bb353d'); time.sleep(0.1)
 preview_check = Id(id='fb6b12e7-bb93-4eb6-bad1-b256a6ccff4e'); time.sleep(0.1)
+meld_card = Id(id='5a7a212e-e0b6-4f12-a95c-173cae023f93'); time.sleep(0.1)
+foil_etched = Id(id='47f44d5a-f3d6-4a9a-8bd3-b17a88565c51'); time.sleep(0.1)
 
 autocomplete = Autocomplete(q='Thal'); time.sleep(0.1)
 
@@ -158,7 +160,7 @@ class TestCardObjects(unittest.TestCase):
         self.assertIsInstance(transform.color_indicator(1), list)
 
     def test_all_parts(self):
-        self.assertIsInstance(transform.all_parts(), list)
+        self.assertIsInstance(meld_card.all_parts(), list)
 
     def non_online_card_faces(self):
         self.assertIsInstance(transform.card_faces(), list)
@@ -196,14 +198,8 @@ class TestCardObjects(unittest.TestCase):
     def test_oracle_id(self):
         self.assertIsInstance(non_online_card.oracle_id(), str)
 
-    def test_foil(self):
-        self.assertIsInstance(non_online_card.foil(), bool)
-
     def test_loyalty(self):
         self.assertIsInstance(planeswalker.loyalty(), str)
-
-    def test_non_foil(self):
-        self.assertIsInstance(non_online_card.nonfoil(), bool)
 
     def test_oversized(self):
         self.assertIsInstance(non_online_card.oversized(), bool)
@@ -214,6 +210,27 @@ class TestCardObjects(unittest.TestCase):
 
     def test_image_status(self):
         self.assertIsInstance(non_online_card.image_status(), str)
+
+    def test_finishes(self):
+        self.assertIsInstance(foil_etched.finishes(), list)
+
+    def test_tcgplayer_id(self):
+        self.assertIsInstance(non_online_card.tcgplayer_id(), int)
+
+    def test_tcgplayer_etched_id(self):
+        self.assertIsInstance(foil_etched.tcgplayer_etched_id(), int)
+
+    def test_frame_effects(self):
+        self.assertIsInstance(frame_effected_card.frame_effects(), list)
+
+    def test_games(self):
+        self.assertIsInstance(non_online_card.games(), list)
+
+    def test_promo(self):
+        self.assertIsInstance(non_online_card.promo(), bool)
+
+    def test_released_at(self):
+        self.assertIsInstance(non_online_card.released_at(), str)
 
 class TestAutocomplete(unittest.TestCase):
 
@@ -245,21 +262,6 @@ class TestSearch(unittest.TestCase):
 
     def test_data_length(self):
         self.assertIsInstance(search.data_length(), int)
-
-    def test_tcgplayer_id(self):
-        self.assertIsInstance(non_online_card.tcgplayer_id(), int)
-
-    def test_frame_effects(self):
-        self.assertIsInstance(frame_effected_card.frame_effects(), list)
-
-    def test_games(self):
-        self.assertIsInstance(non_online_card.games(), list)
-
-    def test_promo(self):
-        self.assertIsInstance(non_online_card.promo(), bool)
-
-    def test_released_at(self):
-        self.assertIsInstance(non_online_card.released_at(), str)
 
 
 if __name__ == '__main__':

@@ -11,6 +11,9 @@ from .toughnesses import Toughnesses
 from .watermarks import Watermarks
 from .word_bank import WordBank
 from .artist_names import ArtistNames
+from .keyword_abilities import KeywordAbilities
+from .keyword_actions import KeywordActions
+from .ability_words import AbilityWords
 
 __all__ = [
     'ArtifactTypes',
@@ -25,5 +28,8 @@ __all__ = [
     'Toughnesses',
     'Watermarks',
     'WordBank',
-    'ArtistNames'
+    'ArtistNames',
+    'KeywordAbilities',
+    'KeywordActions',
+    'AbilityWords'
 ]

@@ -33,6 +33,10 @@ from scrython.catalog import Toughnesses
 from scrython.catalog import Watermarks
 from scrython.catalog import WordBank
 from scrython.catalog import ArtistNames
+from scrython.catalog import KeywordAbilities
+from scrython.catalog import KeywordActions
+from scrython.catalog import AbilityWords
+
 
 #Import symbology
 from scrython.symbology import ParseMana
@@ -77,4 +81,7 @@ __all__ = [
     'Symbology',
     'BulkData',
     'ScryfallError',
+    'KeywordAbilities',
+    'KeywordActions',
+    'AbilityWords'
 ]

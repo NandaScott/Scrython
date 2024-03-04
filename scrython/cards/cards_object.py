@@ -200,7 +200,8 @@ class CardsObject(FoundationObject):
         }
 
         images_dict = layouts.get(self.scryfallJson['layout'])
-
+        if images_dict is None:
+            images_dict = layouts.get('normal')
         uri = image_types.get(image_type)
 
         if index == 0 and image_type is None:

@@ -1,4 +1,5 @@
-from .code import Code
 from .sets import Sets
 
-__all__ = [ 'Code', 'Sets' ]
+__all__ = [
+  'Sets'
+]

@@ -79,9 +79,17 @@ class ScrythonRequestHandler:
         resolved.append(part)
         continue
 
-      value = kwargs.get(part[1:], None)
+      key = part[1:]
+      optional = key.endswith('?')
+
+      if optional:
+        key = key[:-1]
+
+      value = kwargs.get(key, None)
       if value is None:
          raise KeyError(f"Missing required path parameter: '{key}'")
+      elif value is None and not optional:
+          raise KeyError(f"Missing required path parameter: '{key}'")
 
       resolved.append(str(value))
 

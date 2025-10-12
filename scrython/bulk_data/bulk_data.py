@@ -1,6 +1,6 @@
-from scrython.base import ScrythonRequestHandler
-from scrython.base_mixins import ScryfallListMixin
-from scrython.bulk_data.bulk_data_mixins import BulkDataObjectMixin
+from ..base import ScrythonRequestHandler
+from ..base_mixins import ScryfallListMixin
+from .bulk_data_mixins import BulkDataObjectMixin
 
 class BulkDataObject(BulkDataObjectMixin):
   def __init__(self, data):

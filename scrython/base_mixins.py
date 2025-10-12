@@ -30,3 +30,20 @@ class ScryfallListMixin:
   @property
   def warnings(self):
     return self.scryfall_data['warnings']
+
+class ScryfallCatalogMixin:
+  @property
+  def object(self):
+    return 'catalog'
+
+  @property
+  def uri(self):
+    return self.scryfall_data['uri']
+
+  @property
+  def total_values(self):
+    return self.scryfall_data['total_values']
+
+  @property
+  def data(self):
+    return self.scryfall_data['data']

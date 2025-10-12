@@ -35,6 +35,7 @@ class ScrythonRequestHandler:
   scryfall_data = {}
   _user_agent = 'Scrython/2.0'
   _accept = 'application/json'
+  _content_type = 'application/json'
   _endpoint = ''
 
   @property
@@ -44,28 +45,36 @@ class ScrythonRequestHandler:
   def __init__(self, **kwargs) -> None:
     self._build_path(**kwargs)
     self._build_params(**kwargs)
-    self._fetch()
+    self._fetch(**kwargs)
 
     if self.scryfall_data['object'] == 'error':
       raise ScryfallError(self.scryfall_data, self.scryfall_data['details'])
 
-  def _fetch(self):
-    request = Request(f'https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}')
+  def _fetch(self, **kwargs):
+    if data := kwargs.get('data', None):
+      data = json.dumps(data).encode('utf-8')
+
+    request = Request(f'https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}', data=data)
     request.add_header('User-Agent', self._user_agent)
     request.add_header('Accept', self._accept)
-  
-    response = urlopen(request)
-    charset = response.info().get_param('charset') or 'utf-8'
-    decoded = response.read().decode(charset)
+    request.add_header('Content-Type', self._content_type)
 
-    self.scryfall_data = json.loads(decoded)
+    try:
+      with urlopen(request) as response:
+        charset = response.info().get_param('charset') or 'utf-8'
+        decoded = response.read().decode(charset)
+
+        self.scryfall_data = json.loads(decoded)
+    except urllib.error.HTTPError as exc:
+      raise Exception(f'{exc}: {request.get_full_url()}')
 
   def _build_params(self, **kwargs):
     self._query_params = {
       'format': kwargs.get('format', 'json'),
       'face': kwargs.get('face', ''),
       'version': kwargs.get('version', ''),
-      'pretty': kwargs.get('pretty', '')
+      'pretty': kwargs.get('pretty', ''),
+      **kwargs
     }
 
     self._encoded_query_params = urllib.parse.urlencode(self._query_params)
@@ -86,11 +95,10 @@ class ScrythonRequestHandler:
         key = key[:-1]
 
       value = kwargs.get(key, None)
-      if value is None:
+      if value is None and not optional:
          raise KeyError(f"Missing required path parameter: '{key}'")
-      elif value is None and not optional:
-          raise KeyError(f"Missing required path parameter: '{key}'")
 
-      resolved.append(str(value))
+      if value is not None and not optional:
+        resolved.append(str(value))
 
-    self._endpoint = "/" + "/".join(resolved)
+    self._endpoint = "/".join(resolved)

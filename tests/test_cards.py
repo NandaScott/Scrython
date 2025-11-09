@@ -343,7 +343,7 @@ class TestCardsFactory:
 
     def test_factory_raises_error_no_mode(self):
         """Test that Cards factory raises error when no valid parameters provided."""
-        with pytest.raises(Exception, match='No mode found'):
+        with pytest.raises(ValueError, match='No valid parameters provided'):
             Cards()
 
 

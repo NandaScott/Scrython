@@ -28,6 +28,61 @@ For the most part I've kept all the class attributes the same as their key names
     '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.'
 ```
 
+## ⚠️ Important: Rate Limiting
+
+**Scryfall requires 50-100 milliseconds delay between requests** (~10 requests/second maximum).
+
+Excessive requests can result in temporary or permanent IP bans. You are responsible for implementing rate limiting in your application.
+
+### Example with Rate Limiting:
+
+```python
+import scrython
+import time
+
+# Search for cards with proper delays
+cards_to_fetch = ['Lightning Bolt', 'Counterspell', 'Black Lotus']
+
+for card_name in cards_to_fetch:
+    card = scrython.Cards(fuzzy=card_name)
+    print(f"{card.name} - {card.set}")
+
+    # IMPORTANT: Add delay between requests
+    time.sleep(0.1)  # 100ms delay
+```
+
+### Better: Use Bulk Data for Large Datasets
+
+For large-scale data processing, use Scryfall's bulk data downloads instead:
+
+```python
+bulk = scrython.BulkData(type='default_cards')
+download_url = bulk.download_uri
+
+# Download and process locally
+# (Bulk data files are updated every 12 hours)
+```
+
+### Caching Recommendations
+
+- Cache responses for at least 24 hours
+- Card prices become unreliable after 24 hours
+- Consider downloading bulk data for offline processing
+
+### Custom User-Agent (Recommended)
+
+Scryfall requests that applications identify themselves with a custom User-Agent:
+
+```python
+import scrython
+
+# Set custom User-Agent for your application
+scrython.Cards.set_user_agent('MyMTGApp/1.0 (contact@example.com)')
+
+# All subsequent requests will use your custom User-Agent
+card = scrython.Cards(fuzzy='Black Lotus')
+```
+
 ## Breaking changes
 Since Scryfall's API is constantly changing, this library will also be changing.
 

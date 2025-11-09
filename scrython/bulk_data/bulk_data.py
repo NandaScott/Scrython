@@ -17,6 +17,17 @@ class BulkDataByType(BulkDataObjectMixin, ScrythonRequestHandler):
   _endpoint = '/bulk-data/:type'
 
 class BulkData:
+  """
+  Factory class for accessing Scryfall bulk data endpoints.
+
+  Examples:
+      Get all bulk data info:
+          all_bulk = scrython.BulkData()
+
+      Get specific bulk data:
+          oracle_cards = scrython.BulkData(type='oracle_cards')
+          specific = scrython.BulkData(id='uuid-here')
+  """
   def __new__(self, **kwargs):
     if _id := kwargs.get('id', None):
       return BulkDataById(**kwargs)

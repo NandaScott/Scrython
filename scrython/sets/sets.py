@@ -20,6 +20,18 @@ class SetsById(SetsObjectMixin, ScrythonRequestHandler):
   _endpoint = '/sets/:id'
 
 class Sets:
+  """
+  Factory class for accessing Scryfall sets endpoints.
+
+  Examples:
+      Get all sets:
+          all_sets = scrython.Sets()
+
+      Get specific set:
+          set_obj = scrython.Sets(code='m21')
+          set_obj = scrython.Sets(id='uuid-here')
+          set_obj = scrython.Sets(tcgplayer_id=12345)
+  """
   def __new__(self, **kwargs):
     if code := kwargs.get('code', None):
       return SetsByCode(**kwargs)

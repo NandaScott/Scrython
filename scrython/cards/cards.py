@@ -83,4 +83,20 @@ class Cards:
     if kwargs.get('id', None):
       return CardsById(**kwargs)
 
-    raise Exception('No mode found')
+    raise ValueError(
+      "No valid parameters provided to Cards factory.\n"
+      "Use one of the following:\n"
+      "  - fuzzy='name' or exact='name' - Get card by name\n"
+      "  - search='query' - Search with Scryfall syntax\n"
+      "  - autocomplete='text' - Get name suggestions\n"
+      "  - random=True - Get random card\n"
+      "  - collection=[identifiers] - Get multiple cards\n"
+      "  - code='set', number='num' - Get by set and collector number\n"
+      "  - multiverse='id' - Get by Multiverse ID\n"
+      "  - mtgo='id' - Get by MTGO ID\n"
+      "  - arena='id' - Get by Arena ID\n"
+      "  - tcgplayer='id' - Get by TCGPlayer ID\n"
+      "  - cardmarket='id' - Get by Cardmarket ID\n"
+      "  - id='uuid' - Get by Scryfall ID\n"
+      "See https://scryfall.com/docs/api/cards for details."
+    )

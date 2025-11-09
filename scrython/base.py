@@ -34,11 +34,47 @@ class ScryfallError(Exception):
     return self._warnings
 
 class ScrythonRequestHandler:
+  """
+  Base class for all Scryfall API requests.
+
+  This class handles HTTP communication with the Scryfall API including
+  path building, query parameter encoding, and error handling.
+
+  IMPORTANT - Rate Limiting:
+      Scryfall requires 50-100ms delay between requests. This class does
+      NOT enforce rate limiting - you must implement delays in your code.
+
+      Example:
+          import time
+          card1 = scrython.Cards(fuzzy='Lightning Bolt')
+          time.sleep(0.1)  # 100ms delay
+          card2 = scrython.Cards(fuzzy='Counterspell')
+
+  API Requirements:
+      - User-Agent header is required (default: 'Scrython/2.0')
+      - Accept header is required (default: 'application/json')
+      - HTTPS with TLS 1.2+ is required
+  """
   scryfall_data = {}
-  _user_agent = 'Scrython/2.0'
+  _user_agent = 'Scrython/2.0 (https://github.com/NandaScott/Scrython)'
   _accept = 'application/json'
   _content_type = 'application/json'
   _endpoint = ''
+
+  @classmethod
+  def set_user_agent(cls, user_agent: str):
+    """
+    Set a custom User-Agent header for all Scrython requests.
+
+    Scryfall recommends identifying your application in the User-Agent.
+
+    Args:
+        user_agent: Custom User-Agent string
+
+    Example:
+        scrython.Cards.set_user_agent('MyMTGApp/1.0 (contact@example.com)')
+    """
+    cls._user_agent = user_agent
 
   @property
   def endpoint(self):

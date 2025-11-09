@@ -2,7 +2,6 @@ __pycache__
 .ropeproject
 scrython.egg-info
 dist
-tests
 BotUtils.py
 .vscode
 example_objects

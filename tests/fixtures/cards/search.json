@@ -1,0 +1,37 @@
+{
+  "object": "list",
+  "total_cards": 2,
+  "has_more": false,
+  "data": [
+    {
+      "object": "card",
+      "id": "e3285e6b-3e79-4d7c-bf96-d920f973b122",
+      "name": "Lightning Bolt",
+      "mana_cost": "{R}",
+      "cmc": 1.0,
+      "type_line": "Instant",
+      "oracle_text": "Lightning Bolt deals 3 damage to any target.",
+      "colors": ["R"],
+      "color_identity": ["R"],
+      "set": "lea",
+      "set_name": "Limited Edition Alpha",
+      "rarity": "common",
+      "artist": "Christopher Rush"
+    },
+    {
+      "object": "card",
+      "id": "f0e42b1e-4480-4746-9c70-ddf88129a93b",
+      "name": "Chain Lightning",
+      "mana_cost": "{R}",
+      "cmc": 1.0,
+      "type_line": "Sorcery",
+      "oracle_text": "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay {R}{R}. If the player does, they may copy this spell and may choose a new target for that copy.",
+      "colors": ["R"],
+      "color_identity": ["R"],
+      "set": "leg",
+      "set_name": "Legends",
+      "rarity": "common",
+      "artist": "Mark Tedin"
+    }
+  ]
+}

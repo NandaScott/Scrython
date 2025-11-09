@@ -25,7 +25,7 @@ class Sets:
       return SetsByCode(**kwargs)
 
     if tcgplayer_id := kwargs.get('tcgplayer_id', None):
-      return SetsByTCGPlayerId(**kwargs)
+      return SetsByTCGPlayerId(id=tcgplayer_id, **kwargs)
 
     if _id := kwargs.get('id', None):
       return SetsById(**kwargs)

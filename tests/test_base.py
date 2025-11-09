@@ -22,7 +22,7 @@ class TestScryfallError:
         assert error.code == 'not_found'
         assert error.details == 'No cards found matching criteria'
         assert error.type == 'ambiguous'
-        assert error.warnings() == ['Check your spelling']
+        assert error.warnings == ['Check your spelling']
 
     def test_scryfall_error_is_exception(self):
         """Test that ScryfallError is an Exception."""

@@ -134,8 +134,8 @@ class GameplayFieldsMixin:
     return self.scryfall_data['loyalty']
   
   @property
-  def mana_costmissing(self):
-    return self.scryfall_data['mana_costmissing']
+  def mana_cost(self):
+    return self.scryfall_data['mana_cost']
   
   @property
   def name(self):
@@ -239,8 +239,8 @@ class PrintFieldsMixin:
     return self.scryfall_data['highres_image']
   
   @property
-  def illustration_idfield(self):
-    return self.scryfall_data['illustration_idfield']
+  def illustration_id(self):
+    return self.scryfall_data['illustration_id']
   
   @property
   def image_status(self):
@@ -255,8 +255,8 @@ class PrintFieldsMixin:
     return self.scryfall_data['oversized']
   
   @property
-  def pricesas(self):
-    return self.scryfall_data['pricesas']
+  def prices(self):
+    return self.scryfall_data['prices']
   
   @property
   def printed_name(self):
@@ -408,8 +408,8 @@ class CardFaceMixin:
     return self.scryfall_data['loyalty']
   
   @property
-  def mana_costmana(self):
-    return self.scryfall_data['mana_costmana']
+  def mana_cost(self):
+    return self.scryfall_data['mana_cost']
   
   @property
   def name(self):

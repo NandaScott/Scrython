@@ -1,6 +1,7 @@
 import json
-from urllib.request import Request, urlopen
+import urllib.error
 import urllib.parse
+from urllib.request import Request, urlopen
 
 class ScryfallError(Exception):
   def __init__(self, scryfall_data, *args, **kwargs):
@@ -28,6 +29,7 @@ class ScryfallError(Exception):
   def type(self):
     return self._type
 
+  @property
   def warnings(self):
     return self._warnings
 

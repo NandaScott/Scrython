@@ -14,7 +14,7 @@ class CoreFieldsMixin:
     return self.scryfall_data['arena_id']
 
   @property
-  def id(self):
+  def card_id(self):
     """
     A unique identifier within Scryfall's database.
 

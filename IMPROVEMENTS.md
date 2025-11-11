@@ -1,0 +1,7 @@
+- BulkData should be able to download from the `download_uri`.
+- `scryfall_data` should be accessible but read-only and use a SimpleNamespace class
+- There should be a test for every single attribute returning the expected type.
+- I'd like to revert to fix the importing issues, where the full name is scrython.cards.cards.Cards. We need to either standardize to requiring the factory pattern, or use the full `scrython.cards.Named`. This would also require renaming each class.
+- We should have really strong typing for every kind of object.
+- Integrate the rest of the API endpoints
+- Update Contributing.md, and include how to set up venv and test runner

@@ -1,106 +1,108 @@
-from typing import Any, Dict
+from typing import Any
+
 
 class BulkDataObjectMixin:
-  scryfall_data: Dict[str, Any]
-  @property
-  def object(self):
-    """
-    A content type for this object, always bulk_data.
+    scryfall_data: dict[str, Any]
 
-    Type: String (Required)
-    """
-    return 'bulk_data'
+    @property
+    def object(self):
+        """
+        A content type for this object, always bulk_data.
 
-  @property
-  def id(self):
-    """
-    A unique ID for this bulk item.
+        Type: String (Required)
+        """
+        return "bulk_data"
 
-    Type: UUID (Required)
-    """
-    return self.scryfall_data['id']
+    @property
+    def id(self):
+        """
+        A unique ID for this bulk item.
 
-  @property
-  def uri(self):
-    """
-    The Scryfall API URI for this file.
+        Type: UUID (Required)
+        """
+        return self.scryfall_data["id"]
 
-    Type: URI (Required)
-    """
-    return self.scryfall_data['uri']
+    @property
+    def uri(self):
+        """
+        The Scryfall API URI for this file.
 
-  @property
-  def type(self):
-    """
-    A computer-readable string for the kind of bulk item.
+        Type: URI (Required)
+        """
+        return self.scryfall_data["uri"]
 
-    Type: String (Required)
-    """
-    return self.scryfall_data['type']
+    @property
+    def type(self):
+        """
+        A computer-readable string for the kind of bulk item.
 
-  @property
-  def name(self):
-    """
-    A human-readable name for this file.
+        Type: String (Required)
+        """
+        return self.scryfall_data["type"]
 
-    Type: String (Required)
-    """
-    return self.scryfall_data['name']
+    @property
+    def name(self):
+        """
+        A human-readable name for this file.
 
-  @property
-  def description(self):
-    """
-    A human-readable description for this file.
+        Type: String (Required)
+        """
+        return self.scryfall_data["name"]
 
-    Type: String (Required)
-    """
-    return self.scryfall_data['description']
-  
-  @property
-  def download_uri(self):
-    """
-    The URI that hosts this bulk file for fetching.
+    @property
+    def description(self):
+        """
+        A human-readable description for this file.
 
-    Type: URI (Required)
+        Type: String (Required)
+        """
+        return self.scryfall_data["description"]
 
-    Note: Files are compressed with gzip. Download and decompress to process.
-    """
-    return self.scryfall_data['download_uri']
+    @property
+    def download_uri(self):
+        """
+        The URI that hosts this bulk file for fetching.
 
-  @property
-  def updated_at(self):
-    """
-    The time when this file was last updated.
+        Type: URI (Required)
 
-    Type: Timestamp (Required)
+        Note: Files are compressed with gzip. Download and decompress to process.
+        """
+        return self.scryfall_data["download_uri"]
 
-    Note: Bulk data files are updated approximately every 12 hours.
-    """
-    return self.scryfall_data['updated_at']
+    @property
+    def updated_at(self):
+        """
+        The time when this file was last updated.
 
-  @property
-  def size(self):
-    """
-    The size of this file in integer bytes.
+        Type: Timestamp (Required)
 
-    Type: Integer (Required)
-    """
-    return self.scryfall_data['size']
+        Note: Bulk data files are updated approximately every 12 hours.
+        """
+        return self.scryfall_data["updated_at"]
 
-  @property
-  def content_type(self):
-    """
-    The MIME type of this file.
+    @property
+    def size(self):
+        """
+        The size of this file in integer bytes.
 
-    Type: String (Required)
-    """
-    return self.scryfall_data['content_type']
+        Type: Integer (Required)
+        """
+        return self.scryfall_data["size"]
 
-  @property
-  def content_encoding(self):
-    """
-    The Content-Encoding encoding that will be used to transmit this file when you download it.
+    @property
+    def content_type(self):
+        """
+        The MIME type of this file.
 
-    Type: String (Required)
-    """
-    return self.scryfall_data['content_encoding']
+        Type: String (Required)
+        """
+        return self.scryfall_data["content_type"]
+
+    @property
+    def content_encoding(self):
+        """
+        The Content-Encoding encoding that will be used to transmit this file when you download it.
+
+        Type: String (Required)
+        """
+        return self.scryfall_data["content_encoding"]

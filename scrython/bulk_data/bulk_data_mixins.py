@@ -1,44 +1,106 @@
+from typing import Any, Dict
+
 class BulkDataObjectMixin:
+  scryfall_data: Dict[str, Any]
   @property
   def object(self):
+    """
+    A content type for this object, always bulk_data.
+
+    Type: String (Required)
+    """
     return 'bulk_data'
 
   @property
   def id(self):
+    """
+    A unique ID for this bulk item.
+
+    Type: UUID (Required)
+    """
     return self.scryfall_data['id']
-  
+
   @property
   def uri(self):
+    """
+    The Scryfall API URI for this file.
+
+    Type: URI (Required)
+    """
     return self.scryfall_data['uri']
-  
+
   @property
   def type(self):
+    """
+    A computer-readable string for the kind of bulk item.
+
+    Type: String (Required)
+    """
     return self.scryfall_data['type']
-  
+
   @property
   def name(self):
+    """
+    A human-readable name for this file.
+
+    Type: String (Required)
+    """
     return self.scryfall_data['name']
-  
+
   @property
   def description(self):
+    """
+    A human-readable description for this file.
+
+    Type: String (Required)
+    """
     return self.scryfall_data['description']
   
   @property
   def download_uri(self):
+    """
+    The URI that hosts this bulk file for fetching.
+
+    Type: URI (Required)
+
+    Note: Files are compressed with gzip. Download and decompress to process.
+    """
     return self.scryfall_data['download_uri']
-  
+
   @property
   def updated_at(self):
+    """
+    The time when this file was last updated.
+
+    Type: Timestamp (Required)
+
+    Note: Bulk data files are updated approximately every 12 hours.
+    """
     return self.scryfall_data['updated_at']
-  
+
   @property
   def size(self):
+    """
+    The size of this file in integer bytes.
+
+    Type: Integer (Required)
+    """
     return self.scryfall_data['size']
-  
+
   @property
   def content_type(self):
+    """
+    The MIME type of this file.
+
+    Type: String (Required)
+    """
     return self.scryfall_data['content_type']
-  
+
   @property
   def content_encoding(self):
+    """
+    The Content-Encoding encoding that will be used to transmit this file when you download it.
+
+    Type: String (Required)
+    """
     return self.scryfall_data['content_encoding']

@@ -1,36 +1,37 @@
 import json
 import urllib.error
 import urllib.parse
+from typing import Dict, Any, Optional, List
 from urllib.request import Request, urlopen
 
 class ScryfallError(Exception):
-  def __init__(self, scryfall_data, *args, **kwargs):
+  def __init__(self, scryfall_data: Dict[str, Any], *args: Any, **kwargs: Any) -> None:
     super(self.__class__, self).__init__(*args, **kwargs)
 
-    self._status = scryfall_data['status']
-    self._code = scryfall_data['code']
-    self._details = scryfall_data['details']
-    self._type = scryfall_data['type']
-    self._warnings = scryfall_data['warnings']
+    self._status: int = scryfall_data['status']
+    self._code: str = scryfall_data['code']
+    self._details: str = scryfall_data['details']
+    self._type: Optional[str] = scryfall_data['type']
+    self._warnings: Optional[List[str]] = scryfall_data['warnings']
 
   @property
-  def status(self):
+  def status(self) -> int:
     return self._status
 
   @property
-  def code(self):
+  def code(self) -> str:
     return self._code
 
   @property
-  def details(self):
+  def details(self) -> str:
     return self._details
 
   @property
-  def type(self):
+  def type(self) -> Optional[str]:
     return self._type
 
   @property
-  def warnings(self):
+  def warnings(self) -> Optional[List[str]]:
     return self._warnings
 
 class ScrythonRequestHandler:
@@ -55,14 +56,14 @@ class ScrythonRequestHandler:
       - Accept header is required (default: 'application/json')
       - HTTPS with TLS 1.2+ is required
   """
-  scryfall_data = {}
-  _user_agent = 'Scrython/2.0 (https://github.com/NandaScott/Scrython)'
-  _accept = 'application/json'
-  _content_type = 'application/json'
-  _endpoint = ''
+  scryfall_data: Dict[str, Any] = {}
+  _user_agent: str = 'Scrython/2.0 (https://github.com/NandaScott/Scrython)'
+  _accept: str = 'application/json'
+  _content_type: str = 'application/json'
+  _endpoint: str = ''
 
   @classmethod
-  def set_user_agent(cls, user_agent: str):
+  def set_user_agent(cls, user_agent: str) -> None:
     """
     Set a custom User-Agent header for all Scrython requests.
 
@@ -77,10 +78,10 @@ class ScrythonRequestHandler:
     cls._user_agent = user_agent
 
   @property
-  def endpoint(self):
+  def endpoint(self) -> str:
     return self._endpoint
 
-  def __init__(self, **kwargs) -> None:
+  def __init__(self, **kwargs: Any) -> None:
     self._build_path(**kwargs)
     self._build_params(**kwargs)
     self._fetch(**kwargs)
@@ -88,9 +89,10 @@ class ScrythonRequestHandler:
     if self.scryfall_data['object'] == 'error':
       raise ScryfallError(self.scryfall_data, self.scryfall_data['details'])
 
-  def _fetch(self, **kwargs):
-    if data := kwargs.get('data', None):
-      data = json.dumps(data).encode('utf-8')
+  def _fetch(self, **kwargs: Any) -> None:
+    data: Optional[bytes] = None
+    if data_param := kwargs.get('data', None):
+      data = json.dumps(data_param).encode('utf-8')
 
     request = Request(f'https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}', data=data)
     request.add_header('User-Agent', self._user_agent)
@@ -106,8 +108,8 @@ class ScrythonRequestHandler:
     except urllib.error.HTTPError as exc:
       raise Exception(f'{exc}: {request.get_full_url()}')
 
-  def _build_params(self, **kwargs):
-    self._query_params = {
+  def _build_params(self, **kwargs: Any) -> None:
+    self._query_params: Dict[str, Any] = {
       'format': kwargs.get('format', 'json'),
       'face': kwargs.get('face', ''),
       'version': kwargs.get('version', ''),
@@ -115,11 +117,11 @@ class ScrythonRequestHandler:
       **kwargs
     }
 
-    self._encoded_query_params = urllib.parse.urlencode(self._query_params)
+    self._encoded_query_params: str = urllib.parse.urlencode(self._query_params)
 
-  def _build_path(self, **kwargs):
+  def _build_path(self, **kwargs: Any) -> None:
     parts = self.endpoint.strip("/").split("/")
-    resolved = []
+    resolved: List[str] = []
 
     for part in parts:
       if not part.startswith(':'):

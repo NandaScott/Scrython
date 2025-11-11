@@ -28,6 +28,7 @@ repos:
     hooks:
       - id: black
         language_version: python3.11
+        files: ^(scrython|tests)/
 
   # Ruff - fast Python linter
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -35,13 +36,15 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
+        files: ^(scrython|tests)/
 
   # Mypy - static type checker
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0
     hooks:
       - id: mypy
-        additional_dependencies: []
+        additional_dependencies: [typing-extensions]
         args: [--ignore-missing-imports, --check-untyped-defs]
-        # Exclude test files and utils from strict type checking for now
-        exclude: ^(tests/|scrython/utils\.py)
+        files: ^scrython/
+        # Exclude utils from strict type checking for now
+        exclude: ^scrython/utils\.py

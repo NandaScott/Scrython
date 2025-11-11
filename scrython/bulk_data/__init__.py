@@ -1,3 +1,3 @@
-from .bulk_data import BulkData
+from .bulk_data import All, ById, ByType, Object
 
-__all__ = ['BulkData']
+__all__ = ["Object", "All", "ById", "ByType"]

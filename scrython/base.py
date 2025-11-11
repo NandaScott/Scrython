@@ -1,4 +1,5 @@
 import json
+import types
 import urllib.error
 import urllib.parse
 from typing import Any
@@ -49,7 +50,7 @@ class ScrythonRequestHandler:
         - HTTPS with TLS 1.2+ is required
     """
 
-    scryfall_data: dict[str, Any] = {}
+    _scryfall_data: dict[str, Any] = {}
     _user_agent: str = "Scrython/2.0 (https://github.com/NandaScott/Scrython)"
     _accept: str = "application/json"
     _content_type: str = "application/json"
@@ -71,6 +72,44 @@ class ScrythonRequestHandler:
         cls._user_agent = user_agent
 
     @property
+    def scryfall_data(self) -> types.SimpleNamespace:
+        """
+        Read-only access to Scryfall API response data.
+
+        Returns a SimpleNamespace object allowing dot-notation access to all
+        fields returned by the Scryfall API. This is a read-only view -
+        modifications will not affect the internal data.
+
+        Example:
+            card = scrython.cards.Named(exact='Black Lotus')
+            print(card.scryfall_data.name)  # 'Black Lotus'
+            print(card.scryfall_data.mana_cost)  # '{0}'
+
+        Returns:
+            SimpleNamespace object with API response data
+        """
+        if not hasattr(self, "_scryfall_namespace"):
+            self._scryfall_namespace = self._dict_to_namespace(self._scryfall_data)
+        return self._scryfall_namespace
+
+    def _dict_to_namespace(self, data: Any) -> Any:
+        """
+        Recursively convert dict to SimpleNamespace for nested objects.
+
+        Args:
+            data: The data to convert (dict, list, or other)
+
+        Returns:
+            SimpleNamespace for dicts, list of converted items for lists, or original data
+        """
+        if isinstance(data, dict):
+            return types.SimpleNamespace(**{k: self._dict_to_namespace(v) for k, v in data.items()})
+        elif isinstance(data, list):
+            return [self._dict_to_namespace(item) for item in data]
+        else:
+            return data
+
+    @property
     def endpoint(self) -> str:
         return self._endpoint
 
@@ -79,12 +118,12 @@ class ScrythonRequestHandler:
         self._build_params(**kwargs)
         self._fetch(**kwargs)
 
-        if self.scryfall_data["object"] == "error":
-            raise ScryfallError(self.scryfall_data, self.scryfall_data["details"])
+        if self._scryfall_data["object"] == "error":
+            raise ScryfallError(self._scryfall_data, self._scryfall_data["details"])
 
     def _fetch(self, **kwargs: Any) -> None:
         data: bytes | None = None
-        if data_param := kwargs.get("data", None):
+        if data_param := kwargs.get("data"):
             data = json.dumps(data_param).encode("utf-8")
 
         request = Request(
@@ -99,7 +138,10 @@ class ScrythonRequestHandler:
                 charset = response.info().get_param("charset") or "utf-8"
                 decoded = response.read().decode(charset)
 
-                self.scryfall_data = json.loads(decoded)
+                self._scryfall_data = json.loads(decoded)
+                # Invalidate namespace cache when new data is fetched
+                if hasattr(self, "_scryfall_namespace"):
+                    delattr(self, "_scryfall_namespace")
         except urllib.error.HTTPError as exc:
             raise Exception(f"{exc}: {request.get_full_url()}") from exc
 
@@ -129,7 +171,7 @@ class ScrythonRequestHandler:
             if optional:
                 key = key[:-1]
 
-            value = kwargs.get(key, None)
+            value = kwargs.get(key)
             if value is None and not optional:
                 raise KeyError(f"Missing required path parameter: '{key}'")
 

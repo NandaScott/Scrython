@@ -2,156 +2,99 @@ from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallListMixin
 from .bulk_data_mixins import BulkDataObjectMixin
 
-class BulkDataObject(BulkDataObjectMixin):
-  """
-  Wrapper class for individual bulk data objects from Scryfall API responses.
 
-  Provides access to all bulk data properties through BulkDataObjectMixin.
-  """
-  def __init__(self, data):
-    self.scryfall_data = data
+class Object(BulkDataObjectMixin):
+    """
+    Wrapper class for individual bulk data objects from Scryfall API responses.
 
-class AllBulkData(ScryfallListMixin, ScrythonRequestHandler):
-  """
-  Get information about all available bulk data files.
+    Provides access to all bulk data properties through BulkDataObjectMixin.
+    """
 
-  Endpoint: GET /bulk-data
+    def __init__(self, data):
+        self._scryfall_data = data
 
-  Returns a list of all Bulk Data objects. Scryfall provides bulk data files
-  containing complete datasets of cards, rulings, and other information. These
-  files are updated approximately every 12 hours.
 
-  Example:
-      # Get all bulk data options
-      all_bulk = scrython.bulk_data.AllBulkData()
+class All(ScryfallListMixin, ScrythonRequestHandler):
+    """
+    Get information about all available bulk data files.
 
-      # List available files
-      for bulk in all_bulk.data:
-          print(f"{bulk.name}: {bulk.description}")
-          print(f"Size: {bulk.size / 1_000_000:.1f} MB")
-          print(f"Download: {bulk.download_uri}")
-          print()
+    Endpoint: GET /bulk-data
 
-  See: https://scryfall.com/docs/api/bulk-data
-  """
-  _endpoint = '/bulk-data'
-  list_data_type = BulkDataObject
+    Returns a list of all Bulk Data objects. Scryfall provides bulk data files
+    containing complete datasets of cards, rulings, and other information. These
+    files are updated approximately every 12 hours.
 
-class BulkDataById(BulkDataObjectMixin, ScrythonRequestHandler):
-  """
-  Get information about a specific bulk data file by its Scryfall ID.
+    Example:
+        # Get all bulk data options
+        all_bulk = scrython.bulk_data.All()
 
-  Endpoint: GET /bulk-data/:id
+        # List available files
+        for bulk in all_bulk.data:
+            print(f"{bulk.name}: {bulk.description}")
+            print(f"Size: {bulk.size / 1_000_000:.1f} MB")
+            print(f"Download: {bulk.download_uri}")
+            print()
 
-  Returns a single Bulk Data object. Use this to get download URIs and metadata
-  for specific bulk data files.
+    See: https://scryfall.com/docs/api/bulk-data
+    """
 
-  Args:
-      id: The Scryfall UUID for the bulk data file (required).
+    _endpoint = "/bulk-data"
+    list_data_type = Object
 
-  Example:
-      bulk = scrython.bulk_data.BulkDataById(id='uuid-here')
-      print(f"File: {bulk.name}")
-      print(f"Last updated: {bulk.updated_at}")
-      print(f"Download from: {bulk.download_uri}")
 
-  See: https://scryfall.com/docs/api/bulk-data/id
-  """
-  _endpoint = '/bulk-data/:id'
+class ById(BulkDataObjectMixin, ScrythonRequestHandler):
+    """
+    Get information about a specific bulk data file by its Scryfall ID.
 
-class BulkDataByType(BulkDataObjectMixin, ScrythonRequestHandler):
-  """
-  Get information about a specific bulk data file by its type.
+    Endpoint: GET /bulk-data/:id
 
-  Endpoint: GET /bulk-data/:type
+    Returns a single Bulk Data object. Use this to get download URIs and metadata
+    for specific bulk data files.
 
-  Returns a single Bulk Data object for the specified type. This is the most
-  convenient way to access standard bulk data files like oracle cards or
-  default cards.
+    Args:
+        id: The Scryfall UUID for the bulk data file (required).
 
-  Args:
-      type: The bulk data type (required).
-          Common types: 'oracle_cards', 'unique_artwork', 'default_cards',
-                       'all_cards', 'rulings'
+    Example:
+        bulk = scrython.bulk_data.ById(id='uuid-here')
+        print(f"File: {bulk.name}")
+        print(f"Last updated: {bulk.updated_at}")
+        print(f"Download from: {bulk.download_uri}")
 
-  Example:
-      # Get Oracle Cards bulk data
-      oracle = scrython.bulk_data.BulkDataByType(type='oracle_cards')
-      print(f"Oracle Cards file: {oracle.name}")
-      print(f"Size: {oracle.size / 1_000_000:.1f} MB")
-      print(f"Updated: {oracle.updated_at}")
+    See: https://scryfall.com/docs/api/bulk-data/id
+    """
 
-      # Download the file
-      import requests
-      response = requests.get(oracle.download_uri)
-      cards = response.json()
-      print(f"Downloaded {len(cards)} cards")
+    _endpoint = "/bulk-data/:id"
 
-  See: https://scryfall.com/docs/api/bulk-data/type
-  """
-  _endpoint = '/bulk-data/:type'
 
-class BulkData:
-  """
-  Smart factory for accessing all Scryfall bulk data endpoints.
+class ByType(BulkDataObjectMixin, ScrythonRequestHandler):
+    """
+    Get information about a specific bulk data file by its type.
 
-  This factory routes to the appropriate endpoint class based on the parameters
-  provided. Use this instead of importing individual endpoint classes directly
-  for a more convenient API. If no parameters are provided, returns information
-  about all available bulk data files.
+    Endpoint: GET /bulk-data/:type
 
-  Bulk data files are large JSON files containing complete datasets of cards and
-  other Scryfall information. They're updated approximately every 12 hours and
-  are ideal for:
-  - Building offline card databases
-  - Performing large-scale analysis
-  - Avoiding rate limits when processing thousands of cards
+    Returns a single Bulk Data object for the specified type. This is the most
+    convenient way to access standard bulk data files like oracle cards or
+    default cards.
 
-  Supported Modes:
+    Args:
+        type: The bulk data type (required).
+            Common types: 'oracle_cards', 'unique_artwork', 'default_cards',
+                         'all_cards', 'rulings'
 
-      Get all bulk data options (default):
-          all_bulk = BulkData()
+    Example:
+        # Get Oracle Cards bulk data
+        oracle = scrython.bulk_data.ByType(type='oracle_cards')
+        print(f"Oracle Cards file: {oracle.name}")
+        print(f"Size: {oracle.size / 1_000_000:.1f} MB")
+        print(f"Updated: {oracle.updated_at}")
 
-      Get bulk data by type:
-          oracle_cards = BulkData(type='oracle_cards')
-          all_cards = BulkData(type='all_cards')
-          rulings = BulkData(type='rulings')
+        # Download the file
+        import requests
+        response = requests.get(oracle.download_uri)
+        cards = response.json()
+        print(f"Downloaded {len(cards)} cards")
 
-      Get bulk data by Scryfall ID:
-          bulk = BulkData(id='uuid-here')
+    See: https://scryfall.com/docs/api/bulk-data/type
+    """
 
-  Returns:
-      An instance of the appropriate endpoint class (AllBulkData, BulkDataByType, etc.)
-      based on the parameters provided. Defaults to AllBulkData if no parameters given.
-
-  Example:
-      import scrython
-      import requests
-
-      # Get Oracle Cards bulk data
-      oracle = scrython.BulkData(type='oracle_cards')
-      print(f"Downloading {oracle.size / 1_000_000:.1f} MB...")
-
-      # Download and process
-      response = requests.get(oracle.download_uri)
-      cards = response.json()
-
-      # Now you have all cards locally - no rate limiting needed!
-      for card in cards:
-          if 'Lightning' in card['name']:
-              print(card['name'])
-
-  Note:
-      Files are compressed with gzip and may be several hundred megabytes.
-      Card prices become unreliable after 24 hours.
-
-  See: https://scryfall.com/docs/api/bulk-data
-  """
-  def __new__(self, **kwargs):
-    if _id := kwargs.get('id', None):
-      return BulkDataById(**kwargs)
-
-    if _type := kwargs.get('type', None):
-      return BulkDataByType(**kwargs)
-
-    return AllBulkData(**kwargs)
+    _endpoint = "/bulk-data/:type"

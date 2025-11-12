@@ -1,0 +1,11 @@
+{
+  "object": "catalog",
+  "uri": "https://api.scryfall.com/catalog/keyword-abilities",
+  "total_values": 4,
+  "data": [
+    "Flying",
+    "Trample",
+    "Haste",
+    "Vigilance"
+  ]
+}

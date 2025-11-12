@@ -1,0 +1,13 @@
+{
+  "object": "catalog",
+  "uri": "https://api.scryfall.com/catalog/creature-types",
+  "total_values": 6,
+  "data": [
+    "Elf",
+    "Goblin",
+    "Human",
+    "Dragon",
+    "Wizard",
+    "Soldier"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "object": "list",
+  "has_more": false,
+  "data": [
+    {
+      "object": "ruling",
+      "oracle_id": "a1234567-89ab-cdef-0123-456789abcdef",
+      "source": "wotc",
+      "published_at": "2021-09-24",
+      "comment": "If a permanent entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
+    },
+    {
+      "object": "ruling",
+      "oracle_id": "a1234567-89ab-cdef-0123-456789abcdef",
+      "source": "wotc",
+      "published_at": "2021-09-24",
+      "comment": "Similarly, when an ability of a permanent you control triggers, if that ability was triggered by a permanent leaving the battlefield, that ability triggers an additional time."
+    }
+  ]
+}

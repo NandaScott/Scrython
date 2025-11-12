@@ -1,0 +1,10 @@
+{
+  "object": "mana_cost",
+  "cost": "{G}{W}",
+  "cmc": 2.0,
+  "mana_value": 2.0,
+  "colors": ["G", "W"],
+  "colorless": false,
+  "monocolored": false,
+  "multicolored": true
+}

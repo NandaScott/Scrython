@@ -1,0 +1,70 @@
+{
+  "object": "list",
+  "has_more": false,
+  "data": [
+    {
+      "object": "card_symbol",
+      "symbol": "{W}",
+      "loose_variant": null,
+      "english": "one white mana",
+      "transposable": false,
+      "represents_mana": true,
+      "mana_value": 1.0,
+      "appears_in_mana_costs": true,
+      "funny": false,
+      "colors": ["W"],
+      "hybrid": false,
+      "phyrexian": false,
+      "svg_uri": "https://svgs.scryfall.io/card-symbols/W.svg",
+      "gatherer_alternates": null
+    },
+    {
+      "object": "card_symbol",
+      "symbol": "{U}",
+      "loose_variant": null,
+      "english": "one blue mana",
+      "transposable": false,
+      "represents_mana": true,
+      "mana_value": 1.0,
+      "appears_in_mana_costs": true,
+      "funny": false,
+      "colors": ["U"],
+      "hybrid": false,
+      "phyrexian": false,
+      "svg_uri": "https://svgs.scryfall.io/card-symbols/U.svg",
+      "gatherer_alternates": null
+    },
+    {
+      "object": "card_symbol",
+      "symbol": "{U/B}",
+      "loose_variant": null,
+      "english": "one blue or black mana",
+      "transposable": false,
+      "represents_mana": true,
+      "mana_value": 1.0,
+      "appears_in_mana_costs": true,
+      "funny": false,
+      "colors": ["U", "B"],
+      "hybrid": true,
+      "phyrexian": false,
+      "svg_uri": "https://svgs.scryfall.io/card-symbols/UB.svg",
+      "gatherer_alternates": ["{U/B}"]
+    },
+    {
+      "object": "card_symbol",
+      "symbol": "{T}",
+      "loose_variant": null,
+      "english": "tap this permanent",
+      "transposable": false,
+      "represents_mana": false,
+      "mana_value": 0.0,
+      "appears_in_mana_costs": false,
+      "funny": false,
+      "colors": [],
+      "hybrid": false,
+      "phyrexian": false,
+      "svg_uri": "https://svgs.scryfall.io/card-symbols/T.svg",
+      "gatherer_alternates": null
+    }
+  ]
+}

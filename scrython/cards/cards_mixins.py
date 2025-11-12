@@ -14,7 +14,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["arena_id"]
+        return self._scryfall_data.get("arena_id")
 
     @property
     def card_id(self) -> str:
@@ -41,7 +41,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["mtgo_id"]
+        return self._scryfall_data.get("mtgo_id")
 
     @property
     def mtgo_foil_id(self) -> int | None:
@@ -50,7 +50,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["mtgo_foil_id"]
+        return self._scryfall_data.get("mtgo_foil_id")
 
     @property
     def multiverse_ids(self) -> list[int] | None:
@@ -59,7 +59,7 @@ class CoreFieldsMixin:
 
         Type: Array of Integers (Nullable)
         """
-        return self._scryfall_data["multiverse_ids"]
+        return self._scryfall_data.get("multiverse_ids")
 
     @property
     def tcgplayer_id(self) -> int | None:
@@ -68,7 +68,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["tcgplayer_id"]
+        return self._scryfall_data.get("tcgplayer_id")
 
     @property
     def tcgplayer_etched_id(self) -> int | None:
@@ -77,7 +77,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["tcgplayer_etched_id"]
+        return self._scryfall_data.get("tcgplayer_etched_id")
 
     @property
     def cardmarket_id(self) -> int | None:
@@ -86,7 +86,7 @@ class CoreFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["cardmarket_id"]
+        return self._scryfall_data.get("cardmarket_id")
 
     @property
     def object(self) -> str:
@@ -113,7 +113,7 @@ class CoreFieldsMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["oracle_id"]
+        return self._scryfall_data.get("oracle_id")
 
     @property
     def prints_search_uri(self) -> str:
@@ -210,7 +210,7 @@ class GameplayFieldsMixin:
 
         Type: Colors (Nullable)
         """
-        return self._scryfall_data["color_indicator"]
+        return self._scryfall_data.get("color_indicator")
 
     @property
     def colors(self) -> list[str] | None:
@@ -219,7 +219,7 @@ class GameplayFieldsMixin:
 
         Type: Colors (Nullable)
         """
-        return self._scryfall_data["colors"]
+        return self._scryfall_data.get("colors")
 
     @property
     def defense(self) -> str | None:
@@ -228,7 +228,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["defense"]
+        return self._scryfall_data.get("defense")
 
     @property
     def edhrec_rank(self) -> int | None:
@@ -237,7 +237,7 @@ class GameplayFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["edhrec_rank"]
+        return self._scryfall_data.get("edhrec_rank")
 
     @property
     def game_changer(self) -> bool | None:
@@ -246,7 +246,7 @@ class GameplayFieldsMixin:
 
         Type: Boolean (Nullable)
         """
-        return self._scryfall_data["game_changer"]
+        return self._scryfall_data.get("game_changer")
 
     @property
     def hand_modifier(self) -> str | None:
@@ -255,7 +255,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["hand_modifier"]
+        return self._scryfall_data.get("hand_modifier")
 
     @property
     def keywords(self) -> list[str]:
@@ -282,7 +282,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["life_modifier"]
+        return self._scryfall_data.get("life_modifier")
 
     @property
     def loyalty(self) -> str | None:
@@ -291,7 +291,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["loyalty"]
+        return self._scryfall_data.get("loyalty")
 
     @property
     def mana_cost(self) -> str | None:
@@ -302,7 +302,7 @@ class GameplayFieldsMixin:
 
         Example: "{3}{U}{U}"
         """
-        return self._scryfall_data["mana_cost"]
+        return self._scryfall_data.get("mana_cost")
 
     @property
     def name(self) -> str:
@@ -320,7 +320,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["oracle_text"]
+        return self._scryfall_data.get("oracle_text")
 
     @property
     def penny_rank(self) -> int | None:
@@ -329,7 +329,7 @@ class GameplayFieldsMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["penny_rank"]
+        return self._scryfall_data.get("penny_rank")
 
     @property
     def power(self) -> str | None:
@@ -338,7 +338,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["power"]
+        return self._scryfall_data.get("power")
 
     @property
     def produced_mana(self) -> list[str] | None:
@@ -347,7 +347,7 @@ class GameplayFieldsMixin:
 
         Type: Colors (Nullable)
         """
-        return self._scryfall_data["produced_mana"]
+        return self._scryfall_data.get("produced_mana")
 
     @property
     def reserved(self) -> bool:
@@ -365,7 +365,7 @@ class GameplayFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["toughness"]
+        return self._scryfall_data.get("toughness")
 
     @property
     def type_line(self) -> str:
@@ -389,7 +389,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["artist"]
+        return self._scryfall_data.get("artist")
 
     @property
     def artist_ids(self) -> list[str] | None:
@@ -398,7 +398,7 @@ class PrintFieldsMixin:
 
         Type: Array of UUIDs (Nullable)
         """
-        return self._scryfall_data["artist_ids"]
+        return self._scryfall_data.get("artist_ids")
 
     @property
     def attraction_lights(self) -> list[int] | None:
@@ -407,7 +407,7 @@ class PrintFieldsMixin:
 
         Type: Array (Nullable)
         """
-        return self._scryfall_data["attraction_lights"]
+        return self._scryfall_data.get("attraction_lights")
 
     @property
     def booster(self) -> bool:
@@ -434,7 +434,7 @@ class PrintFieldsMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["card_back_id"]
+        return self._scryfall_data.get("card_back_id")
 
     @property
     def collector_number(self) -> str:
@@ -452,7 +452,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Nullable)
         """
-        return self._scryfall_data["content_warning"]
+        return self._scryfall_data.get("content_warning")
 
     @property
     def digital(self) -> bool:
@@ -479,7 +479,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["flavor_name"]
+        return self._scryfall_data.get("flavor_name")
 
     @property
     def flavor_text(self) -> str | None:
@@ -488,7 +488,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["flavor_text"]
+        return self._scryfall_data.get("flavor_text")
 
     @property
     def frame_effects(self) -> list[str] | None:
@@ -497,7 +497,7 @@ class PrintFieldsMixin:
 
         Type: Array of Strings (Nullable)
         """
-        return self._scryfall_data["frame_effects"]
+        return self._scryfall_data.get("frame_effects")
 
     @property
     def frame(self) -> str:
@@ -542,7 +542,7 @@ class PrintFieldsMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["illustration_id"]
+        return self._scryfall_data.get("illustration_id")
 
     @property
     def image_status(self) -> str:
@@ -560,7 +560,7 @@ class PrintFieldsMixin:
 
         Type: Object (Nullable)
         """
-        return self._scryfall_data["image_uris"]
+        return self._scryfall_data.get("image_uris")
 
     @property
     def oversized(self) -> bool:
@@ -589,7 +589,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_name"]
+        return self._scryfall_data.get("printed_name")
 
     @property
     def printed_text(self) -> str | None:
@@ -598,7 +598,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_text"]
+        return self._scryfall_data.get("printed_text")
 
     @property
     def printed_type_line(self) -> str | None:
@@ -607,7 +607,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_type_line"]
+        return self._scryfall_data.get("printed_type_line")
 
     @property
     def promo(self) -> bool:
@@ -625,7 +625,7 @@ class PrintFieldsMixin:
 
         Type: Array of Strings (Nullable)
         """
-        return self._scryfall_data["promo_types"]
+        return self._scryfall_data.get("promo_types")
 
     @property
     def purchase_uris(self) -> dict[str, Any] | None:
@@ -634,7 +634,7 @@ class PrintFieldsMixin:
 
         Type: Object (Nullable)
         """
-        return self._scryfall_data["purchase_uris"]
+        return self._scryfall_data.get("purchase_uris")
 
     @property
     def rarity(self) -> str:
@@ -769,7 +769,7 @@ class PrintFieldsMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["variation_of"]
+        return self._scryfall_data.get("variation_of")
 
     @property
     def security_stamp(self) -> str | None:
@@ -778,7 +778,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["security_stamp"]
+        return self._scryfall_data.get("security_stamp")
 
     @property
     def watermark(self) -> str | None:
@@ -787,7 +787,7 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["watermark"]
+        return self._scryfall_data.get("watermark")
 
     @property
     def previewed_at(self) -> str | None:
@@ -796,7 +796,9 @@ class PrintFieldsMixin:
 
         Type: Date (Nullable)
         """
-        return self._scryfall_data["preview"]["previewed_at"]
+        if preview := self._scryfall_data.get("preview"):
+            return preview.get("previewed_at")
+        return None
 
     @property
     def preview_source_uri(self) -> str | None:
@@ -805,7 +807,9 @@ class PrintFieldsMixin:
 
         Type: URI (Nullable)
         """
-        return self._scryfall_data["preview"]["source_uri"]
+        if preview := self._scryfall_data.get("preview"):
+            return preview.get("source_uri")
+        return None
 
     @property
     def preview_source(self) -> str | None:
@@ -814,7 +818,9 @@ class PrintFieldsMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["preview"]["source"]
+        if preview := self._scryfall_data.get("preview"):
+            return preview.get("source")
+        return None
 
 
 class CardFaceMixin:
@@ -827,7 +833,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["artist"]
+        return self._scryfall_data.get("artist")
 
     @property
     def artist_id(self) -> str | None:
@@ -836,7 +842,7 @@ class CardFaceMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["artist_id"]
+        return self._scryfall_data.get("artist_id")
 
     @property
     def cmc(self) -> float | None:
@@ -845,7 +851,7 @@ class CardFaceMixin:
 
         Type: Decimal (Nullable)
         """
-        return self._scryfall_data["cmc"]
+        return self._scryfall_data.get("cmc")
 
     @property
     def color_indicator(self) -> list[str] | None:
@@ -854,7 +860,7 @@ class CardFaceMixin:
 
         Type: Colors (Nullable)
         """
-        return self._scryfall_data["color_indicator"]
+        return self._scryfall_data.get("color_indicator")
 
     @property
     def colors(self) -> list[str] | None:
@@ -863,7 +869,7 @@ class CardFaceMixin:
 
         Type: Colors (Nullable)
         """
-        return self._scryfall_data["colors"]
+        return self._scryfall_data.get("colors")
 
     @property
     def defense(self) -> str | None:
@@ -872,7 +878,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["defense"]
+        return self._scryfall_data.get("defense")
 
     @property
     def flavor_text(self) -> str | None:
@@ -881,7 +887,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["flavor_text"]
+        return self._scryfall_data.get("flavor_text")
 
     @property
     def illustration_id(self) -> str | None:
@@ -890,7 +896,7 @@ class CardFaceMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["illustration_id"]
+        return self._scryfall_data.get("illustration_id")
 
     @property
     def image_uris(self) -> dict[str, Any] | None:
@@ -899,7 +905,7 @@ class CardFaceMixin:
 
         Type: Object (Nullable)
         """
-        return self._scryfall_data["image_uris"]
+        return self._scryfall_data.get("image_uris")
 
     @property
     def layout(self) -> str | None:
@@ -908,7 +914,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["layout"]
+        return self._scryfall_data.get("layout")
 
     @property
     def loyalty(self) -> str | None:
@@ -917,7 +923,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["loyalty"]
+        return self._scryfall_data.get("loyalty")
 
     @property
     def mana_cost(self) -> str | None:
@@ -926,7 +932,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["mana_cost"]
+        return self._scryfall_data.get("mana_cost")
 
     @property
     def name(self) -> str:
@@ -953,7 +959,7 @@ class CardFaceMixin:
 
         Type: UUID (Nullable)
         """
-        return self._scryfall_data["oracle_id"]
+        return self._scryfall_data.get("oracle_id")
 
     @property
     def oracle_text(self) -> str | None:
@@ -962,7 +968,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["oracle_text"]
+        return self._scryfall_data.get("oracle_text")
 
     @property
     def power(self) -> str | None:
@@ -971,7 +977,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["power"]
+        return self._scryfall_data.get("power")
 
     @property
     def printed_name(self) -> str | None:
@@ -980,7 +986,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_name"]
+        return self._scryfall_data.get("printed_name")
 
     @property
     def printed_text(self) -> str | None:
@@ -989,7 +995,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_text"]
+        return self._scryfall_data.get("printed_text")
 
     @property
     def printed_type_line(self) -> str | None:
@@ -998,7 +1004,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["printed_type_line"]
+        return self._scryfall_data.get("printed_type_line")
 
     @property
     def toughness(self) -> str | None:
@@ -1007,7 +1013,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["toughness"]
+        return self._scryfall_data.get("toughness")
 
     @property
     def type_line(self) -> str | None:
@@ -1016,7 +1022,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["type_line"]
+        return self._scryfall_data.get("type_line")
 
     @property
     def watermark(self) -> str | None:
@@ -1025,7 +1031,7 @@ class CardFaceMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["watermark"]
+        return self._scryfall_data.get("watermark")
 
 
 class RelatedCardsObjectMixin:

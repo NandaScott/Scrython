@@ -42,11 +42,17 @@ for card_name in cards_to_fetch:
 For large-scale data processing, use Scryfall's bulk data downloads instead:
 
 ```python
-bulk = scrython.BulkData(type='default_cards')
-download_url = bulk.download_uri
+import scrython
 
-# Download and process locally
-# (Bulk data files are updated every 12 hours)
+# Download all unique cards at once
+bulk = scrython.BulkData(type='oracle_cards')
+cards = bulk.download()
+
+# Process all cards locally without rate limits!
+for card in cards:
+    print(f"{card['name']} - {card['set']}")
+
+# Bulk data files are updated every 12 hours
 ```
 
 ### Caching Recommendations
@@ -154,9 +160,10 @@ print(f"Set type: {set_obj.set_type}")
 
 ### Bulk Data Download
 
+Bulk data files contain all Magic cards and are updated every 12 hours. This is the recommended approach for processing large datasets, as it avoids rate limits entirely.
+
 ```python
 import scrython
-import requests
 
 # Get all bulk data options
 all_bulk = scrython.BulkData()
@@ -165,19 +172,34 @@ for bulk in all_bulk.data:
     print(f"{bulk.name}: {bulk.description}")
     print(f"Size: {bulk.size / 1_000_000:.1f} MB")
 
-# Download specific bulk data
+# Download oracle cards (all unique cards with Oracle text)
 oracle_cards = scrython.BulkData(type='oracle_cards')
-print(f"Download from: {oracle_cards.download_uri}")
 
-# Actually download (example)
-response = requests.get(oracle_cards.download_uri)
-cards = response.json()
+# Option 1: Download and return data in memory
+cards = oracle_cards.download()
 print(f"Downloaded {len(cards)} cards")
 
-# Now process locally without rate limits!
+# Process without rate limits!
 for card in cards:
     if 'Lightning' in card['name']:
         print(card['name'])
+
+# Option 2: Save to file
+oracle_cards.download(filepath='oracle_cards.json')
+print("Bulk data saved to oracle_cards.json")
+
+# Option 3: Save without returning data (memory efficient)
+oracle_cards.download(filepath='oracle_cards.json', return_data=False)
+
+# Option 4: Show progress bar (requires: pip install scrython[progress])
+cards = oracle_cards.download(progress=True)
+
+# Available bulk data types:
+# - 'oracle_cards': All unique cards with Oracle text
+# - 'unique_artwork': All cards with unique artwork
+# - 'default_cards': One version of each card
+# - 'all_cards': All card printings
+# - 'rulings': All card rulings
 ```
 
 ### Error Handling

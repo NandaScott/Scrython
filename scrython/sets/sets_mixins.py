@@ -38,7 +38,7 @@ class SetsObjectMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["mtgo_code"]
+        return self._scryfall_data.get("mtgo_code")
 
     @property
     def arena_code(self) -> str | None:
@@ -47,7 +47,7 @@ class SetsObjectMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["arena_code"]
+        return self._scryfall_data.get("arena_code")
 
     @property
     def tcgplayer_id(self) -> int | None:
@@ -56,7 +56,7 @@ class SetsObjectMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["tcgplayer_id"]
+        return self._scryfall_data.get("tcgplayer_id")
 
     @property
     def name(self) -> str:
@@ -83,7 +83,7 @@ class SetsObjectMixin:
 
         Type: Date (Nullable)
         """
-        return self._scryfall_data["released_at"]
+        return self._scryfall_data.get("released_at")
 
     @property
     def block_code(self) -> str | None:
@@ -92,7 +92,7 @@ class SetsObjectMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["block_code"]
+        return self._scryfall_data.get("block_code")
 
     @property
     def block(self) -> str | None:
@@ -101,7 +101,7 @@ class SetsObjectMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["block"]
+        return self._scryfall_data.get("block")
 
     @property
     def parent_set_code(self) -> str | None:
@@ -110,7 +110,7 @@ class SetsObjectMixin:
 
         Type: String (Nullable)
         """
-        return self._scryfall_data["parent_set_code"]
+        return self._scryfall_data.get("parent_set_code")
 
     @property
     def card_count(self) -> int:
@@ -128,7 +128,7 @@ class SetsObjectMixin:
 
         Type: Integer (Nullable)
         """
-        return self._scryfall_data["printed_size"]
+        return self._scryfall_data.get("printed_size")
 
     @property
     def digital(self) -> bool:

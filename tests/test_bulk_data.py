@@ -1,5 +1,12 @@
 """Tests for scrython.bulk_data module."""
 
+import gzip
+import json
+import tempfile
+from io import BytesIO
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
 import pytest
 
 from scrython.bulk_data import All, ById, ByType
@@ -105,3 +112,127 @@ class TestBulkDataMixins:
         assert bulk_objects[0].name == "Oracle Cards"
         assert bulk_objects[1].type == "unique_artwork"
         assert bulk_objects[1].name == "Unique Artwork"
+
+
+class TestBulkDataDownload:
+    """Test bulk data download functionality."""
+
+    def test_download_returns_parsed_data(self, mock_urlopen):
+        """Test basic download with return_data=True."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        # Mock the download URL response
+        test_data = [{"id": "card1", "name": "Test Card"}]
+        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+
+        with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+            mock_response = BytesIO(compressed_data)
+            mock_download.return_value.__enter__.return_value = mock_response
+
+            result = bulk.download()
+
+            assert result == test_data
+            assert len(result) == 1
+            assert result[0]["name"] == "Test Card"
+
+    def test_download_saves_to_file(self, mock_urlopen):
+        """Test download with filepath parameter saves file."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        test_data = [{"id": "card1", "name": "Test Card"}]
+        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tmp:
+            tmp_path = tmp.name
+
+        try:
+            with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+                mock_response = BytesIO(compressed_data)
+                mock_download.return_value.__enter__.return_value = mock_response
+
+                result = bulk.download(filepath=tmp_path)
+
+                # Should still return data
+                assert result == test_data
+
+                # File should exist and contain correct data
+                assert Path(tmp_path).exists()
+                with open(tmp_path, encoding="utf-8") as f:
+                    saved_data = json.load(f)
+                assert saved_data == test_data
+        finally:
+            # Cleanup
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_download_without_return_data(self, mock_urlopen):
+        """Test download with return_data=False."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        test_data = [{"id": "card1", "name": "Test Card"}]
+        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tmp:
+            tmp_path = tmp.name
+
+        try:
+            with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+                mock_response = BytesIO(compressed_data)
+                mock_download.return_value.__enter__.return_value = mock_response
+
+                result = bulk.download(filepath=tmp_path, return_data=False)
+
+                # Should return None
+                assert result is None
+
+                # File should still be saved
+                assert Path(tmp_path).exists()
+                with open(tmp_path, encoding="utf-8") as f:
+                    saved_data = json.load(f)
+                assert saved_data == test_data
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_download_with_invalid_gzip(self, mock_urlopen):
+        """Test that invalid gzip data raises error."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+            mock_response = MagicMock()
+            mock_response.read.return_value = b"not gzipped data"
+            mock_response.__enter__.return_value = mock_response
+            mock_response.__exit__.return_value = None
+            mock_download.return_value = mock_response
+
+            with pytest.raises((gzip.BadGzipFile, Exception)):
+                bulk.download()
+
+    def test_download_with_invalid_json(self, mock_urlopen):
+        """Test that invalid JSON raises error."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        invalid_json = b"not valid json"
+        compressed_data = gzip.compress(invalid_json)
+
+        with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+            mock_response = BytesIO(compressed_data)
+            mock_download.return_value.__enter__.return_value = mock_response
+
+            with pytest.raises(json.JSONDecodeError):
+                bulk.download()
+
+    def test_download_progress_without_tqdm_raises_import_error(self, mock_urlopen):
+        """Test that progress=True without tqdm raises ImportError."""
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        with (
+            patch("scrython.bulk_data.bulk_data_mixins.urlopen"),
+            patch.dict("sys.modules", {"tqdm": None}),
+            pytest.raises(ImportError, match="tqdm is required"),
+        ):
+            bulk.download(progress=True)

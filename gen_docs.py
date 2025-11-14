@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 import os
 import re
 
@@ -113,32 +114,32 @@ These docs will likely not be as detailed as the official Scryfall Documentation
 
 
 if __name__ == "__main__":
-    from scrython.bulk_data import *
+    from scrython.bulk_data import *  # noqa: F403  # type: ignore
 
     main(scrython.bulk_data)
     del scrython.bulk_data
 
-    from scrython.cards import *
+    from scrython.cards import *  # noqa: F403  # type: ignore
 
     main(scrython.cards)
     del scrython.cards
 
-    from scrython.catalog import *
+    from scrython.catalog import *  # noqa: F403  # type: ignore
 
     main(scrython.catalog)
     del scrython.catalog
 
-    from scrython.rulings import *
+    from scrython.rulings import *  # noqa: F403  # type: ignore
 
     main(scrython.rulings)
     del scrython.rulings
 
-    from scrython.sets import *
+    from scrython.sets import *  # noqa: F403  # type: ignore
 
     main(scrython.sets)
     del scrython.sets
 
-    from scrython.symbology import *
+    from scrython.symbology import *  # noqa: F403  # type: ignore
 
     main(scrython.symbology)
     del scrython.symbology

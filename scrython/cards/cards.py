@@ -13,6 +13,109 @@ class Object(CardsObjectMixin):
     def __init__(self, data):
         self._scryfall_data = data
 
+    def __repr__(self) -> str:
+        """
+        Developer-friendly representation showing class name and key identifiers.
+
+        Returns a string in the format: Object(id='...', name='...')
+
+        Example:
+            Object(id='bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd', name='Lightning Bolt')
+        """
+        obj_id = self._scryfall_data.get("id")
+        name = self._scryfall_data.get("name")
+
+        parts = [f"id='{obj_id}'"] if obj_id else []
+        if name:
+            parts.append(f"name='{name}'")
+
+        return f"Object({', '.join(parts)})"
+
+    def __str__(self) -> str:
+        """
+        User-friendly string representation.
+
+        Returns "Card Name (SET)" format
+
+        Example:
+            "Lightning Bolt (LEA)"
+        """
+        name = self._scryfall_data.get("name", "")
+        set_code = self._scryfall_data.get("set", "").upper()
+        return f"{name} ({set_code})" if set_code else name
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Compare card objects by their Scryfall ID.
+
+        Args:
+            other: Another object to compare with
+
+        Returns:
+            True if objects have the same Scryfall ID, False otherwise
+        """
+        if not isinstance(other, Object):
+            return False
+
+        self_id = self._scryfall_data.get("id")
+        other_id = other._scryfall_data.get("id")
+
+        if self_id and other_id:
+            return self_id == other_id
+
+        return self is other
+
+    def __hash__(self) -> int:
+        """
+        Generate hash based on Scryfall ID to enable use in sets and dicts.
+
+        Returns:
+            Hash of the Scryfall ID
+        """
+        obj_id = self._scryfall_data.get("id")
+        if obj_id:
+            return hash(obj_id)
+
+        return hash(id(self))
+
+    def to_dict(self) -> dict:
+        """
+        Export card data as a dictionary.
+
+        Returns a copy of the internal Scryfall data dictionary.
+
+        Returns:
+            Dictionary containing all card data
+        """
+        return self._scryfall_data.copy()
+
+    def to_json(self, **kwargs) -> str:
+        """
+        Export card data as a JSON string.
+
+        Args:
+            **kwargs: Additional arguments passed to json.dumps()
+
+        Returns:
+            JSON string representation of the card data
+        """
+        import json
+
+        return json.dumps(self._scryfall_data, **kwargs)
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Object":
+        """
+        Construct an Object from a dictionary without making an API request.
+
+        Args:
+            data: Dictionary containing Scryfall card data
+
+        Returns:
+            Object instance populated with the provided data
+        """
+        return cls(data.copy())
+
 
 class Search(ScryfallListMixin, ScrythonRequestHandler):
     """

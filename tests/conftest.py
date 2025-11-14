@@ -6,8 +6,25 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+from scrython.cache import reset_global_cache
+from scrython.rate_limiter import RateLimiter
+
 # Path to fixture files
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
+
+
+@pytest.fixture(autouse=True)
+def reset_globals():
+    """
+    Reset global state before each test.
+
+    Resets rate limiter and cache to ensure tests don't interfere with each other.
+    """
+    RateLimiter.reset_global_limiter()
+    reset_global_cache()
+    yield
+    RateLimiter.reset_global_limiter()
+    reset_global_cache()
 
 
 @pytest.fixture
@@ -32,9 +49,25 @@ def load_fixture(fixture_path):
 
 
 @pytest.fixture
-def mock_urlopen():
+def disable_rate_limiting():
+    """
+    Fixture that disables rate limiting for tests.
+
+    This makes tests run much faster by removing rate limit delays.
+    """
+    with patch("scrython.base.RateLimiter") as mock_limiter_class:
+        mock_instance = Mock()
+        mock_instance.wait = Mock()  # No-op wait method
+        mock_limiter_class.get_global_limiter.return_value = mock_instance
+        yield
+
+
+@pytest.fixture
+def mock_urlopen(disable_rate_limiting):  # noqa: ARG001
     """
     Fixture that mocks urllib.request.urlopen for testing HTTP requests.
+
+    Automatically disables rate limiting to keep tests fast.
 
     Usage in tests:
         def test_something(mock_urlopen):

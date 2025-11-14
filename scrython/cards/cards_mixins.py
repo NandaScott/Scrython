@@ -1093,4 +1093,157 @@ class RelatedCardsObjectMixin:
 
 
 class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
-    pass
+    """Convenience methods for card objects."""
+
+    def is_legal_in(self, format_name: str) -> bool:
+        """
+        Check if card is legal in a specific format.
+
+        Args:
+            format_name: Format name (e.g., 'commander', 'modern', 'standard')
+
+        Returns:
+            True if card is legal in the format, False otherwise
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            if card.is_legal_in('commander'):
+                print('Legal in Commander!')
+        """
+        legalities = self._scryfall_data.get("legalities", {})
+        return legalities.get(format_name.lower()) == "legal"
+
+    def has_color(self, color: str) -> bool:
+        """
+        Check if card contains a specific color.
+
+        Args:
+            color: Single letter color code ('W', 'U', 'B', 'R', 'G')
+
+        Returns:
+            True if card has the color, False otherwise
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            if card.has_color('R'):
+                print('Red card!')
+        """
+        colors = self._scryfall_data.get("colors", [])
+        return color.upper() in colors
+
+    @property
+    def is_creature(self) -> bool:
+        """Check if card is a creature."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Creature" in type_line
+
+    @property
+    def is_instant(self) -> bool:
+        """Check if card is an instant."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Instant" in type_line
+
+    @property
+    def is_sorcery(self) -> bool:
+        """Check if card is a sorcery."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Sorcery" in type_line
+
+    @property
+    def is_enchantment(self) -> bool:
+        """Check if card is an enchantment."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Enchantment" in type_line
+
+    @property
+    def is_artifact(self) -> bool:
+        """Check if card is an artifact."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Artifact" in type_line
+
+    @property
+    def is_planeswalker(self) -> bool:
+        """Check if card is a planeswalker."""
+        type_line = self._scryfall_data.get("type_line", "")
+        return "Planeswalker" in type_line
+
+    def lowest_price(self) -> float | None:
+        """
+        Return the lowest non-None price across all price types.
+
+        Returns:
+            Lowest price in USD, or None if no prices available
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            cheapest = card.lowest_price()
+            if cheapest:
+                print(f'Cheapest: ${cheapest:.2f}')
+        """
+        prices = self._scryfall_data.get("prices", {})
+        valid_prices = []
+
+        for price_str in prices.values():
+            if price_str is not None:
+                try:
+                    valid_prices.append(float(price_str))
+                except (ValueError, TypeError):
+                    continue
+
+        return min(valid_prices) if valid_prices else None
+
+    def highest_price(self) -> float | None:
+        """
+        Return the highest non-None price across all price types.
+
+        Returns:
+            Highest price in USD, or None if no prices available
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Black Lotus')
+            most_expensive = card.highest_price()
+            if most_expensive:
+                print(f'Most expensive: ${most_expensive:.2f}')
+        """
+        prices = self._scryfall_data.get("prices", {})
+        valid_prices = []
+
+        for price_str in prices.values():
+            if price_str is not None:
+                try:
+                    valid_prices.append(float(price_str))
+                except (ValueError, TypeError):
+                    continue
+
+        return max(valid_prices) if valid_prices else None
+
+    def get_image_url(self, size: str = "normal") -> str | None:
+        """
+        Get image URL for the card, handling double-faced cards.
+
+        Args:
+            size: Image size ('small', 'normal', 'large', 'png', 'art_crop', 'border_crop')
+
+        Returns:
+            Image URL or None if not available
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            url = card.get_image_url(size='large')
+            if url:
+                print(f'Image: {url}')
+        """
+        # Check for image_uris at top level first
+        image_uris = self._scryfall_data.get("image_uris")
+        if image_uris and size in image_uris:
+            return image_uris[size]
+
+        # For double-faced cards, check card_faces
+        card_faces = self._scryfall_data.get("card_faces")
+        if card_faces and len(card_faces) > 0:
+            front_face = card_faces[0]
+            face_images = front_face.get("image_uris")
+            if face_images and size in face_images:
+                return face_images[size]
+
+        return None

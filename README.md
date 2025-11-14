@@ -14,26 +14,45 @@ pip install scrython
 
 ## ⚠️ Important: Rate Limiting
 
-There is no default rate limiting for this library. Not all projects are created equal, so not all of them will need a universal limit. It's up to the responsibility of the user to make sure they don't overload Scryfall's servers.
+**Good news!** Scrython 2.0 now includes **built-in rate limiting** enabled by default, enforcing Scryfall's 10 requests/second guideline automatically. You no longer need to manually add delays between requests.
 
 **Scryfall requires 50-100 milliseconds delay between requests** (~10 requests/second maximum).
 
-Excessive requests can result in temporary or permanent IP bans. You are responsible for implementing rate limiting in your application.
+### Automatic Rate Limiting (Default):
 
-### Example with Rate Limiting:
+```python
+import scrython
+
+# Rate limiting is automatic! No delays needed
+cards_to_fetch = ['Lightning Bolt', 'Counterspell', 'Black Lotus']
+
+for card_name in cards_to_fetch:
+    card = scrython.Cards(fuzzy=card_name)  # Automatically rate limited
+    print(f"{card.name} - {card.set}")
+```
+
+### Custom Rate Limits:
+
+```python
+# Use a slower rate (5 requests/second)
+card = scrython.Cards(fuzzy='Lightning Bolt', rate_limit_per_second=5)
+
+# Disable rate limiting (use with caution!)
+card = scrython.Cards(fuzzy='Lightning Bolt', rate_limit=False)
+```
+
+### Legacy Code (Manual Rate Limiting):
+
+If you prefer manual rate limiting or need finer control:
 
 ```python
 import scrython
 import time
 
-# Search for cards with proper delays
-cards_to_fetch = ['Lightning Bolt', 'Counterspell', 'Black Lotus']
-
+# Disable automatic rate limiting and use manual delays
 for card_name in cards_to_fetch:
-    card = scrython.Cards(fuzzy=card_name)
+    card = scrython.Cards(fuzzy=card_name, rate_limit=False)
     print(f"{card.name} - {card.set}")
-
-    # IMPORTANT: Add delay between requests
     time.sleep(0.1)  # 100ms delay
 ```
 
@@ -55,11 +74,31 @@ for card in cards:
 # Bulk data files are updated every 12 hours
 ```
 
-### Caching Recommendations
+### Built-in Caching
 
-- Cache responses for at least 24 hours
-- Card prices become unreliable after 24 hours
-- Consider downloading bulk data for offline processing
+Scrython 2.0 includes built-in caching with TTL (time-to-live) support:
+
+```python
+import scrython
+
+# Enable caching with 1-hour TTL (default)
+card = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+
+# First call makes API request
+card1 = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+
+# Second call returns cached result (no API request!)
+card2 = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+
+# Custom TTL (in seconds)
+card = scrython.Cards(fuzzy='Lightning Bolt', cache=True, cache_ttl=7200)  # 2 hours
+```
+
+**Note:** Card prices become unreliable after 24 hours. Consider shorter TTLs for price-sensitive applications.
+
+### Legacy Caching (functools.lru_cache):
+
+You can still use Python's built-in caching if preferred:
 
 ```python
 from functools import lru_cache
@@ -68,13 +107,10 @@ import scrython
 @lru_cache(maxsize=1000)
 def get_card_by_name(name: str):
     """Cache card lookups to avoid duplicate requests."""
-    return scrython.Cards(fuzzy=name)
+    return scrython.Cards(fuzzy=name, rate_limit=False)
 
-# First call makes API request
 card1 = get_card_by_name('Lightning Bolt')
-
-# Second call returns cached result (no API request)
-card2 = get_card_by_name('Lightning Bolt')
+card2 = get_card_by_name('Lightning Bolt')  # Cached
 ```
 
 ### Custom User-Agent (Recommended)
@@ -270,4 +306,176 @@ print(card.prices)          # Price information
 if card.card_faces:
     for face in card.card_faces:
         print(f"{face.name}: {face.mana_cost}")
+```
+
+## Advanced Features (New in 2.0)
+
+### Magic Methods
+
+Cards and other objects now support Python magic methods for better developer experience:
+
+```python
+import scrython
+
+card = scrython.Cards(fuzzy='Lightning Bolt')
+
+# Readable representation
+print(repr(card))  # Named(id='abc123...', name='Lightning Bolt')
+print(str(card))   # Lightning Bolt (LEA)
+
+# Equality comparison (by ID)
+card1 = scrython.Cards(fuzzy='Lightning Bolt')
+card2 = scrython.Cards(exact='Lightning Bolt')
+print(card1 == card2)  # True (same card ID)
+
+# Use in sets and dicts (hashable)
+unique_cards = {card1, card2, card3}  # Deduplicates by ID
+card_lookup = {card1: 'owned', card2: 'wanted'}
+```
+
+### Serialization
+
+Export and import card data easily:
+
+```python
+import scrython
+
+card = scrython.Cards(fuzzy='Lightning Bolt')
+
+# Export to dict
+card_dict = card.to_dict()
+
+# Export to JSON
+json_str = card.to_json(indent=2)
+
+# Save to file
+with open('card.json', 'w') as f:
+    f.write(card.to_json())
+
+# Import from dict (no API call!)
+restored_card = scrython.Cards.from_dict(card_dict)
+
+# Export search results
+results = scrython.Cards(search='bolt')
+all_cards = results.to_list()  # List of dicts
+```
+
+### Iteration Support
+
+Iterate directly over search results with Pythonic syntax:
+
+```python
+import scrython
+
+results = scrython.Cards(search='c:red type:instant')
+
+# Direct iteration (current page)
+for card in results:
+    print(card.name)
+
+# Get length
+print(len(results))  # Number of cards in current page
+
+# Auto-pagination through ALL results
+for card in results.iter_all():
+    print(card.name)  # Automatically fetches all pages
+
+# Works with list comprehensions
+names = [card.name for card in results]
+
+# Works with filter
+red_cards = [c for c in results if c.has_color('R')]
+```
+
+### Convenience Methods
+
+Quick access to common card operations:
+
+```python
+import scrython
+
+card = scrython.Cards(fuzzy='Lightning Bolt')
+
+# Legality checks
+if card.is_legal_in('commander'):
+    print('Commander legal!')
+
+# Color checks
+if card.has_color('R'):
+    print('Red card!')
+
+# Type checks
+if card.is_instant:
+    print('Instant speed!')
+
+# Also available: is_creature, is_sorcery, is_enchantment,
+#                 is_artifact, is_planeswalker
+
+# Price helpers
+cheapest = card.lowest_price()
+most_expensive = card.highest_price()
+print(f'Price range: ${cheapest:.2f} - ${most_expensive:.2f}')
+
+# Image helpers (handles double-faced cards)
+url = card.get_image_url(size='large')
+if url:
+    print(f'Image: {url}')
+```
+
+### List Convenience Methods
+
+Transform and filter search results easily:
+
+```python
+import scrython
+
+results = scrython.Cards(search='bolt')
+
+# Convert to dict keyed by name
+by_name = results.as_dict(key='name')
+print(by_name['Lightning Bolt'].set)
+
+# Filter results
+cheap_cards = results.filter(lambda c: c.lowest_price() and c.lowest_price() < 1.0)
+
+# Map/transform results
+card_names = results.map(lambda c: c.name)
+
+# Chaining
+lea_names = [c.name for c in results.filter(lambda c: c.set == 'lea')]
+```
+
+### Combining Features
+
+Put it all together for powerful workflows:
+
+```python
+import scrython
+
+# Search with caching and rate limiting
+results = scrython.Cards(
+    search='c:red cmc<=3',
+    cache=True,
+    cache_ttl=3600,
+    rate_limit_per_second=5
+)
+
+# Iterate and filter
+affordable_red = []
+for card in results.iter_all():
+    if card.is_legal_in('commander') and card.has_color('R'):
+        price = card.lowest_price()
+        if price and price < 5.0:
+            affordable_red.append({
+                'name': card.name,
+                'price': price,
+                'type': card.type_line
+            })
+
+# Export results
+import json
+with open('affordable_red.json', 'w') as f:
+    json.dump(affordable_red, f, indent=2)
+
+print(f'Found {len(affordable_red)} affordable red cards!')
 ```

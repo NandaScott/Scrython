@@ -11,8 +11,10 @@ class Object(BulkDataObjectMixin):
     Provides access to all bulk data properties through BulkDataObjectMixin.
     """
 
+    _scryfall_data: ScryfallBulkDataData  # type: ignore[assignment]
+
     def __init__(self, data: ScryfallBulkDataData) -> None:
-        self._scryfall_data = data  # type: ignore[assignment]
+        self._scryfall_data = data
 
 
 class All(ScryfallListMixin, ScrythonRequestHandler):

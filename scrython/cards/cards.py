@@ -11,8 +11,10 @@ class Object(CardsObjectMixin):
     Provides access to all card properties through mixins (Core, Gameplay, Print fields).
     """
 
+    _scryfall_data: ScryfallCardData  # type: ignore[assignment]
+
     def __init__(self, data: ScryfallCardData) -> None:
-        self._scryfall_data = data  # type: ignore[assignment]
+        self._scryfall_data = data
 
     def __repr__(self) -> str:
         """
@@ -88,7 +90,7 @@ class Object(CardsObjectMixin):
         Returns:
             Dictionary containing all card data
         """
-        return self._scryfall_data.copy()
+        return self._scryfall_data.copy()  # type: ignore[return-value]
 
     def to_json(self, **kwargs) -> str:
         """

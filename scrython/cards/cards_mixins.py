@@ -1,6 +1,13 @@
 from functools import cache
 from typing import Any
 
+from ..types import (
+    ImageUris,
+    Legalities,
+    Prices,
+    PurchaseUris,
+    RelatedUris,
+)
 from ..utils import to_object_array
 
 
@@ -267,7 +274,7 @@ class GameplayFieldsMixin:
         return self._scryfall_data["keywords"]
 
     @property
-    def legalities(self) -> dict[str, Any]:
+    def legalities(self) -> Legalities:
         """
         Format legality across play modes.
 
@@ -554,7 +561,7 @@ class PrintFieldsMixin:
         return self._scryfall_data["image_status"]
 
     @property
-    def image_uris(self) -> dict[str, Any] | None:
+    def image_uris(self) -> ImageUris | None:
         """
         An object listing available imagery for this card.
 
@@ -572,7 +579,7 @@ class PrintFieldsMixin:
         return self._scryfall_data["oversized"]
 
     @property
-    def prices(self) -> dict[str, Any]:
+    def prices(self) -> Prices:
         """
         An object containing daily price information for this card, including usd, usd_foil, usd_etched, eur, eur_foil, eur_etched, and tix prices, as strings.
 
@@ -628,7 +635,7 @@ class PrintFieldsMixin:
         return self._scryfall_data.get("promo_types")
 
     @property
-    def purchase_uris(self) -> dict[str, Any] | None:
+    def purchase_uris(self) -> PurchaseUris | None:
         """
         An object providing URIs to this card's listing on major marketplaces. Omitted if the card is unpurchaseable.
 
@@ -646,7 +653,7 @@ class PrintFieldsMixin:
         return self._scryfall_data["rarity"]
 
     @property
-    def related_uris(self) -> dict[str, Any]:
+    def related_uris(self) -> RelatedUris:
         """
         An object providing URIs to this card's listing on other Magic resources.
 
@@ -899,7 +906,7 @@ class CardFaceMixin:
         return self._scryfall_data.get("illustration_id")
 
     @property
-    def image_uris(self) -> dict[str, Any] | None:
+    def image_uris(self) -> ImageUris | None:
         """
         An object providing URIs to imagery for this face, if this is a double-sided card.
 

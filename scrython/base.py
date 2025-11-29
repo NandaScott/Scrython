@@ -124,24 +124,42 @@ class ScrythonRequestHandler:
         if self._scryfall_data["object"] == "error":
             raise ScryfallError(self._scryfall_data, self._scryfall_data["details"])
 
-    def _fetch(self, **kwargs: Any) -> None:
-        # Caching (disabled by default)
+    def _fetch_raw(self, url: str, cache_key: str | None = None, **kwargs: Any) -> dict[str, Any]:
+        """
+        Low-level HTTP fetch for absolute URLs.
+
+        This method handles rate limiting, caching, and HTTP request execution
+        for any URL (including pagination URLs). It's used by both _fetch() for
+        endpoint-based requests and iter_all() for pagination.
+
+        Args:
+            url: Full absolute URL to fetch
+            cache_key: Optional cache key to use (if not provided, caching is skipped)
+            **kwargs: Optional parameters:
+                - cache (bool): Enable caching (default: False)
+                - cache_ttl (int): Cache TTL in seconds (default: 3600)
+                - rate_limit (bool): Enable rate limiting (default: True)
+                - rate_limit_per_second (float): Rate limit (default: 10.0)
+                - data (dict): POST data (optional)
+
+        Returns:
+            dict: Parsed JSON response from Scryfall API
+
+        Raises:
+            Exception: On HTTP errors or request failures
+        """
+        # Caching (disabled by default, requires cache_key)
         use_cache = kwargs.get("cache", False)
         cache_ttl = kwargs.get("cache_ttl", 3600)  # Default 1 hour
 
-        # Check cache first if enabled
-        if use_cache:
+        # Check cache first if enabled and cache_key provided
+        if use_cache and cache_key is not None:
             cache = get_global_cache()
-            cache_key = generate_cache_key(self.endpoint, self._query_params)
             cached_data = cache.get(cache_key)
 
             if cached_data is not None:
-                # Cache hit - use cached data
-                self._scryfall_data = cached_data
-                # Invalidate namespace cache
-                if hasattr(self, "_scryfall_namespace"):
-                    delattr(self, "_scryfall_namespace")
-                return
+                # Cache hit - return cached data
+                return cached_data
 
         # Rate limiting (enabled by default)
         rate_limit = kwargs.get("rate_limit", True)
@@ -156,35 +174,56 @@ class ScrythonRequestHandler:
             # Wait if necessary to respect rate limit
             limiter.wait()
 
+        # Prepare POST data if provided
         data: bytes | None = None
         if data_param := kwargs.get("data"):
             data = json.dumps(data_param).encode("utf-8")
 
-        request = Request(
-            f"https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}", data=data
-        )
+        # Create and configure HTTP request
+        request = Request(url, data=data)
         request.add_header("User-Agent", self._user_agent)
         request.add_header("Accept", self._accept)
         request.add_header("Content-Type", self._content_type)
 
+        # Execute HTTP request
         try:
             with urlopen(request) as response:
                 charset = response.info().get_param("charset") or "utf-8"
                 decoded = response.read().decode(charset)
 
-                self._scryfall_data = json.loads(decoded)
+                response_data = json.loads(decoded)
 
-                # Store in cache if enabled and not an error
-                if use_cache and self._scryfall_data.get("object") != "error":
+                # Store in cache if enabled and cache_key provided
+                if use_cache and cache_key is not None and response_data.get("object") != "error":
                     cache = get_global_cache()
-                    cache_key = generate_cache_key(self.endpoint, self._query_params)
-                    cache.set(cache_key, self._scryfall_data, cache_ttl)
+                    cache.set(cache_key, response_data, cache_ttl)
 
-                # Invalidate namespace cache when new data is fetched
-                if hasattr(self, "_scryfall_namespace"):
-                    delattr(self, "_scryfall_namespace")
+                return response_data
         except urllib.error.HTTPError as exc:
             raise Exception(f"{exc}: {request.get_full_url()}") from exc
+
+    def _fetch(self, **kwargs: Any) -> None:
+        """
+        Fetch data from Scryfall API using the endpoint template.
+
+        Builds the full URL from self.endpoint and query parameters,
+        then delegates to _fetch_raw() for actual HTTP execution.
+
+        Args:
+            **kwargs: Optional parameters passed to _fetch_raw()
+        """
+        # Build full URL from endpoint template and query parameters
+        url = f"https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}"
+
+        # Generate cache key from endpoint and params (order-independent)
+        cache_key = generate_cache_key(self.endpoint, self._query_params)
+
+        # Delegate to _fetch_raw for HTTP execution
+        self._scryfall_data = self._fetch_raw(url, cache_key=cache_key, **kwargs)
+
+        # Invalidate namespace cache when new data is fetched
+        if hasattr(self, "_scryfall_namespace"):
+            delattr(self, "_scryfall_namespace")
 
     def _build_params(self, **kwargs: Any) -> None:
         self._query_params: dict[str, Any] = {

@@ -1,3 +1,5 @@
+from typing import Any
+
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
 
@@ -11,7 +13,7 @@ class Object(MigrationsObjectMixin):
     Provides access to all migration properties through MigrationsObjectMixin.
     """
 
-    def __init__(self, data):
+    def __init__(self, data: dict[str, Any]) -> None:
         self._scryfall_data = data
 
 

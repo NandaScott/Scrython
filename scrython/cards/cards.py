@@ -1,5 +1,6 @@
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
+from ..types import ScryfallCardData
 from .cards_mixins import CardsObjectMixin
 
 
@@ -10,8 +11,8 @@ class Object(CardsObjectMixin):
     Provides access to all card properties through mixins (Core, Gameplay, Print fields).
     """
 
-    def __init__(self, data):
-        self._scryfall_data = data
+    def __init__(self, data: ScryfallCardData) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
 
     def __repr__(self) -> str:
         """
@@ -114,7 +115,7 @@ class Object(CardsObjectMixin):
         Returns:
             Object instance populated with the provided data
         """
-        return cls(data.copy())
+        return cls(data.copy())  # type: ignore[arg-type]
 
 
 class Search(ScryfallListMixin, ScrythonRequestHandler):

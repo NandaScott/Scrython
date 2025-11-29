@@ -92,13 +92,20 @@ class ScryfallListMixin:
         """
         return len(self.data)
 
-    def iter_all(self):
+    def iter_all(self, **kwargs):
         """
         Generator that auto-paginates through all results.
 
         Yields items from all pages, automatically fetching subsequent
         pages as needed. This is useful for processing large result sets
         without manually handling pagination.
+
+        Args:
+            **kwargs: Optional parameters:
+                - cache (bool): Enable caching for pagination (default: False)
+                - cache_ttl (int): Cache TTL in seconds (default: 3600)
+                - rate_limit (bool): Enable rate limiting (default: True)
+                - rate_limit_per_second (float): Rate limit (default: 10.0)
 
         Yields:
             Individual items from all pages
@@ -107,49 +114,40 @@ class ScryfallListMixin:
             results = scrython.cards.Search(q='c:red')
             for card in results.iter_all():
                 print(card.name)  # Processes all red cards across all pages
+
+            # With caching enabled
+            for card in results.iter_all(cache=True, cache_ttl=7200):
+                print(card.name)
         """
+        import hashlib
+
         # Yield items from current page
         yield from self.data
 
         # Fetch and yield subsequent pages
         current = self
         while current.has_more and current.next_page:
-            # Import here to avoid circular dependency
-            import json
-            from urllib.request import Request, urlopen
+            # For pagination URLs, use SHA256 hash as cache key (absolute URLs)
+            cache_key = hashlib.sha256(current.next_page.encode()).hexdigest()
 
-            # Fetch next page using the next_page URI
-            request = Request(current.next_page)
-            request.add_header("User-Agent", getattr(self, "_user_agent", "Scrython/2.0"))
-            request.add_header("Accept", "application/json")
+            # Use _fetch_raw from ScrythonRequestHandler (available via mixin inheritance)
+            next_data = self._fetch_raw(current.next_page, cache_key=cache_key, **kwargs)  # type: ignore[attr-defined]
 
-            try:
-                with urlopen(request) as response:
-                    charset = response.info().get_param("charset") or "utf-8"
-                    decoded = response.read().decode(charset)
-                    next_data = json.loads(decoded)
+            # Process items with list_data_type if present
+            if self.list_data_type:
+                items = [self.list_data_type(item) for item in next_data.get("data", [])]
+            else:
+                items = next_data.get("data", [])
 
-                    # Create a temporary object to hold next page data
-                    # We can't use from_dict easily here, so we'll access data directly
-                    if self.list_data_type:
-                        items = [self.list_data_type(item) for item in next_data.get("data", [])]
-                    else:
-                        items = next_data.get("data", [])
+            yield from items
 
-                    yield from items
+            # Update pagination state for next iteration
+            class _TempPage:
+                def __init__(self, data):
+                    self.has_more = data.get("has_more", False)
+                    self.next_page = data.get("next_page")
 
-                    # Update current for next iteration
-                    # Create a simple object to hold the next page info
-                    class _TempPage:
-                        def __init__(self, data):
-                            self._scryfall_data = data
-                            self.has_more = data.get("has_more", False)
-                            self.next_page = data.get("next_page")
-
-                    current = _TempPage(next_data)  # type: ignore[assignment]
-            except Exception:
-                # If pagination fails, stop iterating
-                break
+            current = _TempPage(next_data)  # type: ignore[assignment]
 
     def as_dict(self, key: str) -> dict[str, Any]:
         """

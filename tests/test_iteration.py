@@ -143,9 +143,6 @@ class TestIterAllPagination:
 
     def test_iter_all_multiple_pages(self, mock_urlopen):
         """Test iter_all with multiple pages."""
-        import json
-        from unittest.mock import Mock, patch
-
         # First page
         page1_data = {
             "object": "list",
@@ -167,19 +164,15 @@ class TestIterAllPagination:
             ],
         }
 
+        # Set up the mock to return page1_data first
         mock_urlopen.set_response(data=page1_data)
         results = Search(q="test")
 
-        # Mock the urlopen call that iter_all makes directly
-        mock_response = Mock()
-        mock_response.read.return_value = json.dumps(page2_data).encode("utf-8")
-        mock_response.info.return_value.get_param.return_value = "utf-8"
-        mock_response.__enter__ = Mock(return_value=mock_response)
-        mock_response.__exit__ = Mock(return_value=False)
+        # Update mock to return page2_data for pagination request
+        mock_urlopen.set_response(data=page2_data)
 
-        with patch("urllib.request.urlopen", return_value=mock_response):
-            # iter_all should fetch all pages
-            all_cards = list(results.iter_all())
+        # iter_all should fetch all pages (first page already loaded, fetches second page)
+        all_cards = list(results.iter_all())
 
         assert len(all_cards) == 4
         assert all_cards[0].name == "Card 1"

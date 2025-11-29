@@ -1,5 +1,6 @@
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
+from scrython.types import ScryfallSetData
 
 from .sets_mixins import SetsObjectMixin
 
@@ -11,8 +12,8 @@ class Object(SetsObjectMixin):
     Provides access to all set properties through SetsObjectMixin.
     """
 
-    def __init__(self, data):
-        self._scryfall_data = data
+    def __init__(self, data: ScryfallSetData) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
 
 
 class All(ScryfallListMixin, ScrythonRequestHandler):

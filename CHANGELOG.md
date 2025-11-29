@@ -13,6 +13,31 @@ Major refactoring and modernization of the Scrython library with significant imp
 
 ### Added
 
+#### TypedDict Integration (Phases 5-6)
+- **Full TypedDict type system** from `scrython.types` module
+  - `ScryfallCardData` - Complete card object structure
+  - `ScryfallSetData` - Complete set object structure
+  - `ScryfallBulkDataData` - Complete bulk data object structure
+  - `Legalities` - Format legality information
+  - `Prices` - Price information in various currencies
+  - `ImageUris` - Image URIs for different sizes
+  - `PurchaseUris` - Purchase URIs for various vendors
+  - `RelatedUris` - Related resource URIs
+  - `CardFaceData` - Multi-faced card face data
+  - `RelatedCard` - Related card information
+
+- **Refined mixin return types** - Replaced generic `dict[str, Any]` with specific TypedDict types
+  - `legalities()` returns `Legalities`
+  - `prices()` returns `Prices`
+  - `image_uris()` returns `ImageUris | None`
+  - `purchase_uris()` returns `PurchaseUris | None`
+  - `related_uris()` returns `RelatedUris`
+
+- **Endpoint class type overrides** - Better IDE autocomplete and type checking
+  - `cards.Object._scryfall_data: ScryfallCardData`
+  - `sets.Object._scryfall_data: ScryfallSetData`
+  - `bulk_data.Object._scryfall_data: ScryfallBulkDataData`
+
 #### Bulk Data Download Functionality
 - **`download()` method** for all Bulk Data objects
   - Automatic gzip decompression
@@ -27,13 +52,17 @@ Major refactoring and modernization of the Scrython library with significant imp
 - All 21 set properties have explicit type annotations
 - All 11 bulk data properties have explicit type annotations
 - Nullable types properly annotated (e.g., `int | None`)
+- Complete TypedDict definitions for all Scryfall API response structures
+- Full mypy type validation with zero errors
 
 #### Testing Infrastructure
 - **113 new property type tests** - Comprehensive parametrized tests validating all properties
 - Test coverage for nullable field handling
 - Test coverage for nested objects (card faces, related cards)
 - Test coverage for bulk data download functionality (6 new tests)
-- Total test suite: 188 tests passing
+- Test coverage for pagination and caching
+- Test coverage for rate limiting
+- Total test suite: 394 tests passing (all green)
 
 #### Development Tooling
 - **black** - Code formatter with consistent style
@@ -44,19 +73,35 @@ Major refactoring and modernization of the Scrython library with significant imp
 - Type checking enforcement via mypy
 
 #### Documentation
-- **API_CHECKLIST.md** - Comprehensive endpoint coverage documentation
-- **CHANGELOG.md** - This file!
+- **CHANGELOG.md** - This file! Complete release notes and migration guide
+- **docs/rewrite/REWRITE_HISTORY.md** - Comprehensive 3,843-line rewrite documentation
+  - All planning, analysis, and completion documentation in single file
+  - Organized chronologically with clear section separators
+  - Complete narrative of entire rewrite process (Phases 1-8)
 - Enhanced README with bulk data download examples
 - Improved inline documentation with official Scryfall descriptions
-- All mixins now have comprehensive docstrings
+- All mixins now have comprehensive docstrings (149 properties documented)
+- All endpoint classes have detailed docstrings with examples
 
 ### Changed
 
+#### Type System Improvements
+- Mixin property return types now use specific TypedDict types
+- Better IDE autocomplete for nested objects (legalities, prices, image URIs)
+- Improved type inference throughout the codebase
+- More precise error detection during development
+
+#### Project Organization
+- Consolidated rewrite documentation into single `docs/rewrite/REWRITE_HISTORY.md`
+- Moved all planning documents from root to `docs/rewrite/` directory
+- Cleaner root directory with only essential documentation files
+- Better separation of historical documentation from current docs
+
 #### API Structure (Non-Breaking on Rewrite Branch)
 - Simplified class names (removed redundant prefixes internally)
-  - `CardsNamed` ’ `Named` (internal)
-  - `SetsByCode` ’ `ByCode` (internal)
-  - `BulkDataByType` ’ `ByType` (internal)
+  - `CardsNamed` ï¿½ `Named` (internal)
+  - `SetsByCode` ï¿½ `ByCode` (internal)
+  - `BulkDataByType` ï¿½ `ByType` (internal)
 - Direct class imports from submodules instead of factory pattern
 - Read-only `scryfall_data` property returns `SimpleNamespace` instead of dict
   - Provides dot-notation access: `card.scryfall_data.name`
@@ -181,7 +226,7 @@ card.scryfall_data.name  #  Reading works
 card._scryfall_data['name']  #  Direct access still works
 
 # Mutations no longer affect internal data:
-card.scryfall_data.name = 'Modified'  #   Doesn't affect internal data
+card.scryfall_data.name = 'Modified'  # ï¿½ Doesn't affect internal data
 ```
 
 #### 4. Bulk Data Downloads (New Feature)

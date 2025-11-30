@@ -1,98 +1,117 @@
-import sys
-sys.path.append('..')
-from scrython.foundation import FoundationObject
+from scrython.base import ScrythonRequestHandler
+from scrython.base_mixins import ScryfallListMixin
+from scrython.types import ScryfallSetData
 
-class Sets(FoundationObject):
+from .sets_mixins import SetsObjectMixin
+
+
+class Object(SetsObjectMixin):
     """
-    /sets
+    Wrapper class for individual set objects from Scryfall API responses.
+
+    Provides access to all set properties through SetsObjectMixin.
+    """
+
+    _scryfall_data: ScryfallSetData  # type: ignore[assignment]
+
+    def __init__(self, data: ScryfallSetData) -> None:
+        self._scryfall_data = data
+
+
+class All(ScryfallListMixin, ScrythonRequestHandler):
+    """
+    Get all Magic: The Gathering sets in Scryfall's database.
+
+    Endpoint: GET /sets
+
+    Returns a list of all Set objects. Sets are returned in chronological order
+    by default. This includes all official sets, promotional sets, and token sets.
+
+    Example:
+        # Get all sets
+        all_sets = scrython.sets.All()
+
+        # Iterate through sets
+        for set_obj in all_sets.data:
+            print(f"{set_obj.name} ({set_obj.code}) - {set_obj.card_count} cards")
+
+        # Check if there are more results
+        if all_sets.has_more:
+            print("More sets available via pagination")
+
+    See: https://scryfall.com/docs/api/sets/all
+    """
+
+    _endpoint = "/sets"
+    list_data_type = Object
+
+
+class ByCode(SetsObjectMixin, ScrythonRequestHandler):
+    """
+    Get a set by its three-to-six-letter set code.
+
+    Endpoint: GET /sets/:code
+
+    Returns a single Set object. Set codes are short, unique identifiers for each
+    Magic set (e.g., "znr" for Zendikar Rising, "m21" for Core Set 2021).
 
     Args:
-        code (string): The 3 letter code of the set
-        format (string, optional):
-            Returns data in the specified method. Defaults to JSON.
-        pretty (string, optional):
-            Returns a prettier version of the json object. Note that this may break functionality with Scrython.
+        code: The three-to-six-letter set code (required).
 
-    Returns:
-        N/A
+    Example:
+        # Get a specific set by code
+        set_obj = scrython.sets.ByCode(code='m21')
+        print(f"{set_obj.name} released on {set_obj.released_at}")
+        print(f"Set type: {set_obj.set_type}")
+        print(f"Card count: {set_obj.card_count}")
 
-    Raises:
-        N/A
-
-    Examples:
-        >>> set = scrython.sets.Sets()
-        >>> set.data(3, "name")
+    See: https://scryfall.com/docs/api/sets/code
     """
-    def __init__(self):
-        self._url = 'sets?'
-        super(Sets, self).__init__(self._url)
 
-    def object(self):
-        """Returns the type of object it is
-        (card, error, etc)
-        
-        Returns:
-            string
-        """
-        super(Sets, self)._checkForKey('object')
+    _endpoint = "/sets/:code"
 
-        return self.scryfallJson['object']
 
-    def has_more(self):
-        """True if there are more pages available
-        
-        Returns:
-            boolean
-        """
-        super(Sets, self)._checkForKey('has_more')
+class ByTCGPlayerId(SetsObjectMixin, ScrythonRequestHandler):
+    """
+    Get a set by its TCGPlayer group ID.
 
-        return self.scryfallJson['has_more']
+    Endpoint: GET /sets/tcgplayer/:id
 
-    def data(self, index=None, key=None):
-        """The data returned from the query
+    Returns a single Set object. TCGPlayer group IDs identify product groups on
+    TCGPlayer's marketplace. Useful for marketplace integration and price tracking.
 
-        Acceptable keys:
-            object (string): The set object.
-            code (string): The three letter set code of the set.
-            mtgo_code (string): The mtgo equivalent of `code()`.
-            name (string): The full name of the set.
-            set_type (string): The type of the set (expansion, commander, etc)
-            released_at (string): The date the set was launched.
-            block_code (string): The the letter code for the block the set was in.
-            block (string): The full name of the block a set was in.
-            parent_set_code (string): The set code for the parent set.
-            card_count (integer): The number of cards in the set.
-            digital (boolean): True if this set is only featured on MTGO.
-            foil_only (boolean): True if this set only has foils.
-            icon_svg_uri (string): A URI to the SVG of the set symbol.
-            search_uri (string): The scryfall API url for the search.
+    Args:
+        id: The TCGPlayer group ID (required).
 
-        Args:
-            index (integer, optional): Defaults to None. Access a specific index.
-            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
-        
-        Returns:
-            List: The full list of data.
-            Dictionary: If given an index
-            String: If given an index and key.
-        """
-        super(Sets, self)._checkForKey('data')
+    Example:
+        set_obj = scrython.sets.ByTCGPlayerId(id=12345)
+        print(f"Set: {set_obj.name}")
+        print(f"TCGPlayer ID: {set_obj.tcgplayer_id}")
 
-        if index is not None:
-            if key is not None:
-                super(Sets, self)._checkForTupleKey('data', index, key)
-                return self.scryfallJson['data'][index][key]
+    See: https://scryfall.com/docs/api/sets/tcgplayer
+    """
 
-            return self.scryfallJson['data'][index]
+    _endpoint = "/sets/tcgplayer/:id"
 
-        return self.scryfallJson['data']
 
-    def data_length(self):
-        """The length of the data returned
-        
-        Returns:
-            integer
-        """
-        super(Sets, self)._checkForKey('data')
+class ById(SetsObjectMixin, ScrythonRequestHandler):
+    """
+    Get a set by its Scryfall UUID.
 
-        return len(self.scryfallJson['data'])
+    Endpoint: GET /sets/:id
+
+    Returns a single Set object. Scryfall IDs are unique UUIDs that permanently
+    identify each set in Scryfall's database. This is the canonical way to
+    retrieve sets.
+
+    Args:
+        id: The Scryfall UUID for the set (required).
+
+    Example:
+        set_obj = scrython.sets.ById(id='5f8287b1-5bb6-4e8f-9d78-8f3e3b3e1c6d')
+        print(f"{set_obj.name} ({set_obj.code})")
+
+    See: https://scryfall.com/docs/api/sets/id
+    """
+
+    _endpoint = "/sets/:id"

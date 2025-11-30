@@ -1,4 +1,3 @@
-from .code import Code
-from .sets import Sets
+from .sets import All, ByCode, ById, ByTCGPlayerId, Object
 
-__all__ = [ 'Code', 'Sets' ]
+__all__ = ["Object", "All", "ByCode", "ByTCGPlayerId", "ById"]

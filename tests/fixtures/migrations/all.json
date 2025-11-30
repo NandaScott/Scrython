@@ -1,0 +1,31 @@
+{
+  "object": "list",
+  "has_more": true,
+  "next_page": "https://api.scryfall.com/migrations?page=2",
+  "data": [
+    {
+      "object": "migration",
+      "id": "12345678-1234-1234-1234-123456789012",
+      "uri": "https://api.scryfall.com/migrations/12345678-1234-1234-1234-123456789012",
+      "performed_at": "2024-01-15T10:30:00.000Z",
+      "migration_strategy": "merge",
+      "old_scryfall_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "new_scryfall_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "note": "Duplicate card merged into canonical version",
+      "metadata": {
+        "reason": "duplicate"
+      }
+    },
+    {
+      "object": "migration",
+      "id": "87654321-4321-4321-4321-210987654321",
+      "uri": "https://api.scryfall.com/migrations/87654321-4321-4321-4321-210987654321",
+      "performed_at": "2024-01-14T08:15:00.000Z",
+      "migration_strategy": "delete",
+      "old_scryfall_id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+      "new_scryfall_id": null,
+      "note": "Removed test card from database",
+      "metadata": null
+    }
+  ]
+}

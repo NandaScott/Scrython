@@ -2,9 +2,25 @@ __pycache__
 .ropeproject
 scrython.egg-info
 dist
-tests
 BotUtils.py
 .vscode
 example_objects
 venv
 build
+
+# Testing and coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pre-commit
+.pre-commit-config-local.yaml
+
+# Python version
+.python-version

@@ -1,89 +1,121 @@
-import sys
-sys.path.append('..')
-from scrython.foundation import FoundationObject
+from typing import Any
 
-class Symbology(FoundationObject):
+from scrython.base import ScrythonRequestHandler
+from scrython.base_mixins import ScryfallListMixin
+
+from .symbology_mixins import ManaCostMixin, SymbologyObjectMixin
+
+
+class Object(SymbologyObjectMixin):
     """
-    /symbology
+    Wrapper class for individual card symbol objects from Scryfall API responses.
+
+    Provides access to all card symbol properties through SymbologyObjectMixin.
+    """
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self._scryfall_data = data
+
+
+class All(ScryfallListMixin, ScrythonRequestHandler):
+    """
+    Get all card symbols in Scryfall's database.
+
+    Endpoint: GET /symbology
+
+    Returns a list of CardSymbol objects representing all mana symbols, energy symbols,
+    tap/untap symbols, and other symbols used in Magic card costs and text.
+
+    Example:
+        # Get all symbols
+        symbols = scrython.symbology.All()
+
+        # Iterate through symbols
+        for symbol in symbols.data:
+            if symbol.represents_mana:
+                print(f"{symbol.symbol}: {symbol.english}")
+                print(f"  Mana value: {symbol.mana_value}")
+                print(f"  Colors: {symbol.colors}")
+
+        # Filter to mana symbols only
+        mana_symbols = [s for s in symbols.data if s.represents_mana]
+        print(f"Total mana symbols: {len(mana_symbols)}")
+
+        # Find hybrid symbols
+        hybrid_symbols = [s for s in symbols.data if s.hybrid]
+        print(f"Hybrid mana symbols: {len(hybrid_symbols)}")
+
+    See: https://scryfall.com/docs/api/card-symbols
+    """
+
+    _endpoint = "/symbology"
+    list_data_type = Object
+
+
+class ParseMana(ManaCostMixin, ScrythonRequestHandler):
+    """
+    Parse a mana cost string into structured data.
+
+    Endpoint: GET /symbology/parse-mana
+
+    Returns a ManaCost object containing parsed information about the mana cost,
+    including total mana value, colors, and whether the cost is colorless/mono/multi.
 
     Args:
-        N/A
+        cost: The mana cost string to parse (required). Use curly braces for symbols.
 
-    Returns:
-        N/A
+    Example:
+        # Parse a simple mana cost
+        parsed = scrython.symbology.ParseMana(cost="{2}{U}{U}")
+        print(f"Mana value: {parsed.mana_value}")  # 4
+        print(f"Colors: {parsed.colors}")  # ['U']
+        print(f"Monocolored: {parsed.monocolored}")  # True
+        print(f"Multicolored: {parsed.multicolored}")  # False
 
-    Raises:
-        N/A
+        # Parse a multicolored cost
+        parsed = scrython.symbology.ParseMana(cost="{G}{W}")
+        print(f"Colors: {parsed.colors}")  # ['G', 'W']
+        print(f"Multicolored: {parsed.multicolored}")  # True
 
-    Examples:
-        >>> symbol = scrython.symbology.Symbology()
+        # Parse a hybrid cost
+        parsed = scrython.symbology.ParseMana(cost="{2/W}{2/W}{2/W}")
+        print(f"Mana value: {parsed.mana_value}")  # Depends on payment choice
+        print(f"Monocolored: {parsed.monocolored}")  # True
+
+        # Parse a colorless cost
+        parsed = scrython.symbology.ParseMana(cost="{3}")
+        print(f"Colorless: {parsed.colorless}")  # True
+
+    See: https://scryfall.com/docs/api/card-symbols
     """
-    def __init__(self):
-        self.url = 'symbology?'
-        super(Symbology, self).__init__(self.url)
 
-    def object(self):
-        """Returns the type of object it is
-        (card, error, etc)
+    _endpoint = "/symbology/parse-mana"
 
-        Returns:
-            string
-        """
-        super(Symbology, self)._checkForKey('object')
 
-        return self.scryfallJson['object']
+class Symbology:
+    """
+    Smart factory for Symbology API endpoints.
 
-    def has_more(self):
-        """True if there are more pages to the object
-        
-        Returns:
-            boolean
-        """
-        super(Symbology, self)._checkForKey('has_more')
+    Routes to the correct symbology endpoint based on provided kwargs.
 
-        return self.scryfallJson['has_more']
+    Supported parameters:
+        - cost: Mana cost string to parse → ParseMana
+        - (no parameters): Get all symbols → All
 
-    def data(self, index=None, key=None):
-        """The data returned from the query
+    Example:
+        # Get all symbols
+        symbols = scrython.Symbology()
+        for symbol in symbols.data:
+            print(symbol.symbol)
 
-        Acceptable keys:
-            symbol (string): The plaintext symbol, usually written with curly braces
-            loose_variant (string): The alternate version of the symbol, without curly braces
-            transposable (boolean): True if it's possibly to write the symbol backwards
-            represents_mana (boolean): True if this is a mana symbol
-            cmc (float): The total converted mana cost of the symbol
-            appears_in_mana_costs (boolean): True if the symbol appears on the mana cost of any card
-            funny (boolean): True if the symbol is featured on any funny cards
-            colors (array): An array of all colors in the given symbol
-            english (string): An english sentence describing the mana cost
-            gatherer_alternate (array): An array of Gatherer like costs
+        # Parse a mana cost
+        cost = scrython.Symbology(cost="{2}{U}{U}")
+        print(f"Mana value: {cost.mana_value}")
+        print(f"Colors: {cost.colors}")
+    """
 
-        Args:
-            index (integer, optional): Defaults to None. Access a specific index.
-            key (string, optional): Defaults to None. Returns the value of the given key. Requires the `index` argument.
-
-        Returns:
-            List: The full list of data.
-            Dictionary: If given an index
-            String: If given an index and key.
-        """
-        super(Symbology, self)._checkForKey('has_more')
-
-        if index is not None:
-            if key is not None:
-                super(Symbology, self)._checkForTupleKey('data', index, key)
-                return self.scryfallJson['data'][index][key]
-
-            return self.scryfallJson['data'][index]
-
-        return self.scryfallJson['data']
-
-    def data_length(self):
-        """The length of the data returned
-        
-        Returns:
-            integer
-        """
-        super(Symbology, self)._checkForKey('data')
-
-        return len(self.scryfallJson['data'])
+    def __new__(cls, **kwargs):
+        if "cost" in kwargs:
+            return ParseMana(**kwargs)
+        else:
+            return All(**kwargs)

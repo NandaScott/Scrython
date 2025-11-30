@@ -1,0 +1,12 @@
+{
+  "object": "catalog",
+  "uri": "https://api.scryfall.com/catalog/card-names",
+  "total_values": 5,
+  "data": [
+    "Black Lotus",
+    "Lightning Bolt",
+    "Counterspell",
+    "Dark Ritual",
+    "Ancestral Recall"
+  ]
+}

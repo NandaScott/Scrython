@@ -1,0 +1,15 @@
+{
+  "object": "card",
+  "id": "f2b9983e-20d4-4d12-9e2c-ec0d0a039cdd",
+  "name": "Forest",
+  "mana_cost": "",
+  "cmc": 0.0,
+  "type_line": "Basic Land — Forest",
+  "oracle_text": "({T}: Add {G}.)",
+  "colors": [],
+  "color_identity": ["G"],
+  "set": "m21",
+  "set_name": "Core Set 2021",
+  "rarity": "common",
+  "artist": "Jonas De Ro"
+}

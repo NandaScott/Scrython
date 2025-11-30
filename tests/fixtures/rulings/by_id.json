@@ -1,0 +1,27 @@
+{
+  "object": "list",
+  "has_more": false,
+  "data": [
+    {
+      "object": "ruling",
+      "oracle_id": "f2b9983e-20d4-4d12-9e2c-ec6d9a345787",
+      "source": "wotc",
+      "published_at": "2020-08-07",
+      "comment": "If a creature you control has a mana ability with {T} in the cost, activating that ability while casting a spell with convoke will result in the creature being tapped before you pay the spell's costs."
+    },
+    {
+      "object": "ruling",
+      "oracle_id": "f2b9983e-20d4-4d12-9e2c-ec6d9a345787",
+      "source": "wotc",
+      "published_at": "2020-08-07",
+      "comment": "Tapping an untapped creature that's attacking or blocking to convoke a spell won't cause that creature to stop attacking or blocking."
+    },
+    {
+      "object": "ruling",
+      "oracle_id": "f2b9983e-20d4-4d12-9e2c-ec6d9a345787",
+      "source": "scryfall",
+      "published_at": "2021-03-15",
+      "comment": "This card is frequently used in Commander decks due to its synergy with token strategies."
+    }
+  ]
+}

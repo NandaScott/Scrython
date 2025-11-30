@@ -1,208 +1,103 @@
-import sys
-sys.path.append('..')
-from scrython.foundation import FoundationObject
-import asyncio
-import aiohttp
-import urllib.parse
-from threading import Thread
-import warnings
+from ..base import ScrythonRequestHandler
+from ..base_mixins import ScryfallListMixin
+from ..types import ScryfallBulkDataData
+from .bulk_data_mixins import BulkDataObjectMixin
 
-class BulkData(FoundationObject):
+
+class Object(BulkDataObjectMixin):
     """
-    /bulk-data
-    Queries and creates an object relating to the /bulk-data endpoint.
+    Wrapper class for individual bulk data objects from Scryfall API responses.
+
+    Provides access to all bulk data properties through BulkDataObjectMixin.
+    """
+
+    _scryfall_data: ScryfallBulkDataData  # type: ignore[assignment]
+
+    def __init__(self, data: ScryfallBulkDataData) -> None:
+        self._scryfall_data = data
+
+
+class All(ScryfallListMixin, ScrythonRequestHandler):
+    """
+    Get information about all available bulk data files.
+
+    Endpoint: GET /bulk-data
+
+    Returns a list of all Bulk Data objects. Scryfall provides bulk data files
+    containing complete datasets of cards, rulings, and other information. These
+    files are updated approximately every 12 hours.
+
+    Example:
+        # Get all bulk data options
+        all_bulk = scrython.bulk_data.All()
+
+        # List available files
+        for bulk in all_bulk.data:
+            print(f"{bulk.name}: {bulk.description}")
+            print(f"Size: {bulk.size / 1_000_000:.1f} MB")
+            print(f"Download: {bulk.download_uri}")
+            print()
+
+    See: https://scryfall.com/docs/api/bulk-data
+    """
+
+    _endpoint = "/bulk-data"
+    list_data_type = Object
+
+
+class ById(BulkDataObjectMixin, ScrythonRequestHandler):
+    """
+    Get information about a specific bulk data file by its Scryfall ID.
+
+    Endpoint: GET /bulk-data/:id
+
+    Returns a single Bulk Data object. Use this to get download URIs and metadata
+    for specific bulk data files.
 
     Args:
-        N/A
+        id: The Scryfall UUID for the bulk data file (required).
 
-    Returns:
-        object: The Scryfall endpoint object.
+    Example:
+        bulk = scrython.bulk_data.ById(id='uuid-here')
+        print(f"File: {bulk.name}")
+        print(f"Last updated: {bulk.updated_at}")
+        print(f"Download from: {bulk.download_uri}")
 
-    Raises:
-        Exception: Raised if Scryfall sends an error object.
-
-    Examples:
-        >>> data = scrython.bulk_data.BulkData()
-        >>> data.bulk_compressed_size()
+    See: https://scryfall.com/docs/api/bulk-data/id
     """
-    def __init__(self, **kwargs):
 
-        self.url = 'https://api.scryfall.com/bulk-data'
-        super(BulkData, self).__init__(self.url, True)
+    _endpoint = "/bulk-data/:id"
 
-    def object(self):
-        """Returns the type of object it is.
-        (card, error, etc)
-        
-        Returns:
-            string: The type of object
-        """
-        super(BulkData, self)._checkForKey('object')
 
-        return self.scryfallJson['object']
+class ByType(BulkDataObjectMixin, ScrythonRequestHandler):
+    """
+    Get information about a specific bulk data file by its type.
 
-    def has_more(self):
-        """True if there is more than one page of results
-        
-        Returns:
-            boolean: True if there are more results
-        """
-        super(BulkData, self)._checkForKey('has_more')
+    Endpoint: GET /bulk-data/:type
 
-        return self.scryfallJson['has_more']
+    Returns a single Bulk Data object for the specified type. This is the most
+    convenient way to access standard bulk data files like oracle cards or
+    default cards.
 
-    def data(self):
-        """A list of all types of types returned by the endpoints
-        
-        Returns:
-            list: List of all types
-        """
-        super(BulkData, self)._checkForKey('data')
+    Args:
+        type: The bulk data type (required).
+            Common types: 'oracle_cards', 'unique_artwork', 'default_cards',
+                         'all_cards', 'rulings'
 
-        return self.scryfallJson['data']
+    Example:
+        # Get Oracle Cards bulk data
+        oracle = scrython.bulk_data.ByType(type='oracle_cards')
+        print(f"Oracle Cards file: {oracle.name}")
+        print(f"Size: {oracle.size / 1_000_000:.1f} MB")
+        print(f"Updated: {oracle.updated_at}")
 
-    def bulk_object(self, num):
-        """Returns the type of object the specified index is
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The type of object
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'object')
+        # Download the file
+        import requests
+        response = requests.get(oracle.download_uri)
+        cards = response.json()
+        print(f"Downloaded {len(cards)} cards")
 
-        return self.scryfallJson['data'][num]['object']
+    See: https://scryfall.com/docs/api/bulk-data/type
+    """
 
-    def bulk_id(self, num):
-        """The unique ID of the bulk item
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The Scryfall id of the object
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'id')
-
-        return self.scryfallJson['data'][num]['id']
-
-    def bulk_type(self, num):
-        """The type of bulk data
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The type of the data item
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'type')
-
-        return self.scryfallJson['data'][num]['type']
-
-    def bulk_updated_at(self, num):
-        """The time the item was last updated
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: Timestamp
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'updated_at')
-
-        return self.scryfallJson['data'][num]['updated_at']
-
-    def bulk_name(self, num):
-        """The name of the type of bulk data object
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The name of the data item
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'name')
-
-        return self.scryfallJson['data'][num]['name']
-
-    def bulk_description(self, num):
-        """A description of the object
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The description of the data item
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'description')
-
-        return self.scryfallJson['data'][num]['description']
-
-    def bulk_compressed_size(self, num, human_readable=False):
-        """The size of the file in bytes
-        
-        Args:
-            num (int): The index of the object in the `data` key
-            human_readable (bool, optional): Defaults to False. Converts the bytes into a human readable format
-        
-        Returns:
-            integer: Returns integer by default. 
-            string: If human_readable is True, returns a string.
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'compressed_size')
-
-        if human_readable:
-            before = self.scryfallJson['data'][num]['compressed_size']
-
-            for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']:
-                if abs(before) < 1024.0:
-                    return '{:3.1f}{}'.format(before, unit)
-                before /= 1024.0
-
-            return '{:.1f}{}'.format(before, 'YiB')
-
-        return self.scryfallJson['data'][num]['compressed_size']
-
-    def bulk_permalink_uri(self, num):
-        warnings.warn("This method has been renamed to bulk_uri as per https://scryfall.com/blog/updates-to-bulk-data-and-cards-deprecation-notice-217", DeprecationWarning)
-        return self.bulk_uri(num)
-
-    def bulk_uri(self, num):
-        """The URL that hosts the bulk file
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: A URI to download the compressed data
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'uri')
-
-        return self.scryfallJson['data'][num]['uri']
-
-    def bulk_content_type(self, num):
-        """The MIME type of the file
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The MIME type
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'content_type')
-
-        return self.scryfallJson['data'][num]['content_type']
-
-    def bulk_content_encoding(self, num):
-        """The encoding of the file
-        
-        Args:
-            num (int): The index of the object in the `data` key
-        
-        Returns:
-            string: The encoding of the file
-        """
-        super(BulkData, self)._checkForTupleKey('data', num, 'content_encoding')
-
-        return self.scryfallJson['data'][num]['content_encoding']
+    _endpoint = "/bulk-data/:type"

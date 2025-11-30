@@ -1,0 +1,38 @@
+{
+  "object": "list",
+  "has_more": false,
+  "data": [
+    {
+      "object": "set",
+      "id": "288bd996-960e-488e-a4e7-b6571934c371",
+      "code": "lea",
+      "name": "Limited Edition Alpha",
+      "uri": "https://api.scryfall.com/sets/288bd996-960e-488e-a4e7-b6571934c371",
+      "scryfall_uri": "https://scryfall.com/sets/lea",
+      "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Alea&unique=prints",
+      "released_at": "1993-08-05",
+      "set_type": "core",
+      "card_count": 295,
+      "digital": false,
+      "nonfoil_only": true,
+      "foil_only": false,
+      "icon_svg_uri": "https://svgs.scryfall.io/sets/lea.svg"
+    },
+    {
+      "object": "set",
+      "id": "5307bd88-637c-4a5c-9801-6b706d1e0043",
+      "code": "leb",
+      "name": "Limited Edition Beta",
+      "uri": "https://api.scryfall.com/sets/5307bd88-637c-4a5c-9801-6b706d1e0043",
+      "scryfall_uri": "https://scryfall.com/sets/leb",
+      "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aleb&unique=prints",
+      "released_at": "1993-10-04",
+      "set_type": "core",
+      "card_count": 302,
+      "digital": false,
+      "nonfoil_only": true,
+      "foil_only": false,
+      "icon_svg_uri": "https://svgs.scryfall.io/sets/leb.svg"
+    }
+  ]
+}

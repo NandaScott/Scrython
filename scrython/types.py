@@ -5,9 +5,13 @@ This module contains TypedDict definitions for all Scryfall API objects,
 providing strong typing for card, set, and bulk data structures.
 """
 
+import sys
 from typing import Any, TypedDict
 
-from typing_extensions import NotRequired
+if sys.version_info >= (3, 11):
+    from typing import NotRequired
+else:
+    from typing_extensions import NotRequired
 
 # Type aliases for common Scryfall types
 UUID = str

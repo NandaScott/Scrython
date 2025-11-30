@@ -1047,7 +1047,7 @@ class RelatedCardsObjectMixin:
     @property
     def id(self) -> str:
         """
-        An unique ID for this card in Scryfall's database.
+        A unique ID for this card in Scryfall's database.
 
         Type: UUID (Required)
         """

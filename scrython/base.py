@@ -255,7 +255,7 @@ class ScrythonRequestHandler:
             if value is None and not optional:
                 raise KeyError(f"Missing required path parameter: '{key}'")
 
-            if value is not None and not optional:
+            if value is not None:
                 resolved.append(str(value))
 
         self._endpoint = "/".join(resolved)

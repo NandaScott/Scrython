@@ -91,8 +91,7 @@ class TestRequestHandlerPathBuilding:
                 self._build_path(**kwargs)
 
         handler = TestHandler(code="m21", number="123", lang="en")
-        assert handler.endpoint == "cards/m21/123"
-        # TODO: Add optional params in path building/
+        assert handler.endpoint == "cards/m21/123/en"
 
     def test_path_with_optional_param_not_provided(self):
         """Test building a path with an optional parameter that is not provided."""

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scrython"
-version = "2.0.0"
+version = "2.0.1"
 description = "A wrapper for using the Scryfall API."
 readme = "README.md"
 requires-python = ">=3.10"

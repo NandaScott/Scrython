@@ -68,7 +68,8 @@ class BulkDataObjectMixin:
 
         Type: URI (Required)
 
-        Note: Files are compressed with gzip. Download and decompress to process.
+        Note: Files may be compressed with gzip depending on CDN/proxy configuration.
+        The download() method automatically detects encoding from HTTP headers.
         """
         return self._scryfall_data["download_uri"]
 
@@ -120,9 +121,10 @@ class BulkDataObjectMixin:
         """
         Download and parse bulk data file from Scryfall.
 
-        The bulk data file is downloaded from Scryfall's CDN, decompressed from gzip,
-        and parsed as JSON. You can optionally save the decompressed JSON to a file
-        and/or return the parsed data.
+        The bulk data file is downloaded from Scryfall's CDN. The method automatically
+        detects if the response is gzip-compressed by checking HTTP Content-Encoding
+        headers and handles decompression accordingly. The JSON data is then parsed
+        and optionally saved to a file.
 
         Args:
             filepath: Optional path to save the decompressed JSON file.
@@ -171,6 +173,9 @@ class BulkDataObjectMixin:
 
             # Download with progress bar
             with urlopen(download_url) as response:
+                # Check actual HTTP Content-Encoding header
+                content_encoding = response.info().get("Content-Encoding", "").lower()
+
                 total_size = int(response.headers.get("Content-Length", 0))
                 pbar = tqdm(total=total_size, unit="B", unit_scale=True, desc="Downloading")
 
@@ -184,15 +189,30 @@ class BulkDataObjectMixin:
                     pbar.update(len(chunk))
                 pbar.close()
 
-                compressed_data = b"".join(chunks)
+                downloaded_data = b"".join(chunks)
 
-            # Decompress with progress
-            with tqdm(total=len(compressed_data), unit="B", unit_scale=True, desc="Decompressing"):
-                data = gzip.decompress(compressed_data)
+            # Conditionally decompress based on HTTP header
+            if content_encoding == "gzip":
+                with tqdm(
+                    total=len(downloaded_data), unit="B", unit_scale=True, desc="Decompressing"
+                ):
+                    data = gzip.decompress(downloaded_data)
+            else:
+                # Already decompressed or plain JSON
+                data = downloaded_data
         else:
             # Download without progress bar
-            with urlopen(download_url) as response, gzip.GzipFile(fileobj=response) as gz_file:
-                data = gz_file.read()
+            with urlopen(download_url) as response:
+                # Check actual HTTP Content-Encoding header
+                content_encoding = response.info().get("Content-Encoding", "").lower()
+
+                if content_encoding == "gzip":
+                    # Decompress with streaming
+                    with gzip.GzipFile(fileobj=response) as gz_file:
+                        data = gz_file.read()
+                else:
+                    # Read plain JSON
+                    data = response.read()
 
         # Parse JSON
         parsed_data = json.loads(data.decode("utf-8"))

@@ -1,4 +1,4 @@
-﻿# Scrython
+# Scrython
 
 Scrython is a wrapper for the Scryfall API, designed for an easier use.
 
@@ -238,6 +238,8 @@ cards = oracle_cards.download(progress=True)
 # - 'all_cards': All card printings
 # - 'rulings': All card rulings
 ```
+
+**Note:** The `download()` method automatically detects whether responses are gzip-compressed by checking HTTP `Content-Encoding` headers. This means it works seamlessly regardless of Scryfall's CDN configuration - you don't need to worry about compression formats.
 
 ### Error Handling
 

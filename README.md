@@ -27,7 +27,7 @@ import scrython
 cards_to_fetch = ['Lightning Bolt', 'Counterspell', 'Black Lotus']
 
 for card_name in cards_to_fetch:
-    card = scrython.Cards(fuzzy=card_name)  # Automatically rate limited
+    card = scrython.cards.Named(fuzzy=card_name)  # Automatically rate limited
     print(f"{card.name} - {card.set}")
 ```
 
@@ -35,10 +35,10 @@ for card_name in cards_to_fetch:
 
 ```python
 # Use a slower rate (5 requests/second)
-card = scrython.Cards(fuzzy='Lightning Bolt', rate_limit_per_second=5)
+card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit_per_second=5)
 
 # Disable rate limiting (use with caution!)
-card = scrython.Cards(fuzzy='Lightning Bolt', rate_limit=False)
+card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit=False)
 ```
 
 ### Legacy Code (Manual Rate Limiting):
@@ -51,7 +51,7 @@ import time
 
 # Disable automatic rate limiting and use manual delays
 for card_name in cards_to_fetch:
-    card = scrython.Cards(fuzzy=card_name, rate_limit=False)
+    card = scrython.cards.Named(fuzzy=card_name, rate_limit=False)
     print(f"{card.name} - {card.set}")
     time.sleep(0.1)  # 100ms delay
 ```
@@ -64,7 +64,7 @@ For large-scale data processing, use Scryfall's bulk data downloads instead:
 import scrython
 
 # Download all unique cards at once
-bulk = scrython.BulkData(type='oracle_cards')
+bulk = scrython.bulk_data.ByType(type='oracle_cards')
 cards = bulk.download()
 
 # Process all cards locally without rate limits!
@@ -82,16 +82,16 @@ Scrython 2.0 includes built-in caching with TTL (time-to-live) support:
 import scrython
 
 # Enable caching with 1-hour TTL (default)
-card = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+card = scrython.cards.Named(fuzzy='Lightning Bolt', cache=True)
 
 # First call makes API request
-card1 = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+card1 = scrython.cards.Named(fuzzy='Lightning Bolt', cache=True)
 
 # Second call returns cached result (no API request!)
-card2 = scrython.Cards(fuzzy='Lightning Bolt', cache=True)
+card2 = scrython.cards.Named(fuzzy='Lightning Bolt', cache=True)
 
 # Custom TTL (in seconds)
-card = scrython.Cards(fuzzy='Lightning Bolt', cache=True, cache_ttl=7200)  # 2 hours
+card = scrython.cards.Named(fuzzy='Lightning Bolt', cache=True, cache_ttl=7200)  # 2 hours
 ```
 
 **Note:** Card prices become unreliable after 24 hours. Consider shorter TTLs for price-sensitive applications.
@@ -107,7 +107,7 @@ import scrython
 @lru_cache(maxsize=1000)
 def get_card_by_name(name: str):
     """Cache card lookups to avoid duplicate requests."""
-    return scrython.Cards(fuzzy=name, rate_limit=False)
+    return scrython.cards.Named(fuzzy=name, rate_limit=False)
 
 card1 = get_card_by_name('Lightning Bolt')
 card2 = get_card_by_name('Lightning Bolt')  # Cached
@@ -118,13 +118,14 @@ card2 = get_card_by_name('Lightning Bolt')  # Cached
 Scryfall requests that applications identify themselves with a custom User-Agent:
 
 ```python
+from scrython.base import ScrythonRequestHandler
 import scrython
 
 # Set custom User-Agent for your application
-scrython.set_user_agent('MyMTGApp/1.0 (contact@example.com)')
+ScrythonRequestHandler.set_user_agent('MyMTGApp/1.0 (contact@example.com)')
 
 # All subsequent requests will use your custom User-Agent
-card = scrython.Cards(fuzzy='Black Lotus')
+card = scrython.cards.Named(fuzzy='Black Lotus')
 ```
 
 ## Complete Usage Examples
@@ -135,14 +136,14 @@ card = scrython.Cards(fuzzy='Black Lotus')
 import scrython
 
 # Fuzzy name search (handles typos)
-card = scrython.Cards(fuzzy='Light Bolt')
+card = scrython.cards.Named(fuzzy='Light Bolt')
 print(card.name)  # "Lightning Bolt"
 print(card.mana_cost)  # "{R}"
 print(card.type_line)  # "Instant"
 print(card.oracle_text)
 
 # Exact name match
-card = scrython.Cards(exact='Black Lotus')
+card = scrython.cards.Named(exact='Black Lotus')
 print(card.prices)
 # {'usd': '25000.00', 'usd_foil': None, ...}
 ```
@@ -151,7 +152,7 @@ print(card.prices)
 
 ```python
 # Search with Scryfall syntax
-results = scrython.Cards(search='type:creature cmc:1 color:red')
+results = scrython.cards.Search(q='type:creature cmc:1 color:red')
 
 print(f"Found {results.total_cards} cards")
 
@@ -167,29 +168,29 @@ if results.has_more:
 
 ```python
 # By set code and collector number
-card = scrython.Cards(code='znr', number='123')
+card = scrython.cards.ByCodeNumber(code='znr', number='123')
 
 # By various IDs
-card = scrython.Cards(multiverse='456789')
-card = scrython.Cards(mtgo='67890')
-card = scrython.Cards(id='5f8287b1-5bb6-4e8f-9d78-8f3e3b3e1c6d')
+card = scrython.cards.ByMultiverseId(id=456789)
+card = scrython.cards.ByMTGOId(id=67890)
+card = scrython.cards.ById(id='5f8287b1-5bb6-4e8f-9d78-8f3e3b3e1c6d')
 
 # Get random card
-card = scrython.Cards(random=True)
-card = scrython.Cards(random=True, q='rarity:mythic')  # Random mythic
+card = scrython.cards.Random()
+card = scrython.cards.Random(q='rarity:mythic')  # Random mythic
 ```
 
 ### Working with Sets
 
 ```python
 # Get all sets
-all_sets = scrython.Sets()
+all_sets = scrython.sets.All()
 
 for set_obj in all_sets.data:
     print(f"{set_obj.name} ({set_obj.code}) - {set_obj.card_count} cards")
 
 # Get specific set
-set_obj = scrython.Sets(code='znr')
+set_obj = scrython.sets.ByCode(code='znr')
 print(f"{set_obj.name} released on {set_obj.released_at}")
 print(f"Set type: {set_obj.set_type}")
 ```
@@ -202,14 +203,14 @@ Bulk data files contain all Magic cards and are updated every 12 hours. This is 
 import scrython
 
 # Get all bulk data options
-all_bulk = scrython.BulkData()
+all_bulk = scrython.bulk_data.All()
 
 for bulk in all_bulk.data:
     print(f"{bulk.name}: {bulk.description}")
     print(f"Size: {bulk.size / 1_000_000:.1f} MB")
 
 # Download oracle cards (all unique cards with Oracle text)
-oracle_cards = scrython.BulkData(type='oracle_cards')
+oracle_cards = scrython.bulk_data.ByType(type='oracle_cards')
 
 # Option 1: Download and return data in memory
 cards = oracle_cards.download()
@@ -244,7 +245,7 @@ cards = oracle_cards.download(progress=True)
 from scrython.base import ScryfallError
 
 try:
-    card = scrython.Cards(exact='Nonexistent Card Name')
+    card = scrython.cards.Named(exact='Nonexistent Card Name')
 except ScryfallError as e:
     print(f"Error {e.status}: {e.details}")
     if e.warnings:
@@ -255,7 +256,7 @@ except ScryfallError as e:
 
 ```python
 # Get card name suggestions
-suggestions = scrython.Cards(autocomplete='light')
+suggestions = scrython.cards.Autocomplete(q='light')
 
 for name in suggestions.data:
     print(name)
@@ -271,7 +272,7 @@ identifiers = [
     {'name': 'Lightning Bolt', 'set': 'lea'},
     {'multiverse_id': 409574}
 ]
-cards = scrython.Cards(collection=identifiers)
+cards = scrython.cards.Collection(data={'identifiers': identifiers})
 
 for card in cards.data:
     print(f"{card.name} - {card.set}")
@@ -280,7 +281,7 @@ for card in cards.data:
 ### Accessing Card Properties
 
 ```python
-card = scrython.Cards(fuzzy='Lightning Bolt')
+card = scrython.cards.Named(fuzzy='Lightning Bolt')
 
 # Core identifiers
 print(card.card_id)              # Scryfall UUID
@@ -317,15 +318,15 @@ Cards and other objects now support Python magic methods for better developer ex
 ```python
 import scrython
 
-card = scrython.Cards(fuzzy='Lightning Bolt')
+card = scrython.cards.Named(fuzzy='Lightning Bolt')
 
 # Readable representation
-print(repr(card))  # Named(id='abc123...', name='Lightning Bolt')
+print(repr(card))  # Object(id='abc123...', name='Lightning Bolt')
 print(str(card))   # Lightning Bolt (LEA)
 
 # Equality comparison (by ID)
-card1 = scrython.Cards(fuzzy='Lightning Bolt')
-card2 = scrython.Cards(exact='Lightning Bolt')
+card1 = scrython.cards.Named(fuzzy='Lightning Bolt')
+card2 = scrython.cards.Named(exact='Lightning Bolt')
 print(card1 == card2)  # True (same card ID)
 
 # Use in sets and dicts (hashable)
@@ -340,7 +341,7 @@ Export and import card data easily:
 ```python
 import scrython
 
-card = scrython.Cards(fuzzy='Lightning Bolt')
+card = scrython.cards.Named(fuzzy='Lightning Bolt')
 
 # Export to dict
 card_dict = card.to_dict()
@@ -353,10 +354,11 @@ with open('card.json', 'w') as f:
     f.write(card.to_json())
 
 # Import from dict (no API call!)
-restored_card = scrython.Cards.from_dict(card_dict)
+from scrython.cards.cards import Object
+restored_card = Object.from_dict(card_dict)
 
 # Export search results
-results = scrython.Cards(search='bolt')
+results = scrython.cards.Search(q='bolt')
 all_cards = results.to_list()  # List of dicts
 ```
 
@@ -367,7 +369,7 @@ Iterate directly over search results with Pythonic syntax:
 ```python
 import scrython
 
-results = scrython.Cards(search='c:red type:instant')
+results = scrython.cards.Search(q='c:red type:instant')
 
 # Direct iteration (current page)
 for card in results:
@@ -394,7 +396,7 @@ Quick access to common card operations:
 ```python
 import scrython
 
-card = scrython.Cards(fuzzy='Lightning Bolt')
+card = scrython.cards.Named(fuzzy='Lightning Bolt')
 
 # Legality checks
 if card.is_legal_in('commander'):
@@ -429,7 +431,7 @@ Transform and filter search results easily:
 ```python
 import scrython
 
-results = scrython.Cards(search='bolt')
+results = scrython.cards.Search(q='bolt')
 
 # Convert to dict keyed by name
 by_name = results.as_dict(key='name')
@@ -453,8 +455,8 @@ Put it all together for powerful workflows:
 import scrython
 
 # Search with caching and rate limiting
-results = scrython.Cards(
-    search='c:red cmc<=3',
+results = scrython.cards.Search(
+    q='c:red cmc<=3',
     cache=True,
     cache_ttl=3600,
     rate_limit_per_second=5

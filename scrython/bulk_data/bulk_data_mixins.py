@@ -1,7 +1,9 @@
 import gzip
 import json
 from typing import Any
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
+
+from ..base import ScrythonRequestHandler
 
 
 class BulkDataObjectMixin:
@@ -161,10 +163,14 @@ class BulkDataObjectMixin:
         """
         download_url = self.download_uri
 
+        request = Request(download_url)
+        request.add_header("User-Agent", ScrythonRequestHandler._user_agent)
+        request.add_header("Accept-Encoding", "gzip, identity")
+
         # Optional progress bar
         if progress:
             try:
-                from tqdm import tqdm
+                from tqdm.auto import tqdm
             except ImportError as exc:
                 raise ImportError(
                     "tqdm is required for progress bars. "
@@ -172,7 +178,7 @@ class BulkDataObjectMixin:
                 ) from exc
 
             # Download with progress bar
-            with urlopen(download_url) as response:
+            with urlopen(request) as response:
                 # Check actual HTTP Content-Encoding header
                 content_encoding = response.info().get("Content-Encoding", "").lower()
 
@@ -202,7 +208,7 @@ class BulkDataObjectMixin:
                 data = downloaded_data
         else:
             # Download without progress bar
-            with urlopen(download_url) as response:
+            with urlopen(request) as response:
                 # Check actual HTTP Content-Encoding header
                 content_encoding = response.info().get("Content-Encoding", "").lower()
 

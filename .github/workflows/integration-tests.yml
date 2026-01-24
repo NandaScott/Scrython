@@ -1,0 +1,32 @@
+name: Integration Tests
+
+# Run integration tests on PRs to main (typically from develop)
+# These tests make live API calls to Scryfall to verify real-world functionality
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    # Only run on PRs from develop branch, or manual dispatch
+    if: github.head_ref == 'develop' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run integration tests
+        run: |
+          python tests/integration/integration_test.py

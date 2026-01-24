@@ -164,7 +164,7 @@ class BulkDataObjectMixin:
         # Optional progress bar
         if progress:
             try:
-                from tqdm import tqdm
+                from tqdm.auto import tqdm
             except ImportError as exc:
                 raise ImportError(
                     "tqdm is required for progress bars. "

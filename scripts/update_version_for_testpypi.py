@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
-"""Update version in pyproject.toml with git commit hash for TestPyPI uploads."""
+"""Update version in pyproject.toml with dev identifier for TestPyPI uploads."""
 
+import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 
 
-def get_git_commit_hash() -> str:
-    """Get the short git commit hash (7 characters)."""
-    result = subprocess.run(
-        ["git", "rev-parse", "--short=7", "HEAD"],
-        capture_output=True,
-        text=True,
-        check=True
-    )
-    return result.stdout.strip()
+def get_unique_identifier() -> str:
+    """Get a unique identifier for the dev version.
+
+    Uses GitHub Actions run number if available, otherwise falls back to
+    a timestamp. This ensures each upload has a unique, incrementing version.
+    """
+    # GitHub Actions provides a unique, incrementing run number
+    run_number = os.environ.get("GITHUB_RUN_NUMBER")
+    if run_number:
+        return run_number
+
+    # Fallback for local testing: use timestamp
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
 
 
 def update_version_in_pyproject() -> str:
-    """Add git commit hash to version in pyproject.toml."""
+    """Add dev identifier to version in pyproject.toml."""
     pyproject_path = Path("pyproject.toml")
 
     if not pyproject_path.exists():
@@ -35,10 +40,10 @@ def update_version_in_pyproject() -> str:
         sys.exit(1)
 
     current_version = version_match.group(1)
-    commit_hash = get_git_commit_hash()
+    unique_id = get_unique_identifier()
 
-    # Create new version with PEP 440 local identifier
-    new_version = f"{current_version}+{commit_hash}"
+    # Create new version with PEP 440 dev identifier (accepted by PyPI/TestPyPI)
+    new_version = f"{current_version}.dev{unique_id}"
 
     # Replace version in content
     new_content = re.sub(

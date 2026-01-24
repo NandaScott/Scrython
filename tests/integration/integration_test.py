@@ -32,7 +32,7 @@ RATE_LIMIT_DELAY = 0.1  # 100ms between API calls to respect Scryfall rate limit
 VERBOSE = True  # Set to False for less output
 
 
-class TestResults:
+class IntegrationTestResults:
     """Tracks test results."""
 
     def __init__(self):
@@ -74,7 +74,7 @@ class TestResults:
         return self.failed == 0
 
 
-results = TestResults()
+results = IntegrationTestResults()
 
 
 def delay():

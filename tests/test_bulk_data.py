@@ -312,3 +312,32 @@ class TestBulkDataDownload:
             assert result == test_data
             assert len(result) == 1
             assert result[0]["name"] == "Test Card"
+
+    def test_download_sets_headers(self, mock_urlopen):
+        """Test download sets proper User-Agent and Accept-Encoding headers."""
+        from urllib.request import Request
+
+        from scrython.base import ScrythonRequestHandler
+
+        mock_urlopen.set_response("bulk_data/by_id.json")
+        bulk = ByType(type="oracle_cards")
+
+        with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
+            # Set up mock to allow inspection of the Request object
+            mock_response = MagicMock()
+            mock_response.read.return_value = b"[]"
+            mock_response.info.return_value.get.return_value = ""
+            mock_response.__enter__.return_value = mock_response
+            mock_response.__exit__.return_value = None
+            mock_download.return_value = mock_response
+
+            bulk.download()
+
+            # Verify urlopen was called with a Request object
+            mock_download.assert_called_once()
+            request = mock_download.call_args[0][0]
+            assert isinstance(request, Request)
+
+            # Verify headers are set correctly
+            assert request.get_header("User-agent") == ScrythonRequestHandler._user_agent
+            assert request.get_header("Accept-encoding") == "gzip, identity"

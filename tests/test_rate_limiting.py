@@ -265,7 +265,9 @@ class TestRequestHandlerRateLimiting:
         # SlowRateLimiter at 2/s means ~0.5s between calls
         assert elapsed > 0.45
 
-    def test_rate_limit_per_second_kwarg_overrides_class(self, mock_urlopen_with_rate_limit, sample_card):
+    def test_rate_limit_per_second_kwarg_overrides_class(
+        self, mock_urlopen_with_rate_limit, sample_card
+    ):
         """Test that rate_limit_per_second kwarg overrides the class default."""
         from scrython.rate_limiter import SlowRateLimiter
 

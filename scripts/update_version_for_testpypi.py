@@ -20,6 +20,7 @@ def get_unique_identifier() -> str:
 
     # Fallback for local testing: use timestamp
     from datetime import datetime, timezone
+
     return datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
 
 
@@ -51,7 +52,7 @@ def update_version_in_pyproject() -> str:
         f'version = "{new_version}"',
         content,
         count=1,
-        flags=re.MULTILINE
+        flags=re.MULTILINE,
     )
 
     # Write back (temporary, only in workflow workspace)

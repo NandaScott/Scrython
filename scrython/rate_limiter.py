@@ -1,8 +1,10 @@
 """Rate limiting for Scryfall API requests.
 
-Scryfall requests a rate limit of 10 requests per second. This module
-provides a thread-safe rate limiter that enforces this limit by default,
-while allowing users to opt-out or customize the rate limit.
+Scryfall requests a rate limit of 10 requests per second for most endpoints,
+but enforces a stricter 2 requests per second for certain card endpoints.
+
+This module provides a thread-safe rate limiter with a per-class registry,
+allowing different endpoint categories to maintain independent rate limits.
 """
 
 import threading
@@ -20,8 +22,8 @@ class RateLimiter:
     The limiter is thread-safe and can be shared across multiple threads.
     """
 
-    # Class-level (global) rate limiter shared across all instances
-    _global_limiter: ClassVar["RateLimiter | None"] = None
+    # Per-class registry of global rate limiter instances
+    _global_limiters: ClassVar[dict[type, "RateLimiter"]] = {}
     _global_lock: ClassVar[threading.Lock] = threading.Lock()
 
     def __init__(self, calls_per_second: float = 10.0) -> None:
@@ -61,32 +63,43 @@ class RateLimiter:
             self.last_call = time.time()
 
     @classmethod
-    def get_global_limiter(cls, calls_per_second: float = 10.0) -> "RateLimiter":
+    def get_global_limiter(cls) -> "RateLimiter":
         """
-        Get or create the global rate limiter instance.
+        Get or create the global rate limiter for this class.
 
-        This ensures that all API requests share a single rate limiter,
-        preventing rate limit violations even when multiple objects are
-        created concurrently.
-
-        Args:
-            calls_per_second: Rate limit to use if creating a new limiter
+        Each RateLimiter subclass maintains its own independent global
+        instance, keyed by class in a shared registry. This allows
+        different endpoint categories to enforce different rate limits.
 
         Returns:
-            The global RateLimiter instance
+            The global RateLimiter instance for this class
         """
         with cls._global_lock:
-            if cls._global_limiter is None:
-                cls._global_limiter = cls(calls_per_second)
-            return cls._global_limiter
+            if cls not in cls._global_limiters:
+                cls._global_limiters[cls] = cls()
+            return cls._global_limiters[cls]
 
     @classmethod
     def reset_global_limiter(cls) -> None:
         """
-        Reset the global rate limiter.
+        Reset all global rate limiters.
 
-        This is primarily useful for testing to ensure a clean state
-        between test runs.
+        Clears the entire registry, causing new instances to be created
+        on the next call to get_global_limiter(). This is primarily
+        useful for testing to ensure a clean state between test runs.
         """
         with cls._global_lock:
-            cls._global_limiter = None
+            cls._global_limiters.clear()
+
+
+class SlowRateLimiter(RateLimiter):
+    """
+    Rate limiter for Scryfall endpoints with stricter rate limits.
+
+    Scryfall enforces 2 requests per second on certain card endpoints
+    (search, named, random, collection). This subclass
+    provides that slower default rate.
+    """
+
+    def __init__(self, calls_per_second: float = 2.0) -> None:
+        super().__init__(calls_per_second)

@@ -58,6 +58,7 @@ class ScrythonRequestHandler:
     _accept: str = "application/json"
     _content_type: str = "application/json"
     _endpoint: str = ""
+    _rate_limiter_class: type[RateLimiter] = RateLimiter
 
     @classmethod
     def set_user_agent(cls, user_agent: str) -> None:
@@ -139,7 +140,7 @@ class ScrythonRequestHandler:
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
                 - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Rate limit (default: 10.0)
+                - rate_limit_per_second (float): Rate limit override (default: uses endpoint's limiter class)
                 - data (dict): POST data (optional)
 
         Returns:
@@ -165,13 +166,13 @@ class ScrythonRequestHandler:
         rate_limit = kwargs.get("rate_limit", True)
 
         if rate_limit:
-            # Get rate limit setting
-            rate_limit_per_second = kwargs.get("rate_limit_per_second", 10.0)
+            rate_limit_per_second = kwargs.get("rate_limit_per_second", None)
 
-            # Get or create global rate limiter
-            limiter = RateLimiter.get_global_limiter(rate_limit_per_second)
+            if rate_limit_per_second is not None:
+                limiter = RateLimiter(rate_limit_per_second)
+            else:
+                limiter = self._rate_limiter_class.get_global_limiter()
 
-            # Wait if necessary to respect rate limit
             limiter.wait()
 
         # Prepare POST data if provided

@@ -167,11 +167,11 @@ class ScrythonRequestHandler:
 
         if rate_limit:
             rate_limit_per_second = kwargs.get("rate_limit_per_second")
-            # Note: kwarg overrides use a separate registry key (cls, rate) from the
-            # class default (cls). If a caller alternates between providing and omitting
-            # rate_limit_per_second, the two limiters operate independently and will
-            # not respect each other's timing. This is an acceptable trade-off —
-            # mixing override and default usage on the same endpoint is uncommon.
+            # Note: kwarg overrides use a flat registry key ("override", rate),
+            # separate from the class default key (cls). If a caller alternates
+            # between providing and omitting rate_limit_per_second, the two
+            # limiters operate independently. All overrides at the same rate
+            # share a single limiter regardless of endpoint class.
 
             if rate_limit_per_second is not None:
                 limiter = self._rate_limiter_class.get_global_limiter_for_rate(

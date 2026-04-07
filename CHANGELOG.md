@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.1] - Unreleased
+## [2.0.3] - Unreleased
 
 ### Added
 - **Per-endpoint rate limiting**: Scryfall enforces tiered rate limits. `Search`, `Named`, `Random`, and `Collection` endpoints now automatically enforce 2 requests/second; all other endpoints enforce 10 requests/second. See [Scryfall rate limit docs](https://scryfall.com/docs/api/rate-limits).

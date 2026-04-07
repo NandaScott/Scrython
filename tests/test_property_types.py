@@ -120,9 +120,10 @@ class TestCardCoreFields:
             return
 
         # Otherwise, check the type
-        assert isinstance(
-            value, expected_type
-        ), f"Property '{prop}' ({desc}) returned {type(value).__name__} instead of {expected_type}"
+        assert isinstance(value, expected_type), (
+            f"Property '{prop}' ({desc}) returned {type(value).__name__} "
+            f"instead of {expected_type}"
+        )
 
 
 class TestCardGameplayFields:
@@ -141,9 +142,10 @@ class TestCardGameplayFields:
             return
 
         # Otherwise, check the type
-        assert isinstance(
-            value, expected_type
-        ), f"Property '{prop}' ({desc}) returned {type(value).__name__} instead of {expected_type}"
+        assert isinstance(value, expected_type), (
+            f"Property '{prop}' ({desc}) returned {type(value).__name__} "
+            f"instead of {expected_type}"
+        )
 
 
 class TestCardPrintFields:
@@ -162,9 +164,10 @@ class TestCardPrintFields:
             return
 
         # Otherwise, check the type
-        assert isinstance(
-            value, expected_type
-        ), f"Property '{prop}' ({desc}) returned {type(value).__name__} instead of {expected_type}"
+        assert isinstance(value, expected_type), (
+            f"Property '{prop}' ({desc}) returned {type(value).__name__} "
+            f"instead of {expected_type}"
+        )
 
 
 # Sets Properties Test Data
@@ -209,9 +212,10 @@ class TestSetsObjectFields:
             return
 
         # Otherwise, check the type
-        assert isinstance(
-            value, expected_type
-        ), f"Property '{prop}' ({desc}) returned {type(value).__name__} instead of {expected_type}"
+        assert isinstance(value, expected_type), (
+            f"Property '{prop}' ({desc}) returned {type(value).__name__} "
+            f"instead of {expected_type}"
+        )
 
 
 # Bulk Data Properties Test Data
@@ -246,6 +250,7 @@ class TestBulkDataObjectFields:
             return
 
         # Otherwise, check the type
-        assert isinstance(
-            value, expected_type
-        ), f"Property '{prop}' ({desc}) returned {type(value).__name__} instead of {expected_type}"
+        assert isinstance(value, expected_type), (
+            f"Property '{prop}' ({desc}) returned {type(value).__name__} "
+            f"instead of {expected_type}"
+        )

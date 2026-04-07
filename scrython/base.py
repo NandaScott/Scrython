@@ -16,8 +16,8 @@ class ScryfallError(Exception):
         self._status: int = scryfall_data["status"]
         self._code: str = scryfall_data["code"]
         self._details: str = scryfall_data["details"]
-        self._type: str | None = scryfall_data["type"]
-        self._warnings: list[str] | None = scryfall_data["warnings"]
+        self._type: str | None = scryfall_data.get("type")
+        self._warnings: list[str] | None = scryfall_data.get("warnings")
 
     @property
     def status(self) -> int:
@@ -220,6 +220,20 @@ class ScrythonRequestHandler:
 
                 return response_data
         except urllib.error.HTTPError as exc:
+            # Scryfall returns JSON error bodies on 4xx/5xx responses.
+            # urllib raises HTTPError before we can read the body normally,
+            # but the HTTPError itself is a file-like object containing it.
+            try:
+                charset = exc.headers.get_param("charset")
+                if not isinstance(charset, str):
+                    charset = "utf-8"
+                error_data = json.loads(exc.read().decode(charset))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                raise Exception(f"{exc}: {request.get_full_url()}") from exc
+
+            if error_data.get("object") == "error":
+                raise ScryfallError(error_data, error_data["details"]) from exc
+
             raise Exception(f"{exc}: {request.get_full_url()}") from exc
 
     def _fetch(self, **kwargs: Any) -> None:

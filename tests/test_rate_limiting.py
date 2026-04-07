@@ -5,7 +5,7 @@ import time
 
 import pytest
 
-from scrython.base import ScrythonRequestHandler
+from scrython.base import ScryfallError, ScrythonRequestHandler
 from scrython.rate_limiter import RateLimiter
 
 
@@ -144,7 +144,10 @@ class TestRequestHandlerRateLimiting:
     @pytest.fixture
     def mock_urlopen_with_rate_limit(self):
         """Mock urlopen without disabling rate limiting."""
+        import http.client
+        import io
         import json
+        import urllib.error
         from unittest.mock import Mock, patch
 
         class MockURLResponse:
@@ -193,13 +196,10 @@ class TestRequestHandlerRateLimiting:
                 self.status = error_data.get("status", 404)
 
             def __call__(self, request):
+                url = request.get_full_url() if hasattr(request, "get_full_url") else str(request)
                 self.calls.append(
                     {
-                        "url": (
-                            request.get_full_url()
-                            if hasattr(request, "get_full_url")
-                            else str(request)
-                        ),
+                        "url": url,
                         "method": request.get_method() if hasattr(request, "get_method") else "GET",
                         "headers": dict(request.headers) if hasattr(request, "headers") else {},
                     }
@@ -207,6 +207,23 @@ class TestRequestHandlerRateLimiting:
 
                 if self.response_data is None:
                     raise ValueError("No response data set. Call set_response() first.")
+
+                # Real urlopen raises HTTPError for 4xx/5xx status codes
+                if self.status >= 400:
+                    body = (
+                        self.response_data.encode("utf-8")
+                        if isinstance(self.response_data, str)
+                        else self.response_data
+                    )
+                    headers = http.client.HTTPMessage()
+                    headers["Content-Type"] = "application/json; charset=utf-8"
+                    raise urllib.error.HTTPError(
+                        url=url,
+                        code=self.status,
+                        msg=f"HTTP Error {self.status}",
+                        hdrs=headers,
+                        fp=io.BytesIO(body),
+                    )
 
                 return MockURLResponse(self.response_data, self.status)
 
@@ -418,10 +435,10 @@ class TestRequestHandlerRateLimiting:
 
         # Make two calls that will error
         start = time.time()
-        with contextlib.suppress(Exception):
+        with contextlib.suppress(ScryfallError):
             _handler1 = TestHandler(fuzzy="Nonexistent 1")
 
-        with contextlib.suppress(Exception):
+        with contextlib.suppress(ScryfallError):
             _handler2 = TestHandler(fuzzy="Nonexistent 2")
 
         elapsed = time.time() - start

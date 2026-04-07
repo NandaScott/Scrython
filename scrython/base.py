@@ -169,7 +169,9 @@ class ScrythonRequestHandler:
             rate_limit_per_second = kwargs.get("rate_limit_per_second")
 
             if rate_limit_per_second is not None:
-                limiter = RateLimiter(rate_limit_per_second)
+                limiter = self._rate_limiter_class.get_global_limiter_for_rate(
+                    rate_limit_per_second
+                )
             else:
                 limiter = self._rate_limiter_class.get_global_limiter()
 

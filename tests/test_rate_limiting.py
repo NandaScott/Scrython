@@ -80,7 +80,7 @@ class TestRateLimiter:
     def test_get_global_limiter_creates_singleton(self):
         """Test that get_global_limiter returns a singleton."""
         # Reset first
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         limiter1 = RateLimiter.get_global_limiter()
         limiter2 = RateLimiter.get_global_limiter()
@@ -88,13 +88,13 @@ class TestRateLimiter:
         # Should be the same instance
         assert limiter1 is limiter2
 
-    def test_reset_global_limiter(self):
-        """Test that reset_global_limiter clears the singleton."""
+    def test_reset_all_limiters(self):
+        """Test that reset_all_limiters clears the singleton."""
         # Create a global limiter
         limiter1 = RateLimiter.get_global_limiter()
 
         # Reset
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         # Get another - should be a new instance
         limiter2 = RateLimiter.get_global_limiter()
@@ -112,14 +112,14 @@ class TestRateLimiter:
         assert limiter_fast.calls_per_second == 10.0
         assert limiter_slow.calls_per_second == 2.0
 
-    def test_reset_global_limiter_clears_all(self):
+    def test_reset_all_limiters_clears_all(self):
         """Test that reset clears the entire registry."""
         from scrython.rate_limiter import SlowRateLimiter
 
         old_fast = RateLimiter.get_global_limiter()
         old_slow = SlowRateLimiter.get_global_limiter()
 
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         new_fast = RateLimiter.get_global_limiter()
         new_slow = SlowRateLimiter.get_global_limiter()
@@ -208,7 +208,7 @@ class TestRequestHandlerRateLimiting:
     def test_rate_limit_enabled_by_default(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that rate limiting is enabled by default."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
@@ -227,7 +227,7 @@ class TestRequestHandlerRateLimiting:
     def test_rate_limit_can_be_disabled(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that rate limiting can be disabled."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
@@ -287,30 +287,30 @@ class TestRequestHandlerRateLimiting:
         assert elapsed < 0.15
 
     def test_custom_rate_limit(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that rate_limit_per_second creates a one-off limiter per request."""
+        """Test that rate_limit_per_second enforces rate across consecutive calls."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
         class TestHandler(ScrythonRequestHandler):
             _endpoint = "cards/named"
 
-        # Each call creates its own limiter, so no shared state between calls
+        # Use a slower rate limit (5 calls/sec = 0.2s interval)
         start = time.time()
         _handler1 = TestHandler(fuzzy="Card 1", rate_limit_per_second=5.0)
         _handler2 = TestHandler(fuzzy="Card 2", rate_limit_per_second=5.0)
         elapsed = time.time() - start
 
-        # One-off limiters have no shared state, so calls are not delayed
-        assert elapsed < 0.1
+        # Should wait ~0.2s between calls
+        assert elapsed > 0.18
 
     def test_custom_rate_limit_via_subclass(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that custom rate limits are applied via RateLimiter subclasses."""
         from scrython.rate_limiter import SlowRateLimiter
 
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
@@ -322,7 +322,7 @@ class TestRequestHandlerRateLimiting:
     def test_rate_limit_respects_previous_calls(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that rate limiting considers timing of previous calls."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
@@ -348,7 +348,7 @@ class TestRequestHandlerRateLimiting:
     ):
         """Test that multiple handlers share the same global rate limiter."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
@@ -370,7 +370,7 @@ class TestRequestHandlerRateLimiting:
     def test_rate_limit_with_errors_still_enforced(self, mock_urlopen_with_rate_limit):
         """Test that rate limiting is enforced even when API returns errors."""
         # Reset rate limiter
-        RateLimiter.reset_global_limiter()
+        RateLimiter.reset_all_limiters()
 
         mock_urlopen_with_rate_limit.set_error_response(
             {"status": 404, "code": "not_found", "details": "Not found"}

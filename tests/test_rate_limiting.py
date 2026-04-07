@@ -287,7 +287,7 @@ class TestRequestHandlerRateLimiting:
         assert elapsed < 0.3
 
     def test_custom_rate_limit(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that rate_limit_per_second enforces rate across consecutive calls."""
+        """Test that rate_limit_per_second creates a per-instance limiter."""
         # Reset rate limiter
         RateLimiter.reset_all_limiters()
 
@@ -296,14 +296,15 @@ class TestRequestHandlerRateLimiting:
         class TestHandler(ScrythonRequestHandler):
             _endpoint = "cards/named"
 
-        # Use a slower rate limit (5 calls/sec = 0.2s interval)
+        # Each handler gets its own limiter, so separate instantiations
+        # do not throttle against each other (only pagination within
+        # a single handler instance is throttled).
         start = time.time()
         _handler1 = TestHandler(fuzzy="Card 1", rate_limit_per_second=5.0)
         _handler2 = TestHandler(fuzzy="Card 2", rate_limit_per_second=5.0)
         elapsed = time.time() - start
 
-        # Should wait ~0.2s between calls
-        assert elapsed > 0.18
+        assert elapsed < 0.1
 
     def test_slow_rate_limiter_attributes_via_global(
         self, mock_urlopen_with_rate_limit, sample_card

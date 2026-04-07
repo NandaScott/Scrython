@@ -26,7 +26,7 @@ class RateLimiter:
     """
 
     # Per-class registry of global rate limiter instances
-    _global_limiters: ClassVar[dict[type | tuple[str, float], "RateLimiter"]] = {}
+    _global_limiters: ClassVar[dict[type, "RateLimiter"]] = {}
     _global_lock: ClassVar[threading.Lock] = threading.Lock()
 
     def __init__(self, calls_per_second: float = 10.0) -> None:
@@ -81,28 +81,6 @@ class RateLimiter:
             if cls not in cls._global_limiters:
                 cls._global_limiters[cls] = cls()
             return cls._global_limiters[cls]
-
-    @classmethod
-    def get_global_limiter_for_rate(cls, calls_per_second: float) -> "RateLimiter":
-        """
-        Get or create a shared rate limiter for a specific rate.
-
-        This allows rate_limit_per_second overrides to share state
-        across consecutive calls with the same rate value. Overrides
-        are keyed by rate alone (not by class), so all endpoints
-        overriding to the same rate share a single limiter.
-
-        Args:
-            calls_per_second: The rate to enforce
-
-        Returns:
-            A shared RateLimiter instance for the given rate
-        """
-        key = ("override", calls_per_second)
-        with cls._global_lock:
-            if key not in cls._global_limiters:
-                cls._global_limiters[key] = RateLimiter(calls_per_second)
-            return cls._global_limiters[key]
 
     @classmethod
     def reset_all_limiters(cls) -> None:

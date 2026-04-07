@@ -118,6 +118,11 @@ class ScrythonRequestHandler:
         return self._endpoint
 
     def __init__(self, **kwargs: Any) -> None:
+        rate_limit_per_second = kwargs.get("rate_limit_per_second")
+        self._override_limiter: RateLimiter | None = None
+        if rate_limit_per_second is not None:
+            self._override_limiter = RateLimiter(rate_limit_per_second)
+
         self._build_path(**kwargs)
         self._build_params(**kwargs)
         self._fetch(**kwargs)
@@ -140,7 +145,6 @@ class ScrythonRequestHandler:
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
                 - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Rate limit override (default: uses endpoint's limiter class)
                 - data (dict): POST data (optional)
 
         Returns:
@@ -166,17 +170,10 @@ class ScrythonRequestHandler:
         rate_limit = kwargs.get("rate_limit", True)
 
         if rate_limit:
-            rate_limit_per_second = kwargs.get("rate_limit_per_second")
-            # Note: kwarg overrides use a flat registry key ("override", rate),
-            # separate from the class default key (cls). If a caller alternates
-            # between providing and omitting rate_limit_per_second, the two
-            # limiters operate independently. All overrides at the same rate
-            # share a single limiter regardless of endpoint class.
-
-            if rate_limit_per_second is not None:
-                limiter = self._rate_limiter_class.get_global_limiter_for_rate(
-                    rate_limit_per_second
-                )
+            # Use the instance override limiter if set, otherwise fall back
+            # to the class-level global limiter for the endpoint's tier.
+            if self._override_limiter is not None:
+                limiter = self._override_limiter
             else:
                 limiter = self._rate_limiter_class.get_global_limiter()
 

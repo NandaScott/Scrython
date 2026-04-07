@@ -14,9 +14,13 @@ pip install scrython
 
 ## ⚠️ Important: Rate Limiting
 
-**Good news!** Scrython 2.0 now includes **built-in rate limiting** enabled by default, enforcing Scryfall's 10 requests/second guideline automatically. You no longer need to manually add delays between requests.
+**Good news!** Scrython 2.0 includes **built-in rate limiting** enabled by default. You no longer need to manually add delays between requests.
 
-**Scryfall requires 50-100 milliseconds delay between requests** (~10 requests/second maximum).
+Scrython automatically enforces Scryfall's tiered rate limits:
+- **10 requests/second** for most endpoints (cards by ID, sets, bulk data, autocomplete, etc.)
+- **2 requests/second** for heavier endpoints: `Search`, `Named`, `Random`, and `Collection`
+
+See [Scryfall's rate limit documentation](https://scryfall.com/docs/api/rate-limits) for details.
 
 ### Automatic Rate Limiting (Default):
 
@@ -27,17 +31,17 @@ import scrython
 cards_to_fetch = ['Lightning Bolt', 'Counterspell', 'Black Lotus']
 
 for card_name in cards_to_fetch:
-    card = scrython.cards.Named(fuzzy=card_name)  # Automatically rate limited
+    card = scrython.cards.Named(fuzzy=card_name)  # Automatically rate limited (2/s)
     print(f"{card.name} - {card.set}")
 ```
 
 ### Custom Rate Limits:
 
 ```python
-# Use a slower rate (5 requests/second)
+# Override the rate for a specific call (5 requests/second)
 card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit_per_second=5)
 
-# Disable rate limiting (use with caution!)
+# Disable rate limiting entirely (use with caution!)
 card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit=False)
 ```
 
@@ -53,7 +57,7 @@ import time
 for card_name in cards_to_fetch:
     card = scrython.cards.Named(fuzzy=card_name, rate_limit=False)
     print(f"{card.name} - {card.set}")
-    time.sleep(0.1)  # 100ms delay
+    time.sleep(0.5)  # 500ms delay for Named endpoint
 ```
 
 ### Better: Use Bulk Data for Large Datasets

@@ -16,8 +16,8 @@ class ScryfallError(Exception):
         self._status: int = scryfall_data["status"]
         self._code: str = scryfall_data["code"]
         self._details: str = scryfall_data["details"]
-        self._type: str | None = scryfall_data["type"]
-        self._warnings: list[str] | None = scryfall_data["warnings"]
+        self._type: str | None = scryfall_data.get("type")
+        self._warnings: list[str] | None = scryfall_data.get("warnings")
 
     @property
     def status(self) -> int:

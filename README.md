@@ -39,6 +39,8 @@ for card_name in cards_to_fetch:
 
 ```python
 # Override the rate for a specific call (5 requests/second)
+# Note: the override is scoped to this handler instance only.
+# Separate instantiations each get their own limiter.
 card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit_per_second=5)
 
 # Disable rate limiting entirely (use with caution!)

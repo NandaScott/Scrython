@@ -127,6 +127,16 @@ class TestRateLimiter:
         assert new_fast is not old_fast
         assert new_slow is not old_slow
 
+    def test_get_global_limiter_deprecated_param(self):
+        """Test that passing calls_per_second to get_global_limiter emits a deprecation warning."""
+        RateLimiter.reset_all_limiters()
+
+        with pytest.warns(DeprecationWarning, match="calls_per_second.*deprecated"):
+            limiter = RateLimiter.get_global_limiter(5.0)
+
+        # Should still return the default limiter (argument is ignored)
+        assert limiter.calls_per_second == 10.0
+
 
 class TestRequestHandlerRateLimiting:
     """Test rate limiting integration with ScrythonRequestHandler."""
@@ -305,6 +315,30 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         assert elapsed < 0.2
+
+    def test_custom_rate_limit_throttles_within_instance(
+        self, mock_urlopen_with_rate_limit, sample_card
+    ):
+        """Test that rate_limit_per_second throttles repeated calls on the same handler."""
+        RateLimiter.reset_all_limiters()
+
+        mock_urlopen_with_rate_limit.set_response(data=sample_card)
+
+        class TestHandler(ScrythonRequestHandler):
+            _endpoint = "cards/named"
+
+        handler = TestHandler(fuzzy="Card 1", rate_limit_per_second=5.0)
+
+        # Call _fetch_raw again on the same instance (simulates pagination)
+        start = time.time()
+        handler._fetch_raw(
+            "https://api.scryfall.com/cards/named?fuzzy=Card+2",
+            rate_limit=True,
+        )
+        elapsed = time.time() - start
+
+        # Should wait ~0.2s (5 calls/sec = 200ms interval)
+        assert elapsed > 0.15
 
     def test_slow_rate_limiter_attributes_via_global(
         self, mock_urlopen_with_rate_limit, sample_card

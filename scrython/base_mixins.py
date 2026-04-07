@@ -105,7 +105,6 @@ class ScryfallListMixin:
                 - cache (bool): Enable caching for pagination (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
                 - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Rate limit (default: 10.0)
 
         Yields:
             Individual items from all pages

@@ -66,7 +66,7 @@ class RateLimiter:
             self.last_call = time.time()
 
     @classmethod
-    def get_global_limiter(cls) -> "RateLimiter":
+    def get_global_limiter(cls, calls_per_second: float | None = None) -> "RateLimiter":
         """
         Get or create the global rate limiter for this class.
 
@@ -74,9 +74,20 @@ class RateLimiter:
         global instance, keyed by class in a shared registry. This allows
         different endpoint categories to enforce different rate limits.
 
+        Args:
+            calls_per_second: Deprecated, ignored. Rate is determined by
+                the class default. Passing a value emits a DeprecationWarning.
+
         Returns:
             The global RateLimiter instance for this class
         """
+        if calls_per_second is not None:
+            warnings.warn(
+                "calls_per_second argument to get_global_limiter() is deprecated "
+                "and ignored. Rate is determined by the class default.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
         with cls._global_lock:
             if cls not in cls._global_limiters:
                 cls._global_limiters[cls] = cls()

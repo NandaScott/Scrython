@@ -59,6 +59,7 @@ class ScrythonRequestHandler:
     _content_type: str = "application/json"
     _endpoint: str = ""
     _rate_limiter_class: type[RateLimiter] = RateLimiter
+    _override_limiter: RateLimiter | None = None
 
     @classmethod
     def set_user_agent(cls, user_agent: str) -> None:

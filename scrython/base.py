@@ -118,6 +118,20 @@ class ScrythonRequestHandler:
         return self._endpoint
 
     def __init__(self, **kwargs: Any) -> None:
+        """
+        Initialize a Scryfall API request handler.
+
+        Args:
+            **kwargs: Endpoint-specific parameters, plus optional:
+                - rate_limit (bool): Enable rate limiting (default: True)
+                - rate_limit_per_second (float): Override the default rate limit
+                    for this handler instance. Creates a per-instance limiter,
+                    so separate instantiations do not coordinate with each other
+                    or with the class default limiter. Pagination within a single
+                    handler (e.g., iter_all()) is properly throttled.
+                - cache (bool): Enable caching (default: False)
+                - cache_ttl (int): Cache TTL in seconds (default: 3600)
+        """
         rate_limit_per_second = kwargs.get("rate_limit_per_second")
         self._override_limiter: RateLimiter | None = None
         if rate_limit_per_second is not None:

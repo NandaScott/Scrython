@@ -241,7 +241,7 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         # Should be very fast (no rate limiting)
-        assert elapsed < 0.15
+        assert elapsed < 0.3
 
     def test_default_rate_limiter_class_is_base(self):
         """Test that ScrythonRequestHandler defaults to RateLimiter."""

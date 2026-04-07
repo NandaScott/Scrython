@@ -51,6 +51,8 @@ The library uses a **base request handler** (`ScrythonRequestHandler`) combined 
 scrython/
 ├── base.py              # ScrythonRequestHandler, ScryfallError
 ├── base_mixins.py       # ScryfallListMixin, ScryfallCatalogMixin
+├── rate_limiter.py      # RateLimiter, SlowRateLimiter (per-endpoint tiering)
+├── cache.py             # Request caching with TTL
 ├── utils.py             # Utility functions (e.g., to_object_array)
 ├── cards/
 │   ├── cards.py         # Card endpoint classes + Cards factory
@@ -91,11 +93,11 @@ From Contributing.md:
 
 ## Important Notes
 
-- **No rate limiting**: Library doesn't enforce Scryfall's rate limits - users must handle this themselves (e.g., `time.sleep(0.1)`)
+- **Built-in rate limiting**: Automatic per-endpoint rate limiting (10/s default, 2/s for search/named/random/collection). See `scrython/rate_limiter.py`. Users can override with `rate_limit_per_second` kwarg or disable with `rate_limit=False`.
 - **No backwards compatibility**: Breaking changes expected as Scryfall API evolves
-- **Walrus operator usage**: Code uses `:=` (requires Python 3.8+)
-- **Dependencies**: python >= 3.5.3, asyncio >= 3.4.3, aiohttp >= 3.4.4 (though current code uses urllib, not aiohttp)
-- **Branches**: `master` is stable/PyPI, `develop` is staging (per Contributing.md, though current branch is `rewrite`)
+- **Python 3.10+ required**: Uses `X | Y` union syntax and `type[X]` annotations throughout
+- **Dependencies**: urllib (standard library), no external HTTP dependencies
+- **Branches**: `main` is stable/PyPI, `develop` is staging
 
 ## Adding New Endpoints
 

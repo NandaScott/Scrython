@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.3] - Unreleased
+
+### Added
+- **Per-endpoint rate limiting**: Scryfall enforces tiered rate limits. `Search`, `Named`, `Random`, and `Collection` endpoints now automatically enforce 2 requests/second; all other endpoints enforce 10 requests/second. See [Scryfall rate limit docs](https://scryfall.com/docs/api/rate-limits).
+- **`SlowRateLimiter` subclass**: New rate limiter class for endpoints with stricter limits. Endpoint classes declare their tier via `_rate_limiter_class` class variable.
+- **Per-class limiter registry**: Each `RateLimiter` subclass maintains its own global instance, allowing independent rate limits per endpoint category.
+
+### Changed
+- `rate_limit_per_second` kwarg now creates a per-instance limiter scoped to the handler's lifecycle. Separate instantiations do not coordinate with each other; pagination within a single handler (`iter_all()`) is properly throttled.
+- `reset_global_limiter()` renamed to `reset_all_limiters()`. The old name still works but emits a `DeprecationWarning`.
+- `get_global_limiter()` no longer accepts a `calls_per_second` argument. Passing one emits a `DeprecationWarning` and the value is ignored. Rate is determined by the class default.
+- Passing `rate_limit_per_second` to `iter_all()` now emits a `UserWarning` and is ignored. The kwarg must be set at construction time.
+
+---
+
 ## [2.0.0] - 2025-01-11 (Rewrite Branch)
 
 Major refactoring and modernization of the Scrython library with significant improvements to code quality, type safety, and usability.

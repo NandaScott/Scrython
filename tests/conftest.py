@@ -20,10 +20,10 @@ def reset_globals():
 
     Resets rate limiter and cache to ensure tests don't interfere with each other.
     """
-    RateLimiter.reset_global_limiter()
+    RateLimiter.reset_all_limiters()
     reset_global_cache()
     yield
-    RateLimiter.reset_global_limiter()
+    RateLimiter.reset_all_limiters()
     reset_global_cache()
 
 

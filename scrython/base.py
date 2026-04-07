@@ -58,6 +58,8 @@ class ScrythonRequestHandler:
     _accept: str = "application/json"
     _content_type: str = "application/json"
     _endpoint: str = ""
+    _rate_limiter_class: type[RateLimiter] = RateLimiter
+    _override_limiter: RateLimiter | None = None
 
     @classmethod
     def set_user_agent(cls, user_agent: str) -> None:
@@ -117,6 +119,25 @@ class ScrythonRequestHandler:
         return self._endpoint
 
     def __init__(self, **kwargs: Any) -> None:
+        """
+        Initialize a Scryfall API request handler.
+
+        Args:
+            **kwargs: Endpoint-specific parameters, plus optional:
+                - rate_limit (bool): Enable rate limiting (default: True)
+                - rate_limit_per_second (float): Override the default rate limit
+                    for this handler instance. Creates a per-instance limiter,
+                    so separate instantiations do not coordinate with each other
+                    or with the class default limiter. Pagination within a single
+                    handler (e.g., iter_all()) is properly throttled.
+                - cache (bool): Enable caching (default: False)
+                - cache_ttl (int): Cache TTL in seconds (default: 3600)
+        """
+        rate_limit_per_second = kwargs.get("rate_limit_per_second")
+        self._override_limiter: RateLimiter | None = None
+        if rate_limit_per_second is not None:
+            self._override_limiter = RateLimiter(rate_limit_per_second)
+
         self._build_path(**kwargs)
         self._build_params(**kwargs)
         self._fetch(**kwargs)
@@ -139,7 +160,6 @@ class ScrythonRequestHandler:
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
                 - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Rate limit (default: 10.0)
                 - data (dict): POST data (optional)
 
         Returns:
@@ -165,13 +185,13 @@ class ScrythonRequestHandler:
         rate_limit = kwargs.get("rate_limit", True)
 
         if rate_limit:
-            # Get rate limit setting
-            rate_limit_per_second = kwargs.get("rate_limit_per_second", 10.0)
+            # Use the instance override limiter if set, otherwise fall back
+            # to the class-level global limiter for the endpoint's tier.
+            if self._override_limiter is not None:
+                limiter = self._override_limiter
+            else:
+                limiter = self._rate_limiter_class.get_global_limiter()
 
-            # Get or create global rate limiter
-            limiter = RateLimiter.get_global_limiter(rate_limit_per_second)
-
-            # Wait if necessary to respect rate limit
             limiter.wait()
 
         # Prepare POST data if provided

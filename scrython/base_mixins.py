@@ -1,3 +1,4 @@
+import warnings
 from functools import cache
 from typing import Any
 
@@ -105,7 +106,10 @@ class ScryfallListMixin:
                 - cache (bool): Enable caching for pagination (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
                 - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Rate limit (default: 10.0)
+
+        Note:
+            rate_limit_per_second must be set at construction time, not here.
+            Pagination uses the handler's existing rate limiter.
 
         Yields:
             Individual items from all pages
@@ -120,6 +124,15 @@ class ScryfallListMixin:
                 print(card.name)
         """
         import hashlib
+
+        if "rate_limit_per_second" in kwargs:
+            warnings.warn(
+                "rate_limit_per_second must be set at construction time, "
+                "not passed to iter_all(). This kwarg is ignored.",
+                UserWarning,
+                stacklevel=2,
+            )
+            kwargs.pop("rate_limit_per_second")
 
         # Yield items from current page
         yield from self.data

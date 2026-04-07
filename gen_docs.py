@@ -68,7 +68,6 @@ def format_functions(_class, function_list, f):
 
 def main(subpackage):
     for _class in subpackage.__all__:
-
         intro = f"""
 These docs will likely not be as detailed as the official Scryfall Documentation, and you should reference that for more information.
 

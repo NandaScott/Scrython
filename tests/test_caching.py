@@ -3,7 +3,7 @@
 import contextlib
 import time
 
-from scrython.base import ScrythonRequestHandler
+from scrython.base import ScryfallError, ScrythonRequestHandler
 from scrython.cache import MemoryCache, generate_cache_key, get_global_cache, reset_global_cache
 
 
@@ -271,7 +271,7 @@ class TestRequestHandlerCaching:
         class TestHandler(ScrythonRequestHandler):
             _endpoint = "cards/named"
 
-        with contextlib.suppress(Exception):
+        with contextlib.suppress(ScryfallError):
             _handler = TestHandler(fuzzy="Nonexistent", cache=True)
 
         # Cache should be empty (errors not cached)

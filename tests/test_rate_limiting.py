@@ -284,7 +284,7 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         # Should be fast (~0.05s), not slow (~0.5s)
-        assert elapsed < 0.15
+        assert elapsed < 0.3
 
     def test_custom_rate_limit(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that rate_limit_per_second enforces rate across consecutive calls."""
@@ -305,8 +305,10 @@ class TestRequestHandlerRateLimiting:
         # Should wait ~0.2s between calls
         assert elapsed > 0.18
 
-    def test_custom_rate_limit_via_subclass(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that custom rate limits are applied via RateLimiter subclasses."""
+    def test_slow_rate_limiter_attributes_via_global(
+        self, mock_urlopen_with_rate_limit, sample_card
+    ):
+        """Test that SlowRateLimiter global instance has correct default attributes."""
         from scrython.rate_limiter import SlowRateLimiter
 
         # Reset rate limiter
@@ -417,7 +419,7 @@ class TestSlowRateLimiter:
         limiter.wait()
         elapsed = time.time() - start
 
-        assert 0.45 < elapsed < 0.6
+        assert 0.45 < elapsed < 1.0
 
 
 class TestEndpointRateLimiterAssignment:

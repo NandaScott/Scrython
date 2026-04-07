@@ -1,7 +1,9 @@
 """Rate limiting for Scryfall API requests.
 
 Scryfall requests a rate limit of 10 requests per second for most endpoints,
-but enforces a stricter 2 requests per second for certain card endpoints.
+but enforces a stricter limit on certain card endpoints.
+
+See: https://scryfall.com/docs/api/rate-limits
 
 This module provides a thread-safe rate limiter with a per-class registry,
 allowing different endpoint categories to maintain independent rate limits.

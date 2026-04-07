@@ -24,3 +24,5 @@ dmypy.json
 
 # Python version
 .python-version
+docs
+scripts

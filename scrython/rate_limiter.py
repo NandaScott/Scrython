@@ -11,6 +11,7 @@ allowing different endpoint categories to maintain independent rate limits.
 
 import threading
 import time
+import warnings
 from typing import ClassVar
 
 
@@ -112,6 +113,16 @@ class RateLimiter:
         """
         with cls._global_lock:
             cls._global_limiters.clear()
+
+    @classmethod
+    def reset_global_limiter(cls) -> None:
+        """Deprecated: use reset_all_limiters() instead."""
+        warnings.warn(
+            "reset_global_limiter() is deprecated, use reset_all_limiters() instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        cls.reset_all_limiters()
 
 
 class SlowRateLimiter(RateLimiter):

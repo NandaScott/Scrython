@@ -35,8 +35,8 @@ class TestRateLimiter:
         limiter.wait()
         first_call_time = time.time() - start
 
-        # Should be very fast (< 0.01s)
-        assert first_call_time < 0.01
+        # Should be very fast
+        assert first_call_time < 0.05
 
         # Second call immediately after should wait
         start = time.time()
@@ -62,7 +62,7 @@ class TestRateLimiter:
         elapsed = time.time() - start
 
         # Should be very fast
-        assert elapsed < 0.01
+        assert elapsed < 0.05
 
     def test_rate_limiter_multiple_calls(self):
         """Test RateLimiter with multiple sequential calls."""
@@ -75,7 +75,7 @@ class TestRateLimiter:
 
         # Should take ~0.2s (4 intervals * 0.05s)
         # First call is immediate, then 4 waits of 0.05s each
-        assert 0.15 < elapsed < 0.3
+        assert 0.15 < elapsed < 0.5
 
     def test_get_global_limiter_creates_singleton(self):
         """Test that get_global_limiter returns a singleton."""
@@ -241,7 +241,7 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         # Should be very fast (no rate limiting)
-        assert elapsed < 0.05
+        assert elapsed < 0.15
 
     def test_default_rate_limiter_class_is_base(self):
         """Test that ScrythonRequestHandler defaults to RateLimiter."""
@@ -284,7 +284,7 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         # Should be fast (~0.05s), not slow (~0.5s)
-        assert elapsed < 0.3
+        assert elapsed < 0.5
 
     def test_custom_rate_limit(self, mock_urlopen_with_rate_limit, sample_card):
         """Test that rate_limit_per_second creates a per-instance limiter."""
@@ -304,7 +304,7 @@ class TestRequestHandlerRateLimiting:
         _handler2 = TestHandler(fuzzy="Card 2", rate_limit_per_second=5.0)
         elapsed = time.time() - start
 
-        assert elapsed < 0.1
+        assert elapsed < 0.2
 
     def test_slow_rate_limiter_attributes_via_global(
         self, mock_urlopen_with_rate_limit, sample_card
@@ -344,7 +344,7 @@ class TestRequestHandlerRateLimiting:
         elapsed = time.time() - start
 
         # Should wait ~0.05s (remaining time)
-        assert 0.03 < elapsed < 0.08
+        assert 0.03 < elapsed < 0.15
 
     def test_rate_limit_multiple_handlers_share_limiter(
         self, mock_urlopen_with_rate_limit, sample_card

@@ -70,8 +70,8 @@ class RateLimiter:
         """
         Get or create the global rate limiter for this class.
 
-        Each RateLimiter subclass maintains its own independent global
-        instance, keyed by class in a shared registry. This allows
+        Each RateLimiter class or subclass maintains its own independent
+        global instance, keyed by class in a shared registry. This allows
         different endpoint categories to enforce different rate limits.
 
         Returns:

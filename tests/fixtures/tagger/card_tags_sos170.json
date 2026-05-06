@@ -1,0 +1,106 @@
+{
+  "cardBySet": {
+    "id": "77285d12-e658-4eb3-ba13-ff202afab9c8",
+    "name": "Abigale, Poet Laureate // Heroic Stanza",
+    "oracleId": "2f5f46ed-b8aa-4864-bd20-17281d4632bf",
+    "printingId": "77285d12-e658-4eb3-ba13-ff202afab9c8",
+    "illustrationId": "c1f8e669-60d0-4e66-b85a-07dafb9782a9",
+    "displayName": "Abigale, Poet Laureate",
+    "edges": [
+      {
+        "classifier": "ORACLE_CARD_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "card",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "repeatable pp counters",
+          "description": "Repeatable ways of putting +1/+1 counters on creatures."
+        }
+      },
+      {
+        "classifier": "ORACLE_CARD_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "card",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "evasion",
+          "description": "Creatures that are harder to block."
+        }
+      },
+      {
+        "classifier": "ORACLE_CARD_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "card",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "removal",
+          "description": "Removes permanents from the battlefield."
+        }
+      },
+      {
+        "classifier": "ILLUSTRATION_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "artwork",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "hearing aid",
+          "description": null
+        }
+      },
+      {
+        "classifier": "ILLUSTRATION_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "artwork",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "digital painting",
+          "description": null
+        }
+      },
+      {
+        "classifier": "PRINTING_TAG",
+        "type": "TAGGING",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": null,
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "printing",
+        "annotation": null,
+        "metadata": null,
+        "tag": {
+          "name": "extended art",
+          "description": null
+        }
+      },
+      {
+        "classifier": "SIMILAR_TO",
+        "type": "RELATIONSHIP",
+        "name": "Abigale, Poet Laureate // Heroic Stanza",
+        "relatedName": "Young Pyromancer",
+        "subjectName": "Abigale, Poet Laureate // Heroic Stanza",
+        "namespace": "relationship",
+        "annotation": null,
+        "metadata": null
+      }
+    ]
+  }
+}

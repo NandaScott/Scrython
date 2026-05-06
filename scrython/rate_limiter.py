@@ -127,3 +127,19 @@ class SlowRateLimiter(RateLimiter):
 
     def __init__(self, calls_per_second: float = 2.0) -> None:
         super().__init__(calls_per_second)
+
+
+class TaggerRateLimiter(RateLimiter):
+    """
+    Rate limiter for tagger.scryfall.com GraphQL endpoints.
+
+    The Scryfall Tagger is a community-run project without documented
+    rate limits. This limiter defaults to 5 requests per second as a
+    conservative default to avoid overloading the service.
+
+    The rate can be overridden per-instance via the rate_limit_per_second
+    kwarg, or disabled entirely with rate_limit=False.
+    """
+
+    def __init__(self, calls_per_second: float = 5.0) -> None:
+        super().__init__(calls_per_second)

@@ -9,13 +9,12 @@ So the token should be sent as a form parameter: authenticity_token=<value>
 """
 
 import gzip
+import http.cookiejar
 import json
 import re
-import urllib.request
 import urllib.error
 import urllib.parse
-import http.cookiejar
-import time
+import urllib.request
 
 BASE = "https://tagger.scryfall.com"
 CARD_URL = f"{BASE}/card/sos/170"
@@ -31,6 +30,7 @@ opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
 
 AGENT = "Scrython/2.0 TaggerDiscovery (https://github.com/NandaScott/Scrython)"
 
+
 def session_get(url: str, accept: str = "text/html,application/json,*/*"):
     headers = {
         "User-Agent": AGENT,
@@ -45,6 +45,7 @@ def session_get(url: str, accept: str = "text/html,application/json,*/*"):
     except Exception:
         pass
     return resp.getcode(), dict(resp.headers), raw.decode("utf-8", errors="replace")
+
 
 def session_post(url: str, data: bytes, extra_headers: dict | None = None):
     headers = {
@@ -88,7 +89,7 @@ print(f"  CSRF param: {csrf_param}")
 print(f"  CSRF token: {csrf_token[0][:50] if csrf_token else 'NONE'}...")
 
 # Print cookies
-print(f"\n  Session cookies:")
+print("\n  Session cookies:")
 for cookie in cj:
     print(f"    {cookie.name} = {cookie.value[:60]}...")
 
@@ -102,7 +103,7 @@ payload = json.dumps({"query": query}).encode("utf-8")
 
 # Approach A: X-CSRF-Token header (standard Rails + JS pattern)
 if csrf_token:
-    print(f"\n  [A] Sending X-CSRF-Token header...")
+    print("\n  [A] Sending X-CSRF-Token header...")
     code, headers, text = session_post(GRAPHQL_URL, payload, {"X-CSRF-Token": csrf_token[0]})
     print(f"  Status: {code}")
     print(f"  Response: {text[:400]}")
@@ -110,20 +111,24 @@ if csrf_token:
 # Approach B: authenticity_token as query parameter? No - that's for forms
 # Approach C: Send as application/x-www-form-urlencoded with authenticity_token
 if csrf_token:
-    print(f"\n  [C] Sending as URL-encoded form with authenticity_token...")
+    print("\n  [C] Sending as URL-encoded form with authenticity_token...")
     import urllib.parse
-    form_data = urllib.parse.urlencode({
-        "query": query,
-        csrf_param[0]: csrf_token[0],
-    }).encode("utf-8")
-    form_code, form_headers, form_text = session_post(GRAPHQL_URL, form_data, 
-        {"Content-Type": "application/x-www-form-urlencoded"})
+
+    form_data = urllib.parse.urlencode(
+        {
+            "query": query,
+            csrf_param[0]: csrf_token[0],
+        }
+    ).encode("utf-8")
+    form_code, form_headers, form_text = session_post(
+        GRAPHQL_URL, form_data, {"Content-Type": "application/x-www-form-urlencoded"}
+    )
     print(f"  Status: {form_code}")
     print(f"  Response: {form_text[:400]}")
 
 # Approach D: Send CSRF in URL query string + POST body
 if csrf_token:
-    print(f"\n  [D] CSRF as URL parameter...")
+    print("\n  [D] CSRF as URL parameter...")
     url_with_csrf = f"{GRAPHQL_URL}?{csrf_param[0]}={urllib.parse.quote(csrf_token[0])}"
     headers = {
         "User-Agent": AGENT,
@@ -151,17 +156,18 @@ if csrf_token:
         print(f"  Response: {raw.decode('utf-8', errors='replace')[:400]}")
 
 # Approach E: Try without JSON Content-Type (Rails may expect form data)
-print(f"\n  [E] POST without CSRF, with x-www-form-urlencoded...")
+print("\n  [E] POST without CSRF, with x-www-form-urlencoded...")
 form_data = urllib.parse.urlencode({"query": query}).encode("utf-8")
-form_code2, form_headers2, form_text2 = session_post(GRAPHQL_URL, form_data,
-    {"Content-Type": "application/x-www-form-urlencoded"})
+form_code2, form_headers2, form_text2 = session_post(
+    GRAPHQL_URL, form_data, {"Content-Type": "application/x-www-form-urlencoded"}
+)
 print(f"  Status: {form_code2}")
 print(f"  Response: {form_text2[:400]}")
 
-# Approach F: Try the GraphQL introspection query specifically  
+# Approach F: Try the GraphQL introspection query specifically
 # Maybe basic queries require auth but introspection is open?
 if csrf_token:
-    print(f"\n  [F] Introspection with X-CSRF-Token...")
+    print("\n  [F] Introspection with X-CSRF-Token...")
     introspect = """
     query {
       __schema { queryType { name } }
@@ -179,7 +185,7 @@ print("STEP 3: Search HTML for embedded tag data")
 print("=" * 70)
 
 # Extract all <script> tag contents (not src=)
-scripts = re.findall(r'<script[^>]*>(.*?)</script>', html, re.DOTALL)
+scripts = re.findall(r"<script[^>]*>(.*?)</script>", html, re.DOTALL)
 for i, script in enumerate(scripts):
     if len(script) > 100:
         print(f"\n  Script block #{i}: {len(script):,} chars")
@@ -198,14 +204,16 @@ for i, script in enumerate(scripts):
             print(f"  First 200 chars: {script.strip()[:200]}")
 
 # Look for any JSON data island in the HTML
-json_islands = re.findall(r'window\[["\']([^"\']+)["\']\]\s*=\s*({.*?});\s*</script>', html, re.DOTALL)
+json_islands = re.findall(
+    r'window\[["\']([^"\']+)["\']\]\s*=\s*({.*?});\s*</script>', html, re.DOTALL
+)
 print(f"\n  window[key] JSON islands: {len(json_islands)}")
 for key, data_str in json_islands:
     print(f"  window['{key}']")
 
 # Check if the <div id="app"> has data attributes
 data_divs = re.findall(r'<div[^>]+data-([^=]+)="([^"]*)"', html)
-print(f"\n  data- attributes on divs:")
+print("\n  data- attributes on divs:")
 for key, val in data_divs[:20]:
     print(f"    {key}: {val[:80]}")
 

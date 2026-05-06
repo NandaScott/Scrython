@@ -7,12 +7,12 @@ The endpoint returns 422 "invalid authenticity token" — we need to:
 """
 
 import gzip
+import http.cookiejar
 import json
 import re
+import time
 import urllib.error
 import urllib.request
-import http.cookiejar
-import time
 
 BASE = "https://tagger.scryfall.com"
 CARD_URL = f"{BASE}/card/sos/170"
@@ -22,12 +22,13 @@ ORACLE_ID = "2f5f46ed-b8aa-4864-bd20-17281d4632bf"
 PRINTING_ID = "77285d12-e658-4eb3-ba13-ff202afab9c8"
 
 
-def fetch_with_cookies(url: str, method: str = "GET", data: bytes | None = None,
-                       extra_headers: dict | None = None):
+def fetch_with_cookies(
+    url: str, method: str = "GET", data: bytes | None = None, extra_headers: dict | None = None
+):
     """Fetch URL, tracking cookies and returning (response, cookies, html_text)."""
     cj = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
-    
+
     headers = {
         "User-Agent": "Scrython/2.0 TaggerDiscovery (https://github.com/NandaScott/Scrython)",
         "Accept": "text/html,application/json,*/*",
@@ -35,9 +36,9 @@ def fetch_with_cookies(url: str, method: str = "GET", data: bytes | None = None,
     }
     if extra_headers:
         headers.update(extra_headers)
-    
+
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
-    
+
     try:
         resp = opener.open(req, timeout=15)
         raw = resp.read()
@@ -76,12 +77,12 @@ for m in csrf_meta:
 
 # Also check all meta tags
 all_metas = re.findall(r'<meta[^>]+name="([^"]+)"[^>]+content="([^"]+)"', html)
-print(f"\n  All meta tags:")
+print("\n  All meta tags:")
 for name, content in all_metas[:20]:
     print(f"    {name}: {content[:80]}")
 
 # Extract CSRF token from cookies
-print(f"\n  Cookies in jar:")
+print("\n  Cookies in jar:")
 csrf_from_cookie = None
 for cookie in cj:
     print(f"    {cookie.name}: {cookie.value[:50] if cookie.value else 'N/A'}")
@@ -119,20 +120,22 @@ print(f"\n  authenticity_token in HTML: {auth_tokens[:3]}")
 
 # Also look for the token in the application JS
 # The JS bundle path from the HTML
-app_js_match = re.findall(r'application-[A-Za-z0-9]+\.js', html)
+app_js_match = re.findall(r"application-[A-Za-z0-9]+\.js", html)
 if app_js_match:
     js_url = f"{BASE}/vite/assets/{app_js_match[0]}"
-    print(f"\n  Fetching JS bundle to find CSRF token handling...")
+    print("\n  Fetching JS bundle to find CSRF token handling...")
     js_code, _, js_text, _ = fetch_with_cookies(js_url)
-    csrf_in_bundle = set(re.findall(r'csrf[_-]?token["\s:=]+["\']([^"\']+)["\']', js_text, re.IGNORECASE))
+    csrf_in_bundle = set(
+        re.findall(r'csrf[_-]?token["\s:=]+["\']([^"\']+)["\']', js_text, re.IGNORECASE)
+    )
     # Actually, look for how the CSRF is fetched — commonly from a meta tag
-    csrf_meta_read = re.findall(r'csrf-token[^}]+content', js_text[:50000])
+    csrf_meta_read = re.findall(r"csrf-token[^}]+content", js_text[:50000])
     print(f"  CSRF references in JS bundle: {len(csrf_in_bundle)}")
     for c in csrf_in_bundle:
         print(f"    {c[:80]}")
     if csrf_meta_read:
         print(f"  CSRF meta read patterns: {csrf_meta_read[:5]}")
-    
+
     # Also check for header names
     csrf_headers_in_js = set(re.findall(r'["\'](X-[Cc][Ss][Rr][Ff][^"\']+)["\']', js_text))
     print(f"  CSRF header names in JS: {csrf_headers_in_js}")
@@ -147,22 +150,22 @@ for csrf_token in csrf_tokens:
     if not csrf_token:
         continue
     print(f"\n  Trying CSRF token: {csrf_token[:30]}...")
-    
-    query = '{ __typename }'
+
+    query = "{ __typename }"
     payload = json.dumps({"query": query}).encode("utf-8")
-    
+
     extra_headers = {
         "X-CSRF-Token": csrf_token,
         "Content-Type": "application/json",
     }
-    
+
     code, resp, text, _ = fetch_with_cookies(
         GRAPHQL_URL, method="POST", data=payload, extra_headers=extra_headers
     )
-    
+
     print(f"  Status: {code}")
     print(f"  Response: {text[:300]}")
-    
+
     if "data" in text or "errors" in text:
         print("  *** SUCCESS! GraphQL responded! ***")
         try:
@@ -171,15 +174,14 @@ for csrf_token in csrf_tokens:
         except Exception:
             pass
         break
-    
+
     time.sleep(0.3)
 
 # Also try with the cookies from the HTML page (session-based auth)
-print(f"\n  Trying without explicit CSRF header (session cookie only)...")
+print("\n  Trying without explicit CSRF header (session cookie only)...")
 payload = json.dumps({"query": "{ __typename }"}).encode("utf-8")
 code, resp, text, _ = fetch_with_cookies(
-    GRAPHQL_URL, method="POST", data=payload,
-    extra_headers={"Content-Type": "application/json"}
+    GRAPHQL_URL, method="POST", data=payload, extra_headers={"Content-Type": "application/json"}
 )
 print(f"  Status: {code}")
 print(f"  Response: {text[:300]}")

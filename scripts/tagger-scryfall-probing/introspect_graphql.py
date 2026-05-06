@@ -4,13 +4,12 @@ Full GraphQL introspection of the tagger.scryfall.com API.
 """
 
 import gzip
+import http.cookiejar
 import json
 import re
-import urllib.request
 import urllib.error
 import urllib.parse
-import http.cookiejar
-import time
+import urllib.request
 
 BASE = "https://tagger.scryfall.com"
 CARD_URL = f"{BASE}/card/sos/170"
@@ -24,6 +23,7 @@ PRINTING_ID = "77285d12-e658-4eb3-ba13-ff202afab9c8"
 cj = http.cookiejar.CookieJar()
 opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
 AGENT = "Scrython/2.0 TaggerDiscovery (https://github.com/NandaScott/Scrython)"
+
 
 def get_session_and_csrf():
     headers = {
@@ -41,6 +41,7 @@ def get_session_and_csrf():
     html = raw.decode("utf-8", errors="replace")
     csrf = re.findall(r'<meta[^>]+name="csrf-token"[^>]+content="([^"]+)"', html)
     return html, csrf[0] if csrf else None
+
 
 def graphql(query: str, variables: dict | None = None):
     payload = json.dumps({"query": query, "variables": variables or {}}).encode("utf-8")
@@ -68,6 +69,7 @@ def graphql(query: str, variables: dict | None = None):
             pass
         print(f"  HTTP {e.code}: {raw.decode('utf-8', errors='replace')[:300]}")
         return None
+
 
 print("=" * 70)
 print("Establishing session...")
@@ -110,14 +112,14 @@ if result and "data" in result:
     schema = result["data"]["__schema"]
     print(f"Query type: {schema['queryType']['name']}")
     print(f"Mutation type: {schema.get('mutationType', {}).get('name', 'NONE')}")
-    
+
     types = schema.get("types", [])
     print(f"\nTotal types: {len(types)}")
-    
+
     # Filter to interesting types (not __TypeKind, __InputValue, etc.)
     interesting = [t for t in types if not t["name"].startswith("__") and t.get("fields")]
     print(f"Types with fields: {len(interesting)}")
-    
+
     for t in interesting:
         name = t["name"]
         kind = t["kind"]
@@ -135,7 +137,7 @@ if result and "data" in result:
 
     # Also show enum types
     enums = [t for t in types if t["kind"] == "ENUM" and not t["name"].startswith("__")]
-    print(f"\n\nEnum types:")
+    print("\n\nEnum types:")
     for e in enums:
         print(f"  {e['name']}: {e.get('enumValues', [])}")
 else:

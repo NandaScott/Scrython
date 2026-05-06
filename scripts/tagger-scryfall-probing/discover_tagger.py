@@ -13,17 +13,19 @@ Run: python scripts/discover_tagger.py
 
 import gzip
 import json
+import time
 import urllib.error
 import urllib.request
-import time
 from html.parser import HTMLParser
 
 BASE = "https://tagger.scryfall.com"
 
 # -- HTML Content Extractor --------------------------------------------------
 
+
 class HTMLTextExtractor(HTMLParser):
     """Extracts visible text content and tag attributes from HTML."""
+
     def __init__(self):
         super().__init__()
         self.text_lines: list[str] = []
@@ -39,10 +41,13 @@ class HTMLTextExtractor(HTMLParser):
         if text:
             self.text_lines.append(f"  [{self.current_tag}] {text}")
 
+
 # -- HTTP Fetcher ------------------------------------------------------------
 
-def fetch(url: str, accept_json: bool = False, timeout: int = 15
-          ) -> tuple[int, str, str, bytes | None]:
+
+def fetch(
+    url: str, accept_json: bool = False, timeout: int = 15
+) -> tuple[int, str, str, bytes | None]:
     """
     Fetch a URL and return (status_code, content_type, effective_url, raw_body).
     raw_body may be gzip-compressed; caller should decompress if needed.
@@ -87,6 +92,7 @@ def decompress(data: bytes) -> bytes:
 
 # -- Analyzers ---------------------------------------------------------------
 
+
 def analyze_html(html: str, label: str) -> dict:
     """Parse HTML and extract structural information."""
     extractor = HTMLTextExtractor()
@@ -110,13 +116,12 @@ def analyze_html(html: str, label: str) -> dict:
     lower = html.lower()
     result["has_tag_keyword"] = "tag" in lower
     result["has_card_name_pattern"] = "card" in lower
-    result["has_json_ld"] = 'application/ld+json' in lower
+    result["has_json_ld"] = "application/ld+json" in lower
 
     return result
 
 
-def analyze_response(status: int, content_type: str, final_url: str,
-                     raw: bytes | None, label: str):
+def analyze_response(status: int, content_type: str, final_url: str, raw: bytes | None, label: str):
     """Print a formatted analysis of a response."""
     print(f"\n{'='*70}")
     print(f"URL: {label}")
@@ -133,16 +138,17 @@ def analyze_response(status: int, content_type: str, final_url: str,
 
     print(f"  Raw size: {len(raw):,} bytes | Decompressed: {len(decoded):,} bytes")
 
-    is_json = ("application/json" in content_type
-               or text.strip().startswith("{"))
-    is_html = ("text/html" in content_type
-               or text.strip().startswith("<!")
-               or text.strip().startswith("<html"))
+    is_json = "application/json" in content_type or text.strip().startswith("{")
+    is_html = (
+        "text/html" in content_type
+        or text.strip().startswith("<!")
+        or text.strip().startswith("<html")
+    )
 
     if is_json:
         try:
             data = json.loads(text)
-            print(f"  [JSON] parsed successfully")
+            print("  [JSON] parsed successfully")
             top_keys = list(data.keys()) if isinstance(data, dict) else "list"
             print(f"  Top-level keys: {top_keys}")
             if isinstance(data, dict):
@@ -181,12 +187,13 @@ def analyze_response(status: int, content_type: str, final_url: str,
         return analysis
 
     else:
-        print(f"  [WARN] Unknown content type. First 300 chars:")
+        print("  [WARN] Unknown content type. First 300 chars:")
         print(f"  {text[:300]}")
         return None
 
 
 # -- Main Discovery ----------------------------------------------------------
+
 
 def main():
     print("=" * 70)

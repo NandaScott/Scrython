@@ -11,9 +11,9 @@ Tests:
 
 import gzip
 import json
+import time
 import urllib.error
 import urllib.request
-import time
 
 BASE = "https://tagger.scryfall.com"
 GRAPHQL_URL = f"{BASE}/graphql"
@@ -54,11 +54,11 @@ def graphql_query(query: str, variables: dict | None = None, label: str = ""):
             try:
                 data = json.loads(text)
                 if "errors" in data:
-                    print(f"  [ERRORS]:")
+                    print("  [ERRORS]:")
                     for err in data.get("errors", [])[:3]:
                         print(f"    {err.get('message', str(err))[:200]}")
                 if "data" in data and data["data"] is not None:
-                    print(f"  [DATA]:")
+                    print("  [DATA]:")
                     print(json.dumps(data["data"], indent=2)[:2000])
                 return data
             except json.JSONDecodeError:

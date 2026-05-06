@@ -4,7 +4,7 @@ Deep discovery: probe the API endpoints that the tagger SPA calls.
 
 Based on edgeDefs found in the HTML <script> tag:
   ORACLE_CARD_TAG  -> foreign_key: oracleId
-  PRINTING_TAG     -> foreign_key: printingId  
+  PRINTING_TAG     -> foreign_key: printingId
   ILLUSTRATION_TAG -> foreign_key: illustrationId
   Various RELATIONSHIP types -> foreign_key: oracleId or illustrationId
 
@@ -14,14 +14,15 @@ This script probes likely API paths the JavaScript frontend calls.
 import gzip
 import json
 import re
+import time
 import urllib.error
 import urllib.request
-import time
 
 BASE = "https://tagger.scryfall.com"
 
 # Known: card page for sos/170 works and includes a <script> with edgeDefs
 # The edgeDefs suggest API calls fetch by oracleId, printingId, or illustrationId
+
 
 # First, get the full HTML to extract any API URLs embedded in scripts
 def fetch_raw(url: str) -> bytes | None:
@@ -38,6 +39,7 @@ def fetch_raw(url: str) -> bytes | None:
         print(f"  ERR: {e}")
         return None
 
+
 def decompress(data: bytes) -> bytes:
     if data is None:
         return b""
@@ -46,11 +48,13 @@ def decompress(data: bytes) -> bytes:
     except Exception:
         return data
 
+
 def fetch_as_text(url: str) -> str:
     raw = fetch_raw(url)
     if raw is None:
         return ""
     return decompress(raw).decode("utf-8", errors="replace")
+
 
 # Step 1: Get the full HTML and extract JS source URLs
 print("=" * 70)
@@ -68,7 +72,7 @@ for src in script_srcs:
     print(f"  {full_url}")
 
 # Extract any fetch/XMLHttpRequest API paths from inline scripts
-inline_scripts = re.findall(r'<script[^>]*>(.*?)</script>', html, re.DOTALL)
+inline_scripts = re.findall(r"<script[^>]*>(.*?)</script>", html, re.DOTALL)
 api_urls_in_js = []
 for script in inline_scripts:
     # Look for API paths
@@ -116,7 +120,12 @@ probes = []
 # Pattern: GET /api/tags?oracleId=...  (from ORACLE_CARD_TAG)
 probes.append((f"/api/tags?oracleId={oracle_id}", f"{BASE}/api/tags?oracleId={oracle_id}"))
 probes.append((f"/api/tags?printingId={card_id}", f"{BASE}/api/tags?printingId={card_id}"))
-probes.append((f"/api/tags?illustrationId={illustration_id}", f"{BASE}/api/tags?illustrationId={illustration_id}"))
+probes.append(
+    (
+        f"/api/tags?illustrationId={illustration_id}",
+        f"{BASE}/api/tags?illustrationId={illustration_id}",
+    )
+)
 
 # Pattern: GET /api/edges?oracleId=...
 probes.append((f"/api/edges?oracleId={oracle_id}", f"{BASE}/api/edges?oracleId={oracle_id}"))
@@ -125,7 +134,12 @@ probes.append((f"/api/edges?printingId={card_id}", f"{BASE}/api/edges?printingId
 # Pattern: GET /api/oracle_cards/:id/tags
 probes.append((f"/api/oracle_cards/{oracle_id}/tags", f"{BASE}/api/oracle_cards/{oracle_id}/tags"))
 probes.append((f"/api/printings/{card_id}/tags", f"{BASE}/api/printings/{card_id}/tags"))
-probes.append((f"/api/illustrations/{illustration_id}/tags", f"{BASE}/api/illustrations/{illustration_id}/tags"))
+probes.append(
+    (
+        f"/api/illustrations/{illustration_id}/tags",
+        f"{BASE}/api/illustrations/{illustration_id}/tags",
+    )
+)
 
 # Pattern: GET /api/taggings?...
 probes.append((f"/api/taggings?oracleId={oracle_id}", f"{BASE}/api/taggings?oracleId={oracle_id}"))
@@ -134,19 +148,25 @@ probes.append((f"/api/taggings?printingId={card_id}", f"{BASE}/api/taggings?prin
 # Pattern: RESTful
 probes.append((f"/api/tags/oracle/{oracle_id}", f"{BASE}/api/tags/oracle/{oracle_id}"))
 probes.append((f"/api/tags/printing/{card_id}", f"{BASE}/api/tags/printing/{card_id}"))
-probes.append((f"/api/tags/illustration/{illustration_id}", f"{BASE}/api/tags/illustration/{illustration_id}"))
+probes.append(
+    (f"/api/tags/illustration/{illustration_id}", f"{BASE}/api/tags/illustration/{illustration_id}")
+)
 
 # Pattern: GraphQL
-probes.append((f"/api/graphql (POST probe)", "skip"))  # Can't probe with GET
+probes.append(("/api/graphql (POST probe)", "skip"))  # Can't probe with GET
 
 # Try json suffix on base card endpoint (already tried but with IDs)
-probes.append((f"/card/sos/170?format=json", f"{BASE}/card/sos/170?format=json"))
+probes.append(("/card/sos/170?format=json", f"{BASE}/card/sos/170?format=json"))
 probes.append((f"/api/cards/{card_id}", f"{BASE}/api/cards/{card_id}"))
 probes.append((f"/api/cards/{oracle_id}/taggings", f"{BASE}/api/cards/{oracle_id}/taggings"))
 
-# Combined query params from edgeDefs  
-probes.append((f"/api/search?type=ORACLE_CARD_TAG&oracleId={oracle_id}", 
-               f"{BASE}/api/search?type=ORACLE_CARD_TAG&oracleId={oracle_id}"))
+# Combined query params from edgeDefs
+probes.append(
+    (
+        f"/api/search?type=ORACLE_CARD_TAG&oracleId={oracle_id}",
+        f"{BASE}/api/search?type=ORACLE_CARD_TAG&oracleId={oracle_id}",
+    )
+)
 
 print(f"\nProbing {len(probes)} API endpoints...\n")
 
@@ -154,7 +174,7 @@ for label, url in probes:
     if url == "skip":
         print(f"  SKIP: {label}")
         continue
-    
+
     headers = {
         "User-Agent": "Scrython/2.0 TaggerDiscovery (https://github.com/NandaScott/Scrython)",
         "Accept": "application/json",
@@ -169,17 +189,19 @@ for label, url in probes:
             except Exception:
                 decoded = raw
             text = decoded.decode("utf-8", errors="replace")
-            
+
             ct = resp.headers.get("Content-Type", "")
             code = resp.getcode()
-            
+
             if "application/json" in ct or text.strip().startswith("{"):
                 try:
                     data = json.loads(text)
                     if isinstance(data, dict) and data.get("error"):
                         print(f"  [404/json] {label}")
                     else:
-                        print(f"  [200/JSON!] {label} -> keys: {list(data.keys()) if isinstance(data, dict) else f'list[{len(data)}]'}")
+                        print(
+                            f"  [200/JSON!] {label} -> keys: {list(data.keys()) if isinstance(data, dict) else f'list[{len(data)}]'}"
+                        )
                         if isinstance(data, dict):
                             for k, v in list(data.items())[:5]:
                                 if isinstance(v, list):
@@ -196,12 +218,12 @@ for label, url in probes:
                     print(f"  [200/HTML] {label} -> {len(text):,} chars")
                 else:
                     print(f"  [{code}] {label}")
-                    
+
     except urllib.error.HTTPError as e:
         print(f"  [{e.code}] {label}")
     except Exception as e:
         print(f"  [ERR] {label}: {e}")
-    
+
     time.sleep(0.3)
 
 # Step 3: Also check if the JS bundles reference API paths
@@ -217,16 +239,18 @@ for src in script_srcs[:3]:  # Only check first 3 to save time
         print("  EMPTY")
         continue
     print(f"  Size: {len(js):,} chars")
-    
+
     # Search for API paths in JS
     api_matches = set()
-    for pattern in [r'fetch\(["\']([^"\']+)["\']', 
-                    r'["\']([/]api[^"\']+)["\']',
-                    r'["\']([/]edge[^"\']+)["\']',
-                    r'["`](https?://[^"`]+tags[^"`]*)["`]']:
+    for pattern in [
+        r'fetch\(["\']([^"\']+)["\']',
+        r'["\']([/]api[^"\']+)["\']',
+        r'["\']([/]edge[^"\']+)["\']',
+        r'["`](https?://[^"`]+tags[^"`]*)["`]',
+    ]:
         for m in re.findall(pattern, js, re.IGNORECASE):
             api_matches.add(m)
-    
+
     if api_matches:
         print(f"  Found {len(api_matches)} potential API references:")
         for m in sorted(api_matches)[:20]:

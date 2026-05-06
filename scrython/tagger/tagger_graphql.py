@@ -61,10 +61,8 @@ class TaggerSession:
         try:
             with cls._opener.open(req, timeout=15) as resp:
                 raw = resp.read()
-                try:
+                if raw[:2] == b"\x1f\x8b":
                     raw = gzip.decompress(raw)
-                except Exception:
-                    pass
                 html = raw.decode("utf-8", errors="replace")
 
             # Extract CSRF token from <meta name="csrf-token" content="...">
@@ -130,10 +128,8 @@ class TaggerSession:
         try:
             with cls._opener.open(req, timeout=15) as resp:
                 raw = resp.read()
-                try:
+                if raw[:2] == b"\x1f\x8b":
                     raw = gzip.decompress(raw)
-                except Exception:
-                    pass
                 data = json.loads(raw.decode("utf-8", errors="replace"))
 
             # Check for CSRF failure (Rails returns 422 in body sometimes)
@@ -150,10 +146,8 @@ class TaggerSession:
                 )
                 with cls._opener.open(req, timeout=15) as resp:
                     raw = resp.read()
-                    try:
+                    if raw[:2] == b"\x1f\x8b":
                         raw = gzip.decompress(raw)
-                    except Exception:
-                        pass
                     data = json.loads(raw.decode("utf-8", errors="replace"))
 
             # Check for GraphQL errors
@@ -171,8 +165,8 @@ class TaggerSession:
             body = b""
             try:
                 body = e.read()
-            except Exception:
-                pass
+            except Exception as e2:
+                raise e2
             raise RuntimeError(
                 f"GraphQL request failed (HTTP {e.code}): "
                 f"{body.decode('utf-8', errors='replace')[:300]}"

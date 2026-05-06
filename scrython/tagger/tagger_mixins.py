@@ -7,7 +7,7 @@ CardTagsMixin (property accessors for card tag responses).
 
 from typing import Any
 
-from .tagger_types import TaggerCardData, TaggerEdgeData
+from ..types import TaggerCardData, TaggerEdgeData
 
 
 class TagObject:
@@ -109,6 +109,47 @@ class TagObject:
     def to_dict(self) -> dict[str, Any]:
         """Export tag data as a dictionary."""
         return dict(self._data)
+
+    def to_json(self, **kwargs: Any) -> str:
+        """
+        Export tag data as a JSON string.
+
+        Args:
+            **kwargs: Additional arguments passed to json.dumps()
+                     Common options: indent, sort_keys, ensure_ascii
+
+        Returns:
+            JSON string representation of the tag data
+
+        Example:
+            tag_obj = card_tags.tags[0]
+            json_str = tag_obj.to_json(indent=2)
+        """
+        import json
+
+        return json.dumps(self._data, **kwargs)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "TagObject":
+        """
+        Construct a TagObject from a dictionary without an API call.
+
+        Creates an independent deep copy so modifications to the original
+        dict do not affect the returned TagObject.
+
+        Args:
+            data: Dictionary containing tag/edge data
+
+        Returns:
+            TagObject instance populated with the provided data
+
+        Example:
+            tag_dict = tag_obj.to_dict()
+            restored = TagObject.from_dict(tag_dict)
+        """
+        import copy
+
+        return cls(copy.deepcopy(data))  # type: ignore[arg-type]
 
     def __repr__(self) -> str:
         return (

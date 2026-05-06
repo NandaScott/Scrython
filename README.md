@@ -17,12 +17,13 @@ pip install scrython
 **Good news!** Scrython 2.0 includes **built-in rate limiting** enabled by default. You no longer need to manually add delays between requests.
 
 Scrython automatically enforces Scryfall's tiered rate limits:
+
 - **10 requests/second** for most endpoints (cards by ID, sets, bulk data, autocomplete, etc.)
 - **2 requests/second** for heavier endpoints: `Search`, `Named`, `Random`, and `Collection`
 
 See [Scryfall's rate limit documentation](https://scryfall.com/docs/api/rate-limits) for details.
 
-### Automatic Rate Limiting (Default):
+### Automatic Rate Limiting (Default)
 
 ```python
 import scrython
@@ -35,7 +36,7 @@ for card_name in cards_to_fetch:
     print(f"{card.name} - {card.set}")
 ```
 
-### Custom Rate Limits:
+### Custom Rate Limits
 
 ```python
 # Override the rate for a specific call (5 requests/second)
@@ -47,7 +48,7 @@ card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit_per_second=5)
 card = scrython.cards.Named(fuzzy='Lightning Bolt', rate_limit=False)
 ```
 
-### Legacy Code (Manual Rate Limiting):
+### Legacy Code (Manual Rate Limiting)
 
 If you prefer manual rate limiting or need finer control:
 
@@ -102,7 +103,7 @@ card = scrython.cards.Named(fuzzy='Lightning Bolt', cache=True, cache_ttl=7200) 
 
 **Note:** Card prices become unreliable after 24 hours. Consider shorter TTLs for price-sensitive applications.
 
-### Legacy Caching (functools.lru_cache):
+### Legacy Caching (functools.lru_cache)
 
 You can still use Python's built-in caching if preferred:
 
@@ -488,4 +489,168 @@ with open('affordable_red.json', 'w') as f:
     json.dump(affordable_red, f, indent=2)
 
 print(f'Found {len(affordable_red)} affordable red cards!')
+```
+
+### Tagger Integration
+
+Scrython integrates with the community-driven [Scryfall Tagger](https://tagger.scryfall.com), a tagging database that categorizes Magic cards by mechanical function, artwork, printing features, and card relationships.
+
+#### Basic Tagger Usage
+
+```python
+import scrython
+
+# Get all tags for a card by set code and collector number
+tags = scrython.tagger.CardTags(code="sos", number="170")
+
+print(f"Tags for {tags.card_name}")
+# Tags for Abigale, Poet Laureate // Heroic Stanza
+
+# Access all tag names
+print(tags.tag_names)
+# ['repeatable pp counters', 'evasion', 'removal', 'hearing aid', ...]
+
+# Filter by tag type
+for tag in tags.oracle_tags:
+    print(f"{tag.name} ({tag.namespace})")
+# evasion (card)
+# removal (function)
+# repeatable pp counters (card)
+
+# Artwork/illustration tags
+for tag in tags.illustration_tags:
+    print(tag.name)
+# digital painting
+# hearing aid
+
+# Card relationships (similar cards, combos, references)
+for rel in tags.relationships:
+    print(f"{rel.name} ({rel.classifier})")
+# Young Pyromancer (SIMILAR_TO)
+
+# Check for specific tags
+print(tags.has_tag("removal"))  # True
+print(tags.has_tag("tribal"))   # False
+
+# Filter tags by namespace
+function_tags = tags.tags_by_namespace("function")
+```
+
+#### Accessing Tags from Card Objects
+
+Card objects (Named, Search results, ByCodeNumber, etc.) provide direct tag access:
+
+```python
+import scrython
+
+card = scrython.cards.Named(fuzzy="Lightning Bolt")
+
+# Fetch tags directly from the card object
+tags = card.get_tags()
+
+print(tags.tag_names)
+
+# Convenience: get just tag names
+for name in card.get_tag_names():
+    print(name)
+
+# Convenience: check for a specific tag
+if card.has_tag("removal"):
+    print("Lightning Bolt is removal!")
+```
+
+#### Browsing and Searching Tags
+
+```python
+import scrython
+
+# Browse popular tags (no filter)
+results = scrython.tagger.TagSearch()
+print(f"Total tags: {results.total}")
+for tag in results.data:
+    print(f"{tag['name']} ({tag['namespace']})")
+
+# Search by namespace
+results = scrython.tagger.TagSearch(input={"namespace": "function"})
+
+# Look up a specific tag by slug
+tag = scrython.tagger.TagBySlug(slug="removal", type="ORACLE_CARD_TAG")
+print(f"{tag.name}: {tag.description}")
+print(f"Category: {tag.is_category}")
+print(f"Aliases: {tag.aliases}")
+```
+
+#### Caching and Rate Limiting
+
+Tagger endpoints support the same caching and rate limiting as REST endpoints:
+
+```python
+import scrython
+
+# Cached tag lookup (no repeated API calls within TTL)
+tags = scrython.tagger.CardTags(
+    code="sos", number="170",
+    cache=True,
+    cache_ttl=3600  # 1 hour
+)
+
+# Also works from card objects
+card = scrython.cards.Named(fuzzy="Lightning Bolt")
+tags = card.get_tags(cache=True, cache_ttl=7200)  # 2 hours
+
+# Custom rate limit for tagger (default: 5 req/s)
+tags = scrython.tagger.CardTags(
+    code="sos", number="170",
+    rate_limit_per_second=3
+)
+
+# Disable rate limiting
+tags = scrython.tagger.CardTags(
+    code="sos", number="170",
+    rate_limit=False
+)
+```
+
+#### Serialization
+
+Tag data can be exported and rehydrated using shared serialization:
+
+```python
+import scrython
+
+tags = scrython.tagger.CardTags(code="sos", number="170")
+
+# Export to dict
+tags_dict = tags.to_dict()
+
+# Export to JSON
+json_str = tags.to_json(indent=2)
+
+# Rehydrate without API call
+restored = scrython.tagger.CardTags.from_dict(tags_dict)
+
+# TagObject also supports serialization
+for tag_obj in restored.tags:
+    tag_dict = tag_obj.to_dict()
+    tag_json = tag_obj.to_json()
+    rehydrated = scrython.tagger.TagObject.from_dict(tag_dict)
+```
+
+#### TagObject Properties
+
+```python
+import scrython
+
+tags = scrython.tagger.CardTags(code="sos", number="170")
+
+for tag in tags.tags:
+    print(f"Name: {tag.name}")
+    print(f"  Classifier: {tag.classifier}")   # ORACLE_CARD_TAG, PRINTING_TAG, ILLUSTRATION_TAG
+    print(f"  Namespace: {tag.namespace}")       # card, function, artwork, archetype
+    print(f"  Is Oracle tag: {tag.is_oracle_tag}")
+    print(f"  Is Illustration tag: {tag.is_illustration_tag}")
+    print(f"  Is Printing tag: {tag.is_printing_tag}")
+    print(f"  Is Relationship: {tag.is_relationship}")
+    print(f"  Annotation: {tag.annotation}")
+    print(f"  Metadata: {tag.metadata}")
 ```

@@ -1,4 +1,5 @@
-"""Tests for scrython.tagger module — CardTags, TagObject, rate limiting, and graphql client."""
+"""Tests for scrython.tagger module — CardTags, TagObject, rate limiting, graphql client,
+serialization, caching, and card integration."""
 
 import gzip
 import json
@@ -10,9 +11,11 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
+from scrython.cards.cards import Object as CardObject
 from scrython.tagger import CardTags, TagBySlug, TagObject, TagSearch
 from scrython.tagger.tagger_graphql import TaggerSession
 from scrython.tagger.tagger_mixins import CardTagsMixin
+from scrython.types import TaggerEdgeData
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "tagger"
 
@@ -72,7 +75,7 @@ class TestTagObject:
             "metadata": None,
             "tag": {"name": "evasion", "description": "Hard to block"},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert obj.name == "evasion"
         assert obj.card_name == "Test Card"
         assert obj.classifier == "ORACLE_CARD_TAG"
@@ -96,7 +99,7 @@ class TestTagObject:
             "annotation": None,
             "metadata": None,
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert obj.name == "Young Pyromancer"  # Falls back to relatedName
         assert obj.classifier == "SIMILAR_TO"
         assert obj.type == "RELATIONSHIP"
@@ -115,7 +118,7 @@ class TestTagObject:
             "annotation": None,
             "metadata": None,
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert obj.name == "Card Name"
 
     def test_tag_object_repr(self):
@@ -131,7 +134,7 @@ class TestTagObject:
             "metadata": None,
             "tag": {"name": "evasion", "description": ""},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         r = repr(obj)
         assert "TagObject" in r
         assert "evasion" in r
@@ -150,7 +153,7 @@ class TestTagObject:
             "metadata": None,
             "tag": {"name": "digital painting", "description": None},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert str(obj) == "digital painting (ILLUSTRATION_TAG)"
 
     def test_tag_object_eq(self):
@@ -173,9 +176,9 @@ class TestTagObject:
             "name": "C",
             "tag": {"name": "draw"},
         }
-        assert TagObject(d1) == TagObject(d2)
-        assert TagObject(d1) != TagObject(d3)
-        assert TagObject(d1) != "removal"
+        assert TagObject(TaggerEdgeData(**d1)) == TagObject(TaggerEdgeData(**d2))
+        assert TagObject(TaggerEdgeData(**d1)) != TagObject(TaggerEdgeData(**d3))
+        assert TagObject(TaggerEdgeData(**d1)) != "removal"
 
     def test_tag_object_hash(self):
         """Test TagObject is hashable."""
@@ -191,8 +194,8 @@ class TestTagObject:
             "name": "C",
             "tag": {"name": "removal"},
         }
-        obj1 = TagObject(d1)
-        obj2 = TagObject(d2)
+        obj1 = TagObject(TaggerEdgeData(**d1))
+        obj2 = TagObject(TaggerEdgeData(**d2))
         assert hash(obj1) == hash(obj2)
         s = {obj1, obj2}
         assert len(s) == 1
@@ -205,7 +208,7 @@ class TestTagObject:
             "name": "C",
             "tag": {"name": "removal"},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         d = obj.to_dict()
         assert d == data
         assert d is not obj._data
@@ -218,7 +221,7 @@ class TestTagObject:
             "name": "C",
             "tag": {"name": "moon"},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert obj.is_illustration_tag is True
         assert obj.is_oracle_tag is False
         assert obj.is_printing_tag is False
@@ -231,7 +234,7 @@ class TestTagObject:
             "name": "C",
             "tag": {"name": "extended art"},
         }
-        obj = TagObject(data)
+        obj = TagObject(TaggerEdgeData(**data))
         assert obj.is_printing_tag is True
 
 
@@ -809,3 +812,506 @@ class TestTagBySlug:
         tag = TagBySlug(slug="removal", type="ORACLE_CARD_TAG")
         assert tag.aliases == []
         assert tag.is_category is True
+
+
+# ── Serialization tests ─────────────────────────────────────────────────
+
+
+class TestTagObjectSerialization:
+    """Test TagObject serialization methods."""
+
+    def test_to_json(self):
+        """Test TagObject.to_json() exports valid JSON."""
+        data = {
+            "classifier": "ORACLE_CARD_TAG",
+            "type": "TAGGING",
+            "name": "Card",
+            "tag": {"name": "evasion", "description": "Hard to block"},
+        }
+        obj = TagObject(TaggerEdgeData(**data))
+        json_str = obj.to_json()
+        parsed = json.loads(json_str)
+        assert parsed["classifier"] == "ORACLE_CARD_TAG"
+        assert parsed["tag"]["name"] == "evasion"
+
+    def test_to_json_pretty(self):
+        """Test TagObject.to_json() with indent."""
+        data = {
+            "classifier": "ORACLE_CARD_TAG",
+            "type": "TAGGING",
+            "name": "Card",
+            "tag": {"name": "removal"},
+        }
+        obj = TagObject(TaggerEdgeData(**data))
+        json_str = obj.to_json(indent=2)
+        assert "\n" in json_str
+        parsed = json.loads(json_str)
+        assert parsed["tag"]["name"] == "removal"
+
+    def test_from_dict(self):
+        """Test TagObject.from_dict() rehydrates correctly."""
+        data = {
+            "classifier": "ORACLE_CARD_TAG",
+            "type": "TAGGING",
+            "name": "Card",
+            "tag": {"name": "evasion", "description": ""},
+        }
+        obj = TagObject.from_dict(data)
+        assert obj.name == "evasion"
+        assert obj.classifier == "ORACLE_CARD_TAG"
+        assert obj.is_tag is True
+
+    def test_from_dict_copy(self):
+        """Test TagObject.from_dict() creates independent copy."""
+        data = {
+            "classifier": "ILLUSTRATION_TAG",
+            "type": "TAGGING",
+            "name": "C",
+            "tag": {"name": "moon"},
+        }
+        obj = TagObject.from_dict(data)
+        data["tag"]["name"] = "sun"
+        assert obj.name == "moon"  # Unchanged
+
+    def test_roundtrip(self):
+        """Test TagObject to_dict -> from_dict roundtrip."""
+        data = {
+            "classifier": "ORACLE_CARD_TAG",
+            "type": "TAGGING",
+            "name": "Card",
+            "relatedName": None,
+            "subjectName": "Card",
+            "namespace": "card",
+            "annotation": None,
+            "metadata": None,
+            "tag": {"name": "evasion", "description": ""},
+        }
+        obj1 = TagObject(TaggerEdgeData(**data))
+        obj2 = TagObject.from_dict(obj1.to_dict())
+        assert obj1 == obj2
+        assert obj1.name == obj2.name
+        assert obj1.classifier == obj2.classifier
+
+
+class TestCardTagsSerialization:
+    """Test CardTags serialization (inherited from ScrythonRequestHandler)."""
+
+    def test_card_tags_to_dict(self):
+        """Test CardTags.to_dict() returns scryfall_data."""
+        TaggerSession.execute_graphql = Mock(
+            return_value={
+                "cardBySet": {
+                    "name": "Test Card",
+                    "oracleId": "oracle-1",
+                    "printingId": "print-1",
+                    "edges": [],
+                }
+            }
+        )
+        tags = CardTags(code="tst", number="1")
+        d = tags.to_dict()
+        assert d["cardBySet"]["name"] == "Test Card"
+
+    def test_card_tags_to_json(self):
+        """Test CardTags.to_json() returns valid JSON."""
+        TaggerSession.execute_graphql = Mock(
+            return_value={
+                "cardBySet": {
+                    "name": "Test",
+                    "oracleId": "o1",
+                    "printingId": "p1",
+                    "edges": [],
+                }
+            }
+        )
+        tags = CardTags(code="tst", number="1")
+        json_str = tags.to_json()
+        parsed = json.loads(json_str)
+        assert parsed["cardBySet"]["name"] == "Test"
+
+    def test_card_tags_from_dict(self):
+        """Test CardTags.from_dict() rehydrates without API call."""
+        data = {
+            "cardBySet": {
+                "name": "Rehydrated",
+                "oracleId": "o1",
+                "printingId": "p1",
+                "edges": [
+                    {
+                        "classifier": "ORACLE_CARD_TAG",
+                        "type": "TAGGING",
+                        "name": "C",
+                        "tag": {"name": "evasion"},
+                    }
+                ],
+            }
+        }
+        tags = CardTags.from_dict(data)
+        assert tags.card_name == "Rehydrated"
+        assert len(tags.tags) == 1
+        assert tags.tags[0].name == "evasion"
+
+    def test_card_tags_from_dict_independent(self):
+        """Test CardTags.from_dict() copy is independent."""
+        data = {
+            "cardBySet": {
+                "name": "Original",
+                "oracleId": "o1",
+                "printingId": "p1",
+                "edges": [],
+            }
+        }
+        tags = CardTags.from_dict(data)
+        data["cardBySet"]["name"] = "Modified"
+        assert tags.card_name == "Original"
+
+    def test_card_tags_hashable(self):
+        """Test CardTags objects are hashable (by id)."""
+        fixture = load_tag_fixture("card_tags_sos170.json")
+        TaggerSession.execute_graphql = Mock(return_value=fixture)
+        tags1 = CardTags(code="sos", number="170")
+        tags2 = CardTags(code="sos", number="170")
+        # Both should be hashable (hash based on instance id for tagger objects
+        # since there's no 'id' in the root scryfall_data dict)
+        s = {tags1, tags2}
+        assert len(s) == 2  # Different instances, no shared 'id' field
+
+
+class TestTagSearchSerialization:
+    """Test TagSearch serialization."""
+
+    def test_tag_search_to_dict(self):
+        """Test TagSearch.to_dict()."""
+        TaggerSession.execute_graphql = Mock(
+            return_value={"tags": {"page": 1, "perPage": 25, "total": 42, "results": []}}
+        )
+        results = TagSearch()
+        d = results.to_dict()
+        assert d["tags"]["total"] == 42
+
+    def test_tag_search_to_json(self):
+        """Test TagSearch.to_json()."""
+        TaggerSession.execute_graphql = Mock(
+            return_value={"tags": {"page": 1, "perPage": 25, "total": 10, "results": []}}
+        )
+        results = TagSearch()
+        json_str = results.to_json()
+        parsed = json.loads(json_str)
+        assert parsed["tags"]["total"] == 10
+
+    def test_tag_search_from_dict(self):
+        """Test TagSearch.from_dict()."""
+        data = {"tags": {"page": 1, "perPage": 25, "total": 7, "results": []}}
+        results = TagSearch.from_dict(data)
+        assert results.total == 7
+
+
+class TestTagBySlugSerialization:
+    """Test TagBySlug serialization."""
+
+    def test_to_dict(self):
+        """Test TagBySlug.to_dict()."""
+        TaggerSession.execute_graphql = Mock(
+            return_value={
+                "tagBySlug": {
+                    "id": "tag-1",
+                    "name": "evasion",
+                    "namespace": "function",
+                    "description": "Evasion",
+                    "category": False,
+                    "aliases": [],
+                }
+            }
+        )
+        tag = TagBySlug(slug="evasion", type="ORACLE_CARD_TAG")
+        d = tag.to_dict()
+        assert d["tagBySlug"]["name"] == "evasion"
+
+    def test_from_dict(self):
+        """Test TagBySlug.from_dict()."""
+        data = {
+            "tagBySlug": {
+                "id": "tag-1",
+                "name": "removal",
+                "namespace": "function",
+                "description": "Removal",
+                "category": False,
+                "aliases": [],
+            }
+        }
+        tag = TagBySlug.from_dict(data)
+        assert tag.name == "removal"
+        assert tag.namespace == "function"
+
+
+# ── Caching tests ───────────────────────────────────────────────────────
+
+
+class TestTaggerCaching:
+    """Test caching on tagger endpoints."""
+
+    def test_cache_hit_skips_graphql(self):
+        """Test that a cache hit skips the GraphQL call."""
+        from scrython.cache import reset_global_cache
+
+        reset_global_cache()
+
+        data = {
+            "cardBySet": {
+                "name": "Cached Card",
+                "oracleId": "o1",
+                "printingId": "p1",
+                "edges": [],
+            }
+        }
+
+        call_count = 0
+        original_execute = TaggerSession.execute_graphql
+
+        def counting_execute(_query, _variables=None):
+            nonlocal call_count
+            call_count += 1
+            return data
+
+        TaggerSession.execute_graphql = counting_execute
+
+        # First call: cache miss, should call GraphQL
+        tags1 = CardTags(code="tst", number="1", cache=True, cache_ttl=3600)
+        assert call_count == 1
+        assert tags1.card_name == "Cached Card"
+
+        # Second call: cache hit, should NOT call GraphQL
+        tags2 = CardTags(code="tst", number="1", cache=True, cache_ttl=3600)
+        assert call_count == 1  # Still 1
+        assert tags2.card_name == "Cached Card"
+
+        # Restore
+        TaggerSession.execute_graphql = original_execute
+        reset_global_cache()
+
+    def test_cache_disabled_calls_graphql(self):
+        """Test that cache=False always calls GraphQL."""
+        data = {
+            "cardBySet": {
+                "name": "Fresh",
+                "oracleId": "o1",
+                "printingId": "p1",
+                "edges": [],
+            }
+        }
+
+        call_count = 0
+        original = TaggerSession.execute_graphql
+
+        def counting(_query, _variables=None):
+            nonlocal call_count
+            call_count += 1
+            return data
+
+        TaggerSession.execute_graphql = counting
+
+        # First call
+        CardTags(code="tst", number="1", cache=False)
+        assert call_count == 1
+
+        # Second call (no cache)
+        CardTags(code="tst", number="1", cache=False)
+        assert call_count == 2
+
+        TaggerSession.execute_graphql = original
+
+    def test_different_queries_have_different_cache_keys(self):
+        """Test that different code/number combos have different cache keys."""
+        from scrython.cache import reset_global_cache
+
+        reset_global_cache()
+
+        data1 = {
+            "cardBySet": {
+                "name": "Card A",
+                "oracleId": "oa",
+                "printingId": "pa",
+                "edges": [],
+            }
+        }
+        data2 = {
+            "cardBySet": {
+                "name": "Card B",
+                "oracleId": "ob",
+                "printingId": "pb",
+                "edges": [],
+            }
+        }
+
+        call_count = 0
+        original = TaggerSession.execute_graphql
+
+        def counting(_query, variables=None):
+            nonlocal call_count
+            call_count += 1
+            if variables and variables.get("number") == "1":
+                return data1
+            return data2
+
+        TaggerSession.execute_graphql = counting
+
+        tags1 = CardTags(code="tst", number="1", cache=True)
+        assert call_count == 1
+        assert tags1.card_name == "Card A"
+
+        tags2 = CardTags(code="tst", number="2", cache=True)
+        assert call_count == 2  # Different cache key
+        assert tags2.card_name == "Card B"
+
+        tags3 = CardTags(code="tst", number="1", cache=True)
+        assert call_count == 2  # Cache hit for number="1"
+        assert tags3.card_name == "Card A"
+
+        TaggerSession.execute_graphql = original
+        reset_global_cache()
+
+
+# ── Card integration tests ──────────────────────────────────────────────
+
+
+class TestCardTaggerIntegration:
+    """Test get_tags(), get_tag_names(), has_tag() on card objects."""
+
+    @pytest.fixture(autouse=True)
+    def mock_tagger_execute(self):
+        """Mock TaggerSession.execute_graphql for all integration tests."""
+        from scrython.cache import reset_global_cache
+
+        reset_global_cache()
+
+        fixture = load_tag_fixture("card_tags_sos170.json")
+        with patch.object(TaggerSession, "execute_graphql", return_value=fixture):
+            yield
+
+    def _make_card(self, set_code="sos", collector_number="170"):
+        """Create a minimal card Object with set and collector_number."""
+        return CardObject(
+            {
+                "id": "77285d12-e658-4eb3-ba13-ff202afab9c8",
+                "name": "Abigale, Poet Laureate",
+                "object": "card",
+                "lang": "en",
+                "layout": "transform",
+                "set": set_code,
+                "collector_number": collector_number,
+                "set_name": "Some Set",
+                "rarity": "rare",
+                "type_line": "Creature",
+                "cmc": 3.0,
+                "color_identity": ["W"],
+                "keywords": [],
+                "legalities": {},
+                "reserved": False,
+                "booster": True,
+                "border_color": "black",
+                "digital": False,
+                "finishes": ["nonfoil"],
+                "frame": "2015",
+                "full_art": False,
+                "games": ["paper"],
+                "highres_image": True,
+                "image_status": "highres_scan",
+                "prices": {"usd": None},
+                "promo": False,
+                "released_at": "2024-01-01",
+                "reprint": False,
+                "scryfall_set_uri": "https://scryfall.com/sets/sos",
+                "set_search_uri": "https://api.scryfall.com/cards/search?q=set:sos",
+                "set_type": "expansion",
+                "set_uri": "https://api.scryfall.com/sets/sos",
+                "set_id": "set-id-1",
+                "story_spotlight": False,
+                "textless": False,
+                "variation": False,
+                "prints_search_uri": "https://api.scryfall.com/cards/search?q=prints",
+                "rulings_uri": "https://api.scryfall.com/cards/rulings/1",
+                "scryfall_uri": "https://scryfall.com/card/sos/170",
+                "uri": "https://api.scryfall.com/cards/1",
+                "card_back_id": "card-back-id",
+                "related_uris": {},
+            }
+        )
+
+    def test_get_tags_returns_card_tags(self):
+        """Test get_tags() returns a CardTags object."""
+        card = self._make_card()
+        tags = card.get_tags()
+        assert isinstance(tags, CardTags)
+        assert tags.card_name is not None
+
+    def test_get_tags_with_set_and_number(self):
+        """Test get_tags() extracts set and collector_number correctly."""
+        card = self._make_card()
+        tags = card.get_tags()
+        assert "evasion" in tags.tag_names
+        assert "removal" in tags.tag_names
+
+    def test_get_tags_caching(self):
+        """Test get_tags() with caching enabled."""
+        card = self._make_card()
+
+        # First call
+        tags1 = card.get_tags(cache=True, cache_ttl=3600)
+        assert isinstance(tags1, CardTags)
+
+        # Second call (should use cache)
+        tags2 = card.get_tags(cache=True, cache_ttl=3600)
+        assert tags2.card_name == tags1.card_name
+
+    def test_get_tag_names_convenience(self):
+        """Test get_tag_names() returns list of tag names."""
+        card = self._make_card()
+        names = card.get_tag_names()
+        assert isinstance(names, list)
+        assert "evasion" in names
+        assert "removal" in names
+        assert "extended art" in names
+
+    def test_has_tag_convenience(self):
+        """Test has_tag() convenience method."""
+        card = self._make_card()
+        assert card.has_tag("removal") is True
+        assert card.has_tag("evasion") is True
+        assert card.has_tag("nonexistent") is False
+
+    def test_get_tags_missing_set(self):
+        """Test get_tags() raises ValueError when set field is missing."""
+        card = self._make_card()
+        card._scryfall_data.pop("set")
+        with pytest.raises(ValueError, match="missing 'set' or 'collector_number'"):
+            card.get_tags()
+
+    def test_get_tags_missing_collector_number(self):
+        """Test get_tags() raises ValueError when collector_number is missing."""
+        card = self._make_card()
+        card._scryfall_data.pop("collector_number")
+        with pytest.raises(ValueError, match="missing 'set' or 'collector_number'"):
+            card.get_tags()
+
+    def test_get_tags_rate_limit_kwargs(self):
+        """Test get_tags() accepts rate_limit kwargs."""
+        card = self._make_card()
+        tags = card.get_tags(rate_limit=True, rate_limit_per_second=3.0)
+        assert tags is not None
+
+    def test_get_tags_caches_per_query(self):
+        """Test that get_tags() caches are reused for the same card."""
+        from scrython.cache import reset_global_cache
+
+        reset_global_cache()
+
+        card = self._make_card()
+
+        tags1 = card.get_tags(cache=True, cache_ttl=3600)
+        tags2 = card.get_tags(cache=True, cache_ttl=3600)
+
+        # Both should return tags with the same data
+        assert tags1.card_name == tags2.card_name
+        assert tags1.tag_names == tags2.tag_names
+
+        reset_global_cache()

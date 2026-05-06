@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from functools import cache
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from ..types import (
     ImageUris,
@@ -9,6 +11,9 @@ from ..types import (
     RelatedUris,
 )
 from ..utils import to_object_array
+
+if TYPE_CHECKING:
+    import scrython.tagger
 
 
 class CoreFieldsMixin:
@@ -1100,7 +1105,117 @@ class RelatedCardsObjectMixin:
 
 
 class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
-    """Convenience methods for card objects."""
+    """Convenience methods for card objects, including tagger integration."""
+
+    def get_tags(
+        self,
+        cache: bool = True,
+        cache_ttl: int = 3600,
+        rate_limit: bool = True,
+        rate_limit_per_second: float | None = None,
+    ) -> scrython.tagger.CardTags:
+        """
+        Fetch Scryfall Tagger tags for this card.
+
+        Extracts the set code and collector number from the card data
+        and queries tagger.scryfall.com via the CardTags endpoint.
+
+        The returned CardTags object exposes tags, relationships, and
+        card metadata through property accessors (oracle_tags,
+        illustration_tags, printing_tags, relationships, etc.).
+
+        Args:
+            cache: Enable caching (default: True)
+            cache_ttl: Cache TTL in seconds (default: 3600 = 1 hour)
+            rate_limit: Enable rate limiting (default: True)
+            rate_limit_per_second: Override the default tagger rate limit
+
+        Returns:
+            CardTags object with full tag/relationship access
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            tags = card.get_tags()
+
+            # Access tag names
+            print(tags.tag_names)
+
+            # Check for specific tags
+            if tags.has_tag('removal'):
+                print('This card can remove things!')
+
+            # Filter by type
+            for tag in tags.oracle_tags:
+                print(f'{tag.name} ({tag.namespace})')
+
+            # Access relationships
+            for rel in tags.relationships:
+                print(f'{rel.name} is similar to {rel.card_name}')
+        """
+        import scrython.tagger
+
+        set_code = self._scryfall_data.get("set")
+        collector_number = self._scryfall_data.get("collector_number")
+
+        if not set_code or not collector_number:
+            raise ValueError(
+                "Card is missing 'set' or 'collector_number' fields " "required for tagger lookup"
+            )
+
+        kwargs: dict[str, Any] = {
+            "code": set_code,
+            "number": collector_number,
+            "cache": cache,
+            "cache_ttl": cache_ttl,
+            "rate_limit": rate_limit,
+        }
+        if rate_limit_per_second is not None:
+            kwargs["rate_limit_per_second"] = rate_limit_per_second
+
+        return scrython.tagger.CardTags(**kwargs)
+
+    def get_tag_names(self, cache: bool = True, cache_ttl: int = 3600) -> list[str]:
+        """
+        Get all tag names for this card.
+
+        Convenience method that fetches tags and returns just the names.
+
+        Args:
+            cache: Enable caching (default: True)
+            cache_ttl: Cache TTL in seconds (default: 3600)
+
+        Returns:
+            List of tag name strings
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            for tag_name in card.get_tag_names():
+                print(tag_name)
+        """
+        tags = self.get_tags(cache=cache, cache_ttl=cache_ttl)
+        return tags.tag_names
+
+    def has_tag(self, tag_name: str, cache: bool = True, cache_ttl: int = 3600) -> bool:
+        """
+        Check if this card has a specific tag.
+
+        Convenience method that fetches tags and checks for the given name.
+
+        Args:
+            tag_name: The tag name to check (case-sensitive)
+            cache: Enable caching (default: True)
+            cache_ttl: Cache TTL in seconds (default: 3600)
+
+        Returns:
+            True if the card has this tag
+
+        Example:
+            card = scrython.cards.Named(fuzzy='Lightning Bolt')
+            if card.has_tag('removal'):
+                print('Removal spell!')
+        """
+        tags = self.get_tags(cache=cache, cache_ttl=cache_ttl)
+        return tags.has_tag(tag_name)
 
     def is_legal_in(self, format_name: str) -> bool:
         """

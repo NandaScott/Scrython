@@ -106,3 +106,17 @@ From Contributing.md:
 3. Inherit from `ScrythonRequestHandler` + appropriate mixins
 4. Update factory class's `__new__()` method to route to your endpoint
 5. Add new properties to mixin files if Scryfall returns new fields
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues at `NandaScott/Scrython` via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.

@@ -311,6 +311,28 @@ All code is automatically checked by pre-commit hooks. Ensure your code passes:
 - Ruff linting
 - Mypy type checking (where applicable)
 
+## AI-Assisted Contributions
+
+I am not against using AI tools to help write code or tests. I use them myself. What I do object to is unreviewed AI output landing in the project.
+
+If you used an LLM, an agent, or any AI tool to help write your contribution, the following rules apply.
+
+### Expectations
+
+- **You are the author, not the LLM.** Read every line. Run the tests yourself. Reproduce the bugs you claim to have fixed. If you cannot explain why a specific design choice was made, that section is not ready for review.
+- **Write the PR description yourself.** A description that reads as LLM-generated is a strong signal that the rest of the PR was not reviewed by you either. Keep it short, plain, and in your own words. State what changed, why, and how you tested it.
+- **Keep the scope reviewable.** This is a volunteer project. Split work into the smallest useful unit. If you have supporting research, link it externally rather than committing it.
+- **Do not commit scratch work.** Exploratory scripts, prompt logs, and notes from your local workflow do not belong in the repo. The repo is for code that ships and the tests that cover it.
+- **Run the project's quality bar before requesting review.** `pytest`, `ruff check`, `mypy`, and `black --check` should all be clean. If you used AI to write the code, you are responsible for running these against the output and fixing what the AI got wrong.
+
+### What I will do if a PR looks unreviewed by a human
+
+I'll close it. The PR description is usually the first signal. If the prose reads as LLM-written and the diff is large, I am not going to take on a free review for code the author did not read. I would rather you came back with something small and clearly your own.
+
+### Out of scope regardless of how it was written
+
+Reverse-engineered or undocumented Scryfall endpoints. Scrython tracks the [published Scryfall API](https://scryfall.com/docs/api). If a feature requires probing an internal endpoint, it does not belong here, regardless of how clean the implementation is.
+
 ## Before Submitting
 
 Before submitting a pull request, ensure:

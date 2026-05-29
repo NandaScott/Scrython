@@ -20,7 +20,7 @@ Scrython is a [PEP 561](https://peps.python.org/pep-0561/) compliant typed packa
 import scrython
 
 card = scrython.cards.Named(fuzzy="Lightning Bolt")
-reveal_type(card.name)  # Revealed type is "str"
+reveal_type(card.name)  # should reveal type `str` (mypy may display this as `builtins.str`)
 ```
 
 Run your type checker of choice against scrython imports and it will work out of the box:

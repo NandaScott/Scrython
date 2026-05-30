@@ -333,6 +333,48 @@ I'll close it. The PR description is usually the first signal. If the prose read
 
 Reverse-engineered or undocumented Scryfall endpoints. Scrython tracks the [published Scryfall API](https://scryfall.com/docs/api). If a feature requires probing an internal endpoint, it does not belong here, regardless of how clean the implementation is.
 
+## Automated Contributions (Sandcastle)
+
+Some issues get worked by an agent instead of a person. I run [`@ai-hero/sandcastle`](https://github.com/mattpocock/sandcastle) from the `.sandcastle/` directory: it picks up issues labeled `ready-for-agent`, works each one in an isolated Docker sandbox, opens a pull request, and relabels the issue to `needs-review`. If you see a PR opened by Sandcastle, that is what produced it. It goes through the same review I give any contribution and has to pass the same gates.
+
+This is maintainer tooling. You do not need it to contribute, and running it needs an Anthropic API key plus write access to the repo. The notes below are here so the label flow and the agent-opened PRs are not a mystery, and so I have a runbook.
+
+### How a run works
+
+- One sandboxed agent per issue, fanned out in parallel. The agent commits only; the host pushes the branch, opens the PR, and swaps the label.
+- Dispatch respects the `## Blocked by` section of an issue. An issue is held until every blocker it names is cleared, where a blocker counts as cleared when its issue is closed or when the target branch already carries a commit referencing it. This keeps a dependent slice from branching off a base that lacks the work it builds on.
+- Issues attached to a milestone target a `prd/<slug>` branch created from `develop`; everything else targets `develop` directly.
+- The agent runs the same gates as CI (`black`, `ruff`, `mypy`, `pytest`), and the host opens a PR only once the agent signals it finished cleanly. A run that stalls leaves its branch for me to look at rather than opening a red PR.
+
+### One-time setup
+
+Sandcastle needs Docker and the npm package (the resulting `package.json`, `package-lock.json`, and `node_modules/` are gitignored at the repo root).
+
+1. Copy the env template and add your keys:
+
+   ```bash
+   cp .sandcastle/.env.example .sandcastle/.env
+   # set ANTHROPIC_API_KEY and GH_TOKEN
+   ```
+
+   `.sandcastle/.env` is gitignored. Never commit it.
+
+2. Build the sandbox image. Sandcastle's own command bakes the host UID/GID and tags the image the way the docker provider expects, so a plain `docker build` of the same name is not recognized:
+
+   ```bash
+   npx @ai-hero/sandcastle docker build-image
+   ```
+
+   Rebuild whenever `.sandcastle/Dockerfile` changes.
+
+### Running
+
+```bash
+npx tsx .sandcastle/main.mts                 # work all ready-for-agent issues
+DRY_RUN=1 npx tsx .sandcastle/main.mts       # print the dispatch plan; spawn nothing, write nothing
+ONLY_ISSUE=170 npx tsx .sandcastle/main.mts  # restrict to one issue (smoke test)
+```
+
 ## Before Submitting
 
 Before submitting a pull request, ensure:

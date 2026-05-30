@@ -1,12 +1,12 @@
 import json
 import types
-import urllib.error
 import urllib.parse
 from typing import Any
-from urllib.request import Request, urlopen
 
 from .cache import generate_cache_key, get_global_cache
-from .rate_limiter import RateLimiter
+from .connector import Connector, get_connector
+
+_HANDLER_KWARGS: frozenset[str] = frozenset({"rate_limit", "cache", "cache_ttl", "data", "connector"})
 
 
 class ScryfallError(Exception):
@@ -44,51 +44,19 @@ class ScrythonRequestHandler:
     """
     Base class for all Scryfall API requests.
 
-    This class handles HTTP communication with the Scryfall API including
-    path building, query parameter encoding, and error handling.
-
-    API Requirements:
-        - User-Agent header is required (default: 'Scrython/2.0')
-        - Accept header is required (default: 'application/json')
-        - HTTPS with TLS 1.2+ is required
+    Builds endpoint paths and query parameters, then delegates HTTP execution
+    to a Connector. The resolved connector is chosen by: per-request connector=
+    kwarg, then use_connector() scope, then set_default_connector(), then the
+    built-in ScryfallConnector default.
     """
 
     _scryfall_data: dict[str, Any] = {}
-    _user_agent: str = "Scrython/2.0 (https://github.com/NandaScott/Scrython)"
-    _accept: str = "application/json"
-    _content_type: str = "application/json"
     _endpoint: str = ""
-    _rate_limiter_class: type[RateLimiter] = RateLimiter
-    _override_limiter: RateLimiter | None = None
-
-    @classmethod
-    def set_user_agent(cls, user_agent: str) -> None:
-        """
-        Set a custom User-Agent header for all Scrython requests.
-
-        Scryfall recommends identifying your application in the User-Agent.
-
-        Args:
-            user_agent: Custom User-Agent string
-
-        Example:
-            scrython.set_user_agent('MyMTGApp/1.0 (contact@example.com)')
-        """
-        cls._user_agent = user_agent
 
     @property
     def scryfall_data(self) -> types.SimpleNamespace:
         """
-        Read-only access to Scryfall API response data.
-
-        Returns a SimpleNamespace object allowing dot-notation access to all
-        fields returned by the Scryfall API. This is a read-only view -
-        modifications will not affect the internal data.
-
-        Example:
-            card = scrython.cards.Named(exact='Black Lotus')
-            print(card.scryfall_data.name)  # 'Black Lotus'
-            print(card.scryfall_data.mana_cost)  # '{0}'
+        Read-only access to Scryfall API response data as dot-notation namespace.
 
         Returns:
             SimpleNamespace object with API response data
@@ -98,15 +66,6 @@ class ScrythonRequestHandler:
         return self._scryfall_namespace
 
     def _dict_to_namespace(self, data: Any) -> Any:
-        """
-        Recursively convert dict to SimpleNamespace for nested objects.
-
-        Args:
-            data: The data to convert (dict, list, or other)
-
-        Returns:
-            SimpleNamespace for dicts, list of converted items for lists, or original data
-        """
         if isinstance(data, dict):
             return types.SimpleNamespace(**{k: self._dict_to_namespace(v) for k, v in data.items()})
         elif isinstance(data, list):
@@ -124,20 +83,10 @@ class ScrythonRequestHandler:
 
         Args:
             **kwargs: Endpoint-specific parameters, plus optional:
-                - rate_limit (bool): Enable rate limiting (default: True)
-                - rate_limit_per_second (float): Override the default rate limit
-                    for this handler instance. Creates a per-instance limiter,
-                    so separate instantiations do not coordinate with each other
-                    or with the class default limiter. Pagination within a single
-                    handler (e.g., iter_all()) is properly throttled.
+                - connector (Connector): Override the connector for this request
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
         """
-        rate_limit_per_second = kwargs.get("rate_limit_per_second")
-        self._override_limiter: RateLimiter | None = None
-        if rate_limit_per_second is not None:
-            self._override_limiter = RateLimiter(rate_limit_per_second)
-
         self._build_path(**kwargs)
         self._build_params(**kwargs)
         self._fetch(**kwargs)
@@ -145,127 +94,80 @@ class ScrythonRequestHandler:
         if self._scryfall_data["object"] == "error":
             raise ScryfallError(self._scryfall_data, self._scryfall_data["details"])
 
+    def _get_connector(self, **kwargs: Any) -> Connector:
+        connector: Connector | None = kwargs.get("connector")
+        if connector is not None:
+            return connector
+        return get_connector()
+
     def _fetch_raw(self, url: str, cache_key: str | None = None, **kwargs: Any) -> dict[str, Any]:
         """
-        Low-level HTTP fetch for absolute URLs.
+        Low-level fetch for absolute URLs (used by iter_all for pagination).
 
-        This method handles rate limiting, caching, and HTTP request execution
-        for any URL (including pagination URLs). It's used by both _fetch() for
-        endpoint-based requests and iter_all() for pagination.
+        Handles caching and delegates HTTP execution to the resolved connector.
 
         Args:
             url: Full absolute URL to fetch
-            cache_key: Optional cache key to use (if not provided, caching is skipped)
+            cache_key: Optional cache key (caching skipped if not provided)
             **kwargs: Optional parameters:
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
-                - rate_limit (bool): Enable rate limiting (default: True)
-                - data (dict): POST data (optional)
+                - data (dict): POST body data (optional)
+                - connector (Connector): Override the connector for this request
 
         Returns:
             dict: Parsed JSON response from Scryfall API
 
         Raises:
-            Exception: On HTTP errors or request failures
+            Exception: On transport-level failures
         """
-        # Caching (disabled by default, requires cache_key)
         use_cache = kwargs.get("cache", False)
-        cache_ttl = kwargs.get("cache_ttl", 3600)  # Default 1 hour
+        cache_ttl = kwargs.get("cache_ttl", 3600)
 
-        # Check cache first if enabled and cache_key provided
         if use_cache and cache_key is not None:
-            cache = get_global_cache()
-            cached_data = cache.get(cache_key)
-
+            cached_data = get_global_cache().get(cache_key)
             if cached_data is not None:
-                # Cache hit - return cached data
                 return cached_data
 
-        # Rate limiting (enabled by default)
-        rate_limit = kwargs.get("rate_limit", True)
+        connector = self._get_connector(**kwargs)
+        data_param: dict[str, Any] | None = kwargs.get("data")
 
-        if rate_limit:
-            # Use the instance override limiter if set, otherwise fall back
-            # to the class-level global limiter for the endpoint's tier.
-            if self._override_limiter is not None:
-                limiter = self._override_limiter
-            else:
-                limiter = self._rate_limiter_class.get_global_limiter()
+        parsed = urllib.parse.urlparse(url)
+        endpoint = parsed.path.lstrip("/")
+        params: dict[str, Any] = dict(urllib.parse.parse_qsl(parsed.query))
 
-            limiter.wait()
+        response_data = connector.fetch(endpoint, params, data=data_param)
 
-        # Prepare POST data if provided
-        data: bytes | None = None
-        if data_param := kwargs.get("data"):
-            data = json.dumps(data_param).encode("utf-8")
+        if use_cache and cache_key is not None and response_data.get("object") != "error":
+            get_global_cache().set(cache_key, response_data, cache_ttl)
 
-        # Create and configure HTTP request
-        request = Request(url, data=data)
-        request.add_header("User-Agent", self._user_agent)
-        request.add_header("Accept", self._accept)
-        request.add_header("Content-Type", self._content_type)
-
-        # Execute HTTP request
-        try:
-            with urlopen(request) as response:
-                charset = response.info().get_param("charset") or "utf-8"
-                decoded = response.read().decode(charset)
-
-                response_data = json.loads(decoded)
-
-                # Store in cache if enabled and cache_key provided
-                if use_cache and cache_key is not None and response_data.get("object") != "error":
-                    cache = get_global_cache()
-                    cache.set(cache_key, response_data, cache_ttl)
-
-                return response_data
-        except urllib.error.HTTPError as exc:
-            # Scryfall returns JSON error bodies on 4xx/5xx responses.
-            # urllib raises HTTPError before we can read the body normally,
-            # but the HTTPError itself is a file-like object containing it.
-            try:
-                charset = exc.headers.get_param("charset")
-                if not isinstance(charset, str):
-                    charset = "utf-8"
-                error_data = json.loads(exc.read().decode(charset))
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                raise Exception(f"{exc}: {request.get_full_url()}") from exc
-
-            if error_data.get("object") == "error":
-                raise ScryfallError(error_data, error_data["details"]) from exc
-
-            raise Exception(f"{exc}: {request.get_full_url()}") from exc
+        return response_data
 
     def _fetch(self, **kwargs: Any) -> None:
         """
         Fetch data from Scryfall API using the endpoint template.
 
         Builds the full URL from self.endpoint and query parameters,
-        then delegates to _fetch_raw() for actual HTTP execution.
+        then delegates to _fetch_raw() for caching and connector execution.
 
         Args:
             **kwargs: Optional parameters passed to _fetch_raw()
         """
-        # Build full URL from endpoint template and query parameters
         url = f"https://api.scryfall.com/{self.endpoint}?{self._encoded_query_params}"
-
-        # Generate cache key from endpoint and params (order-independent)
         cache_key = generate_cache_key(self.endpoint, self._query_params)
-
-        # Delegate to _fetch_raw for HTTP execution
         self._scryfall_data = self._fetch_raw(url, cache_key=cache_key, **kwargs)
 
-        # Invalidate namespace cache when new data is fetched
         if hasattr(self, "_scryfall_namespace"):
             delattr(self, "_scryfall_namespace")
 
     def _build_params(self, **kwargs: Any) -> None:
+        api_kwargs = {k: v for k, v in kwargs.items() if k not in _HANDLER_KWARGS}
         self._query_params: dict[str, Any] = {
-            "format": kwargs.get("format", "json"),
-            "face": kwargs.get("face", ""),
-            "version": kwargs.get("version", ""),
-            "pretty": kwargs.get("pretty", ""),
-            **kwargs,
+            "format": api_kwargs.get("format", "json"),
+            "face": api_kwargs.get("face", ""),
+            "version": api_kwargs.get("version", ""),
+            "pretty": api_kwargs.get("pretty", ""),
+            **api_kwargs,
         }
 
         self._encoded_query_params: str = urllib.parse.urlencode(self._query_params)
@@ -295,20 +197,8 @@ class ScrythonRequestHandler:
         self._endpoint = "/".join(resolved)
 
     def __repr__(self) -> str:
-        """
-        Developer-friendly representation showing class name and key identifiers.
-
-        Returns a string in the format: ClassName(id='...', key_field='...')
-
-        Example:
-            Named(id='bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd', name='Lightning Bolt')
-        """
         class_name = self.__class__.__name__
-
-        # Try to get the ID field (common for most objects)
         obj_id = self._scryfall_data.get("id")
-
-        # Try to get a meaningful identifier (name, code, etc.)
         name = self._scryfall_data.get("name")
         code = self._scryfall_data.get("code")
 
@@ -322,17 +212,6 @@ class ScrythonRequestHandler:
         return f"{class_name}({', '.join(parts)})"
 
     def __str__(self) -> str:
-        """
-        User-friendly string representation.
-
-        For cards: Returns "Card Name (SET)" format
-        For sets: Returns "Set Name (CODE)" format
-        For other objects: Returns the name or a basic representation
-
-        Example:
-            "Lightning Bolt (LEA)"
-            "Limited Edition Alpha (LEA)"
-        """
         obj_type = self._scryfall_data.get("object", "")
         name = self._scryfall_data.get("name", "")
 
@@ -343,135 +222,41 @@ class ScrythonRequestHandler:
             code = self._scryfall_data.get("code", "").upper()
             return f"{name} ({code})" if code else name
         elif obj_type == "list":
-            # For list objects, show summary
             total = self._scryfall_data.get("total_cards", 0)
             return f"List with {total} items"
         elif obj_type == "catalog":
-            # For catalog objects, show summary
             data = self._scryfall_data.get("data", [])
             return f"Catalog with {len(data)} items"
         else:
-            # Fallback to name or class name
             return name if name else f"{self.__class__.__name__} object"
 
     def __eq__(self, other: object) -> bool:
-        """
-        Compare objects by their Scryfall ID.
-
-        Two objects are considered equal if:
-        1. They are both ScrythonRequestHandler instances
-        2. They have the same Scryfall ID
-
-        Args:
-            other: Another object to compare with
-
-        Returns:
-            True if objects have the same Scryfall ID, False otherwise
-
-        Example:
-            card1 = scrython.cards.Named(fuzzy='Lightning Bolt')
-            card2 = scrython.cards.Named(exact='Lightning Bolt')
-            card1 == card2  # True (same card, same ID)
-        """
         if not isinstance(other, ScrythonRequestHandler):
             return False
 
-        # Compare by ID if both objects have one
         self_id = self._scryfall_data.get("id")
         other_id = other._scryfall_data.get("id")
 
         if self_id and other_id:
             return self_id == other_id
 
-        # Fallback to object comparison if no IDs
         return self is other
 
     def __hash__(self) -> int:
-        """
-        Generate hash based on Scryfall ID to enable use in sets and dicts.
-
-        Returns:
-            Hash of the Scryfall ID, or hash of class name if no ID available
-
-        Example:
-            unique_cards = {card1, card2, card3}
-            card_lookup = {card1: 'owned', card2: 'wanted'}
-        """
         obj_id = self._scryfall_data.get("id")
         if obj_id:
             return hash(obj_id)
 
-        # Fallback to instance hash if no ID
-        # Note: This makes objects without IDs unhashable across instances
         return hash(id(self))
 
     def to_dict(self) -> dict[str, Any]:
-        """
-        Export object data as a dictionary.
-
-        Returns a copy of the internal Scryfall data dictionary. Modifications
-        to the returned dict will not affect the object's internal state.
-
-        Returns:
-            Dictionary containing all Scryfall API response data
-
-        Example:
-            card = scrython.cards.Named(fuzzy='Lightning Bolt')
-            card_dict = card.to_dict()
-            print(card_dict['name'])  # 'Lightning Bolt'
-        """
         return self._scryfall_data.copy()
 
     def to_json(self, **kwargs: Any) -> str:
-        """
-        Export object data as a JSON string.
-
-        Args:
-            **kwargs: Additional arguments passed to json.dumps()
-                     Common options: indent, sort_keys, ensure_ascii
-
-        Returns:
-            JSON string representation of the object data
-
-        Example:
-            card = scrython.cards.Named(fuzzy='Lightning Bolt')
-
-            # Compact JSON
-            json_str = card.to_json()
-
-            # Pretty-printed JSON
-            json_str = card.to_json(indent=2, sort_keys=True)
-
-            # Save to file
-            with open('card.json', 'w') as f:
-                f.write(card.to_json(indent=2))
-        """
         return json.dumps(self._scryfall_data, **kwargs)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ScrythonRequestHandler":
-        """
-        Construct an object from a dictionary without making an API request.
-
-        This is useful for rehydrating cached objects or constructing objects
-        from saved data. The object is created without making any HTTP requests.
-
-        Args:
-            data: Dictionary containing Scryfall API response data
-
-        Returns:
-            Instance of the class populated with the provided data
-
-        Example:
-            # Save card data
-            card = scrython.cards.Named(fuzzy='Lightning Bolt')
-            card_dict = card.to_dict()
-
-            # Later, restore from dict (no API call)
-            restored_card = scrython.cards.Named.from_dict(card_dict)
-            print(restored_card.name)  # 'Lightning Bolt'
-        """
-        # Create instance without calling __init__
         instance = cls.__new__(cls)
         instance._scryfall_data = data.copy()
         return instance

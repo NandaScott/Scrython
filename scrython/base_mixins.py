@@ -1,4 +1,3 @@
-import warnings
 from functools import cache
 from typing import Any
 
@@ -124,15 +123,6 @@ class ScryfallListMixin:
                 print(card.name)
         """
         import hashlib
-
-        if "rate_limit_per_second" in kwargs:
-            warnings.warn(
-                "rate_limit_per_second must be set at construction time, "
-                "not passed to iter_all(). This kwarg is ignored.",
-                UserWarning,
-                stacklevel=2,
-            )
-            kwargs.pop("rate_limit_per_second")
 
         # Yield items from current page
         yield from self.data

@@ -58,7 +58,7 @@ def disable_rate_limiting():
 
     This makes tests run much faster by removing rate limit delays.
     """
-    with patch("scrython.base.RateLimiter") as mock_limiter_class:
+    with patch("scrython.connectors.scryfall_api.RateLimiter") as mock_limiter_class:
         mock_instance = Mock()
         mock_instance.wait = Mock()  # No-op wait method
         mock_limiter_class.get_global_limiter.return_value = mock_instance
@@ -174,7 +174,7 @@ def mock_urlopen(disable_rate_limiting):  # noqa: ARG001
 
     mock = MockURLOpen()
 
-    with patch("scrython.base.urlopen", side_effect=mock):
+    with patch("scrython.connectors.scryfall_api.urlopen", side_effect=mock):
         yield mock
 
 

@@ -229,7 +229,7 @@ class TestRequestHandlerRateLimiting:
 
         mock = MockURLOpen()
 
-        with patch("scrython.base.urlopen", side_effect=mock):
+        with patch("scrython.connectors.scryfall_api.urlopen", side_effect=mock):
             yield mock
 
     def test_rate_limit_enabled_by_default(self, mock_urlopen_with_rate_limit, sample_card):
@@ -250,112 +250,6 @@ class TestRequestHandlerRateLimiting:
 
         # Second call should have been rate limited (~0.1s delay)
         assert elapsed > 0.08
-
-    def test_rate_limit_can_be_disabled(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that rate limiting can be disabled."""
-        # Reset rate limiter
-        RateLimiter.reset_all_limiters()
-
-        mock_urlopen_with_rate_limit.set_response(data=sample_card)
-
-        class TestHandler(ScrythonRequestHandler):
-            _endpoint = "cards/named"
-
-        # Make two calls quickly with rate limiting disabled
-        start = time.time()
-        _handler1 = TestHandler(fuzzy="Card 1", rate_limit=False)
-        _handler2 = TestHandler(fuzzy="Card 2", rate_limit=False)
-        elapsed = time.time() - start
-
-        # Should be very fast (no rate limiting)
-        assert elapsed < 0.3
-
-    def test_default_rate_limiter_class_is_base(self):
-        """Test that ScrythonRequestHandler defaults to RateLimiter."""
-        assert ScrythonRequestHandler._rate_limiter_class is RateLimiter
-
-    def test_slow_endpoint_uses_slow_limiter(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that an endpoint with SlowRateLimiter uses the slow rate."""
-        from scrython.rate_limiter import SlowRateLimiter
-
-        mock_urlopen_with_rate_limit.set_response(data=sample_card)
-
-        class SlowHandler(ScrythonRequestHandler):
-            _endpoint = "cards/search"
-            _rate_limiter_class = SlowRateLimiter
-
-        start = time.time()
-        _handler1 = SlowHandler(q="Card 1")
-        _handler2 = SlowHandler(q="Card 2")
-        elapsed = time.time() - start
-
-        # SlowRateLimiter at 2/s means ~0.5s between calls
-        assert elapsed > 0.45
-
-    def test_rate_limit_per_second_kwarg_overrides_class(
-        self, mock_urlopen_with_rate_limit, sample_card
-    ):
-        """Test that rate_limit_per_second kwarg overrides the class default."""
-        from scrython.rate_limiter import SlowRateLimiter
-
-        mock_urlopen_with_rate_limit.set_response(data=sample_card)
-
-        class SlowHandler(ScrythonRequestHandler):
-            _endpoint = "cards/search"
-            _rate_limiter_class = SlowRateLimiter
-
-        # Override to a fast rate — should NOT wait 500ms
-        start = time.time()
-        _handler1 = SlowHandler(q="Card 1", rate_limit_per_second=20.0)
-        _handler2 = SlowHandler(q="Card 2", rate_limit_per_second=20.0)
-        elapsed = time.time() - start
-
-        # Should be fast (~0.05s), not slow (~0.5s)
-        assert elapsed < 0.5
-
-    def test_custom_rate_limit(self, mock_urlopen_with_rate_limit, sample_card):
-        """Test that rate_limit_per_second creates a per-instance limiter."""
-        # Reset rate limiter
-        RateLimiter.reset_all_limiters()
-
-        mock_urlopen_with_rate_limit.set_response(data=sample_card)
-
-        class TestHandler(ScrythonRequestHandler):
-            _endpoint = "cards/named"
-
-        # Each handler gets its own limiter, so separate instantiations
-        # do not throttle against each other (only pagination within
-        # a single handler instance is throttled).
-        start = time.time()
-        _handler1 = TestHandler(fuzzy="Card 1", rate_limit_per_second=5.0)
-        _handler2 = TestHandler(fuzzy="Card 2", rate_limit_per_second=5.0)
-        elapsed = time.time() - start
-
-        assert elapsed < 0.2
-
-    def test_custom_rate_limit_throttles_within_instance(
-        self, mock_urlopen_with_rate_limit, sample_card
-    ):
-        """Test that rate_limit_per_second throttles repeated calls on the same handler."""
-        RateLimiter.reset_all_limiters()
-
-        mock_urlopen_with_rate_limit.set_response(data=sample_card)
-
-        class TestHandler(ScrythonRequestHandler):
-            _endpoint = "cards/named"
-
-        handler = TestHandler(fuzzy="Card 1", rate_limit_per_second=5.0)
-
-        # Call _fetch_raw again on the same instance (simulates pagination)
-        start = time.time()
-        handler._fetch_raw(
-            "https://api.scryfall.com/cards/named?fuzzy=Card+2",
-            rate_limit=True,
-        )
-        elapsed = time.time() - start
-
-        # Should wait ~0.2s (5 calls/sec = 200ms interval)
-        assert elapsed > 0.15
 
     def test_slow_rate_limiter_attributes_via_global(
         self, mock_urlopen_with_rate_limit, sample_card
@@ -472,43 +366,3 @@ class TestSlowRateLimiter:
         elapsed = time.time() - start
 
         assert 0.45 < elapsed < 1.0
-
-
-class TestEndpointRateLimiterAssignment:
-    """Test that endpoint classes declare the correct rate limiter class."""
-
-    def test_search_uses_slow_limiter(self):
-        from scrython.cards.cards import Search
-        from scrython.rate_limiter import SlowRateLimiter
-
-        assert Search._rate_limiter_class is SlowRateLimiter
-
-    def test_named_uses_slow_limiter(self):
-        from scrython.cards.cards import Named
-        from scrython.rate_limiter import SlowRateLimiter
-
-        assert Named._rate_limiter_class is SlowRateLimiter
-
-    def test_random_uses_slow_limiter(self):
-        from scrython.cards.cards import Random
-        from scrython.rate_limiter import SlowRateLimiter
-
-        assert Random._rate_limiter_class is SlowRateLimiter
-
-    def test_collection_uses_slow_limiter(self):
-        from scrython.cards.cards import Collection
-        from scrython.rate_limiter import SlowRateLimiter
-
-        assert Collection._rate_limiter_class is SlowRateLimiter
-
-    def test_autocomplete_uses_default_limiter(self):
-        from scrython.cards.cards import Autocomplete
-        from scrython.rate_limiter import RateLimiter
-
-        assert Autocomplete._rate_limiter_class is RateLimiter
-
-    def test_by_code_number_uses_default_limiter(self):
-        from scrython.cards.cards import ByCodeNumber
-        from scrython.rate_limiter import RateLimiter
-
-        assert ByCodeNumber._rate_limiter_class is RateLimiter

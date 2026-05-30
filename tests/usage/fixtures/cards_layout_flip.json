@@ -1,0 +1,82 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Nezumi+Shortfang+%2F%2F+Stabwhisker+the+Odious",
+    "scryfall_id": "f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c"
+  },
+  "payload": {
+    "object": "card",
+    "id": "f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c",
+    "oracle_id": "c1d2e3f4-a5b6-7890-abcd-ef1234567890",
+    "name": "Nezumi Shortfang // Stabwhisker the Odious",
+    "lang": "en",
+    "released_at": "2005-02-04",
+    "uri": "https://api.scryfall.com/cards/f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c",
+    "scryfall_uri": "https://scryfall.com/card/bok/76/nezumi-shortfang-stabwhisker-the-odious",
+    "layout": "flip",
+    "cmc": 2.0,
+    "type_line": "Creature — Rat Rogue // Legendary Creature — Rat Shaman",
+    "color_identity": ["B"],
+    "keywords": [],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Nezumi Shortfang",
+        "mana_cost": "{1}{B}",
+        "type_line": "Creature — Rat Rogue",
+        "oracle_text": "{1}{B}, {T}: Target opponent discards a card. Then if that player has no cards in hand, flip Nezumi Shortfang.",
+        "colors": ["B"],
+        "power": "1",
+        "toughness": "1",
+        "artist": "Daren Bader"
+      },
+      {
+        "object": "card_face",
+        "name": "Stabwhisker the Odious",
+        "mana_cost": "",
+        "type_line": "Legendary Creature — Rat Shaman",
+        "oracle_text": "At the beginning of each opponent's upkeep, that player loses 1 life for each card fewer than three in their hand.",
+        "colors": ["B"],
+        "power": "3",
+        "toughness": "3",
+        "artist": "Daren Bader"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "bok",
+    "set_name": "Betrayers of Kamigawa",
+    "set_type": "expansion",
+    "collector_number": "76",
+    "digital": false,
+    "rarity": "rare",
+    "border_color": "black",
+    "frame": "2003",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

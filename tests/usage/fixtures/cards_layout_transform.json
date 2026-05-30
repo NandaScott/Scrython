@@ -1,0 +1,90 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Delver+of+Secrets+%2F%2F+Insectile+Aberration",
+    "scryfall_id": "11b86b4d-3523-4f96-a49a-35f22e7a8cdb"
+  },
+  "payload": {
+    "object": "card",
+    "id": "11b86b4d-3523-4f96-a49a-35f22e7a8cdb",
+    "oracle_id": "965f67b1-c906-4ff4-9f17-b4f08f7f46af",
+    "name": "Delver of Secrets // Insectile Aberration",
+    "lang": "en",
+    "released_at": "2011-09-30",
+    "uri": "https://api.scryfall.com/cards/11b86b4d-3523-4f96-a49a-35f22e7a8cdb",
+    "scryfall_uri": "https://scryfall.com/card/isd/51/delver-of-secrets-insectile-aberration",
+    "layout": "transform",
+    "cmc": 1.0,
+    "type_line": "Creature — Human Wizard // Creature — Human Insect",
+    "color_identity": ["U"],
+    "keywords": ["Transform"],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Delver of Secrets",
+        "mana_cost": "{U}",
+        "type_line": "Creature — Human Wizard",
+        "oracle_text": "At the beginning of your upkeep, look at the top card of your library. You may reveal that card. If an instant or sorcery card is revealed this way, transform Delver of Secrets.",
+        "colors": ["U"],
+        "power": "1",
+        "toughness": "1",
+        "artist": "Nils Hamm",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/1/1/11b86b4d-3523-4f96-a49a-35f22e7a8cdb.jpg",
+          "normal": "https://cards.scryfall.io/normal/front/1/1/11b86b4d-3523-4f96-a49a-35f22e7a8cdb.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Insectile Aberration",
+        "mana_cost": "",
+        "type_line": "Creature — Human Insect",
+        "oracle_text": "Flying",
+        "colors": ["U"],
+        "power": "3",
+        "toughness": "2",
+        "artist": "Nils Hamm",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/back/1/1/11b86b4d-3523-4f96-a49a-35f22e7a8cdb.jpg",
+          "normal": "https://cards.scryfall.io/normal/back/1/1/11b86b4d-3523-4f96-a49a-35f22e7a8cdb.jpg"
+        }
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "isd",
+    "set_name": "Innistrad",
+    "set_type": "expansion",
+    "collector_number": "51",
+    "digital": false,
+    "rarity": "common",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

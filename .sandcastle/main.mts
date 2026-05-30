@@ -1,48 +1,310 @@
 import { run, claudeCode } from "@ai-hero/sandcastle";
 import { docker } from "@ai-hero/sandcastle/sandboxes/docker";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-// Simple loop: an agent that picks open issues one by one and closes them.
-// Run this with: npx tsx .sandcastle/main.mts
-// Or add to package.json scripts: "sandcastle": "npx tsx .sandcastle/main.mts"
+// Host orchestrator for Scrython. Works open issues labeled `ready-for-agent`,
+// one sandboxed agent per issue, fanned out in parallel. Each agent commits
+// only; the host pushes, opens a PR, and relabels the issue to `needs-review`.
+//
+// Unlike a plain fan-out, this respects the `## Blocked by` section in an issue
+// body: an issue is only dispatched once every blocker it names is cleared.
+// Scrython's connector series (#170 -> #171 -> #172/#173) relies on this so a
+// later slice never branches off a base that lacks the earlier slice's work.
 
-await run({
-  // A name for this run, shown as a prefix in log output.
-  name: "worker",
+const REPO = "NandaScott/Scrython";
+const AGENT_LABEL = "ready-for-agent";
+const DONE_LABEL = "needs-review";
+const IMAGE_NAME = "sandcastle:scrython";
+const MODEL = "claude-sonnet-4-6";
+const DEFAULT_BASE = "develop";
+const DRY_RUN = process.env.DRY_RUN === "1";
+const ONLY_ISSUE = process.env.ONLY_ISSUE ? Number(process.env.ONLY_ISSUE) : null;
 
-  // Sandbox provider — runs the agent inside an isolated container.
-  sandbox: docker(),
+const promptFile = fileURLToPath(new URL("./prompt.md", import.meta.url));
 
-  // The agent provider. Pass a model string to claudeCode() — sonnet balances
-  // capability and speed for most tasks. Switch to claude-opus-4-7 for harder
-  // problems, or claude-haiku-4-5-20251001 for speed.
-  agent: claudeCode("claude-sonnet-4-6"),
+interface Milestone {
+  readonly title: string;
+}
 
-  // Path to the prompt file. Shell expressions inside are evaluated inside the
-  // sandbox at the start of each iteration, so the agent always sees fresh data.
-  promptFile: "./.sandcastle/prompt.md",
+interface Issue {
+  readonly number: number;
+  readonly title: string;
+  readonly body: string;
+  readonly milestone: Milestone | null;
+}
 
-  // Maximum number of iterations (agent invocations) to run in a session.
-  // Each iteration works on a single issue. Increase this to process more issues
-  // per run, or set it to 1 for a single-shot mode.
-  maxIterations: 3,
+interface Plan {
+  readonly issue: Issue;
+  readonly target: string;
+}
 
-  // Branch strategy — merge-to-head creates a temporary branch for the agent
-  // to work on, then merges the result back to HEAD when the run completes.
-  // This is required when using copyToWorktree, since head mode bind-mounts
-  // the host directory directly (no worktree to copy into).
-  branchStrategy: { type: "merge-to-head" },
+interface Outcome {
+  readonly number: number;
+  readonly target: string;
+  readonly status: string;
+  readonly detail: string;
+}
 
-  // No host-to-worktree copy: this is a Python project and the host .venv holds
-  // macOS binaries that won't run in the Linux sandbox. Dependencies are installed
-  // fresh inside the container by the onSandboxReady hook instead.
+function git(...args: string[]): string {
+  return execFileSync("git", args, { encoding: "utf8" }).trim();
+}
 
-  // Lifecycle hooks — commands grouped by where they run (host or sandbox).
-  hooks: {
-    sandbox: {
-      // onSandboxReady runs once after the sandbox is initialised and the repo is
-      // synced in, before the agent starts. Installs Scrython plus its dev tools
-      // (ruff, mypy, pytest) so the agent can verify its own changes.
-      onSandboxReady: [{ command: "pip install -e \".[dev]\"" }],
+function gh(...args: string[]): string {
+  return execFileSync("gh", args, { encoding: "utf8" }).trim();
+}
+
+function errorMessage(value: unknown): string {
+  return value instanceof Error ? value.message : String(value);
+}
+
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function targetBranchFor(issue: Issue): string {
+  if (!issue.milestone) {
+    return DEFAULT_BASE;
+  }
+  return `prd/${slugify(issue.milestone.title)}`;
+}
+
+// Pull the issue numbers out of the `## Blocked by` section only, so a `## Parent`
+// reference (or any other `#N` in the body) is never mistaken for a blocker.
+function parseBlockers(body: string): number[] {
+  const section = body.match(/##\s*Blocked by\s*([\s\S]*?)(?:\n#{1,6}\s|$)/i);
+  if (!section) {
+    return [];
+  }
+  const numbers = [...section[1].matchAll(/#(\d+)/g)].map((match) => Number(match[1]));
+  return [...new Set(numbers)];
+}
+
+const issueStateCache = new Map<number, string>();
+
+function issueState(issueNumber: number): string {
+  const cached = issueStateCache.get(issueNumber);
+  if (cached) {
+    return cached;
+  }
+  const state = JSON.parse(
+    gh("issue", "view", String(issueNumber), "--repo", REPO, "--json", "state"),
+  ).state as string;
+  issueStateCache.set(issueNumber, state);
+  return state;
+}
+
+// A blocker is cleared when its issue is closed, or when the target base branch
+// already contains a commit that references it (e.g. `... (#170)`). The commit
+// check is what makes PRD-branch flows work: merging a slice's PR into a
+// `prd/<slug>` branch does not close the issue (auto-close only fires on the
+// default branch), but it does land a `(#N)` commit on the target.
+function blockerCleared(blocker: number, target: string): boolean {
+  if (issueState(blocker) === "CLOSED") {
+    return true;
+  }
+  try {
+    const log = execFileSync(
+      "git",
+      ["log", `origin/${target}`, `--grep=(#${blocker})`, "--oneline"],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    );
+    return log.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function pendingBlockers(issue: Issue, target: string): number[] {
+  return parseBlockers(issue.body).filter((blocker) => !blockerCleared(blocker, target));
+}
+
+function remoteBranchExists(branch: string): boolean {
+  const out = execFileSync("git", ["ls-remote", "--heads", "origin", branch], {
+    encoding: "utf8",
+  });
+  return out.trim().length > 0;
+}
+
+function ensurePrdBranch(branch: string): void {
+  if (remoteBranchExists(branch)) {
+    console.log(`PRD branch exists: ${branch}`);
+    return;
+  }
+  if (DRY_RUN) {
+    console.log(`[dry-run] would create PRD branch ${branch} from origin/${DEFAULT_BASE}`);
+    return;
+  }
+  console.log(`Creating PRD branch ${branch} from origin/${DEFAULT_BASE}`);
+  git("push", "origin", `origin/${DEFAULT_BASE}:refs/heads/${branch}`);
+  git("fetch", "origin", `${branch}:${branch}`);
+}
+
+async function runIssue(plan: Plan) {
+  const branch = `sandcastle/issue-${plan.issue.number}`;
+  const result = await run({
+    agent: claudeCode(MODEL),
+    sandbox: docker({ imageName: IMAGE_NAME }),
+    branchStrategy: { type: "branch", branch, baseBranch: plan.target },
+    promptFile,
+    promptArgs: {
+      ISSUE_NUMBER: String(plan.issue.number),
+      ISSUE_TITLE: plan.issue.title,
+      ISSUE_BODY: plan.issue.body ?? "",
+      BASE_BRANCH: plan.target,
     },
-  },
+    name: `issue-${plan.issue.number}`,
+  });
+  return { plan, branch, result };
+}
+
+function openPullRequest(plan: Plan, branch: string, commitCount: number): Outcome {
+  try {
+    git("push", "origin", branch);
+    const prUrl = gh(
+      "pr",
+      "create",
+      "--repo",
+      REPO,
+      "--base",
+      plan.target,
+      "--head",
+      branch,
+      "--title",
+      plan.issue.title,
+      "--body",
+      `Closes #${plan.issue.number}\n\nOpened by Sandcastle. ${commitCount} commit(s) on \`${branch}\`.`,
+    );
+    gh(
+      "issue",
+      "edit",
+      String(plan.issue.number),
+      "--repo",
+      REPO,
+      "--remove-label",
+      AGENT_LABEL,
+      "--add-label",
+      DONE_LABEL,
+    );
+    return { number: plan.issue.number, target: plan.target, status: "PR opened", detail: prUrl };
+  } catch (err) {
+    return {
+      number: plan.issue.number,
+      target: plan.target,
+      status: "post-run failed",
+      detail: errorMessage(err),
+    };
+  }
+}
+
+function printSummary(outcomes: readonly Outcome[]): void {
+  console.log("\n=== Sandcastle run summary ===");
+  for (const outcome of outcomes) {
+    console.log(`#${outcome.number}  ${outcome.target}  ${outcome.status}  ${outcome.detail}`);
+  }
+}
+
+const allIssues: Issue[] = JSON.parse(
+  gh(
+    "issue",
+    "list",
+    "--repo",
+    REPO,
+    "--label",
+    AGENT_LABEL,
+    "--state",
+    "open",
+    "--json",
+    "number,title,body,milestone",
+  ),
+);
+
+const issues = ONLY_ISSUE ? allIssues.filter((i) => i.number === ONLY_ISSUE) : allIssues;
+
+if (ONLY_ISSUE && issues.length === 0) {
+  console.log(`Issue #${ONLY_ISSUE} is not open with label ${AGENT_LABEL}. Nothing to do.`);
+  process.exit(1);
+}
+
+if (issues.length === 0) {
+  console.log(`No open issues labeled ${AGENT_LABEL}. Nothing to do.`);
+  process.exit(0);
+}
+
+if (ONLY_ISSUE) {
+  console.log(`ONLY_ISSUE=${ONLY_ISSUE} — restricting this run to issue #${ONLY_ISSUE}.`);
+}
+
+git("fetch", "origin");
+
+// Ensure every PRD branch exists before resolving blockers, since a blocker can
+// be cleared by a `(#N)` commit already merged onto that branch.
+const targets = new Map(issues.map((issue) => [issue.number, targetBranchFor(issue)]));
+const prdBranches = [...new Set(targets.values())].filter((b) => b !== DEFAULT_BASE);
+for (const branch of prdBranches) {
+  ensurePrdBranch(branch);
+}
+if (prdBranches.length > 0 && !DRY_RUN) {
+  git("fetch", "origin");
+}
+
+const plans: Plan[] = [];
+const skipped: Outcome[] = [];
+for (const issue of issues) {
+  const target = targets.get(issue.number)!;
+  const pending = pendingBlockers(issue, target);
+  if (pending.length > 0) {
+    skipped.push({
+      number: issue.number,
+      target,
+      status: "blocked",
+      detail: `waiting on ${pending.map((n) => `#${n}`).join(", ")}`,
+    });
+    continue;
+  }
+  plans.push({ issue, target });
+}
+
+if (DRY_RUN) {
+  console.log("\n[dry-run] dispatch plan:");
+  for (const plan of plans) {
+    console.log(`  #${plan.issue.number} "${plan.issue.title}" -> ${plan.target}`);
+  }
+  printSummary(skipped);
+  process.exit(0);
+}
+
+if (plans.length === 0) {
+  console.log("\nEvery ready-for-agent issue is blocked. Nothing to dispatch this run.");
+  printSummary(skipped);
+  process.exit(0);
+}
+
+const settled = await Promise.allSettled(plans.map(runIssue));
+
+const dispatched: Outcome[] = settled.map((entry, index) => {
+  const plan = plans[index]!;
+  if (entry.status === "rejected") {
+    return {
+      number: plan.issue.number,
+      target: plan.target,
+      status: "failed",
+      detail: errorMessage(entry.reason),
+    };
+  }
+  const { branch, result } = entry.value;
+  if (result.commits.length === 0) {
+    return {
+      number: plan.issue.number,
+      target: plan.target,
+      status: "skipped",
+      detail: "agent produced no commits",
+    };
+  }
+  return openPullRequest(plan, branch, result.commits.length);
 });
+
+printSummary([...dispatched, ...skipped]);

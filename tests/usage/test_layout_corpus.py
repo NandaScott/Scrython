@@ -72,8 +72,10 @@ def test_layout_meld(stub_response, load_fixture):
 
 
 def test_layout_token(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_token"))
-    card = scrython.cards.Named(exact="Zombie")
+    # Tokens cannot be fetched by name, so construct by id the way the fixture
+    # was captured (and the way a user would actually retrieve a token).
+    stub_response("cards/id", load_fixture("cards_layout_token"))
+    card = scrython.cards.ById(id="6adb8607-1066-451d-a719-74ad32358278")
     assert card.name == "Zombie"
     assert card.layout == "token"
 

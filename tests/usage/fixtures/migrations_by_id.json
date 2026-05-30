@@ -1,0 +1,17 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "migrations/id",
+    "source_url": "https://api.scryfall.com/migrations/12345678-1234-1234-1234-123456789012"
+  },
+  "payload": {
+    "object": "migration",
+    "id": "12345678-1234-1234-1234-123456789012",
+    "uri": "https://api.scryfall.com/migrations/12345678-1234-1234-1234-123456789012",
+    "performed_at": "2024-01-15T10:30:00.000Z",
+    "migration_strategy": "merge",
+    "old_scryfall_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "new_scryfall_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "note": "Duplicate card merged into canonical version"
+  }
+}

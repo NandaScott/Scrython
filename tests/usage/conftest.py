@@ -99,9 +99,7 @@ def stub_response():
 
         requested = _resource(urlsplit(request.full_url).path)
         matches = [
-            payload
-            for endpoint, payload in registry.items()
-            if _resource(endpoint) == requested
+            payload for endpoint, payload in registry.items() if _resource(endpoint) == requested
         ]
 
         if len(matches) == 1:
@@ -123,6 +121,8 @@ def stub_response():
     # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
     # patch covers every tier. (Patching the scrython.base.RateLimiter name does
     # not work: _rate_limiter_class captures the class object at import time.)
-    with patch.object(RateLimiter, "wait", lambda self: None):
-        with patch("scrython.base.urlopen", side_effect=_urlopen):
-            yield _register
+    with (
+        patch.object(RateLimiter, "wait", lambda *_: None),
+        patch("scrython.base.urlopen", side_effect=_urlopen),
+    ):
+        yield _register

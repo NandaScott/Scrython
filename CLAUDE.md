@@ -40,10 +40,10 @@ The library uses a **base request handler** (`ScrythonRequestHandler`) combined 
    - `CoreFieldsMixin`, `GameplayFieldsMixin`, `PrintFieldsMixin`: Card-specific data accessors
    - Mixins provide `@property` accessors to `scryfall_data` dictionary
 
-3. **Smart Factory Classes**: `Cards`, `Sets`, `BulkData`
+3. **Factory Classes (routing endpoints)**: `Catalogs`, `Migrations`, `Rulings`, `Symbology`
    - Use `__new__()` to dynamically instantiate the correct endpoint class based on kwargs
-   - Example: `Cards(fuzzy="Lightning")` returns `CardsNamed`, while `Cards(search="bolt")` returns `CardsSearch`
-   - This provides a single entry point with intelligent routing based on parameters
+   - Example: `scrython.catalogs.Catalogs(catalog_type="creature-types")` routes to the matching catalog class
+   - **`cards`, `sets`, and `bulk_data` have no factory** — callers use the endpoint classes directly: `scrython.cards.Named(fuzzy=...)`, `scrython.sets.ByCode(code=...)`, `scrython.bulk_data.ByType(type=...)`
 
 ### Module Structure
 
@@ -55,26 +55,25 @@ scrython/
 ├── cache.py             # Request caching with TTL
 ├── utils.py             # Utility functions (e.g., to_object_array)
 ├── cards/
-│   ├── cards.py         # Card endpoint classes + Cards factory
+│   ├── cards.py         # Card endpoint classes (Named, Search, ById, …); no factory
 │   └── cards_mixins.py  # Card data accessors (CoreFieldsMixin, etc.)
 ├── sets/
-│   ├── sets.py          # Set endpoint classes + Sets factory
+│   ├── sets.py          # Set endpoint classes (All, ByCode, ById, …); no factory
 │   └── sets_mixins.py   # Set data accessors
 └── bulk_data/
-    ├── bulk_data.py     # Bulk data endpoint classes + BulkData factory
+    ├── bulk_data.py     # Bulk data endpoint classes (All, ById, ByType); no factory
     └── bulk_data_mixins.py  # Bulk data accessors
 ```
 
 ### How Requests Work
 
-1. User calls factory: `card = scrython.Cards(fuzzy="Black Lotus")`
-2. Factory's `__new__()` selects appropriate class: `CardsNamed`
-3. Class inherits from `ScrythonRequestHandler` + relevant mixins
-4. `ScrythonRequestHandler.__init__()` runs:
+1. User instantiates an endpoint class directly: `card = scrython.cards.Named(fuzzy="Black Lotus")`. (For `catalogs`/`migrations`/`rulings`/`symbology`, a factory class routes via `__new__` to the right endpoint first.)
+2. Class inherits from `ScrythonRequestHandler` + relevant mixins
+3. `ScrythonRequestHandler.__init__()` runs:
    - `_build_path()` resolves endpoint template (e.g., `/cards/named`)
    - `_build_params()` adds query params (e.g., `?fuzzy=Black+Lotus`)
    - `_fetch()` makes HTTP request, parses JSON into `scryfall_data`
-5. Mixin properties provide data access: `card.name` → `scryfall_data['name']`
+4. Mixin properties provide data access: `card.name` → `scryfall_data['name']`
 
 ### Error Handling
 
@@ -104,7 +103,7 @@ From Contributing.md:
 1. Add endpoint class in appropriate module (e.g., `scrython/cards/cards.py`)
 2. Set `_endpoint` class variable with path template (use `:param` for path params)
 3. Inherit from `ScrythonRequestHandler` + appropriate mixins
-4. Update factory class's `__new__()` method to route to your endpoint
+4. If the module has a factory class (`catalogs`/`migrations`/`rulings`/`symbology`), update its `__new__()` to route to your endpoint; `cards`/`sets`/`bulk_data` have no factory to update
 5. Add new properties to mixin files if Scryfall returns new fields
 
 ## Agent skills

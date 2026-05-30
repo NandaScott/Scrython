@@ -31,6 +31,9 @@ classifiers = [
 Homepage = "https://github.com/NandaScott/Scrython"
 Repository = "https://github.com/NandaScott/Scrython"
 
+[tool.setuptools.packages.find]
+include = ["scrython*"]
+
 [tool.setuptools.package-data]
 scrython = ["py.typed"]
 

@@ -16,7 +16,28 @@ def load_fixture():
     def _load(key: str) -> dict:
         full_path = FIXTURES_DIR / f"{key}.json"
         with open(full_path) as f:
-            return json.load(f)
+            data = json.load(f)
+
+        provenance = data.get("_provenance")
+        if not isinstance(provenance, dict):
+            raise ValueError(
+                f"Fixture '{key}' is missing a '_provenance' header. "
+                "Re-run scripts/capture_fixtures.py to refresh it."
+            )
+        required_fields = {"captured_at", "endpoint", "source_url"}
+        missing = required_fields - provenance.keys()
+        if missing:
+            raise ValueError(
+                f"Fixture '{key}' provenance is missing required fields: {sorted(missing)}."
+            )
+
+        payload = data.get("payload")
+        if not isinstance(payload, dict):
+            raise ValueError(
+                f"Fixture '{key}' is missing a 'payload' field. "
+                "Re-run scripts/capture_fixtures.py to refresh it."
+            )
+        return payload
 
     return _load
 

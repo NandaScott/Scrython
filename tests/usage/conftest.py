@@ -53,9 +53,9 @@ def stub_response():
 
     Usage:
         def test_something(stub_response, load_fixture):
-            stub_response("sets/code", load_fixture("sets_by_code_lea"))
-            set_obj = scrython.sets.ByCode(code="lea")
-            assert set_obj.name == "Limited Edition Alpha"
+            stub_response("cards/named", load_fixture("cards_named_black_lotus"))
+            card = scrython.cards.Named(exact="Black Lotus")
+            assert card.name == "Black Lotus"
     """
     registry: dict = {}
 

@@ -1,0 +1,20 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/id/rulings",
+    "source_url": "https://api.scryfall.com/cards/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd/rulings"
+  },
+  "payload": {
+    "object": "list",
+    "has_more": false,
+    "data": [
+      {
+        "object": "ruling",
+        "oracle_id": "712c1097-7fb3-4b76-8e5c-63b6b4f0b6f4",
+        "source": "wotc",
+        "published_at": "1993-10-04",
+        "comment": "This card is restricted in Vintage and banned in Legacy, Commander, and all other formats."
+      }
+    ]
+  }
+}

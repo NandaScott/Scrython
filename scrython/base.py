@@ -6,7 +6,9 @@ from typing import Any
 from .cache import generate_cache_key, get_global_cache
 from .connector import Connector, get_connector
 
-_HANDLER_KWARGS: frozenset[str] = frozenset({"rate_limit", "cache", "cache_ttl", "data", "connector"})
+_HANDLER_KWARGS: frozenset[str] = frozenset(
+    {"rate_limit", "cache", "cache_ttl", "data", "connector"}
+)
 
 
 class ScryfallError(Exception):

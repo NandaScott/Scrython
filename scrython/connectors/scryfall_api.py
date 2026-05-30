@@ -23,7 +23,9 @@ class ScryfallConnector(Connector):
     _BASE_URL: str = "https://api.scryfall.com"
 
     def __init__(self, rate_limiter: RateLimiter | None = None) -> None:
-        self._rate_limiter = rate_limiter if rate_limiter is not None else RateLimiter.get_global_limiter()
+        self._rate_limiter = (
+            rate_limiter if rate_limiter is not None else RateLimiter.get_global_limiter()
+        )
 
     @classmethod
     def set_user_agent(cls, user_agent: str) -> None:

@@ -26,11 +26,15 @@ Implement issue #{{ISSUE_NUMBER}} on this branch:
    references one, and read the relevant source and tests before writing code.
 2. Make the change, following `CLAUDE.md` and `Contributing.md`. Keep it as
    small as the issue allows.
-3. Run the gates and make them pass:
-   - `ruff check .`
+3. Run the gates and make them pass. These mirror CI (`.github/workflows/tests.yml`);
+   CI runs all of them on every push, so the PR is red until they pass:
+   - `black scrython tests` to format, then confirm `black --check scrython tests` is clean
+   - `ruff check scrython tests`
    - `mypy scrython`
    - `pytest -m "not integration"`
-   (Integration tests need network access and are skipped in the sandbox.)
+   Run them in this order — CI checks formatting first, so a stray unformatted line
+   fails the whole run before the tests even execute. Integration tests need network
+   access and are skipped here; CI runs the full `pytest` suite.
 4. Commit your work with a clear message that references the issue, ending the
    subject with `(#{{ISSUE_NUMBER}})`. Commit only — do not push.
 

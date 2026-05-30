@@ -1,17 +1,26 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "captured_at": "2026-05-30T19:11:56.240216+00:00",
     "endpoint": "migrations/id",
-    "source_url": "https://api.scryfall.com/migrations/12345678-1234-1234-1234-123456789012"
+    "source_url": "https://api.scryfall.com/migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
+    "scryfall_id": "f75b2d8b-c73b-4352-91f7-3b9239bd3c9f"
   },
   "payload": {
     "object": "migration",
-    "id": "12345678-1234-1234-1234-123456789012",
-    "uri": "https://api.scryfall.com/migrations/12345678-1234-1234-1234-123456789012",
-    "performed_at": "2024-01-15T10:30:00.000Z",
+    "id": "f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
+    "uri": "https://api.scryfall.com/migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
+    "performed_at": "2026-05-07",
     "migration_strategy": "merge",
-    "old_scryfall_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-    "new_scryfall_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-    "note": "Duplicate card merged into canonical version"
+    "old_scryfall_id": "c765c1a3-5bc3-46ff-9818-842815c52984",
+    "new_scryfall_id": "f064a5ff-7139-45e3-9012-cf666e4984c4",
+    "note": "Double entry",
+    "metadata": {
+      "id": "c765c1a3-5bc3-46ff-9818-842815c52984",
+      "lang": "en",
+      "name": "Wisdom of Ages",
+      "set_code": "psos",
+      "oracle_id": "d9722ec3-aa5e-4c69-8ff0-cef1b1839fa4",
+      "collector_number": "368p"
+    }
   }
 }

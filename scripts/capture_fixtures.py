@@ -28,90 +28,122 @@ REQUEST_DELAY = 0.11  # seconds between requests (≈9 req/s, under the 10/s lim
 USER_AGENT = "Scrython/dev fixture-capture (https://github.com/NandaScott/Scrython)"
 
 # Declared map: fixture key → Scryfall request specification.
-# One entry per card layout so every structurally-distinct card shape is covered.
-# To pin a different card for a layout, change the params dict here and re-run.
 #
-# layout       card                                         source endpoint
-# ----------   ------------------------------------------   ---------------
-# normal       Black Lotus (LEA)                            cards/named
-# transform    Delver of Secrets // Insectile Aberration    cards/named
-# modal_dfc    Emeria's Call // Emeria, Shattered Skyclave  cards/named
-# split        Fire // Ice (APC)                            cards/named
-# adventure    Bonecrusher Giant // Stomp (ELD)             cards/named
-# saga         The Binding of the Old Gods (KHM)            cards/named
-# meld         Gisela, the Broken Blade (EMN)               cards/named
-# flip         Nezumi Shortfang // Stabwhisker the Odious   cards/named
-# leveler      Transcendent Master (ROE)                    cards/named
-# class        Fighter Class (AFR)                          cards/named
-# token        Zombie token (Innistrad: Midnight Hunt)      cards/id (tokens need ID)
+# Each spec describes how to capture one fixture:
+#   endpoint  logical endpoint label, written verbatim to provenance.endpoint
+#   path      actual API path with params already substituted (e.g. "sets/lea");
+#             omit for specs whose path is resolved at capture time (see dynamic)
+#   query     optional query-string parameters
+#   dynamic   optional resolver name for paths that depend on live data
+#             ("migration": pin the first id returned by the /migrations list)
+#
+# Card layouts (one entry per structurally-distinct card shape):
+#   normal Black Lotus · transform Delver of Secrets · modal_dfc Emeria's Call ·
+#   split Fire // Ice · adventure Bonecrusher Giant · saga Binding of the Old Gods ·
+#   meld Gisela · flip Nezumi Shortfang · leveler Transcendent Master ·
+#   class Fighter Class · token Midnight Hunt Zombie (pinned by id; tokens
+#   cannot be found by name alone).
 FIXTURE_MAP: dict[str, dict] = {
     "cards_named_black_lotus": {
         "endpoint": "cards/named",
-        "params": {"exact": "Black Lotus"},
+        "path": "cards/named",
+        "query": {"exact": "Black Lotus"},
     },
     "cards_layout_transform": {
         "endpoint": "cards/named",
-        "params": {
-            "exact": "Delver of Secrets // Insectile Aberration",
-            "set": "isd",
-        },
+        "path": "cards/named",
+        "query": {"exact": "Delver of Secrets // Insectile Aberration", "set": "isd"},
     },
     "cards_layout_modal_dfc": {
         "endpoint": "cards/named",
-        "params": {
-            "exact": "Emeria's Call // Emeria, Shattered Skyclave",
-            "set": "znr",
-        },
+        "path": "cards/named",
+        "query": {"exact": "Emeria's Call // Emeria, Shattered Skyclave", "set": "znr"},
     },
     "cards_layout_split": {
         "endpoint": "cards/named",
-        "params": {"exact": "Fire // Ice", "set": "apc"},
+        "path": "cards/named",
+        "query": {"exact": "Fire // Ice", "set": "apc"},
     },
     "cards_layout_adventure": {
         "endpoint": "cards/named",
-        "params": {"exact": "Bonecrusher Giant // Stomp", "set": "eld"},
+        "path": "cards/named",
+        "query": {"exact": "Bonecrusher Giant // Stomp", "set": "eld"},
     },
     "cards_layout_saga": {
         "endpoint": "cards/named",
-        "params": {"exact": "The Binding of the Old Gods", "set": "khm"},
+        "path": "cards/named",
+        "query": {"exact": "Binding the Old Gods", "set": "khm"},
     },
     "cards_layout_meld": {
         "endpoint": "cards/named",
-        "params": {"exact": "Gisela, the Broken Blade", "set": "emn"},
+        "path": "cards/named",
+        "query": {"exact": "Gisela, the Broken Blade", "set": "emn"},
     },
     "cards_layout_flip": {
         "endpoint": "cards/named",
-        "params": {
-            "exact": "Nezumi Shortfang // Stabwhisker the Odious",
-            "set": "bok",
-        },
+        "path": "cards/named",
+        "query": {"exact": "Nezumi Shortfang // Stabwhisker the Odious", "set": "chk"},
     },
     "cards_layout_leveler": {
         "endpoint": "cards/named",
-        "params": {"exact": "Transcendent Master", "set": "roe"},
+        "path": "cards/named",
+        "query": {"exact": "Transcendent Master", "set": "roe"},
     },
     "cards_layout_class": {
         "endpoint": "cards/named",
-        "params": {"exact": "Fighter Class", "set": "afr"},
+        "path": "cards/named",
+        "query": {"exact": "Fighter Class", "set": "afr"},
     },
-    # Tokens cannot be found by name alone; pin by Scryfall ID instead.
-    # The ID below is the 2/2 Black Zombie token from Innistrad: Midnight Hunt.
+    # The id below is the Zombie token from Innistrad: Midnight Hunt (tmid).
     "cards_layout_token": {
         "endpoint": "cards/id",
-        "params": {"id": "a0f08f4f-49a7-4cd9-af67-b4d79b07ad3b"},
+        "path": "cards/6adb8607-1066-451d-a719-74ad32358278",
+        "query": {},
+    },
+    "sets_by_code_lea": {
+        "endpoint": "sets/code",
+        "path": "sets/lea",
+        "query": {},
+    },
+    # Oracle Cards bulk-data object; its id is stable across Scryfall refreshes.
+    "bulk_data_by_id": {
+        "endpoint": "bulk-data/id",
+        "path": "bulk-data/27bf3214-1271-490b-bdfe-c0be6c23d02e",
+        "query": {},
+    },
+    "catalogs_creature_types": {
+        "endpoint": "catalog/creature-types",
+        "path": "catalog/creature-types",
+        "query": {},
+    },
+    # Rulings for Tarmogoyf, a stable card that carries several rulings.
+    "rulings_by_id": {
+        "endpoint": "cards/id/rulings",
+        "path": "cards/69daba76-96e8-4bcc-ab79-2f00189ad8fb/rulings",
+        "query": {},
+    },
+    "symbology_all": {
+        "endpoint": "symbology",
+        "path": "symbology",
+        "query": {},
+    },
+    # No migration id is stable, so resolve one from the live /migrations list.
+    "migrations_by_id": {
+        "endpoint": "migrations/id",
+        "dynamic": "migration",
     },
 }
 
 
-def _fetch(endpoint: str, params: dict) -> dict:
-    """Fetch a single card from Scryfall and return the parsed JSON body."""
-    if endpoint == "cards/id":
-        card_id = params["id"]
-        url = f"{BASE_URL}/cards/{card_id}"
-    else:
-        query = urllib.parse.urlencode(params)
-        url = f"{BASE_URL}/{endpoint}?{query}"
+def _source_url(path: str, query: dict) -> str:
+    """Return the full URL for a path + query, matching what gets requested."""
+    if query:
+        return f"{BASE_URL}/{path}?{urllib.parse.urlencode(query)}"
+    return f"{BASE_URL}/{path}"
 
+
+def _fetch(url: str) -> dict:
+    """GET a Scryfall URL and return the parsed JSON body."""
     request = urllib.request.Request(url)
     request.add_header("User-Agent", USER_AGENT)
     request.add_header("Accept", "application/json")
@@ -128,19 +160,31 @@ def _fetch(endpoint: str, params: dict) -> dict:
         raise RuntimeError(f"HTTP {exc.code} from {url}: {error_body}") from exc
 
 
-def _build_source_url(endpoint: str, params: dict) -> str:
-    """Return the URL that was used to capture this fixture."""
-    if endpoint == "cards/id":
-        return f"{BASE_URL}/cards/{params['id']}"
-    query = urllib.parse.urlencode(params)
-    return f"{BASE_URL}/{endpoint}?{query}"
+def _resolve_dynamic_path(kind: str) -> str:
+    """Resolve a capture-time path that depends on live Scryfall data."""
+    if kind != "migration":
+        raise RuntimeError(f"Unknown dynamic resolver: {kind!r}")
+
+    # The set of migrations changes over time; pin whichever one is listed first.
+    listing = _fetch(_source_url("migrations", {}))
+    first = listing["data"][0]
+    return f"migrations/{first['id']}"
 
 
 def capture(key: str, spec: dict) -> None:
     """Fetch one fixture and write it to disk with a fresh provenance header."""
     print(f"  capturing {key} ...", end=" ", flush=True)
 
-    payload = _fetch(spec["endpoint"], spec["params"])
+    if dynamic := spec.get("dynamic"):
+        path = _resolve_dynamic_path(dynamic)
+        query: dict = {}
+        time.sleep(REQUEST_DELAY)  # the resolver already spent one request
+    else:
+        path = spec["path"]
+        query = spec.get("query", {})
+
+    source_url = _source_url(path, query)
+    payload = _fetch(source_url)
 
     if payload.get("object") == "error":
         raise RuntimeError(f"Scryfall returned an error for {key}: {payload}")
@@ -148,7 +192,7 @@ def capture(key: str, spec: dict) -> None:
     provenance: dict = {
         "captured_at": datetime.now(timezone.utc).isoformat(timespec="microseconds"),
         "endpoint": spec["endpoint"],
-        "source_url": _build_source_url(spec["endpoint"], spec["params"]),
+        "source_url": source_url,
     }
     if scryfall_id := payload.get("id"):
         provenance["scryfall_id"] = scryfall_id
@@ -156,7 +200,7 @@ def capture(key: str, spec: dict) -> None:
     fixture = {"_provenance": provenance, "payload": payload}
     out_path = FIXTURES_DIR / f"{key}.json"
     out_path.write_text(json.dumps(fixture, indent=2, ensure_ascii=False) + "\n")
-    print(f"ok ({payload.get('name', '?')})")
+    print(f"ok ({payload.get('name', payload.get('object', '?'))})")
 
 
 def main() -> None:

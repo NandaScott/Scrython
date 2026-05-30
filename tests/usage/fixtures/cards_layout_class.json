@@ -1,62 +1,141 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "captured_at": "2026-05-30T19:11:51.145978+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Fighter+Class",
-    "scryfall_id": "c3d4e5f6-a7b8-9012-cdef-012345678901"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Fighter+Class&set=afr",
+    "scryfall_id": "d54a8329-b940-42c9-8ace-1d74407d14cb"
   },
   "payload": {
     "object": "card",
-    "id": "c3d4e5f6-a7b8-9012-cdef-012345678901",
-    "oracle_id": "d4e5f6a7-b8c9-0123-def0-123456789012",
+    "id": "d54a8329-b940-42c9-8ace-1d74407d14cb",
+    "oracle_id": "8a280ba8-6b7b-46dd-9c2b-6d0027cfff30",
+    "multiverse_ids": [
+      527509
+    ],
+    "mtgo_id": 91946,
+    "arena_id": 77327,
+    "tcgplayer_id": 243336,
+    "cardmarket_id": 571518,
     "name": "Fighter Class",
     "lang": "en",
     "released_at": "2021-07-23",
-    "uri": "https://api.scryfall.com/cards/c3d4e5f6-a7b8-9012-cdef-012345678901",
-    "scryfall_uri": "https://scryfall.com/card/afr/220/fighter-class",
+    "uri": "https://api.scryfall.com/cards/d54a8329-b940-42c9-8ace-1d74407d14cb",
+    "scryfall_uri": "https://scryfall.com/card/afr/222/fighter-class?utm_source=api",
     "layout": "class",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.jpg?1739659911",
+      "normal": "https://cards.scryfall.io/normal/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.jpg?1739659911",
+      "large": "https://cards.scryfall.io/large/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.jpg?1739659911",
+      "png": "https://cards.scryfall.io/png/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.png?1739659911",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.jpg?1739659911",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/d/5/d54a8329-b940-42c9-8ace-1d74407d14cb.jpg?1739659911"
+    },
     "mana_cost": "{R}{W}",
     "cmc": 2.0,
     "type_line": "Enchantment — Class",
-    "oracle_text": "(Gain the next level as a sorcery to add its ability.)\nWhen Fighter Class enters the battlefield, search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{2}{R}{W}: Level 2\nWhenever a creature you control attacks, put a +1/+1 counter on it.\n{4}{R}{W}: Level 3\nCreatures you control have double strike.",
-    "colors": ["R", "W"],
-    "color_identity": ["R", "W"],
+    "oracle_text": "(Gain the next level as a sorcery to add its ability.)\nWhen this Class enters, search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{R}{W}: Level 2\nEquip abilities you activate cost {2} less to activate.\n{3}{R}{W}: Level 3\nWhenever a creature you control attacks, up to one target creature blocks it this combat if able.",
+    "colors": [
+      "R",
+      "W"
+    ],
+    "color_identity": [
+      "R",
+      "W"
+    ],
     "keywords": [],
     "legalities": {
       "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
       "pioneer": "legal",
       "modern": "legal",
       "legacy": "legal",
+      "pauper": "not_legal",
       "vintage": "legal",
-      "commander": "legal"
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
     },
-    "games": ["paper", "mtgo", "arena"],
+    "games": [
+      "arena",
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
-    "finishes": ["nonfoil", "foil"],
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": false,
     "variation": false,
+    "set_id": "e1ef87ba-ba92-4573-817f-543b996d2851",
     "set": "afr",
     "set_name": "Adventures in the Forgotten Realms",
     "set_type": "expansion",
-    "collector_number": "220",
+    "set_uri": "https://api.scryfall.com/sets/e1ef87ba-ba92-4573-817f-543b996d2851",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aafr&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/afr?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/d54a8329-b940-42c9-8ace-1d74407d14cb/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A8a280ba8-6b7b-46dd-9c2b-6d0027cfff30&unique=prints",
+    "collector_number": "222",
     "digital": false,
-    "rarity": "uncommon",
-    "artist": "Justine Cruz",
+    "rarity": "rare",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Volkan Baǵa",
+    "artist_ids": [
+      "93bec3c0-0260-4d31-8064-5d01efb4153f"
+    ],
+    "illustration_id": "aeceb499-d68a-483c-a411-9e79a9c7da46",
     "border_color": "black",
     "frame": "2015",
+    "security_stamp": "oval",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
+    "edhrec_rank": 2278,
+    "penny_rank": 4093,
+    "preview": {
+      "source": "Wizards of the Coast",
+      "source_uri": "https://www.youtube.com/watch?v=AqZQdmEnAsM",
+      "previewed_at": "2021-07-02"
+    },
     "prices": {
-      "usd": null,
-      "usd_foil": null,
-      "eur": null,
-      "tix": null
+      "usd": "6.63",
+      "usd_foil": "9.10",
+      "usd_etched": null,
+      "eur": "7.50",
+      "eur_foil": "8.51",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=527509&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DFighter%2BClass",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DFighter%2BClass",
+      "edhrec": "https://edhrec.com/route/?cc=Fighter+Class"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F243336%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=571518&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/91946?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

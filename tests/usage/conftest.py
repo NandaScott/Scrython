@@ -3,10 +3,18 @@
 import json
 from pathlib import Path
 from unittest.mock import Mock, patch
+from urllib.parse import urlsplit
 
 import pytest
 
+from scrython.rate_limiter import RateLimiter
+
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
+
+
+def _resource(endpoint: str) -> str:
+    """Return the leading path segment that identifies an endpoint's resource."""
+    return endpoint.strip("/").split("/", 1)[0]
 
 
 @pytest.fixture
@@ -51,6 +59,12 @@ def stub_response():
     (urlopen patch + rate-limiter bypass). Post-#169: swap this body to
     MockConnector + use_connector() with no test-body changes required.
 
+    Requests are routed back to the right payload by matching the registered
+    endpoint's resource (its leading path segment) against the resource of the
+    URL actually requested. Registering two endpoints under the same resource
+    (e.g. "cards/named" and "cards/id/rulings") in one test is ambiguous and
+    raises; no current test does this.
+
     Usage:
         def test_something(stub_response, load_fixture):
             stub_response("cards/named", load_fixture("cards_named_black_lotus"))
@@ -77,20 +91,38 @@ def stub_response():
         def __exit__(self, *args) -> None:
             pass
 
-    def _urlopen(request):  # noqa: ARG001
+    def _urlopen(request):
         if not registry:
             raise ValueError(
                 "stub_response: call stub_response(endpoint, payload) before making requests"
             )
-        payload = next(iter(registry.values()))
-        return _MockResponse(payload)
+
+        requested = _resource(urlsplit(request.full_url).path)
+        matches = [
+            payload
+            for endpoint, payload in registry.items()
+            if _resource(endpoint) == requested
+        ]
+
+        if len(matches) == 1:
+            return _MockResponse(matches[0])
+        if not matches:
+            raise ValueError(
+                f"stub_response: no registered endpoint matches requested resource "
+                f"'{requested}' (registered: {sorted(registry)})"
+            )
+        raise ValueError(
+            f"stub_response: multiple registered endpoints match resource "
+            f"'{requested}'; cannot disambiguate (registered: {sorted(registry)})"
+        )
 
     def _register(endpoint: str, payload: dict) -> None:
         registry[endpoint] = payload
 
-    with patch("scrython.base.RateLimiter") as mock_limiter_class:
-        mock_instance = Mock()
-        mock_instance.wait = Mock()
-        mock_limiter_class.get_global_limiter.return_value = mock_instance
+    # Patch the limiter's wait() itself so the bypass holds regardless of which
+    # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
+    # patch covers every tier. (Patching the scrython.base.RateLimiter name does
+    # not work: _rate_limiter_class captures the class object at import time.)
+    with patch.object(RateLimiter, "wait", lambda self: None):
         with patch("scrython.base.urlopen", side_effect=_urlopen):
             yield _register

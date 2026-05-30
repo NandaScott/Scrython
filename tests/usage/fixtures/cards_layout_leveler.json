@@ -1,64 +1,138 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "captured_at": "2026-05-30T19:11:50.907830+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Transcendent+Master",
-    "scryfall_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Transcendent+Master&set=roe",
+    "scryfall_id": "6b007f42-9ec2-466b-8d6b-1d55c516080b"
   },
   "payload": {
     "object": "card",
-    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "oracle_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "id": "6b007f42-9ec2-466b-8d6b-1d55c516080b",
+    "oracle_id": "11332981-f06a-48c7-a7b4-fce68e629e82",
+    "multiverse_ids": [
+      194917
+    ],
+    "mtgo_id": 36674,
+    "mtgo_foil_id": 36675,
+    "tcgplayer_id": 34745,
+    "cardmarket_id": 22443,
     "name": "Transcendent Master",
     "lang": "en",
     "released_at": "2010-04-23",
-    "uri": "https://api.scryfall.com/cards/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "scryfall_uri": "https://scryfall.com/card/roe/45/transcendent-master",
+    "uri": "https://api.scryfall.com/cards/6b007f42-9ec2-466b-8d6b-1d55c516080b",
+    "scryfall_uri": "https://scryfall.com/card/roe/51/transcendent-master?utm_source=api",
     "layout": "leveler",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.jpg?1562704735",
+      "normal": "https://cards.scryfall.io/normal/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.jpg?1562704735",
+      "large": "https://cards.scryfall.io/large/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.jpg?1562704735",
+      "png": "https://cards.scryfall.io/png/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.png?1562704735",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.jpg?1562704735",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/6/b/6b007f42-9ec2-466b-8d6b-1d55c516080b.jpg?1562704735"
+    },
     "mana_cost": "{1}{W}{W}",
     "cmc": 3.0,
-    "type_line": "Creature — Human",
-    "oracle_text": "Level up {1} ({1}: Put a level counter on this. Level up only as a sorcery.)\nLEVEL 6-11\n6/6\nLifelink\nLEVEL 12+\n10/10\nLifelink, protection from everything",
-    "colors": ["W"],
-    "color_identity": ["W"],
+    "type_line": "Creature — Human Cleric Avatar",
+    "oracle_text": "Level up {1} ({1}: Put a level counter on this. Level up only as a sorcery.)\nLEVEL 6-11\n6/6\nLifelink\nLEVEL 12+\n9/9\nLifelink, indestructible",
     "power": "3",
     "toughness": "3",
-    "keywords": ["Level up", "Lifelink", "Protection"],
+    "colors": [
+      "W"
+    ],
+    "color_identity": [
+      "W"
+    ],
+    "keywords": [
+      "Lifelink",
+      "Indestructible",
+      "Level Up"
+    ],
     "legalities": {
       "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
       "pioneer": "not_legal",
       "modern": "legal",
       "legacy": "legal",
+      "pauper": "not_legal",
       "vintage": "legal",
-      "commander": "legal"
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "legal",
+      "tlr": "legal"
     },
-    "games": ["paper", "mtgo"],
+    "games": [
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
-    "finishes": ["nonfoil", "foil"],
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": false,
     "variation": false,
+    "set_id": "eadb8a82-ec56-4623-b50e-42e7e60cb535",
     "set": "roe",
     "set_name": "Rise of the Eldrazi",
     "set_type": "expansion",
-    "collector_number": "45",
+    "set_uri": "https://api.scryfall.com/sets/eadb8a82-ec56-4623-b50e-42e7e60cb535",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aroe&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/roe?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/6b007f42-9ec2-466b-8d6b-1d55c516080b/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A11332981-f06a-48c7-a7b4-fce68e629e82&unique=prints",
+    "collector_number": "51",
     "digital": false,
-    "rarity": "rare",
-    "artist": "Todd Lockwood",
+    "rarity": "mythic",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Steven Belledin",
+    "artist_ids": [
+      "f07d73b9-52a0-4fe5-858b-61f7b42174a5"
+    ],
+    "illustration_id": "f79daa49-227f-4387-8d1e-fbd9e3cc114f",
     "border_color": "black",
     "frame": "2003",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
+    "edhrec_rank": 18377,
+    "penny_rank": 7669,
     "prices": {
-      "usd": null,
-      "usd_foil": null,
-      "eur": null,
-      "tix": null
+      "usd": "1.98",
+      "usd_foil": "14.03",
+      "usd_etched": null,
+      "eur": "1.66",
+      "eur_foil": "4.92",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=194917&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DTranscendent%2BMaster",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DTranscendent%2BMaster",
+      "edhrec": "https://edhrec.com/route/?cc=Transcendent+Master"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F34745%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=22443&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/36674?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

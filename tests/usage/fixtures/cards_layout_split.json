@@ -1,23 +1,48 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "captured_at": "2026-05-30T19:11:49.704180+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Fire+%2F%2F+Ice",
-    "scryfall_id": "5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Fire+%2F%2F+Ice&set=apc",
+    "scryfall_id": "f98f4538-5b5b-475d-b98f-49d01dae6f04"
   },
   "payload": {
     "object": "card",
-    "id": "5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c",
-    "oracle_id": "04b98b74-69ba-45f6-a00d-f23a71f42498",
+    "id": "f98f4538-5b5b-475d-b98f-49d01dae6f04",
+    "oracle_id": "ae92942b-919c-4ea9-b693-85fcef765d5a",
+    "multiverse_ids": [
+      27165,
+      27166
+    ],
+    "mtgo_id": 16338,
+    "tcgplayer_id": 7951,
+    "cardmarket_id": 3240,
     "name": "Fire // Ice",
     "lang": "en",
-    "released_at": "2001-04-11",
-    "uri": "https://api.scryfall.com/cards/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c",
-    "scryfall_uri": "https://scryfall.com/card/apc/128/fire-ice",
+    "released_at": "2001-06-04",
+    "uri": "https://api.scryfall.com/cards/f98f4538-5b5b-475d-b98f-49d01dae6f04",
+    "scryfall_uri": "https://scryfall.com/card/apc/128/fire-ice?utm_source=api",
     "layout": "split",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.jpg?1599477987",
+      "normal": "https://cards.scryfall.io/normal/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.jpg?1599477987",
+      "large": "https://cards.scryfall.io/large/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.jpg?1599477987",
+      "png": "https://cards.scryfall.io/png/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.png?1599477987",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.jpg?1599477987",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/f/9/f98f4538-5b5b-475d-b98f-49d01dae6f04.jpg?1599477987"
+    },
+    "mana_cost": "{1}{R} // {1}{U}",
     "cmc": 4.0,
     "type_line": "Instant // Instant",
-    "color_identity": ["R", "U"],
+    "colors": [
+      "R",
+      "U"
+    ],
+    "color_identity": [
+      "R",
+      "U"
+    ],
     "keywords": [],
     "card_faces": [
       {
@@ -26,8 +51,9 @@
         "mana_cost": "{1}{R}",
         "type_line": "Instant",
         "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets.",
-        "colors": ["R"],
-        "artist": "Franz Vohwinkel"
+        "artist": "David Martin",
+        "artist_id": "996ad764-4ae0-4952-8bb5-5a75c9d68275",
+        "illustration_id": "c890cb20-7e04-4ad0-96a6-8854cd409c14"
       },
       {
         "object": "card_face",
@@ -35,48 +61,95 @@
         "mana_cost": "{1}{U}",
         "type_line": "Instant",
         "oracle_text": "Tap target permanent.\nDraw a card.",
-        "colors": ["U"],
-        "artist": "Franz Vohwinkel"
+        "artist": "Franz Vohwinkel",
+        "artist_id": "3a243c17-3baa-4b53-9599-645311cd7d3d"
       }
     ],
-    "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/5/a/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c.jpg",
-      "normal": "https://cards.scryfall.io/normal/front/5/a/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c.jpg"
-    },
     "legalities": {
       "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
       "pioneer": "not_legal",
       "modern": "legal",
       "legacy": "legal",
+      "pauper": "legal",
       "vintage": "legal",
-      "commander": "legal"
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "legal",
+      "predh": "legal",
+      "tlr": "legal"
     },
-    "games": ["paper", "mtgo"],
+    "games": [
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
-    "finishes": ["nonfoil", "foil"],
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": false,
     "variation": false,
+    "set_id": "e4e00913-d08d-4899-86ea-5cf631e09ce0",
     "set": "apc",
     "set_name": "Apocalypse",
     "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/e4e00913-d08d-4899-86ea-5cf631e09ce0",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aapc&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/apc?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/f98f4538-5b5b-475d-b98f-49d01dae6f04/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aae92942b-919c-4ea9-b693-85fcef765d5a&unique=prints",
     "collector_number": "128",
     "digital": false,
     "rarity": "uncommon",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "David Martin & Franz Vohwinkel",
+    "artist_ids": [
+      "996ad764-4ae0-4952-8bb5-5a75c9d68275",
+      "3a243c17-3baa-4b53-9599-645311cd7d3d"
+    ],
+    "illustration_id": "c890cb20-7e04-4ad0-96a6-8854cd409c14",
     "border_color": "black",
     "frame": "1997",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
+    "edhrec_rank": 12460,
+    "penny_rank": 401,
     "prices": {
-      "usd": null,
-      "usd_foil": null,
-      "eur": null,
-      "tix": null
+      "usd": "2.19",
+      "usd_foil": "55.44",
+      "usd_etched": null,
+      "eur": "1.97",
+      "eur_foil": "54.16",
+      "tix": "3.60"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=27165&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DFire%2B%252F%252F%2BIce",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DFire%2B%252F%252F%2BIce",
+      "edhrec": "https://edhrec.com/route/?cc=Fire+%2F%2F+Ice"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F7951%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=3240&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/16338?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

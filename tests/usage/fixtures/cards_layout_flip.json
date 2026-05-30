@@ -1,23 +1,48 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "captured_at": "2026-05-30T19:11:50.639100+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Nezumi+Shortfang+%2F%2F+Stabwhisker+the+Odious",
-    "scryfall_id": "f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Nezumi+Shortfang+%2F%2F+Stabwhisker+the+Odious&set=chk",
+    "scryfall_id": "c8265c39-d287-4c5a-baba-f2f09dd80a1c"
   },
   "payload": {
     "object": "card",
-    "id": "f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c",
-    "oracle_id": "c1d2e3f4-a5b6-7890-abcd-ef1234567890",
+    "id": "c8265c39-d287-4c5a-baba-f2f09dd80a1c",
+    "oracle_id": "45c8e860-5ce5-4a1c-aebe-97ddffcb2f74",
+    "multiverse_ids": [
+      78679
+    ],
+    "mtgo_id": 21213,
+    "mtgo_foil_id": 21214,
+    "tcgplayer_id": 12111,
+    "cardmarket_id": 12130,
     "name": "Nezumi Shortfang // Stabwhisker the Odious",
     "lang": "en",
-    "released_at": "2005-02-04",
-    "uri": "https://api.scryfall.com/cards/f9a2e5c1-8b4d-4e7a-9c3f-1d2e3f4a5b6c",
-    "scryfall_uri": "https://scryfall.com/card/bok/76/nezumi-shortfang-stabwhisker-the-odious",
+    "released_at": "2004-10-01",
+    "uri": "https://api.scryfall.com/cards/c8265c39-d287-4c5a-baba-f2f09dd80a1c",
+    "scryfall_uri": "https://scryfall.com/card/chk/131/nezumi-shortfang-stabwhisker-the-odious?utm_source=api",
     "layout": "flip",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.jpg?1562764226",
+      "normal": "https://cards.scryfall.io/normal/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.jpg?1562764226",
+      "large": "https://cards.scryfall.io/large/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.jpg?1562764226",
+      "png": "https://cards.scryfall.io/png/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.png?1562764226",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.jpg?1562764226",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/c/8/c8265c39-d287-4c5a-baba-f2f09dd80a1c.jpg?1562764226"
+    },
+    "mana_cost": "{1}{B}",
     "cmc": 2.0,
     "type_line": "Creature — Rat Rogue // Legendary Creature — Rat Shaman",
-    "color_identity": ["B"],
+    "power": "1",
+    "toughness": "1",
+    "colors": [
+      "B"
+    ],
+    "color_identity": [
+      "B"
+    ],
     "keywords": [],
     "card_faces": [
       {
@@ -25,11 +50,12 @@
         "name": "Nezumi Shortfang",
         "mana_cost": "{1}{B}",
         "type_line": "Creature — Rat Rogue",
-        "oracle_text": "{1}{B}, {T}: Target opponent discards a card. Then if that player has no cards in hand, flip Nezumi Shortfang.",
-        "colors": ["B"],
+        "oracle_text": "{1}{B}, {T}: Target opponent discards a card. Then if that player has no cards in hand, flip this creature.",
         "power": "1",
         "toughness": "1",
-        "artist": "Daren Bader"
+        "artist": "Daren Bader",
+        "artist_id": "7da1a585-c875-45e4-b322-5da9e8e1f651",
+        "illustration_id": "ba4e7bfd-a164-4abd-885a-4380d2eaca80"
       },
       {
         "object": "card_face",
@@ -37,46 +63,96 @@
         "mana_cost": "",
         "type_line": "Legendary Creature — Rat Shaman",
         "oracle_text": "At the beginning of each opponent's upkeep, that player loses 1 life for each card fewer than three in their hand.",
-        "colors": ["B"],
         "power": "3",
         "toughness": "3",
-        "artist": "Daren Bader"
+        "artist": "Daren Bader",
+        "artist_id": "7da1a585-c875-45e4-b322-5da9e8e1f651"
       }
     ],
     "legalities": {
       "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
       "pioneer": "not_legal",
       "modern": "legal",
       "legacy": "legal",
+      "pauper": "not_legal",
       "vintage": "legal",
-      "commander": "legal"
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "legal",
+      "tlr": "legal"
     },
-    "games": ["paper", "mtgo"],
+    "games": [
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
-    "finishes": ["nonfoil", "foil"],
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": false,
     "variation": false,
-    "set": "bok",
-    "set_name": "Betrayers of Kamigawa",
+    "set_id": "6183d21f-a0af-4118-ba58-aca1d8719c01",
+    "set": "chk",
+    "set_name": "Champions of Kamigawa",
     "set_type": "expansion",
-    "collector_number": "76",
+    "set_uri": "https://api.scryfall.com/sets/6183d21f-a0af-4118-ba58-aca1d8719c01",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Achk&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/chk?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/c8265c39-d287-4c5a-baba-f2f09dd80a1c/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A45c8e860-5ce5-4a1c-aebe-97ddffcb2f74&unique=prints",
+    "collector_number": "131",
     "digital": false,
     "rarity": "rare",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Daren Bader",
+    "artist_ids": [
+      "7da1a585-c875-45e4-b322-5da9e8e1f651"
+    ],
+    "illustration_id": "ba4e7bfd-a164-4abd-885a-4380d2eaca80",
     "border_color": "black",
     "frame": "2003",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
+    "edhrec_rank": 15766,
+    "penny_rank": 3358,
     "prices": {
-      "usd": null,
-      "usd_foil": null,
-      "eur": null,
-      "tix": null
+      "usd": "2.38",
+      "usd_foil": "17.66",
+      "usd_etched": null,
+      "eur": "1.16",
+      "eur_foil": "3.13",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=78679&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DNezumi%2BShortfang%2B%252F%252F%2BStabwhisker%2Bthe%2BOdious",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DNezumi%2BShortfang%2B%252F%252F%2BStabwhisker%2Bthe%2BOdious",
+      "edhrec": "https://edhrec.com/route/?cc=Nezumi+Shortfang"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F12111%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=12130&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/21213?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

@@ -59,8 +59,8 @@ def test_layout_adventure(stub_response, load_fixture):
 
 def test_layout_saga(stub_response, load_fixture):
     stub_response("cards/named", load_fixture("cards_layout_saga"))
-    card = scrython.cards.Named(exact="The Binding of the Old Gods")
-    assert card.name == "The Binding of the Old Gods"
+    card = scrython.cards.Named(exact="Binding the Old Gods")
+    assert card.name == "Binding the Old Gods"
     assert card.layout == "saga"
 
 

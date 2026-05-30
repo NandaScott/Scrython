@@ -116,10 +116,10 @@ FIXTURE_MAP: dict[str, dict] = {
         "path": "catalog/creature-types",
         "query": {},
     },
-    # Rulings for Tarmogoyf, a stable card that carries several rulings.
+    # Rulings for Rules Lawyer, a card whose whole identity is carrying rulings.
     "rulings_by_id": {
         "endpoint": "cards/id/rulings",
-        "path": "cards/69daba76-96e8-4bcc-ab79-2f00189ad8fb/rulings",
+        "path": "cards/6c02c575-5685-44f5-8b47-89d888529d1b/rulings",
         "query": {},
     },
     "symbology_all": {
@@ -127,10 +127,11 @@ FIXTURE_MAP: dict[str, dict] = {
         "path": "symbology",
         "query": {},
     },
-    # No migration id is stable, so resolve one from the live /migrations list.
+    # Migrations are immutable historical records, so a specific id is stable.
     "migrations_by_id": {
         "endpoint": "migrations/id",
-        "dynamic": "migration",
+        "path": "migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
+        "query": {},
     },
 }
 
@@ -160,30 +161,11 @@ def _fetch(url: str) -> dict:
         raise RuntimeError(f"HTTP {exc.code} from {url}: {error_body}") from exc
 
 
-def _resolve_dynamic_path(kind: str) -> str:
-    """Resolve a capture-time path that depends on live Scryfall data."""
-    if kind != "migration":
-        raise RuntimeError(f"Unknown dynamic resolver: {kind!r}")
-
-    # The set of migrations changes over time; pin whichever one is listed first.
-    listing = _fetch(_source_url("migrations", {}))
-    first = listing["data"][0]
-    return f"migrations/{first['id']}"
-
-
 def capture(key: str, spec: dict) -> None:
     """Fetch one fixture and write it to disk with a fresh provenance header."""
     print(f"  capturing {key} ...", end=" ", flush=True)
 
-    if dynamic := spec.get("dynamic"):
-        path = _resolve_dynamic_path(dynamic)
-        query: dict = {}
-        time.sleep(REQUEST_DELAY)  # the resolver already spent one request
-    else:
-        path = spec["path"]
-        query = spec.get("query", {})
-
-    source_url = _source_url(path, query)
+    source_url = _source_url(spec["path"], spec.get("query", {}))
     payload = _fetch(source_url)
 
     if payload.get("object") == "error":

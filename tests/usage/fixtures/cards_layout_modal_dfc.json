@@ -1,0 +1,86 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Emeria%27s+Call+%2F%2F+Emeria%2C+Shattered+Skyclave",
+    "scryfall_id": "bc7239ea-f8aa-4a6f-87bd-c35359635673"
+  },
+  "payload": {
+    "object": "card",
+    "id": "bc7239ea-f8aa-4a6f-87bd-c35359635673",
+    "oracle_id": "b4b59f03-c3cb-4571-b7e4-6ab4ab71bef4",
+    "name": "Emeria's Call // Emeria, Shattered Skyclave",
+    "lang": "en",
+    "released_at": "2020-09-25",
+    "uri": "https://api.scryfall.com/cards/bc7239ea-f8aa-4a6f-87bd-c35359635673",
+    "scryfall_uri": "https://scryfall.com/card/znr/12/emerias-call-emeria-shattered-skyclave",
+    "layout": "modal_dfc",
+    "cmc": 7.0,
+    "type_line": "Sorcery // Land",
+    "color_identity": ["W"],
+    "keywords": [],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Emeria's Call",
+        "mana_cost": "{5}{W}{W}",
+        "type_line": "Sorcery",
+        "oracle_text": "Create two 4/4 white Angel Warrior creature tokens with flying. Non-Angel creatures you control gain indestructible until end of turn.",
+        "colors": ["W"],
+        "artist": "Titus Lunter",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg",
+          "normal": "https://cards.scryfall.io/normal/front/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Emeria, Shattered Skyclave",
+        "mana_cost": "",
+        "type_line": "Land",
+        "oracle_text": "As Emeria, Shattered Skyclave enters the battlefield, you may pay 3 life. If you don't, it enters the battlefield tapped.\n{T}: Add {W}.",
+        "colors": [],
+        "artist": "Titus Lunter",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/back/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg",
+          "normal": "https://cards.scryfall.io/normal/back/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg"
+        }
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo", "arena"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "znr",
+    "set_name": "Zendikar Rising",
+    "set_type": "expansion",
+    "collector_number": "12",
+    "digital": false,
+    "rarity": "mythic",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

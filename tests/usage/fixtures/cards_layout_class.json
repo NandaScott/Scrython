@@ -1,0 +1,62 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Fighter+Class",
+    "scryfall_id": "c3d4e5f6-a7b8-9012-cdef-012345678901"
+  },
+  "payload": {
+    "object": "card",
+    "id": "c3d4e5f6-a7b8-9012-cdef-012345678901",
+    "oracle_id": "d4e5f6a7-b8c9-0123-def0-123456789012",
+    "name": "Fighter Class",
+    "lang": "en",
+    "released_at": "2021-07-23",
+    "uri": "https://api.scryfall.com/cards/c3d4e5f6-a7b8-9012-cdef-012345678901",
+    "scryfall_uri": "https://scryfall.com/card/afr/220/fighter-class",
+    "layout": "class",
+    "mana_cost": "{R}{W}",
+    "cmc": 2.0,
+    "type_line": "Enchantment — Class",
+    "oracle_text": "(Gain the next level as a sorcery to add its ability.)\nWhen Fighter Class enters the battlefield, search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{2}{R}{W}: Level 2\nWhenever a creature you control attacks, put a +1/+1 counter on it.\n{4}{R}{W}: Level 3\nCreatures you control have double strike.",
+    "colors": ["R", "W"],
+    "color_identity": ["R", "W"],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo", "arena"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "afr",
+    "set_name": "Adventures in the Forgotten Realms",
+    "set_type": "expansion",
+    "collector_number": "220",
+    "digital": false,
+    "rarity": "uncommon",
+    "artist": "Justine Cruz",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

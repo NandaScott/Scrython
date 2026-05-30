@@ -1,0 +1,90 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Gisela%2C+the+Broken+Blade",
+    "scryfall_id": "5e9f08b5-e601-4bed-8d4c-f5a4ef95f8d0"
+  },
+  "payload": {
+    "object": "card",
+    "id": "5e9f08b5-e601-4bed-8d4c-f5a4ef95f8d0",
+    "oracle_id": "a07e0028-09b1-4de3-a8ca-7553b01db5f7",
+    "name": "Gisela, the Broken Blade",
+    "lang": "en",
+    "released_at": "2016-07-22",
+    "uri": "https://api.scryfall.com/cards/5e9f08b5-e601-4bed-8d4c-f5a4ef95f8d0",
+    "scryfall_uri": "https://scryfall.com/card/emn/28a/gisela-the-broken-blade",
+    "layout": "meld",
+    "mana_cost": "{2}{W}{W}",
+    "cmc": 4.0,
+    "type_line": "Legendary Creature — Angel Horror",
+    "oracle_text": "Flying, first strike, lifelink\nAt the beginning of your end step, if you both own and control Gisela, the Broken Blade and a creature named Bruna, the Fading Light, exile them, then meld them into Brisela, Voice of Nightmares.",
+    "colors": ["W"],
+    "color_identity": ["W"],
+    "power": "4",
+    "toughness": "3",
+    "keywords": ["Flying", "First strike", "Lifelink"],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "5e9f08b5-e601-4bed-8d4c-f5a4ef95f8d0",
+        "component": "meld_part",
+        "name": "Gisela, the Broken Blade",
+        "type_line": "Legendary Creature — Angel Horror",
+        "uri": "https://api.scryfall.com/cards/5e9f08b5-e601-4bed-8d4c-f5a4ef95f8d0"
+      },
+      {
+        "object": "related_card",
+        "id": "a4e1a1e7-5a3e-4a8e-b1b2-2c3d4e5f6a7b",
+        "component": "meld_part",
+        "name": "Bruna, the Fading Light",
+        "type_line": "Legendary Creature — Angel Horror",
+        "uri": "https://api.scryfall.com/cards/a4e1a1e7-5a3e-4a8e-b1b2-2c3d4e5f6a7b"
+      },
+      {
+        "object": "related_card",
+        "id": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+        "component": "meld_result",
+        "name": "Brisela, Voice of Nightmares",
+        "type_line": "Legendary Creature — Eldrazi Angel",
+        "uri": "https://api.scryfall.com/cards/b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "emn",
+    "set_name": "Eldritch Moon",
+    "set_type": "expansion",
+    "collector_number": "28a",
+    "digital": false,
+    "rarity": "mythic",
+    "artist": "Mark Winters",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": true,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

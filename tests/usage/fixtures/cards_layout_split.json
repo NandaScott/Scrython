@@ -1,0 +1,82 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Fire+%2F%2F+Ice",
+    "scryfall_id": "5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c"
+  },
+  "payload": {
+    "object": "card",
+    "id": "5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c",
+    "oracle_id": "04b98b74-69ba-45f6-a00d-f23a71f42498",
+    "name": "Fire // Ice",
+    "lang": "en",
+    "released_at": "2001-04-11",
+    "uri": "https://api.scryfall.com/cards/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c",
+    "scryfall_uri": "https://scryfall.com/card/apc/128/fire-ice",
+    "layout": "split",
+    "cmc": 4.0,
+    "type_line": "Instant // Instant",
+    "color_identity": ["R", "U"],
+    "keywords": [],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Fire",
+        "mana_cost": "{1}{R}",
+        "type_line": "Instant",
+        "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets.",
+        "colors": ["R"],
+        "artist": "Franz Vohwinkel"
+      },
+      {
+        "object": "card_face",
+        "name": "Ice",
+        "mana_cost": "{1}{U}",
+        "type_line": "Instant",
+        "oracle_text": "Tap target permanent.\nDraw a card.",
+        "colors": ["U"],
+        "artist": "Franz Vohwinkel"
+      }
+    ],
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/5/a/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c.jpg",
+      "normal": "https://cards.scryfall.io/normal/front/5/a/5af6f556-2e5e-4e09-b6c9-8e1a3e3a8c4c.jpg"
+    },
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "apc",
+    "set_name": "Apocalypse",
+    "set_type": "expansion",
+    "collector_number": "128",
+    "digital": false,
+    "rarity": "uncommon",
+    "border_color": "black",
+    "frame": "1997",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

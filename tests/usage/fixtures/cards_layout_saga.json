@@ -1,0 +1,66 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=The+Binding+of+the+Old+Gods",
+    "scryfall_id": "592e6f5f-dd5c-4d8a-8cba-11f56e1c8da0"
+  },
+  "payload": {
+    "object": "card",
+    "id": "592e6f5f-dd5c-4d8a-8cba-11f56e1c8da0",
+    "oracle_id": "88ae0ee5-b7c5-4c9e-8e32-8b2d2e6d5a2e",
+    "name": "The Binding of the Old Gods",
+    "lang": "en",
+    "released_at": "2021-02-05",
+    "uri": "https://api.scryfall.com/cards/592e6f5f-dd5c-4d8a-8cba-11f56e1c8da0",
+    "scryfall_uri": "https://scryfall.com/card/khm/206/the-binding-of-the-old-gods",
+    "layout": "saga",
+    "mana_cost": "{1}{B}{G}",
+    "cmc": 3.0,
+    "type_line": "Enchantment — Saga",
+    "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Destroy target nonland permanent.\nII — Search your library for a Forest card, put it onto the battlefield tapped, then shuffle.\nIII — Until end of turn, target creature you control gains deathtouch and \"Whenever this creature deals damage to a creature, destroy that creature.\"",
+    "colors": ["B", "G"],
+    "color_identity": ["B", "G"],
+    "keywords": [],
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/5/9/592e6f5f-dd5c-4d8a-8cba-11f56e1c8da0.jpg",
+      "normal": "https://cards.scryfall.io/normal/front/5/9/592e6f5f-dd5c-4d8a-8cba-11f56e1c8da0.jpg"
+    },
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo", "arena"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "khm",
+    "set_name": "Kaldheim",
+    "set_type": "expansion",
+    "collector_number": "206",
+    "digital": false,
+    "rarity": "rare",
+    "artist": "Donato Giancola",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

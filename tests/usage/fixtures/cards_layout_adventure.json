@@ -1,0 +1,84 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Bonecrusher+Giant+%2F%2F+Stomp",
+    "scryfall_id": "e41cf82d-3213-47ce-a015-6e51a8b07e4a"
+  },
+  "payload": {
+    "object": "card",
+    "id": "e41cf82d-3213-47ce-a015-6e51a8b07e4a",
+    "oracle_id": "ed8764d5-7cdf-4b96-a672-5f6a4b39bb30",
+    "name": "Bonecrusher Giant // Stomp",
+    "lang": "en",
+    "released_at": "2019-10-04",
+    "uri": "https://api.scryfall.com/cards/e41cf82d-3213-47ce-a015-6e51a8b07e4a",
+    "scryfall_uri": "https://scryfall.com/card/eld/115/bonecrusher-giant-stomp",
+    "layout": "adventure",
+    "cmc": 3.0,
+    "type_line": "Creature — Giant // Instant — Adventure",
+    "color_identity": ["R"],
+    "keywords": [],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Bonecrusher Giant",
+        "mana_cost": "{2}{R}",
+        "type_line": "Creature — Giant",
+        "oracle_text": "Whenever Bonecrusher Giant becomes the target of a spell, Bonecrusher Giant deals 2 damage to that spell's controller.",
+        "colors": ["R"],
+        "power": "4",
+        "toughness": "3",
+        "artist": "Victor Adame Minguez",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/e/4/e41cf82d-3213-47ce-a015-6e51a8b07e4a.jpg",
+          "normal": "https://cards.scryfall.io/normal/front/e/4/e41cf82d-3213-47ce-a015-6e51a8b07e4a.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Stomp",
+        "mana_cost": "{1}{R}",
+        "type_line": "Instant — Adventure",
+        "oracle_text": "Damage can't be prevented this turn. Stomp deals 2 damage to any target.",
+        "colors": ["R"],
+        "artist": "Victor Adame Minguez"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal"
+    },
+    "games": ["paper", "mtgo", "arena"],
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": ["nonfoil", "foil"],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set": "eld",
+    "set_name": "Throne of Eldraine",
+    "set_type": "expansion",
+    "collector_number": "115",
+    "digital": false,
+    "rarity": "rare",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    }
+  }
+}

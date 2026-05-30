@@ -19,7 +19,6 @@ const IMAGE_NAME = "sandcastle:scrython";
 const MODEL = "claude-sonnet-4-6";
 const DEFAULT_BASE = "develop";
 const DRY_RUN = process.env.DRY_RUN === "1";
-const ONLY_ISSUE = process.env.ONLY_ISSUE ? Number(process.env.ONLY_ISSUE) : null;
 
 const promptFile = fileURLToPath(new URL("./prompt.md", import.meta.url));
 
@@ -52,6 +51,45 @@ function gh(...args: string[]): string {
 function errorMessage(value: unknown): string {
   return value instanceof Error ? value.message : String(value);
 }
+
+// Parse the ONLY_ISSUE selector into a set of issue numbers. Accepts a single
+// number (`170`), a comma-separated list (`170,172,173`), an inclusive range
+// (`170-173`), or any mix (`170-172,180`). Returns null when unset, so the run
+// falls back to every ready-for-agent issue.
+function parseIssueSelection(raw: string | undefined): Set<number> | null {
+  if (!raw) {
+    return null;
+  }
+  const selected = new Set<number>();
+  for (const term of raw.split(",")) {
+    const trimmed = term.trim();
+    if (trimmed === "") {
+      continue;
+    }
+    const range = trimmed.match(/^(\d+)\s*-\s*(\d+)$/);
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+      if (start > end) {
+        throw new Error(`ONLY_ISSUE range "${trimmed}" is descending; use low-high.`);
+      }
+      for (let issueNumber = start; issueNumber <= end; issueNumber++) {
+        selected.add(issueNumber);
+      }
+      continue;
+    }
+    if (!/^\d+$/.test(trimmed)) {
+      throw new Error(`ONLY_ISSUE term "${trimmed}" is not a number or range.`);
+    }
+    selected.add(Number(trimmed));
+  }
+  if (selected.size === 0) {
+    throw new Error(`ONLY_ISSUE="${raw}" selected no issues.`);
+  }
+  return selected;
+}
+
+const ONLY_ISSUES = parseIssueSelection(process.env.ONLY_ISSUE);
 
 function slugify(title: string): string {
   return title
@@ -252,10 +290,13 @@ const allIssues: Issue[] = JSON.parse(
   ),
 );
 
-const issues = ONLY_ISSUE ? allIssues.filter((i) => i.number === ONLY_ISSUE) : allIssues;
+const issues = ONLY_ISSUES
+  ? allIssues.filter((issue) => ONLY_ISSUES.has(issue.number))
+  : allIssues;
 
-if (ONLY_ISSUE && issues.length === 0) {
-  console.log(`Issue #${ONLY_ISSUE} is not open with label ${AGENT_LABEL}. Nothing to do.`);
+if (ONLY_ISSUES && issues.length === 0) {
+  const requested = [...ONLY_ISSUES].map((n) => `#${n}`).join(", ");
+  console.log(`None of ${requested} are open with label ${AGENT_LABEL}. Nothing to do.`);
   process.exit(1);
 }
 
@@ -264,8 +305,9 @@ if (issues.length === 0) {
   process.exit(0);
 }
 
-if (ONLY_ISSUE) {
-  console.log(`ONLY_ISSUE=${ONLY_ISSUE} — restricting this run to issue #${ONLY_ISSUE}.`);
+if (ONLY_ISSUES) {
+  const requested = [...ONLY_ISSUES].map((n) => `#${n}`).join(", ");
+  console.log(`ONLY_ISSUE — restricting this run to ${requested}.`);
 }
 
 git("fetch", "origin");

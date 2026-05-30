@@ -1,8 +1,8 @@
 {
   "_provenance": {
-    "captured_at": "2026-05-30T19:11:49.465608+00:00",
-    "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Emeria%27s+Call+%2F%2F+Emeria%2C+Shattered+Skyclave&set=znr",
+    "captured_at": "2026-05-30T23:30:44.027134+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/c470539a-9cc7-4175-8f7c-c982b6072b6d",
     "scryfall_id": "c470539a-9cc7-4175-8f7c-c982b6072b6d"
   },
   "payload": {

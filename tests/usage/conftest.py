@@ -126,3 +126,42 @@ def stub_response():
         patch("scrython.base.urlopen", side_effect=_urlopen),
     ):
         yield _register
+
+
+# Injected payload fixtures: each arms the stub seam for one captured payload so
+# a test only has to request the fixture by name and construct via the public
+# API. The name mirrors the fixture key (`<module>_<endpoint>__<subject>`); the
+# value is the endpoint the payload answers for.
+_PAYLOAD_FIXTURES = {
+    "cards_named__black_lotus": "cards/named",
+    "cards_by_id__normal": "cards/id",
+    "cards_by_id__transform": "cards/id",
+    "cards_by_id__modal_dfc": "cards/id",
+    "cards_by_id__split": "cards/id",
+    "cards_by_id__adventure": "cards/id",
+    "cards_by_id__saga": "cards/id",
+    "cards_by_id__meld": "cards/id",
+    "cards_by_id__flip": "cards/id",
+    "cards_by_id__leveler": "cards/id",
+    "cards_by_id__class": "cards/id",
+    "cards_by_id__token": "cards/id",
+    "sets_by_code__lea": "sets/code",
+    "bulk_data_by_id__oracle_cards": "bulk-data/id",
+    "catalogs_creature_types": "catalog/creature-types",
+    "rulings_by_id__rules_lawyer": "cards/id/rulings",
+    "symbology_all": "symbology",
+    "migrations_by_id__merge": "migrations/id",
+}
+
+
+def _make_payload_fixture(endpoint: str, key: str):
+    @pytest.fixture
+    def _payload(stub_response, load_fixture):
+        stub_response(endpoint, load_fixture(key))
+
+    return _payload
+
+
+# Register one named pytest fixture per captured payload.
+for _key, _endpoint in _PAYLOAD_FIXTURES.items():
+    globals()[_key] = _make_payload_fixture(_endpoint, _key)

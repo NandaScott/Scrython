@@ -29,84 +29,100 @@ USER_AGENT = "Scrython/dev fixture-capture (https://github.com/NandaScott/Scryth
 
 # Declared map: fixture key → Scryfall request specification.
 #
-# Each spec describes how to capture one fixture:
-#   endpoint  logical endpoint label, written verbatim to provenance.endpoint
-#   path      actual API path with params already substituted (e.g. "sets/lea");
-#             omit for specs whose path is resolved at capture time (see dynamic)
-#   query     optional query-string parameters
-#   dynamic   optional resolver name for paths that depend on live data
-#             ("migration": pin the first id returned by the /migrations list)
+# Fixture keys follow the suite convention `<module>_<endpoint>__<subject>`, the
+# same shape the tests and conftest fixtures use.
 #
-# Card layouts (one entry per structurally-distinct card shape):
-#   normal Black Lotus · transform Delver of Secrets · modal_dfc Emeria's Call ·
-#   split Fire // Ice · adventure Bonecrusher Giant · saga Binding of the Old Gods ·
-#   meld Gisela · flip Nezumi Shortfang · leveler Transcendent Master ·
-#   class Fighter Class · token Midnight Hunt Zombie (pinned by id; tokens
-#   cannot be found by name alone).
+# Each spec describes how to capture one fixture:
+#   endpoint        logical endpoint label, written verbatim to provenance.endpoint
+#   path            actual API path with params already substituted
+#   query           optional query-string parameters
+#   discovered_via  documentation only (ignored at capture): the Scryfall search
+#                   that originally resolved a pinned card id, so the pin can be
+#                   re-derived. Layout cards use `order=released dir=asc` (oldest
+#                   printing of the layout) so the first result does not drift as
+#                   new sets release.
+#
+# Layout corpus: one card per Scryfall layout, discovered by `is:<layout>`
+# (`t:<layout>` where no `is:` filter exists) and then pinned by id.
 FIXTURE_MAP: dict[str, dict] = {
-    "cards_named_black_lotus": {
+    "cards_named__black_lotus": {
         "endpoint": "cards/named",
         "path": "cards/named",
         "query": {"exact": "Black Lotus"},
     },
-    "cards_layout_transform": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Delver of Secrets // Insectile Aberration", "set": "isd"},
-    },
-    "cards_layout_modal_dfc": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Emeria's Call // Emeria, Shattered Skyclave", "set": "znr"},
-    },
-    "cards_layout_split": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Fire // Ice", "set": "apc"},
-    },
-    "cards_layout_adventure": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Bonecrusher Giant // Stomp", "set": "eld"},
-    },
-    "cards_layout_saga": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Binding the Old Gods", "set": "khm"},
-    },
-    "cards_layout_meld": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Gisela, the Broken Blade", "set": "emn"},
-    },
-    "cards_layout_flip": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Nezumi Shortfang // Stabwhisker the Odious", "set": "chk"},
-    },
-    "cards_layout_leveler": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Transcendent Master", "set": "roe"},
-    },
-    "cards_layout_class": {
-        "endpoint": "cards/named",
-        "path": "cards/named",
-        "query": {"exact": "Fighter Class", "set": "afr"},
-    },
-    # The id below is the Zombie token from Innistrad: Midnight Hunt (tmid).
-    "cards_layout_token": {
+    "cards_by_id__normal": {
         "endpoint": "cards/id",
-        "path": "cards/6adb8607-1066-451d-a719-74ad32358278",
+        "path": "cards/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",
         "query": {},
+        "discovered_via": "is:normal",
     },
-    "sets_by_code_lea": {
+    "cards_by_id__transform": {
+        "endpoint": "cards/id",
+        "path": "cards/f8b8f0b4-71e1-4822-99a1-b1b3c2f10cb2",
+        "query": {},
+        "discovered_via": "is:transform",
+    },
+    "cards_by_id__modal_dfc": {
+        "endpoint": "cards/id",
+        "path": "cards/c470539a-9cc7-4175-8f7c-c982b6072b6d",
+        "query": {},
+        "discovered_via": "is:mdfc",
+    },
+    "cards_by_id__split": {
+        "endpoint": "cards/id",
+        "path": "cards/9dc20e14-e304-4c14-a87b-322a76e214d5",
+        "query": {},
+        "discovered_via": "is:split",
+    },
+    "cards_by_id__adventure": {
+        "endpoint": "cards/id",
+        "path": "cards/c7d5e394-8e41-442e-ae97-a478a61e1b9d",
+        "query": {},
+        "discovered_via": "is:adventure",
+    },
+    "cards_by_id__saga": {
+        "endpoint": "cards/id",
+        "path": "cards/3a613a01-6145-4e34-987c-c9bdcb068370",
+        "query": {},
+        "discovered_via": "t:saga -is:reversible",
+    },
+    "cards_by_id__meld": {
+        "endpoint": "cards/id",
+        "path": "cards/e2b826be-4256-4fd6-ad4d-6c80933ee940",
+        "query": {},
+        "discovered_via": "is:meld",
+    },
+    "cards_by_id__flip": {
+        "endpoint": "cards/id",
+        "path": "cards/864ad989-19a6-4930-8efc-bbc077a18c32",
+        "query": {},
+        "discovered_via": "is:flip",
+    },
+    "cards_by_id__leveler": {
+        "endpoint": "cards/id",
+        "path": "cards/c48e9f90-4b13-4281-943c-126be4ff1ce0",
+        "query": {},
+        "discovered_via": "is:leveler",
+    },
+    "cards_by_id__class": {
+        "endpoint": "cards/id",
+        "path": "cards/47ce8b7e-d8e1-489a-a69e-99089eeb8739",
+        "query": {},
+        "discovered_via": "t:class -is:reversible",
+    },
+    "cards_by_id__token": {
+        "endpoint": "cards/id",
+        "path": "cards/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9",
+        "query": {},
+        "discovered_via": "is:token",
+    },
+    "sets_by_code__lea": {
         "endpoint": "sets/code",
         "path": "sets/lea",
         "query": {},
     },
     # Oracle Cards bulk-data object; its id is stable across Scryfall refreshes.
-    "bulk_data_by_id": {
+    "bulk_data_by_id__oracle_cards": {
         "endpoint": "bulk-data/id",
         "path": "bulk-data/27bf3214-1271-490b-bdfe-c0be6c23d02e",
         "query": {},
@@ -117,7 +133,7 @@ FIXTURE_MAP: dict[str, dict] = {
         "query": {},
     },
     # Rulings for Rules Lawyer, a card whose whole identity is carrying rulings.
-    "rulings_by_id": {
+    "rulings_by_id__rules_lawyer": {
         "endpoint": "cards/id/rulings",
         "path": "cards/6c02c575-5685-44f5-8b47-89d888529d1b/rulings",
         "query": {},
@@ -128,7 +144,7 @@ FIXTURE_MAP: dict[str, dict] = {
         "query": {},
     },
     # Migrations are immutable historical records, so a specific id is stable.
-    "migrations_by_id": {
+    "migrations_by_id__merge": {
         "endpoint": "migrations/id",
         "path": "migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
         "query": {},

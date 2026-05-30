@@ -1,101 +1,69 @@
 """
 Smoke tests: one per Scryfall card layout.
 
-Each test loads a committed fixture, stubs the HTTP layer, constructs via the
-public API, and asserts a stable identity field.  Volatile fields (prices) are
-never asserted.
+Each layout is discovered via ``is:<layout>`` (``t:<layout>`` where no ``is:``
+filter exists), pinned by id in ``scripts/capture_fixtures.py``, and fetched
+here through ``scrython.cards.ById``. Asserting the ``layout`` keeps the corpus
+honest without depending on volatile fields.
 
 Covered layouts (update this list when Scryfall exposes a new layout value):
-    adventure   - front face + adventure instant/sorcery on one card
-    class       - enchantment with leveling class abilities
-    flip        - two-faced card rotated 180° on a single physical card
-    leveler     - creature with level counters and banded stat blocks
-    meld        - two separate cards that combine into a single double-sized card
-    modal_dfc   - double-faced card where the player chooses which face to play
-    normal      - standard single-faced Magic card
-    saga        - enchantment with chapter I/II/III lore counter abilities
-    split       - two halves on one card, each castable independently
-    token       - token permanent (no mana cost, not in booster packs)
-    transform   - double-faced card with a triggered or automatic flip
+    adventure, class, flip, leveler, meld, modal_dfc, normal, saga, split,
+    token, transform
 """
 
 import scrython.cards
 
 
-def test_layout_normal(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_named_black_lotus"))
-    card = scrython.cards.Named(exact="Black Lotus")
-    assert card.name == "Black Lotus"
+def test_by_id__id__has_normal_layout(cards_by_id__normal):
+    card = scrython.cards.ById(id="a59c24d9-804b-45d0-b60c-cfc7a6af7ef5")
     assert card.layout == "normal"
 
 
-def test_layout_transform(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_transform"))
-    card = scrython.cards.Named(exact="Delver of Secrets // Insectile Aberration")
-    assert card.name == "Delver of Secrets // Insectile Aberration"
+def test_by_id__id__has_transform_layout(cards_by_id__transform):
+    card = scrython.cards.ById(id="f8b8f0b4-71e1-4822-99a1-b1b3c2f10cb2")
     assert card.layout == "transform"
 
 
-def test_layout_modal_dfc(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_modal_dfc"))
-    card = scrython.cards.Named(exact="Emeria's Call // Emeria, Shattered Skyclave")
-    assert card.name == "Emeria's Call // Emeria, Shattered Skyclave"
+def test_by_id__id__has_modal_dfc_layout(cards_by_id__modal_dfc):
+    card = scrython.cards.ById(id="c470539a-9cc7-4175-8f7c-c982b6072b6d")
     assert card.layout == "modal_dfc"
 
 
-def test_layout_split(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_split"))
-    card = scrython.cards.Named(exact="Fire // Ice")
-    assert card.name == "Fire // Ice"
+def test_by_id__id__has_split_layout(cards_by_id__split):
+    card = scrython.cards.ById(id="9dc20e14-e304-4c14-a87b-322a76e214d5")
     assert card.layout == "split"
 
 
-def test_layout_adventure(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_adventure"))
-    card = scrython.cards.Named(exact="Bonecrusher Giant // Stomp")
-    assert card.name == "Bonecrusher Giant // Stomp"
+def test_by_id__id__has_adventure_layout(cards_by_id__adventure):
+    card = scrython.cards.ById(id="c7d5e394-8e41-442e-ae97-a478a61e1b9d")
     assert card.layout == "adventure"
 
 
-def test_layout_saga(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_saga"))
-    card = scrython.cards.Named(exact="Binding the Old Gods")
-    assert card.name == "Binding the Old Gods"
+def test_by_id__id__has_saga_layout(cards_by_id__saga):
+    card = scrython.cards.ById(id="3a613a01-6145-4e34-987c-c9bdcb068370")
     assert card.layout == "saga"
 
 
-def test_layout_meld(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_meld"))
-    card = scrython.cards.Named(exact="Gisela, the Broken Blade")
-    assert card.name == "Gisela, the Broken Blade"
+def test_by_id__id__has_meld_layout(cards_by_id__meld):
+    card = scrython.cards.ById(id="e2b826be-4256-4fd6-ad4d-6c80933ee940")
     assert card.layout == "meld"
 
 
-def test_layout_token(stub_response, load_fixture):
-    # Tokens cannot be fetched by name, so construct by id the way the fixture
-    # was captured (and the way a user would actually retrieve a token).
-    stub_response("cards/id", load_fixture("cards_layout_token"))
-    card = scrython.cards.ById(id="6adb8607-1066-451d-a719-74ad32358278")
-    assert card.name == "Zombie"
-    assert card.layout == "token"
-
-
-def test_layout_flip(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_flip"))
-    card = scrython.cards.Named(exact="Nezumi Shortfang // Stabwhisker the Odious")
-    assert card.name == "Nezumi Shortfang // Stabwhisker the Odious"
+def test_by_id__id__has_flip_layout(cards_by_id__flip):
+    card = scrython.cards.ById(id="864ad989-19a6-4930-8efc-bbc077a18c32")
     assert card.layout == "flip"
 
 
-def test_layout_leveler(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_leveler"))
-    card = scrython.cards.Named(exact="Transcendent Master")
-    assert card.name == "Transcendent Master"
+def test_by_id__id__has_leveler_layout(cards_by_id__leveler):
+    card = scrython.cards.ById(id="c48e9f90-4b13-4281-943c-126be4ff1ce0")
     assert card.layout == "leveler"
 
 
-def test_layout_class(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_layout_class"))
-    card = scrython.cards.Named(exact="Fighter Class")
-    assert card.name == "Fighter Class"
+def test_by_id__id__has_class_layout(cards_by_id__class):
+    card = scrython.cards.ById(id="47ce8b7e-d8e1-489a-a69e-99089eeb8739")
     assert card.layout == "class"
+
+
+def test_by_id__id__has_token_layout(cards_by_id__token):
+    card = scrython.cards.ById(id="40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9")
+    assert card.layout == "token"

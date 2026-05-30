@@ -89,6 +89,9 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]  # Allow unused imports in __init__ files
+# Usage tests inject a payload fixture purely to arm the stub seam; the
+# fixture parameter is intentionally unreferenced in the test body.
+"tests/usage/test_*.py" = ["ARG001"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["scrython"]

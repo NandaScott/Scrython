@@ -57,37 +57,60 @@ counts).  Assertions must target stable identity fields that do not drift:
 
 A fixture refresh should never redden the suite.
 
-## 4. Route all mocking through `stub_response`
+## 4. Arm the seam through an injected payload fixture
 
-`stub_response` (defined in `tests/usage/conftest.py`) is the only fixture
-that touches the mock seam.  Every usage test that needs a stubbed HTTP
-response must go through it:
+`stub_response` (defined in `tests/usage/conftest.py`) is the only fixture that
+touches the mock seam. Tests do not call it directly; instead `conftest.py`
+exposes one **payload fixture** per captured fixture — named the same as the
+fixture key — that arms `stub_response` with the right endpoint and payload. A
+test requests that fixture by name and then constructs through the public API:
 
 ```python
-def test_named_exact_returns_correct_name(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_named_black_lotus"))
+def test_named__exact__returns_correct_name(cards_named__black_lotus):
     card = scrython.cards.Named(exact="Black Lotus")
     assert card.name == "Black Lotus"
 ```
 
-Test bodies must not import or call `mock_urlopen`, `patch`, `urlopen`, or any
-other mock primitive directly.
+The fixture parameter is intentionally unreferenced — requesting it is what
+registers the payload (`tests/usage/test_*.py` ignores `ARG001` for this).
+Test bodies must not import or call `mock_urlopen`, `patch`, `urlopen`,
+`stub_response`, or `load_fixture` directly.
 
 ### Seam-isolation rationale
 
 `stub_response` exists so that the entire usage suite can be migrated to the
 `MockConnector` abstraction (issue #169) in a single, mechanical file change.
 When #169 lands, only the body of `stub_response` in `conftest.py` changes
-(swapped to `MockConnector` + `use_connector(...)`).  Every test body stays
+(swapped to `MockConnector` + `use_connector(...)`). Every test body stays
 identical because no test body knows which seam is in use.
 
-If a test bypasses `stub_response` and calls the urlopen patch directly, it
-will break during that migration and require a rewrite.
+If a test bypasses the payload fixtures and drives the seam directly, it will
+break during that migration and require a rewrite.
+
+## 5. Name tests and fixtures by `endpoint`, `query`, `scenario`
+
+- **Tests:** `test_<endpoint>__<query>__<scenario>` — double underscore between
+  segments. `endpoint` is the public class lowered (`Named` → `named`, `ById` →
+  `by_id`, `ByCode` → `by_code`); `query` is the selector used (`exact`, `id`,
+  `code`, `rulings`); `scenario` is what is asserted
+  (`returns_correct_name`, `has_saga_layout`).
+- **Fixtures and fixture keys:** `<module>_<endpoint>__<subject>`
+  (`cards_named__black_lotus`, `rulings_by_id__rules_lawyer`). The committed
+  JSON file, the `FIXTURE_MAP` key in `scripts/capture_fixtures.py`, and the
+  injected conftest fixture all share this one name.
+
+## 6. Pin the layout corpus by discovered id
+
+The layout corpus pins one card per Scryfall `layout`. Each is discovered with
+`is:<layout>` (`t:<layout>` where no `is:` filter exists), ordered
+`released asc` so the first result does not drift as new sets release, and then
+**pinned by id** in `FIXTURE_MAP` (the `discovered_via` note records the query).
+Corpus tests fetch via `scrython.cards.ById` and assert only `layout`.
 
 ## Canonical template
 
-`tests/usage/test_cards_named.py` (introduced in issue #183) is the
-copyable template for every new usage test:
+`tests/usage/test_cards_named.py` is the copyable template for every new usage
+test:
 
 ```python
 """Usage tests for scrython.cards.Named."""
@@ -95,19 +118,17 @@ copyable template for every new usage test:
 import scrython.cards
 
 
-def test_named_exact_returns_correct_name(stub_response, load_fixture):
-    stub_response("cards/named", load_fixture("cards_named_black_lotus"))
+def test_named__exact__returns_correct_name(cards_named__black_lotus):
     card = scrython.cards.Named(exact="Black Lotus")
     assert card.name == "Black Lotus"
 ```
 
-This test demonstrates the full harness path:
+This demonstrates the full harness path:
 
-1. `load_fixture` reads a committed JSON file from `tests/usage/fixtures/` by
-   key (`cards_named_black_lotus` → `cards_named_black_lotus.json`).
-2. `stub_response` registers that payload as the HTTP response for the
+1. The `cards_named__black_lotus` payload fixture (in `conftest.py`) calls
+   `load_fixture("cards_named__black_lotus")` and arms `stub_response` for the
    `cards/named` endpoint.
-3. The card is constructed via the dotted public path.
-4. The assertion targets `card.name` — a stable public property.
+2. The card is constructed via the dotted public path.
+3. The assertion targets `card.name` — a stable public property.
 
 No internals appear anywhere in the test body.

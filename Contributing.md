@@ -370,10 +370,18 @@ Sandcastle needs Docker and the npm package (the resulting `package.json`, `pack
 ### Running
 
 ```bash
-npx tsx .sandcastle/main.mts                 # work all ready-for-agent issues
-DRY_RUN=1 npx tsx .sandcastle/main.mts       # print the dispatch plan; spawn nothing, write nothing
-ONLY_ISSUE=170 npx tsx .sandcastle/main.mts  # restrict to one issue (smoke test)
+npx tsx .sandcastle/main.mts                     # work all ready-for-agent issues
+DRY_RUN=1 npx tsx .sandcastle/main.mts           # print the dispatch plan; spawn nothing, write nothing
+ONLY_ISSUE=170 npx tsx .sandcastle/main.mts      # restrict to one issue (smoke test)
+ONLY_ISSUE=170-173 npx tsx .sandcastle/main.mts  # restrict to an inclusive range
+ONLY_ISSUE=170,172,173 npx tsx .sandcastle/main.mts  # restrict to a list
+ONLY_ISSUE=170-172,180 npx tsx .sandcastle/main.mts  # mix ranges and singles
 ```
+
+`ONLY_ISSUE` accepts a single number, an inclusive range (`170-173`), a
+comma-separated list, or any mix. A descending range or a non-numeric term is
+an error. Selected issues still resolve their own target branch and wait on
+their `## Blocked by` blockers, so the selector only narrows the candidate set.
 
 ## Before Submitting
 

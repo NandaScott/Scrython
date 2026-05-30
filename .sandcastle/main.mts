@@ -304,6 +304,18 @@ const dispatched: Outcome[] = settled.map((entry, index) => {
       detail: "agent produced no commits",
     };
   }
+  // Open a PR only when the agent signaled completion. A missing
+  // completionSignal means it stopped before passing its gates (or hit the
+  // iteration limit), so its commits are partial. Leave the branch for review
+  // instead of opening a red PR.
+  if (!result.completionSignal) {
+    return {
+      number: plan.issue.number,
+      target: plan.target,
+      status: "incomplete",
+      detail: `agent did not signal completion; ${result.commits.length} commit(s) left on ${branch} for review`,
+    };
+  }
   return openPullRequest(plan, branch, result.commits.length);
 });
 

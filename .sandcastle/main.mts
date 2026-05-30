@@ -23,15 +23,10 @@ const ONLY_ISSUE = process.env.ONLY_ISSUE ? Number(process.env.ONLY_ISSUE) : nul
 
 const promptFile = fileURLToPath(new URL("./prompt.md", import.meta.url));
 
-interface Milestone {
-  readonly title: string;
-}
-
 interface Issue {
   readonly number: number;
   readonly title: string;
   readonly body: string;
-  readonly milestone: Milestone | null;
 }
 
 interface Plan {
@@ -65,11 +60,46 @@ function slugify(title: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+// The integration branch comes from the slice's parent PRD, not a milestone:
+// a milestone groups several PRDs, so it is the wrong granularity for a branch.
+// The parent PRD reference lives in the issue's `## Parent` section.
+function parseParent(body: string): number | null {
+  const section = body.match(/##\s*Parent\s*([\s\S]*?)(?:\n#{1,6}\s|$)/i);
+  if (!section) {
+    return null;
+  }
+  const match = section[1].match(/#(\d+)/);
+  return match ? Number(match[1]) : null;
+}
+
+// Turn a PRD issue title into a branch slug, dropping a leading `PRD:` and any
+// trailing parenthetical, so `PRD: ScryfallConnector refactor (PR 1 of a series)`
+// becomes `scryfallconnector-refactor`.
+function prdSlug(prdTitle: string): string {
+  const core = prdTitle.replace(/^\s*PRD:\s*/i, "").split("(")[0];
+  return slugify(core);
+}
+
+const issueTitleCache = new Map<number, string>();
+
+function issueTitle(issueNumber: number): string {
+  const cached = issueTitleCache.get(issueNumber);
+  if (cached) {
+    return cached;
+  }
+  const title = JSON.parse(
+    gh("issue", "view", String(issueNumber), "--repo", REPO, "--json", "title"),
+  ).title as string;
+  issueTitleCache.set(issueNumber, title);
+  return title;
+}
+
 function targetBranchFor(issue: Issue): string {
-  if (!issue.milestone) {
+  const parent = parseParent(issue.body);
+  if (parent === null) {
     return DEFAULT_BASE;
   }
-  return `prd/${slugify(issue.milestone.title)}`;
+  return `prd/${prdSlug(issueTitle(parent))}`;
 }
 
 // Pull the issue numbers out of the `## Blocked by` section only, so a `## Parent`
@@ -218,7 +248,7 @@ const allIssues: Issue[] = JSON.parse(
     "--state",
     "open",
     "--json",
-    "number,title,body,milestone",
+    "number,title,body",
   ),
 );
 

@@ -82,16 +82,16 @@ class Object(CardsObjectMixin):
 
         return hash(id(self))
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> ScryfallCardData:
         """
         Export card data as a dictionary.
 
         Returns a copy of the internal Scryfall data dictionary.
 
         Returns:
-            Dictionary containing all card data
+            A copy of the card's typed Scryfall data
         """
-        return dict(self._scryfall_data)
+        return self._scryfall_data.copy()
 
     def to_json(self, **kwargs: Any) -> str:
         """

@@ -2,7 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallRulingData, ScryfallListData
+from scrython.types import ScryfallListData, ScryfallRulingData
 
 from .rulings_mixins import RulingsObjectMixin
 

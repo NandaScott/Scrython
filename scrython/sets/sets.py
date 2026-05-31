@@ -1,6 +1,6 @@
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallSetData, ScryfallListData
+from scrython.types import ScryfallListData, ScryfallSetData
 
 from .sets_mixins import SetsObjectMixin
 

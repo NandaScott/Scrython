@@ -2,7 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallManaCostData, ScryfallSymbolData, ScryfallListData
+from scrython.types import ScryfallListData, ScryfallManaCostData, ScryfallSymbolData
 
 from .symbology_mixins import ManaCostMixin, SymbologyObjectMixin
 

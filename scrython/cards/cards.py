@@ -3,7 +3,7 @@ from typing import Any
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
 from ..rate_limiter import SlowRateLimiter
-from ..types import ScryfallCardData, ScryfallCatalogData
+from ..types import ScryfallCardData, ScryfallCatalogData, ScryfallListData
 from .cards_mixins import CardsObjectMixin
 
 
@@ -123,7 +123,7 @@ class Object(CardsObjectMixin):
         return cls(data.copy())  # type: ignore[arg-type]
 
 
-class Search(ScryfallListMixin, ScrythonRequestHandler):
+class Search(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Search for Magic cards using Scryfall's fulltext search syntax.
 
@@ -252,7 +252,7 @@ class Random(CardsObjectMixin, ScrythonRequestHandler):
     _rate_limiter_class = SlowRateLimiter
 
 
-class Collection(ScryfallListMixin, ScrythonRequestHandler):
+class Collection(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Fetch a collection of cards by their identifiers.
 

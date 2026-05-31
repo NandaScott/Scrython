@@ -1,14 +1,14 @@
 import warnings
 from collections.abc import Callable, Generator, Iterator
 from functools import cache
-from typing import Any, cast
+from typing import Any
 
-from .types import ScryfallCatalogData
+from .types import ScryfallCatalogData, ScryfallListData
 
 
 class ScryfallListMixin:
     list_data_type: type | None = None
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallListData
 
     @property
     def object(self) -> str:
@@ -20,11 +20,11 @@ class ScryfallListMixin:
         if self.list_data_type:
             return list(map(lambda data: self.list_data_type(data), self._scryfall_data["data"]))  # type: ignore[misc]
 
-        return cast(list[Any], self._scryfall_data["data"])
+        return self._scryfall_data["data"]
 
     @property
     def has_more(self) -> bool:
-        return cast(bool, self._scryfall_data["has_more"])
+        return self._scryfall_data["has_more"]
 
     @property
     def next_page(self) -> str | None:

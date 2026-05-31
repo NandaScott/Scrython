@@ -1,6 +1,6 @@
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallListMixin
-from ..types import ScryfallBulkDataData
+from ..types import ScryfallBulkDataData, ScryfallListData
 from .bulk_data_mixins import BulkDataObjectMixin
 
 
@@ -15,7 +15,7 @@ class Object(BulkDataObjectMixin):
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get information about all available bulk data files.
 

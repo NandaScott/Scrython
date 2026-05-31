@@ -2,7 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallManaCostData, ScryfallSymbolData
+from scrython.types import ScryfallManaCostData, ScryfallSymbolData, ScryfallListData
 
 from .symbology_mixins import ManaCostMixin, SymbologyObjectMixin
 
@@ -18,7 +18,7 @@ class Object(SymbologyObjectMixin):
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get all card symbols in Scryfall's database.
 

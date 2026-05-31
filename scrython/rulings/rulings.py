@@ -2,7 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallRulingData
+from scrython.types import ScryfallRulingData, ScryfallListData
 
 from .rulings_mixins import RulingsObjectMixin
 
@@ -18,7 +18,7 @@ class Object(RulingsObjectMixin):
         self._scryfall_data = data
 
 
-class ById(ScryfallListMixin, ScrythonRequestHandler):
+class ById(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get rulings for a card by its Scryfall UUID.
 
@@ -49,7 +49,7 @@ class ById(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByMultiverseId(ScryfallListMixin, ScrythonRequestHandler):
+class ByMultiverseId(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get rulings for a card by its Multiverse ID.
 
@@ -73,7 +73,7 @@ class ByMultiverseId(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByMTGOId(ScryfallListMixin, ScrythonRequestHandler):
+class ByMTGOId(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get rulings for a card by its MTGO ID.
 
@@ -98,7 +98,7 @@ class ByMTGOId(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByArenaId(ScryfallListMixin, ScrythonRequestHandler):
+class ByArenaId(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get rulings for a card by its Arena ID.
 
@@ -123,7 +123,7 @@ class ByArenaId(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByCodeNumber(ScryfallListMixin, ScrythonRequestHandler):
+class ByCodeNumber(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get rulings for a card by its set code and collector number.
 
@@ -176,7 +176,7 @@ class Rulings:
         rulings5 = scrython.Rulings(code="m21", number="241")
     """
 
-    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler":  # type: ignore[misc]
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler[Any]":  # type: ignore[misc]
         if "id" in kwargs:
             return ById(**kwargs)
         elif "multiverse_id" in kwargs:

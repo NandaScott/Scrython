@@ -1,6 +1,6 @@
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallSetData
+from scrython.types import ScryfallSetData, ScryfallListData
 
 from .sets_mixins import SetsObjectMixin
 
@@ -16,7 +16,7 @@ class Object(SetsObjectMixin):
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get all Magic: The Gathering sets in Scryfall's database.
 

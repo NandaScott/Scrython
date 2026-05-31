@@ -2,7 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
-from scrython.types import ScryfallMigrationData
+from scrython.types import ScryfallMigrationData, ScryfallListData
 
 from .migrations_mixins import MigrationsObjectMixin
 
@@ -18,7 +18,7 @@ class Object(MigrationsObjectMixin):
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get recent migrations from Scryfall's database.
 

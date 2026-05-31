@@ -1,7 +1,9 @@
+from typing import Any, cast
+
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
 from ..rate_limiter import SlowRateLimiter
-from ..types import ScryfallCardData
+from ..types import ScryfallCardData, ScryfallCatalogData, ScryfallListData
 from .cards_mixins import CardsObjectMixin
 
 
@@ -11,8 +13,6 @@ class Object(CardsObjectMixin):
 
     Provides access to all card properties through mixins (Core, Gameplay, Print fields).
     """
-
-    _scryfall_data: ScryfallCardData  # type: ignore[assignment]
 
     def __init__(self, data: ScryfallCardData) -> None:
         self._scryfall_data = data
@@ -82,18 +82,18 @@ class Object(CardsObjectMixin):
 
         return hash(id(self))
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> ScryfallCardData:
         """
         Export card data as a dictionary.
 
         Returns a copy of the internal Scryfall data dictionary.
 
         Returns:
-            Dictionary containing all card data
+            A copy of the card's typed Scryfall data
         """
-        return self._scryfall_data.copy()  # type: ignore[return-value]
+        return self._scryfall_data.copy()
 
-    def to_json(self, **kwargs) -> str:
+    def to_json(self, **kwargs: Any) -> str:
         """
         Export card data as a JSON string.
 
@@ -108,7 +108,7 @@ class Object(CardsObjectMixin):
         return json.dumps(self._scryfall_data, **kwargs)
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Object":
+    def from_dict(cls, data: dict[str, Any]) -> "Object":
         """
         Construct an Object from a dictionary without making an API request.
 
@@ -118,10 +118,11 @@ class Object(CardsObjectMixin):
         Returns:
             Object instance populated with the provided data
         """
-        return cls(data.copy())  # type: ignore[arg-type]
+        # Rehydration boundary: caller-supplied dict is asserted to be card data.
+        return cls(cast(ScryfallCardData, data.copy()))
 
 
-class Search(ScryfallListMixin, ScrythonRequestHandler):
+class Search(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Search for Magic cards using Scryfall's fulltext search syntax.
 
@@ -163,7 +164,7 @@ class Search(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class Named(CardsObjectMixin, ScrythonRequestHandler):
+class Named(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a single card by name using fuzzy or exact matching.
 
@@ -194,7 +195,7 @@ class Named(CardsObjectMixin, ScrythonRequestHandler):
     _rate_limiter_class = SlowRateLimiter
 
 
-class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get card name autocomplete suggestions.
 
@@ -222,7 +223,7 @@ class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/cards/autocomplete"
 
 
-class Random(CardsObjectMixin, ScrythonRequestHandler):
+class Random(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a random card from Scryfall's database.
 
@@ -250,7 +251,7 @@ class Random(CardsObjectMixin, ScrythonRequestHandler):
     _rate_limiter_class = SlowRateLimiter
 
 
-class Collection(ScryfallListMixin, ScrythonRequestHandler):
+class Collection(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Fetch a collection of cards by their identifiers.
 
@@ -284,7 +285,7 @@ class Collection(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByCodeNumber(CardsObjectMixin, ScrythonRequestHandler):
+class ByCodeNumber(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its set code and collector number.
 
@@ -312,7 +313,7 @@ class ByCodeNumber(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/:code/:number/:lang?"
 
 
-class ByMultiverseId(CardsObjectMixin, ScrythonRequestHandler):
+class ByMultiverseId(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its Multiverse ID.
 
@@ -334,7 +335,7 @@ class ByMultiverseId(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/multiverse/:id"
 
 
-class ByMTGOId(CardsObjectMixin, ScrythonRequestHandler):
+class ByMTGOId(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its Magic Online (MTGO) ID.
 
@@ -356,7 +357,7 @@ class ByMTGOId(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/mtgo/:id"
 
 
-class ByArenaId(CardsObjectMixin, ScrythonRequestHandler):
+class ByArenaId(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its Arena ID.
 
@@ -378,7 +379,7 @@ class ByArenaId(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/arena/:id"
 
 
-class ByTCGPlayerId(CardsObjectMixin, ScrythonRequestHandler):
+class ByTCGPlayerId(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its TCGPlayer product ID.
 
@@ -400,7 +401,7 @@ class ByTCGPlayerId(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/tcgplayer/:id"
 
 
-class ByCardMarketId(CardsObjectMixin, ScrythonRequestHandler):
+class ByCardMarketId(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its Cardmarket (formerly MKM) product ID.
 
@@ -422,7 +423,7 @@ class ByCardMarketId(CardsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/cards/cardmarket/:id"
 
 
-class ById(CardsObjectMixin, ScrythonRequestHandler):
+class ById(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
     Get a card by its Scryfall ID.
 

@@ -4,10 +4,11 @@ from typing import Any
 from urllib.request import Request, urlopen
 
 from ..base import ScrythonRequestHandler
+from ..types import ScryfallBulkDataData
 
 
 class BulkDataObjectMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallBulkDataData
 
     @property
     def object(self) -> str:
@@ -220,8 +221,8 @@ class BulkDataObjectMixin:
                     # Read plain JSON
                     data = response.read()
 
-        # Parse JSON
-        parsed_data = json.loads(data.decode("utf-8"))
+        # Parse JSON. The annotation narrows json.loads's Any return; no cast needed.
+        parsed_data: list[dict[str, Any]] = json.loads(data.decode("utf-8"))
 
         # Save to file if requested
         if filepath:

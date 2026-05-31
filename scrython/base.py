@@ -1,16 +1,29 @@
 import json
+import sys
 import types
 import urllib.error
 import urllib.parse
-from typing import Any
+from collections.abc import Mapping
+from typing import Any, Generic, cast
 from urllib.request import Request, urlopen
+
+if sys.version_info >= (3, 13):
+    from typing import TypeVar
+else:
+    from typing_extensions import TypeVar
 
 from .cache import generate_cache_key, get_global_cache
 from .rate_limiter import RateLimiter
 
+# Shape of the JSON object an endpoint deserializes into. Defaults to an
+# untyped dict so endpoints that have not yet been given a TypedDict stay
+# valid without an explicit parameter; typed endpoints bind a concrete shape
+# (e.g. ScrythonRequestHandler[ScryfallSetData]).
+DataT = TypeVar("DataT", bound=Mapping[str, Any], default=dict[str, Any])
+
 
 class ScryfallError(Exception):
-    def __init__(self, scryfall_data: dict[str, Any], *args: Any, **kwargs: Any) -> None:
+    def __init__(self, scryfall_data: Mapping[str, Any], *args: Any, **kwargs: Any) -> None:
         super(self.__class__, self).__init__(*args, **kwargs)
 
         self._status: int = scryfall_data["status"]
@@ -40,7 +53,7 @@ class ScryfallError(Exception):
         return self._warnings
 
 
-class ScrythonRequestHandler:
+class ScrythonRequestHandler(Generic[DataT]):
     """
     Base class for all Scryfall API requests.
 
@@ -53,7 +66,7 @@ class ScrythonRequestHandler:
         - HTTPS with TLS 1.2+ is required
     """
 
-    _scryfall_data: dict[str, Any] = {}
+    _scryfall_data: DataT = cast(DataT, {})
     _user_agent: str = "Scrython/2.0 (https://github.com/NandaScott/Scrython)"
     _accept: str = "application/json"
     _content_type: str = "application/json"
@@ -95,7 +108,7 @@ class ScrythonRequestHandler:
         """
         if not hasattr(self, "_scryfall_namespace"):
             self._scryfall_namespace = self._dict_to_namespace(self._scryfall_data)
-        return self._scryfall_namespace
+        return cast(types.SimpleNamespace, self._scryfall_namespace)
 
     def _dict_to_namespace(self, data: Any) -> Any:
         """
@@ -211,7 +224,7 @@ class ScrythonRequestHandler:
                 charset = response.info().get_param("charset") or "utf-8"
                 decoded = response.read().decode(charset)
 
-                response_data = json.loads(decoded)
+                response_data: dict[str, Any] = cast(dict[str, Any], json.loads(decoded))
 
                 # Store in cache if enabled and cache_key provided
                 if use_cache and cache_key is not None and response_data.get("object") != "error":
@@ -253,7 +266,9 @@ class ScrythonRequestHandler:
         cache_key = generate_cache_key(self.endpoint, self._query_params)
 
         # Delegate to _fetch_raw for HTTP execution
-        self._scryfall_data = self._fetch_raw(url, cache_key=cache_key, **kwargs)
+        # Single trust-the-API boundary: the raw dict is asserted to match the
+        # endpoint's declared shape here, so accessors downstream need no casts.
+        self._scryfall_data = cast(DataT, self._fetch_raw(url, cache_key=cache_key, **kwargs))
 
         # Invalidate namespace cache when new data is fetched
         if hasattr(self, "_scryfall_namespace"):
@@ -381,7 +396,7 @@ class ScrythonRequestHandler:
         other_id = other._scryfall_data.get("id")
 
         if self_id and other_id:
-            return self_id == other_id
+            return bool(self_id == other_id)
 
         # Fallback to object comparison if no IDs
         return self is other
@@ -420,7 +435,7 @@ class ScrythonRequestHandler:
             card_dict = card.to_dict()
             print(card_dict['name'])  # 'Lightning Bolt'
         """
-        return self._scryfall_data.copy()
+        return dict(self._scryfall_data)
 
     def to_json(self, **kwargs: Any) -> str:
         """
@@ -449,7 +464,7 @@ class ScrythonRequestHandler:
         return json.dumps(self._scryfall_data, **kwargs)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "ScrythonRequestHandler":
+    def from_dict(cls, data: dict[str, Any]) -> "ScrythonRequestHandler[DataT]":
         """
         Construct an object from a dictionary without making an API request.
 
@@ -473,5 +488,6 @@ class ScrythonRequestHandler:
         """
         # Create instance without calling __init__
         instance = cls.__new__(cls)
-        instance._scryfall_data = data.copy()
+        # Rehydration boundary: caller-supplied dict is asserted to match DataT.
+        instance._scryfall_data = cast(DataT, data.copy())
         return instance

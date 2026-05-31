@@ -1,10 +1,12 @@
 from typing import Any
 
+from ..types import ScryfallMigrationData
+
 
 class MigrationsObjectMixin:
     """Provides property accessors for migration objects from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallMigrationData
 
     @property
     def object(self) -> str:

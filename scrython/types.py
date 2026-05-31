@@ -310,3 +310,17 @@ class ScryfallCatalogData(TypedDict):
     uri: URI
     total_values: int
     data: list[str]
+
+
+class ScryfallRulingData(TypedDict):
+    """
+    TypedDict for a Scryfall Ruling object.
+
+    See: https://scryfall.com/docs/api/rulings
+    """
+
+    object: str
+    oracle_id: UUID
+    source: str
+    published_at: Date
+    comment: str

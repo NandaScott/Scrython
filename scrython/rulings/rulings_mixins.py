@@ -1,10 +1,10 @@
-from typing import Any, cast
+from ..types import ScryfallRulingData
 
 
 class RulingsObjectMixin:
     """Provides property accessors for ruling objects from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallRulingData
 
     @property
     def object(self) -> str:
@@ -22,7 +22,7 @@ class RulingsObjectMixin:
 
         Type: UUID (Required)
         """
-        return cast(str, self._scryfall_data["oracle_id"])
+        return self._scryfall_data["oracle_id"]
 
     @property
     def source(self) -> str:
@@ -31,7 +31,7 @@ class RulingsObjectMixin:
 
         Type: String (Required)
         """
-        return cast(str, self._scryfall_data["source"])
+        return self._scryfall_data["source"]
 
     @property
     def published_at(self) -> str:
@@ -40,7 +40,7 @@ class RulingsObjectMixin:
 
         Type: Date (Required)
         """
-        return cast(str, self._scryfall_data["published_at"])
+        return self._scryfall_data["published_at"]
 
     @property
     def comment(self) -> str:
@@ -49,4 +49,4 @@ class RulingsObjectMixin:
 
         Type: String (Required)
         """
-        return cast(str, self._scryfall_data["comment"])
+        return self._scryfall_data["comment"]

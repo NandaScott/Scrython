@@ -2,6 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
+from scrython.types import ScryfallRulingData
 
 from .rulings_mixins import RulingsObjectMixin
 
@@ -13,7 +14,7 @@ class Object(RulingsObjectMixin):
     Provides access to all ruling properties through RulingsObjectMixin.
     """
 
-    def __init__(self, data: dict[str, Any]) -> None:
+    def __init__(self, data: ScryfallRulingData) -> None:
         self._scryfall_data = data
 
 

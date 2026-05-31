@@ -193,24 +193,19 @@ See git history for changes in previous releases.
 
 ### Future Releases (Roadmap)
 
-#### Version 2.1.0
-- Implement Rulings API endpoints (5 endpoints)
-- Add basic Catalog endpoints (card-names, creature-types)
+The Rulings, Catalog, Symbology, and Migration endpoints, plus the built-in
+TTL caching layer, have all shipped. Remaining roadmap items:
+
+#### Near-term
 - Improve error messages with more context
 - Add retry logic with exponential backoff
-
-#### Version 2.2.0
-- Implement Symbology API endpoints (2 endpoints)
-- Add remaining Catalog endpoints (15+ endpoints)
 - Consider async/await support for concurrent requests
-- Built-in caching layer with TTL
 
 #### Version 3.0.0 (Major)
-- Complete Scryfall API coverage (all 49 endpoints)
+- Complete Scryfall API coverage across all published endpoints
 - Potential breaking changes for improved API design
 - GraphQL support if Scryfall adds it
 - Performance optimizations
-- Advanced caching strategies
 
 ---
 

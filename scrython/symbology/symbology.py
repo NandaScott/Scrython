@@ -2,6 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
+from scrython.types import ScryfallManaCostData, ScryfallSymbolData
 
 from .symbology_mixins import ManaCostMixin, SymbologyObjectMixin
 
@@ -13,7 +14,7 @@ class Object(SymbologyObjectMixin):
     Provides access to all card symbol properties through SymbologyObjectMixin.
     """
 
-    def __init__(self, data: dict[str, Any]) -> None:
+    def __init__(self, data: ScryfallSymbolData) -> None:
         self._scryfall_data = data
 
 
@@ -52,7 +53,7 @@ class All(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ParseMana(ManaCostMixin, ScrythonRequestHandler):
+class ParseMana(ManaCostMixin, ScrythonRequestHandler[ScryfallManaCostData]):
     """
     Parse a mana cost string into structured data.
 
@@ -114,7 +115,7 @@ class Symbology:
         print(f"Colors: {cost.colors}")
     """
 
-    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler":  # type: ignore[misc]
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler[Any]":  # type: ignore[misc]
         if "cost" in kwargs:
             return ParseMana(**kwargs)
         else:

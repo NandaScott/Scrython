@@ -342,3 +342,44 @@ class ScryfallMigrationData(TypedDict):
     new_scryfall_id: NotRequired[UUID]
     note: NotRequired[str]
     metadata: NotRequired[dict[str, Any]]
+
+
+class ScryfallSymbolData(TypedDict):
+    """
+    TypedDict for a Scryfall Card Symbol object.
+
+    See: https://scryfall.com/docs/api/card-symbols
+    """
+
+    object: str
+    symbol: str
+    english: str
+    transposable: bool
+    represents_mana: bool
+    appears_in_mana_costs: bool
+    funny: bool
+    colors: Colors
+    loose_variant: NotRequired[str]
+    mana_value: NotRequired[float]
+    cmc: NotRequired[float]
+    svg_uri: NotRequired[URI]
+    gatherer_alternates: NotRequired[list[str]]
+    hybrid: NotRequired[bool]
+    phyrexian: NotRequired[bool]
+
+
+class ScryfallManaCostData(TypedDict):
+    """
+    TypedDict for a Scryfall parsed mana cost object.
+
+    See: https://scryfall.com/docs/api/card-symbols/parse-mana
+    """
+
+    object: str
+    cost: str
+    cmc: float
+    mana_value: NotRequired[float]
+    colors: Colors
+    colorless: bool
+    monocolored: bool
+    multicolored: bool

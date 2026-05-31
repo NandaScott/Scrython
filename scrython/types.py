@@ -107,6 +107,12 @@ class CardFaceData(TypedDict):
     illustration_id: NotRequired[UUID]
     image_uris: NotRequired[ImageUris]
     watermark: NotRequired[str]
+    cmc: NotRequired[float]
+    layout: NotRequired[str]
+    oracle_id: NotRequired[UUID]
+    printed_name: NotRequired[str]
+    printed_text: NotRequired[str]
+    printed_type_line: NotRequired[str]
 
 
 class RelatedCard(TypedDict):
@@ -171,6 +177,7 @@ class ScryfallCardData(TypedDict):
     colors: NotRequired[Colors]
     defense: NotRequired[str]
     edhrec_rank: NotRequired[int]
+    game_changer: NotRequired[bool]
     hand_modifier: NotRequired[str]
     life_modifier: NotRequired[str]
     loyalty: NotRequired[str]

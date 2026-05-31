@@ -1,10 +1,10 @@
-from typing import Any
+from ..types import ScryfallRulingData
 
 
 class RulingsObjectMixin:
     """Provides property accessors for ruling objects from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallRulingData
 
     @property
     def object(self) -> str:

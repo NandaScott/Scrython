@@ -1,18 +1,21 @@
 from functools import cache
-from typing import Any
+from typing import Any, cast
 
 from ..types import (
+    CardFaceData,
     ImageUris,
     Legalities,
     Prices,
     PurchaseUris,
+    RelatedCard,
     RelatedUris,
+    ScryfallCardData,
 )
 from ..utils import to_object_array
 
 
 class CoreFieldsMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallCardData
 
     @property
     def arena_id(self) -> int | None:
@@ -160,7 +163,7 @@ class CoreFieldsMixin:
 
 
 class GameplayFieldsMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallCardData
 
     @property
     @cache
@@ -172,7 +175,7 @@ class GameplayFieldsMixin:
         """
 
         class RelatedCardObject(RelatedCardsObjectMixin):
-            def __init__(self, data):
+            def __init__(self, data: RelatedCard) -> None:
                 self._scryfall_data = data
 
         return to_object_array(RelatedCardObject, "all_parts", self._scryfall_data)
@@ -187,7 +190,7 @@ class GameplayFieldsMixin:
         """
 
         class CardFaceObject(CardFaceMixin):
-            def __init__(self, data):
+            def __init__(self, data: CardFaceData) -> None:
                 self._scryfall_data = data
 
         return to_object_array(CardFaceObject, "card_faces", self._scryfall_data)
@@ -387,7 +390,7 @@ class GameplayFieldsMixin:
 
 
 class PrintFieldsMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallCardData
 
     @property
     def artist(self) -> str | None:
@@ -831,7 +834,7 @@ class PrintFieldsMixin:
 
 
 class CardFaceMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: CardFaceData
 
     @property
     def artist(self) -> str | None:
@@ -1042,7 +1045,7 @@ class CardFaceMixin:
 
 
 class RelatedCardsObjectMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: RelatedCard
 
     @property
     def id(self) -> str:
@@ -1117,7 +1120,9 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
             if card.is_legal_in('commander'):
                 print('Legal in Commander!')
         """
-        legalities = self._scryfall_data.get("legalities", {})
+        # Cast to a plain mapping: a TypedDict cannot be indexed by a runtime
+        # (non-literal) format name.
+        legalities = cast("dict[str, str]", self._scryfall_data.get("legalities", {}))
         return legalities.get(format_name.lower()) == "legal"
 
     def has_color(self, color: str) -> bool:
@@ -1187,7 +1192,8 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
             if cheapest:
                 print(f'Cheapest: ${cheapest:.2f}')
         """
-        prices = self._scryfall_data.get("prices", {})
+        # Cast for .values() iteration: a TypedDict types its values as object.
+        prices = cast("dict[str, str | None]", self._scryfall_data.get("prices", {}))
         valid_prices = []
 
         for price_str in prices.values():
@@ -1212,7 +1218,8 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
             if most_expensive:
                 print(f'Most expensive: ${most_expensive:.2f}')
         """
-        prices = self._scryfall_data.get("prices", {})
+        # Cast for .values() iteration: a TypedDict types its values as object.
+        prices = cast("dict[str, str | None]", self._scryfall_data.get("prices", {}))
         valid_prices = []
 
         for price_str in prices.values():
@@ -1240,17 +1247,19 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
             if url:
                 print(f'Image: {url}')
         """
+        # Cast image maps to a plain dict: a TypedDict cannot be indexed by a
+        # runtime (non-literal) size key.
         # Check for image_uris at top level first
-        image_uris = self._scryfall_data.get("image_uris")
-        if image_uris and size in image_uris:
+        image_uris = cast("dict[str, str]", self._scryfall_data.get("image_uris") or {})
+        if size in image_uris:
             return image_uris[size]
 
         # For double-faced cards, check card_faces
         card_faces = self._scryfall_data.get("card_faces")
         if card_faces and len(card_faces) > 0:
             front_face = card_faces[0]
-            face_images = front_face.get("image_uris")
-            if face_images and size in face_images:
+            face_images = cast("dict[str, str]", front_face.get("image_uris") or {})
+            if size in face_images:
                 return face_images[size]
 
         return None

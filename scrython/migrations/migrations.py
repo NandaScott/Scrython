@@ -2,6 +2,7 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallListMixin
+from scrython.types import ScryfallListData, ScryfallMigrationData
 
 from .migrations_mixins import MigrationsObjectMixin
 
@@ -13,11 +14,11 @@ class Object(MigrationsObjectMixin):
     Provides access to all migration properties through MigrationsObjectMixin.
     """
 
-    def __init__(self, data: dict[str, Any]) -> None:
+    def __init__(self, data: ScryfallMigrationData) -> None:
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get recent migrations from Scryfall's database.
 
@@ -60,7 +61,7 @@ class All(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ById(MigrationsObjectMixin, ScrythonRequestHandler):
+class ById(MigrationsObjectMixin, ScrythonRequestHandler[ScryfallMigrationData]):
     """
     Get a specific migration record by its ID.
 
@@ -117,7 +118,7 @@ class Migrations:
         page2 = scrython.Migrations(page=2)
     """
 
-    def __new__(cls, **kwargs):
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler[Any]":  # type: ignore[misc]
         if "id" in kwargs:
             return ById(**kwargs)
         else:

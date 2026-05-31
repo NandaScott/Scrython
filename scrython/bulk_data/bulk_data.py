@@ -1,6 +1,6 @@
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallListMixin
-from ..types import ScryfallBulkDataData
+from ..types import ScryfallBulkDataData, ScryfallListData
 from .bulk_data_mixins import BulkDataObjectMixin
 
 
@@ -11,13 +11,11 @@ class Object(BulkDataObjectMixin):
     Provides access to all bulk data properties through BulkDataObjectMixin.
     """
 
-    _scryfall_data: ScryfallBulkDataData  # type: ignore[assignment]
-
     def __init__(self, data: ScryfallBulkDataData) -> None:
         self._scryfall_data = data
 
 
-class All(ScryfallListMixin, ScrythonRequestHandler):
+class All(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
     """
     Get information about all available bulk data files.
 
@@ -45,7 +43,7 @@ class All(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ById(BulkDataObjectMixin, ScrythonRequestHandler):
+class ById(BulkDataObjectMixin, ScrythonRequestHandler[ScryfallBulkDataData]):
     """
     Get information about a specific bulk data file by its Scryfall ID.
 
@@ -69,7 +67,7 @@ class ById(BulkDataObjectMixin, ScrythonRequestHandler):
     _endpoint = "/bulk-data/:id"
 
 
-class ByType(BulkDataObjectMixin, ScrythonRequestHandler):
+class ByType(BulkDataObjectMixin, ScrythonRequestHandler[ScryfallBulkDataData]):
     """
     Get information about a specific bulk data file by its type.
 

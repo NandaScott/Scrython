@@ -12,6 +12,24 @@ Scrython is available in PyPI, and requires no other dependencies.
 pip install scrython
 ```
 
+## Type Hints
+
+Scrython is a [PEP 561](https://peps.python.org/pep-0561/) compliant typed package. It ships a `py.typed` marker, so mypy, pyright, and Pylance all pick up the bundled inline type hints without any extra configuration or stub packages.
+
+```python
+import scrython
+
+card = scrython.cards.Named(fuzzy="Lightning Bolt")
+reveal_type(card.name)  # should reveal type `str` (mypy may display this as `builtins.str`)
+```
+
+Run your type checker of choice against scrython imports and it will work out of the box:
+
+```bash
+mypy my_script.py      # or
+pyright my_script.py
+```
+
 ## ⚠️ Important: Rate Limiting
 
 **Good news!** Scrython 2.0 includes **built-in rate limiting** enabled by default. You no longer need to manually add delays between requests.

@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.3] - Unreleased
+## [2.1.0] - Unreleased
+
+### Added
+- **`py.typed` marker**: Scrython now ships a `py.typed` marker file, signaling to type checkers (mypy, pyright, etc.) that the package supports PEP 561 inline type hints. The `Typing :: Typed` PyPI classifier has also been added to `pyproject.toml`.
+
+---
+
+## [2.0.3] - 2026-04-06
 
 ### Added
 - **Per-endpoint rate limiting**: Scryfall enforces tiered rate limits. `Search`, `Named`, `Random`, and `Collection` endpoints now automatically enforce 2 requests/second; all other endpoints enforce 10 requests/second. See [Scryfall rate limit docs](https://scryfall.com/docs/api/rate-limits).

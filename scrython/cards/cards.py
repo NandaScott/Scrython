@@ -3,7 +3,7 @@ from typing import Any
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
 from ..rate_limiter import SlowRateLimiter
-from ..types import ScryfallCardData
+from ..types import ScryfallCardData, ScryfallCatalogData
 from .cards_mixins import CardsObjectMixin
 
 
@@ -196,7 +196,7 @@ class Named(CardsObjectMixin, ScrythonRequestHandler):
     _rate_limiter_class = SlowRateLimiter
 
 
-class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get card name autocomplete suggestions.
 

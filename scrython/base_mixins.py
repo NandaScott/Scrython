@@ -3,6 +3,8 @@ from collections.abc import Callable, Generator, Iterator
 from functools import cache
 from typing import Any, cast
 
+from .types import ScryfallCatalogData
+
 
 class ScryfallListMixin:
     list_data_type: type | None = None
@@ -225,7 +227,7 @@ class ScryfallListMixin:
 
 
 class ScryfallCatalogMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallCatalogData
 
     @property
     def object(self) -> str:
@@ -233,12 +235,12 @@ class ScryfallCatalogMixin:
 
     @property
     def uri(self) -> str:
-        return cast(str, self._scryfall_data["uri"])
+        return self._scryfall_data["uri"]
 
     @property
     def total_values(self) -> int:
-        return cast(int, self._scryfall_data["total_values"])
+        return self._scryfall_data["total_values"]
 
     @property
     def data(self) -> list[str]:
-        return cast(list[str], self._scryfall_data["data"])
+        return self._scryfall_data["data"]

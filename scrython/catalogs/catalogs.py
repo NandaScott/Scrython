@@ -2,9 +2,10 @@ from typing import Any
 
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallCatalogMixin
+from scrython.types import ScryfallCatalogData
 
 
-class CardNames(ScryfallCatalogMixin, ScrythonRequestHandler):
+class CardNames(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all card names in Scryfall's database.
 
@@ -32,7 +33,7 @@ class CardNames(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/card-names"
 
 
-class CreatureTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class CreatureTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all creature types in Magic.
 
@@ -60,7 +61,7 @@ class CreatureTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/creature-types"
 
 
-class PlaneswalkerTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class PlaneswalkerTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all planeswalker types in Magic.
 
@@ -84,7 +85,7 @@ class PlaneswalkerTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/planeswalker-types"
 
 
-class CardTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class CardTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all card types in Magic.
 
@@ -107,7 +108,7 @@ class CardTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/card-types"
 
 
-class KeywordAbilities(ScryfallCatalogMixin, ScrythonRequestHandler):
+class KeywordAbilities(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all keyword abilities in Magic.
 
@@ -136,7 +137,7 @@ class KeywordAbilities(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/keyword-abilities"
 
 
-class KeywordActions(ScryfallCatalogMixin, ScrythonRequestHandler):
+class KeywordActions(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all keyword actions in Magic.
 
@@ -161,7 +162,7 @@ class KeywordActions(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/keyword-actions"
 
 
-class ArtifactTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class ArtifactTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all artifact types in Magic.
 
@@ -185,7 +186,7 @@ class ArtifactTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/artifact-types"
 
 
-class EnchantmentTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class EnchantmentTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all enchantment types in Magic.
 
@@ -209,7 +210,7 @@ class EnchantmentTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/enchantment-types"
 
 
-class LandTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class LandTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all land types in Magic.
 
@@ -236,7 +237,7 @@ class LandTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/land-types"
 
 
-class SpellTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class SpellTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all spell types in Magic.
 
@@ -260,7 +261,7 @@ class SpellTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/spell-types"
 
 
-class ArtistNames(ScryfallCatalogMixin, ScrythonRequestHandler):
+class ArtistNames(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all artist names in Magic.
 
@@ -289,7 +290,7 @@ class ArtistNames(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/artist-names"
 
 
-class WordBank(ScryfallCatalogMixin, ScrythonRequestHandler):
+class WordBank(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all English words that appear in card text.
 
@@ -313,7 +314,7 @@ class WordBank(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/word-bank"
 
 
-class Supertypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Supertypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all supertypes in Magic.
 
@@ -337,7 +338,7 @@ class Supertypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/supertypes"
 
 
-class BattleTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
+class BattleTypes(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all battle types in Magic.
 
@@ -361,7 +362,7 @@ class BattleTypes(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/battle-types"
 
 
-class Powers(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Powers(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all possible power values for creatures.
 
@@ -386,7 +387,7 @@ class Powers(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/powers"
 
 
-class Toughnesses(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Toughnesses(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all possible toughness values for creatures.
 
@@ -410,7 +411,7 @@ class Toughnesses(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/toughnesses"
 
 
-class Loyalties(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Loyalties(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all possible loyalty values for planeswalkers.
 
@@ -434,7 +435,7 @@ class Loyalties(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/loyalties"
 
 
-class Watermarks(ScryfallCatalogMixin, ScrythonRequestHandler):
+class Watermarks(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all watermarks that appear on cards.
 
@@ -458,7 +459,7 @@ class Watermarks(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/watermarks"
 
 
-class AbilityWords(ScryfallCatalogMixin, ScrythonRequestHandler):
+class AbilityWords(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all ability words in Magic.
 
@@ -485,7 +486,7 @@ class AbilityWords(ScryfallCatalogMixin, ScrythonRequestHandler):
     _endpoint = "/catalog/ability-words"
 
 
-class FlavorWords(ScryfallCatalogMixin, ScrythonRequestHandler):
+class FlavorWords(ScryfallCatalogMixin, ScrythonRequestHandler[ScryfallCatalogData]):
     """
     Get a catalog of all flavor words in Magic.
 

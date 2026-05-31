@@ -1,10 +1,12 @@
-from typing import Any, cast
+from typing import Any
+
+from ..types import ScryfallMigrationData
 
 
 class MigrationsObjectMixin:
     """Provides property accessors for migration objects from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallMigrationData
 
     @property
     def object(self) -> str:
@@ -22,7 +24,7 @@ class MigrationsObjectMixin:
 
         Type: UUID (Required)
         """
-        return cast(str, self._scryfall_data["id"])
+        return self._scryfall_data["id"]
 
     @property
     def uri(self) -> str:
@@ -31,7 +33,7 @@ class MigrationsObjectMixin:
 
         Type: URI (Required)
         """
-        return cast(str, self._scryfall_data["uri"])
+        return self._scryfall_data["uri"]
 
     @property
     def performed_at(self) -> str:
@@ -40,7 +42,7 @@ class MigrationsObjectMixin:
 
         Type: Timestamp (Required)
         """
-        return cast(str, self._scryfall_data["performed_at"])
+        return self._scryfall_data["performed_at"]
 
     @property
     def migration_strategy(self) -> str:
@@ -52,7 +54,7 @@ class MigrationsObjectMixin:
         - "merge": The old card was merged into a new card
         - "delete": The old card was deleted without replacement
         """
-        return cast(str, self._scryfall_data["migration_strategy"])
+        return self._scryfall_data["migration_strategy"]
 
     @property
     def old_scryfall_id(self) -> str:
@@ -61,7 +63,7 @@ class MigrationsObjectMixin:
 
         Type: UUID (Required)
         """
-        return cast(str, self._scryfall_data["old_scryfall_id"])
+        return self._scryfall_data["old_scryfall_id"]
 
     @property
     def new_scryfall_id(self) -> str | None:

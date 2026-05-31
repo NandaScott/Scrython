@@ -324,3 +324,21 @@ class ScryfallRulingData(TypedDict):
     source: str
     published_at: Date
     comment: str
+
+
+class ScryfallMigrationData(TypedDict):
+    """
+    TypedDict for a Scryfall Migration object.
+
+    See: https://scryfall.com/docs/api/migrations
+    """
+
+    object: str
+    id: UUID
+    uri: URI
+    performed_at: str
+    migration_strategy: str
+    old_scryfall_id: UUID
+    new_scryfall_id: NotRequired[UUID]
+    note: NotRequired[str]
+    metadata: NotRequired[dict[str, Any]]

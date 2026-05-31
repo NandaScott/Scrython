@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 
 class SetsObjectMixin:
@@ -20,7 +20,7 @@ class SetsObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["id"]
+        return cast(str, self._scryfall_data["id"])
 
     @property
     def code(self) -> str:
@@ -29,7 +29,7 @@ class SetsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["code"]
+        return cast(str, self._scryfall_data["code"])
 
     @property
     def mtgo_code(self) -> str | None:
@@ -65,7 +65,7 @@ class SetsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["name"]
+        return cast(str, self._scryfall_data["name"])
 
     @property
     def set_type(self) -> str:
@@ -74,7 +74,7 @@ class SetsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["set_type"]
+        return cast(str, self._scryfall_data["set_type"])
 
     @property
     def released_at(self) -> str | None:
@@ -119,7 +119,7 @@ class SetsObjectMixin:
 
         Type: Integer (Required)
         """
-        return self._scryfall_data["card_count"]
+        return cast(int, self._scryfall_data["card_count"])
 
     @property
     def printed_size(self) -> int | None:
@@ -137,7 +137,7 @@ class SetsObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["digital"]
+        return cast(bool, self._scryfall_data["digital"])
 
     @property
     def foil_only(self) -> bool:
@@ -146,7 +146,7 @@ class SetsObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["foil_only"]
+        return cast(bool, self._scryfall_data["foil_only"])
 
     @property
     def nonfoil_only(self) -> bool:
@@ -155,7 +155,7 @@ class SetsObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["nonfoil_only"]
+        return cast(bool, self._scryfall_data["nonfoil_only"])
 
     @property
     def scryfall_uri(self) -> str:
@@ -164,7 +164,7 @@ class SetsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["scryfall_uri"]
+        return cast(str, self._scryfall_data["scryfall_uri"])
 
     @property
     def uri(self) -> str:
@@ -173,7 +173,7 @@ class SetsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
     @property
     def icon_svg_uri(self) -> str:
@@ -182,7 +182,7 @@ class SetsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["icon_svg_uri"]
+        return cast(str, self._scryfall_data["icon_svg_uri"])
 
     @property
     def search_uri(self) -> str:
@@ -191,4 +191,4 @@ class SetsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["search_uri"]
+        return cast(str, self._scryfall_data["search_uri"])

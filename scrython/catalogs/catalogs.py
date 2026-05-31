@@ -1,3 +1,5 @@
+from typing import Any
+
 from scrython.base import ScrythonRequestHandler
 from scrython.base_mixins import ScryfallCatalogMixin
 
@@ -549,7 +551,7 @@ class Catalogs:
         print(f"Total cards: {names.total_values}")
     """
 
-    def __new__(cls, catalog_type: str, **kwargs):
+    def __new__(cls, catalog_type: str, **kwargs: Any) -> "ScryfallCatalogMixin":  # type: ignore[misc]
         catalog_map = {
             "card-names": CardNames,
             "creature-types": CreatureTypes,

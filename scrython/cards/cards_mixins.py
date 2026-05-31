@@ -1,5 +1,5 @@
 from functools import cache
-from typing import Any
+from typing import Any, cast
 
 from ..types import (
     ImageUris,
@@ -30,7 +30,7 @@ class CoreFieldsMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["id"]
+        return cast(str, self._scryfall_data["id"])
 
     @property
     def lang(self) -> str:
@@ -39,7 +39,7 @@ class CoreFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["lang"]
+        return cast(str, self._scryfall_data["lang"])
 
     @property
     def mtgo_id(self) -> int | None:
@@ -111,7 +111,7 @@ class CoreFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["layout"]
+        return cast(str, self._scryfall_data["layout"])
 
     @property
     def oracle_id(self) -> str | None:
@@ -129,7 +129,7 @@ class CoreFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["prints_search_uri"]
+        return cast(str, self._scryfall_data["prints_search_uri"])
 
     @property
     def rulings_uri(self) -> str:
@@ -138,7 +138,7 @@ class CoreFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["rulings_uri"]
+        return cast(str, self._scryfall_data["rulings_uri"])
 
     @property
     def scryfall_uri(self) -> str:
@@ -147,7 +147,7 @@ class CoreFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["scryfall_uri"]
+        return cast(str, self._scryfall_data["scryfall_uri"])
 
     @property
     def uri(self) -> str:
@@ -156,7 +156,7 @@ class CoreFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
 
 class GameplayFieldsMixin:
@@ -172,7 +172,7 @@ class GameplayFieldsMixin:
         """
 
         class RelatedCardObject(RelatedCardsObjectMixin):
-            def __init__(self, data):
+            def __init__(self, data: dict[str, Any]) -> None:
                 self._scryfall_data = data
 
         return to_object_array(RelatedCardObject, "all_parts", self._scryfall_data)
@@ -187,7 +187,7 @@ class GameplayFieldsMixin:
         """
 
         class CardFaceObject(CardFaceMixin):
-            def __init__(self, data):
+            def __init__(self, data: dict[str, Any]) -> None:
                 self._scryfall_data = data
 
         return to_object_array(CardFaceObject, "card_faces", self._scryfall_data)
@@ -199,7 +199,7 @@ class GameplayFieldsMixin:
 
         Type: Decimal (Required)
         """
-        return self._scryfall_data["cmc"]
+        return cast(float, self._scryfall_data["cmc"])
 
     @property
     def color_identity(self) -> list[str]:
@@ -208,7 +208,7 @@ class GameplayFieldsMixin:
 
         Type: Colors (Required)
         """
-        return self._scryfall_data["color_identity"]
+        return cast(list[str], self._scryfall_data["color_identity"])
 
     @property
     def color_indicator(self) -> list[str] | None:
@@ -271,7 +271,7 @@ class GameplayFieldsMixin:
 
         Type: Array (Required)
         """
-        return self._scryfall_data["keywords"]
+        return cast(list[str], self._scryfall_data["keywords"])
 
     @property
     def legalities(self) -> Legalities:
@@ -280,7 +280,7 @@ class GameplayFieldsMixin:
 
         Type: Object (Required)
         """
-        return self._scryfall_data["legalities"]
+        return cast(Legalities, self._scryfall_data["legalities"])
 
     @property
     def life_modifier(self) -> str | None:
@@ -318,7 +318,7 @@ class GameplayFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["name"]
+        return cast(str, self._scryfall_data["name"])
 
     @property
     def oracle_text(self) -> str | None:
@@ -363,7 +363,7 @@ class GameplayFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["reserved"]
+        return cast(bool, self._scryfall_data["reserved"])
 
     @property
     def toughness(self) -> str | None:
@@ -383,7 +383,7 @@ class GameplayFieldsMixin:
 
         Example: "Legendary Creature — Human Wizard"
         """
-        return self._scryfall_data["type_line"]
+        return cast(str, self._scryfall_data["type_line"])
 
 
 class PrintFieldsMixin:
@@ -423,7 +423,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["booster"]
+        return cast(bool, self._scryfall_data["booster"])
 
     @property
     def border_color(self) -> str:
@@ -432,7 +432,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["border_color"]
+        return cast(str, self._scryfall_data["border_color"])
 
     @property
     def card_back_id(self) -> str | None:
@@ -450,7 +450,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["collector_number"]
+        return cast(str, self._scryfall_data["collector_number"])
 
     @property
     def content_warning(self) -> bool | None:
@@ -468,7 +468,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["digital"]
+        return cast(bool, self._scryfall_data["digital"])
 
     @property
     def finishes(self) -> list[str]:
@@ -477,7 +477,7 @@ class PrintFieldsMixin:
 
         Type: Array of Strings (Required)
         """
-        return self._scryfall_data["finishes"]
+        return cast(list[str], self._scryfall_data["finishes"])
 
     @property
     def flavor_name(self) -> str | None:
@@ -513,7 +513,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["frame"]
+        return cast(str, self._scryfall_data["frame"])
 
     @property
     def full_art(self) -> bool:
@@ -522,7 +522,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["full_art"]
+        return cast(bool, self._scryfall_data["full_art"])
 
     @property
     def games(self) -> list[str]:
@@ -531,7 +531,7 @@ class PrintFieldsMixin:
 
         Type: Array of Strings (Required)
         """
-        return self._scryfall_data["games"]
+        return cast(list[str], self._scryfall_data["games"])
 
     @property
     def highres_image(self) -> bool:
@@ -540,7 +540,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["highres_image"]
+        return cast(bool, self._scryfall_data["highres_image"])
 
     @property
     def illustration_id(self) -> str | None:
@@ -558,7 +558,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["image_status"]
+        return cast(str, self._scryfall_data["image_status"])
 
     @property
     def image_uris(self) -> ImageUris | None:
@@ -576,7 +576,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["oversized"]
+        return cast(bool, self._scryfall_data["oversized"])
 
     @property
     def prices(self) -> Prices:
@@ -587,7 +587,7 @@ class PrintFieldsMixin:
 
         Note: Prices should be considered dangerously stale after 24 hours.
         """
-        return self._scryfall_data["prices"]
+        return cast(Prices, self._scryfall_data["prices"])
 
     @property
     def printed_name(self) -> str | None:
@@ -623,7 +623,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["promo"]
+        return cast(bool, self._scryfall_data["promo"])
 
     @property
     def promo_types(self) -> list[str] | None:
@@ -650,7 +650,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["rarity"]
+        return cast(str, self._scryfall_data["rarity"])
 
     @property
     def related_uris(self) -> RelatedUris:
@@ -659,7 +659,7 @@ class PrintFieldsMixin:
 
         Type: Object (Required)
         """
-        return self._scryfall_data["related_uris"]
+        return cast(RelatedUris, self._scryfall_data["related_uris"])
 
     @property
     def released_at(self) -> str:
@@ -668,7 +668,7 @@ class PrintFieldsMixin:
 
         Type: Date (Required)
         """
-        return self._scryfall_data["released_at"]
+        return cast(str, self._scryfall_data["released_at"])
 
     @property
     def reprint(self) -> bool:
@@ -677,7 +677,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["reprint"]
+        return cast(bool, self._scryfall_data["reprint"])
 
     @property
     def scryfall_set_uri(self) -> str:
@@ -686,7 +686,7 @@ class PrintFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["scryfall_set_uri"]
+        return cast(str, self._scryfall_data["scryfall_set_uri"])
 
     @property
     def set_name(self) -> str:
@@ -695,7 +695,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["set_name"]
+        return cast(str, self._scryfall_data["set_name"])
 
     @property
     def set_search_uri(self) -> str:
@@ -704,7 +704,7 @@ class PrintFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["set_search_uri"]
+        return cast(str, self._scryfall_data["set_search_uri"])
 
     @property
     def set_type(self) -> str:
@@ -713,7 +713,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["set_type"]
+        return cast(str, self._scryfall_data["set_type"])
 
     @property
     def set_uri(self) -> str:
@@ -722,7 +722,7 @@ class PrintFieldsMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["set_uri"]
+        return cast(str, self._scryfall_data["set_uri"])
 
     @property
     def set(self) -> str:
@@ -731,7 +731,7 @@ class PrintFieldsMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["set"]
+        return cast(str, self._scryfall_data["set"])
 
     @property
     def set_id(self) -> str:
@@ -740,7 +740,7 @@ class PrintFieldsMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["set_id"]
+        return cast(str, self._scryfall_data["set_id"])
 
     @property
     def story_spotlight(self) -> bool:
@@ -749,7 +749,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["story_spotlight"]
+        return cast(bool, self._scryfall_data["story_spotlight"])
 
     @property
     def textless(self) -> bool:
@@ -758,7 +758,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["textless"]
+        return cast(bool, self._scryfall_data["textless"])
 
     @property
     def variation(self) -> bool:
@@ -767,7 +767,7 @@ class PrintFieldsMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["variation"]
+        return cast(bool, self._scryfall_data["variation"])
 
     @property
     def variation_of(self) -> str | None:
@@ -804,7 +804,7 @@ class PrintFieldsMixin:
         Type: Date (Nullable)
         """
         if preview := self._scryfall_data.get("preview"):
-            return preview.get("previewed_at")
+            return cast(str | None, preview.get("previewed_at"))
         return None
 
     @property
@@ -815,7 +815,7 @@ class PrintFieldsMixin:
         Type: URI (Nullable)
         """
         if preview := self._scryfall_data.get("preview"):
-            return preview.get("source_uri")
+            return cast(str | None, preview.get("source_uri"))
         return None
 
     @property
@@ -826,7 +826,7 @@ class PrintFieldsMixin:
         Type: String (Nullable)
         """
         if preview := self._scryfall_data.get("preview"):
-            return preview.get("source")
+            return cast(str | None, preview.get("source"))
         return None
 
 
@@ -948,7 +948,7 @@ class CardFaceMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["name"]
+        return cast(str, self._scryfall_data["name"])
 
     @property
     def object(self) -> str:
@@ -957,7 +957,7 @@ class CardFaceMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["object"]
+        return cast(str, self._scryfall_data["object"])
 
     @property
     def oracle_id(self) -> str | None:
@@ -1051,7 +1051,7 @@ class RelatedCardsObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["id"]
+        return cast(str, self._scryfall_data["id"])
 
     @property
     def object(self) -> str:
@@ -1060,7 +1060,7 @@ class RelatedCardsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["object"]
+        return cast(str, self._scryfall_data["object"])
 
     @property
     def component(self) -> str:
@@ -1069,7 +1069,7 @@ class RelatedCardsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["component"]
+        return cast(str, self._scryfall_data["component"])
 
     @property
     def name(self) -> str:
@@ -1078,7 +1078,7 @@ class RelatedCardsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["name"]
+        return cast(str, self._scryfall_data["name"])
 
     @property
     def type_line(self) -> str:
@@ -1087,7 +1087,7 @@ class RelatedCardsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["type_line"]
+        return cast(str, self._scryfall_data["type_line"])
 
     @property
     def uri(self) -> str:
@@ -1096,7 +1096,7 @@ class RelatedCardsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
 
 class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
@@ -1118,7 +1118,7 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
                 print('Legal in Commander!')
         """
         legalities = self._scryfall_data.get("legalities", {})
-        return legalities.get(format_name.lower()) == "legal"
+        return bool(legalities.get(format_name.lower()) == "legal")
 
     def has_color(self, color: str) -> bool:
         """
@@ -1243,7 +1243,7 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
         # Check for image_uris at top level first
         image_uris = self._scryfall_data.get("image_uris")
         if image_uris and size in image_uris:
-            return image_uris[size]
+            return cast(str, image_uris[size])
 
         # For double-faced cards, check card_faces
         card_faces = self._scryfall_data.get("card_faces")
@@ -1251,6 +1251,6 @@ class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):
             front_face = card_faces[0]
             face_images = front_face.get("image_uris")
             if face_images and size in face_images:
-                return face_images[size]
+                return cast(str, face_images[size])
 
         return None

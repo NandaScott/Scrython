@@ -117,7 +117,7 @@ class Migrations:
         page2 = scrython.Migrations(page=2)
     """
 
-    def __new__(cls, **kwargs):
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler":  # type: ignore[misc]
         if "id" in kwargs:
             return ById(**kwargs)
         else:

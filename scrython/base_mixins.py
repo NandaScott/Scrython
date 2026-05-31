@@ -1,6 +1,7 @@
 import warnings
+from collections.abc import Callable, Generator, Iterator
 from functools import cache
-from typing import Any
+from typing import Any, cast
 
 
 class ScryfallListMixin:
@@ -17,11 +18,11 @@ class ScryfallListMixin:
         if self.list_data_type:
             return list(map(lambda data: self.list_data_type(data), self._scryfall_data["data"]))  # type: ignore[misc]
 
-        return self._scryfall_data["data"]
+        return cast(list[Any], self._scryfall_data["data"])
 
     @property
     def has_more(self) -> bool:
-        return self._scryfall_data["has_more"]
+        return cast(bool, self._scryfall_data["has_more"])
 
     @property
     def next_page(self) -> str | None:
@@ -64,7 +65,7 @@ class ScryfallListMixin:
                 items.append(item)
         return items
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         """
         Allow direct iteration over list results.
 
@@ -93,7 +94,7 @@ class ScryfallListMixin:
         """
         return len(self.data)
 
-    def iter_all(self, **kwargs):
+    def iter_all(self, **kwargs: Any) -> Generator[Any, None, None]:
         """
         Generator that auto-paginates through all results.
 
@@ -148,7 +149,7 @@ class ScryfallListMixin:
 
             # Process items with list_data_type if present
             if self.list_data_type:
-                items = [self.list_data_type(item) for item in next_data.get("data", [])]
+                items: list[Any] = [self.list_data_type(item) for item in next_data.get("data", [])]
             else:
                 items = next_data.get("data", [])
 
@@ -156,9 +157,9 @@ class ScryfallListMixin:
 
             # Update pagination state for next iteration
             class _TempPage:
-                def __init__(self, data):
-                    self.has_more = data.get("has_more", False)
-                    self.next_page = data.get("next_page")
+                def __init__(self, data: dict[str, Any]) -> None:
+                    self.has_more: bool = data.get("has_more", False)
+                    self.next_page: str | None = data.get("next_page")
 
             current = _TempPage(next_data)  # type: ignore[assignment]
 
@@ -177,7 +178,7 @@ class ScryfallListMixin:
             by_name = results.as_dict(key='name')
             print(by_name['Lightning Bolt'].set)
         """
-        result = {}
+        result: dict[str, Any] = {}
         for item in self.data:
             # Get the key value from the item
             if hasattr(item, key):
@@ -190,7 +191,7 @@ class ScryfallListMixin:
             result[key_value] = item
         return result
 
-    def filter(self, predicate):
+    def filter(self, predicate: Callable[[Any], bool]) -> list[Any]:
         """
         Filter results by a predicate function.
 
@@ -206,7 +207,7 @@ class ScryfallListMixin:
         """
         return [item for item in self.data if predicate(item)]
 
-    def map(self, func):
+    def map(self, func: Callable[[Any], Any]) -> list[Any]:
         """
         Transform results with a function.
 
@@ -232,12 +233,12 @@ class ScryfallCatalogMixin:
 
     @property
     def uri(self) -> str:
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
     @property
     def total_values(self) -> int:
-        return self._scryfall_data["total_values"]
+        return cast(int, self._scryfall_data["total_values"])
 
     @property
     def data(self) -> list[str]:
-        return self._scryfall_data["data"]
+        return cast(list[str], self._scryfall_data["data"])

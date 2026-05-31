@@ -1,6 +1,6 @@
 import gzip
 import json
-from typing import Any
+from typing import Any, cast
 from urllib.request import Request, urlopen
 
 from ..base import ScrythonRequestHandler
@@ -25,7 +25,7 @@ class BulkDataObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["id"]
+        return cast(str, self._scryfall_data["id"])
 
     @property
     def uri(self) -> str:
@@ -34,7 +34,7 @@ class BulkDataObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
     @property
     def type(self) -> str:
@@ -43,7 +43,7 @@ class BulkDataObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["type"]
+        return cast(str, self._scryfall_data["type"])
 
     @property
     def name(self) -> str:
@@ -52,7 +52,7 @@ class BulkDataObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["name"]
+        return cast(str, self._scryfall_data["name"])
 
     @property
     def description(self) -> str:
@@ -61,7 +61,7 @@ class BulkDataObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["description"]
+        return cast(str, self._scryfall_data["description"])
 
     @property
     def download_uri(self) -> str:
@@ -73,7 +73,7 @@ class BulkDataObjectMixin:
         Note: Files may be compressed with gzip depending on CDN/proxy configuration.
         The download() method automatically detects encoding from HTTP headers.
         """
-        return self._scryfall_data["download_uri"]
+        return cast(str, self._scryfall_data["download_uri"])
 
     @property
     def updated_at(self) -> str:
@@ -84,7 +84,7 @@ class BulkDataObjectMixin:
 
         Note: Bulk data files are updated approximately every 12 hours.
         """
-        return self._scryfall_data["updated_at"]
+        return cast(str, self._scryfall_data["updated_at"])
 
     @property
     def size(self) -> int:
@@ -93,7 +93,7 @@ class BulkDataObjectMixin:
 
         Type: Integer (Required)
         """
-        return self._scryfall_data["size"]
+        return cast(int, self._scryfall_data["size"])
 
     @property
     def content_type(self) -> str:
@@ -102,7 +102,7 @@ class BulkDataObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["content_type"]
+        return cast(str, self._scryfall_data["content_type"])
 
     @property
     def content_encoding(self) -> str:
@@ -111,7 +111,7 @@ class BulkDataObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["content_encoding"]
+        return cast(str, self._scryfall_data["content_encoding"])
 
     def download(
         self,
@@ -221,7 +221,9 @@ class BulkDataObjectMixin:
                     data = response.read()
 
         # Parse JSON
-        parsed_data = json.loads(data.decode("utf-8"))
+        parsed_data: list[dict[str, Any]] = cast(
+            list[dict[str, Any]], json.loads(data.decode("utf-8"))
+        )
 
         # Save to file if requested
         if filepath:

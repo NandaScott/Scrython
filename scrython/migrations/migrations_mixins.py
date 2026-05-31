@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 
 class MigrationsObjectMixin:
@@ -22,7 +22,7 @@ class MigrationsObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["id"]
+        return cast(str, self._scryfall_data["id"])
 
     @property
     def uri(self) -> str:
@@ -31,7 +31,7 @@ class MigrationsObjectMixin:
 
         Type: URI (Required)
         """
-        return self._scryfall_data["uri"]
+        return cast(str, self._scryfall_data["uri"])
 
     @property
     def performed_at(self) -> str:
@@ -40,7 +40,7 @@ class MigrationsObjectMixin:
 
         Type: Timestamp (Required)
         """
-        return self._scryfall_data["performed_at"]
+        return cast(str, self._scryfall_data["performed_at"])
 
     @property
     def migration_strategy(self) -> str:
@@ -52,7 +52,7 @@ class MigrationsObjectMixin:
         - "merge": The old card was merged into a new card
         - "delete": The old card was deleted without replacement
         """
-        return self._scryfall_data["migration_strategy"]
+        return cast(str, self._scryfall_data["migration_strategy"])
 
     @property
     def old_scryfall_id(self) -> str:
@@ -61,7 +61,7 @@ class MigrationsObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["old_scryfall_id"]
+        return cast(str, self._scryfall_data["old_scryfall_id"])
 
     @property
     def new_scryfall_id(self) -> str | None:

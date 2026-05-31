@@ -114,7 +114,7 @@ class Symbology:
         print(f"Colors: {cost.colors}")
     """
 
-    def __new__(cls, **kwargs):
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler":  # type: ignore[misc]
         if "cost" in kwargs:
             return ParseMana(**kwargs)
         else:

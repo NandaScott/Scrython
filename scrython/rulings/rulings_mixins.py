@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 
 class RulingsObjectMixin:
@@ -22,7 +22,7 @@ class RulingsObjectMixin:
 
         Type: UUID (Required)
         """
-        return self._scryfall_data["oracle_id"]
+        return cast(str, self._scryfall_data["oracle_id"])
 
     @property
     def source(self) -> str:
@@ -31,7 +31,7 @@ class RulingsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["source"]
+        return cast(str, self._scryfall_data["source"])
 
     @property
     def published_at(self) -> str:
@@ -40,7 +40,7 @@ class RulingsObjectMixin:
 
         Type: Date (Required)
         """
-        return self._scryfall_data["published_at"]
+        return cast(str, self._scryfall_data["published_at"])
 
     @property
     def comment(self) -> str:
@@ -49,4 +49,4 @@ class RulingsObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["comment"]
+        return cast(str, self._scryfall_data["comment"])

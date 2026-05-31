@@ -103,21 +103,24 @@ known-first-party = ["scrython"]
 # Mypy configuration
 [tool.mypy]
 python_version = "3.10"
-warn_return_any = false
 warn_unused_configs = true
-disallow_untyped_defs = false  # Not enforcing on all functions yet, but mixins have return types
+disallow_untyped_defs = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
 check_untyped_defs = true
+disallow_untyped_decorators = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
+warn_return_any = true
 warn_no_return = true
 strict_equality = true
+no_implicit_reexport = true
 ignore_missing_imports = true
 show_error_codes = true
-
-[[tool.mypy.overrides]]
-module = "scrython.utils"
-ignore_errors = true
+extra_checks = true
 
 # Pytest configuration
 [tool.pytest.ini_options]

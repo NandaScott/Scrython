@@ -2,7 +2,7 @@ import json
 import types
 import urllib.error
 import urllib.parse
-from typing import Any
+from typing import Any, cast
 from urllib.request import Request, urlopen
 
 from .cache import generate_cache_key, get_global_cache
@@ -95,7 +95,7 @@ class ScrythonRequestHandler:
         """
         if not hasattr(self, "_scryfall_namespace"):
             self._scryfall_namespace = self._dict_to_namespace(self._scryfall_data)
-        return self._scryfall_namespace
+        return cast(types.SimpleNamespace, self._scryfall_namespace)
 
     def _dict_to_namespace(self, data: Any) -> Any:
         """
@@ -211,7 +211,7 @@ class ScrythonRequestHandler:
                 charset = response.info().get_param("charset") or "utf-8"
                 decoded = response.read().decode(charset)
 
-                response_data = json.loads(decoded)
+                response_data: dict[str, Any] = cast(dict[str, Any], json.loads(decoded))
 
                 # Store in cache if enabled and cache_key provided
                 if use_cache and cache_key is not None and response_data.get("object") != "error":
@@ -381,7 +381,7 @@ class ScrythonRequestHandler:
         other_id = other._scryfall_data.get("id")
 
         if self_id and other_id:
-            return self_id == other_id
+            return bool(self_id == other_id)
 
         # Fallback to object comparison if no IDs
         return self is other

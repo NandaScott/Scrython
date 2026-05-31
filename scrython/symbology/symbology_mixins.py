@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 
 class SymbologyObjectMixin:
@@ -24,7 +24,7 @@ class SymbologyObjectMixin:
 
         Example: "{W}", "{U/B}", "{2}"
         """
-        return self._scryfall_data["symbol"]
+        return cast(str, self._scryfall_data["symbol"])
 
     @property
     def loose_variant(self) -> str | None:
@@ -42,7 +42,7 @@ class SymbologyObjectMixin:
 
         Type: String (Required)
         """
-        return self._scryfall_data["english"]
+        return cast(str, self._scryfall_data["english"])
 
     @property
     def transposable(self) -> bool:
@@ -51,7 +51,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["transposable"]
+        return cast(bool, self._scryfall_data["transposable"])
 
     @property
     def represents_mana(self) -> bool:
@@ -60,7 +60,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["represents_mana"]
+        return cast(bool, self._scryfall_data["represents_mana"])
 
     @property
     def mana_value(self) -> float | None:
@@ -80,7 +80,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["appears_in_mana_costs"]
+        return cast(bool, self._scryfall_data["appears_in_mana_costs"])
 
     @property
     def funny(self) -> bool:
@@ -89,7 +89,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["funny"]
+        return cast(bool, self._scryfall_data["funny"])
 
     @property
     def colors(self) -> list[str]:
@@ -100,7 +100,7 @@ class SymbologyObjectMixin:
 
         Example: ["W"], ["U", "B"], []
         """
-        return self._scryfall_data["colors"]
+        return cast(list[str], self._scryfall_data["colors"])
 
     @property
     def hybrid(self) -> bool:
@@ -109,7 +109,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data.get("hybrid", False)
+        return cast(bool, self._scryfall_data.get("hybrid", False))
 
     @property
     def phyrexian(self) -> bool:
@@ -118,7 +118,7 @@ class SymbologyObjectMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data.get("phyrexian", False)
+        return cast(bool, self._scryfall_data.get("phyrexian", False))
 
     @property
     def cmc(self) -> float | None:
@@ -173,7 +173,7 @@ class ManaCostMixin:
 
         Example: "{2}{U}{U}"
         """
-        return self._scryfall_data["cost"]
+        return cast(str, self._scryfall_data["cost"])
 
     @property
     def cmc(self) -> float:
@@ -184,7 +184,7 @@ class ManaCostMixin:
 
         Note: Deprecated. Use mana_value instead.
         """
-        return self._scryfall_data["cmc"]
+        return cast(float, self._scryfall_data["cmc"])
 
     @property
     def mana_value(self) -> float:
@@ -193,7 +193,7 @@ class ManaCostMixin:
 
         Type: Decimal (Required)
         """
-        return self._scryfall_data.get("mana_value", self._scryfall_data["cmc"])
+        return cast(float, self._scryfall_data.get("mana_value", self._scryfall_data["cmc"]))
 
     @property
     def colors(self) -> list[str]:
@@ -204,7 +204,7 @@ class ManaCostMixin:
 
         Example: ["U"], ["W", "U"], []
         """
-        return self._scryfall_data["colors"]
+        return cast(list[str], self._scryfall_data["colors"])
 
     @property
     def colorless(self) -> bool:
@@ -213,7 +213,7 @@ class ManaCostMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["colorless"]
+        return cast(bool, self._scryfall_data["colorless"])
 
     @property
     def monocolored(self) -> bool:
@@ -222,7 +222,7 @@ class ManaCostMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["monocolored"]
+        return cast(bool, self._scryfall_data["monocolored"])
 
     @property
     def multicolored(self) -> bool:
@@ -231,4 +231,4 @@ class ManaCostMixin:
 
         Type: Boolean (Required)
         """
-        return self._scryfall_data["multicolored"]
+        return cast(bool, self._scryfall_data["multicolored"])

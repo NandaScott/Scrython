@@ -175,7 +175,7 @@ class Rulings:
         rulings5 = scrython.Rulings(code="m21", number="241")
     """
 
-    def __new__(cls, **kwargs):
+    def __new__(cls, **kwargs: Any) -> "ScrythonRequestHandler":  # type: ignore[misc]
         if "id" in kwargs:
             return ById(**kwargs)
         elif "multiverse_id" in kwargs:

@@ -256,7 +256,9 @@ class ScryfallSetData(TypedDict):
 
     # Optional fields
     mtgo_code: NotRequired[str]
+    arena_code: NotRequired[str]
     tcgplayer_id: NotRequired[int]
+    printed_size: NotRequired[int]
     parent_set_code: NotRequired[str]
     block_code: NotRequired[str]
     block: NotRequired[str]

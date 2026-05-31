@@ -12,8 +12,6 @@ class Object(SetsObjectMixin):
     Provides access to all set properties through SetsObjectMixin.
     """
 
-    _scryfall_data: ScryfallSetData  # type: ignore[assignment]
-
     def __init__(self, data: ScryfallSetData) -> None:
         self._scryfall_data = data
 
@@ -46,7 +44,7 @@ class All(ScryfallListMixin, ScrythonRequestHandler):
     list_data_type = Object
 
 
-class ByCode(SetsObjectMixin, ScrythonRequestHandler):
+class ByCode(SetsObjectMixin, ScrythonRequestHandler[ScryfallSetData]):
     """
     Get a set by its three-to-six-letter set code.
 
@@ -71,7 +69,7 @@ class ByCode(SetsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/sets/:code"
 
 
-class ByTCGPlayerId(SetsObjectMixin, ScrythonRequestHandler):
+class ByTCGPlayerId(SetsObjectMixin, ScrythonRequestHandler[ScryfallSetData]):
     """
     Get a set by its TCGPlayer group ID.
 
@@ -94,7 +92,7 @@ class ByTCGPlayerId(SetsObjectMixin, ScrythonRequestHandler):
     _endpoint = "/sets/tcgplayer/:id"
 
 
-class ById(SetsObjectMixin, ScrythonRequestHandler):
+class ById(SetsObjectMixin, ScrythonRequestHandler[ScryfallSetData]):
     """
     Get a set by its Scryfall UUID.
 

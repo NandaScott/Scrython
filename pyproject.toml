@@ -9,7 +9,9 @@ description = "A wrapper for using the Scryfall API."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "typing-extensions>=4.5.0; python_version<'3.11'",
+    # NotRequired needs the backport before 3.11; TypeVar(default=...) (PEP 696,
+    # used by ScrythonRequestHandler) needs it before 3.13.
+    "typing-extensions>=4.6.0; python_version<'3.13'",
 ]
 license = "MIT"
 authors = [

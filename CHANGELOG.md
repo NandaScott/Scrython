@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.3] - Unreleased
+## [2.1.0] - Unreleased
+
+### Added
+- **`py.typed` marker**: Scrython now ships a `py.typed` marker file, signaling to type checkers (mypy, pyright, etc.) that the package supports PEP 561 inline type hints. The `Typing :: Typed` PyPI classifier has also been added to `pyproject.toml`.
+
+---
+
+## [2.0.3] - 2026-04-06
 
 ### Added
 - **Per-endpoint rate limiting**: Scryfall enforces tiered rate limits. `Search`, `Named`, `Random`, and `Collection` endpoints now automatically enforce 2 requests/second; all other endpoints enforce 10 requests/second. See [Scryfall rate limit docs](https://scryfall.com/docs/api/rate-limits).
@@ -186,24 +193,19 @@ See git history for changes in previous releases.
 
 ### Future Releases (Roadmap)
 
-#### Version 2.1.0
-- Implement Rulings API endpoints (5 endpoints)
-- Add basic Catalog endpoints (card-names, creature-types)
+The Rulings, Catalog, Symbology, and Migration endpoints, plus the built-in
+TTL caching layer, have all shipped. Remaining roadmap items:
+
+#### Near-term
 - Improve error messages with more context
 - Add retry logic with exponential backoff
-
-#### Version 2.2.0
-- Implement Symbology API endpoints (2 endpoints)
-- Add remaining Catalog endpoints (15+ endpoints)
 - Consider async/await support for concurrent requests
-- Built-in caching layer with TTL
 
 #### Version 3.0.0 (Major)
-- Complete Scryfall API coverage (all 49 endpoints)
+- Complete Scryfall API coverage across all published endpoints
 - Potential breaking changes for improved API design
 - GraphQL support if Scryfall adds it
 - Performance optimizations
-- Advanced caching strategies
 
 ---
 

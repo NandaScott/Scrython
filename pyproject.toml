@@ -4,12 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scrython"
-version = "2.0.3"
+version = "2.1.0"
 description = "A wrapper for using the Scryfall API."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "typing-extensions>=4.5.0; python_version<'3.11'",
+    # NotRequired needs the backport before 3.11; TypeVar(default=...) (PEP 696,
+    # used by ScrythonRequestHandler) needs it before 3.13.
+    "typing-extensions>=4.6.0; python_version<'3.13'",
 ]
 license = "MIT"
 authors = [
@@ -24,11 +26,18 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
 ]
 
 [project.urls]
 Homepage = "https://github.com/NandaScott/Scrython"
 Repository = "https://github.com/NandaScott/Scrython"
+
+[tool.setuptools.packages.find]
+include = ["scrython*"]
+
+[tool.setuptools.package-data]
+scrython = ["py.typed"]
 
 [project.optional-dependencies]
 dev = [
@@ -38,6 +47,7 @@ dev = [
     "pytest>=8.0.0",
     "pytest-cov>=4.1.0",
     "pre-commit>=3.6.0",
+    "build>=1.0.0",
 ]
 progress = [
     "tqdm>=4.65.0",
@@ -96,21 +106,24 @@ known-first-party = ["scrython"]
 # Mypy configuration
 [tool.mypy]
 python_version = "3.10"
-warn_return_any = false
 warn_unused_configs = true
-disallow_untyped_defs = false  # Not enforcing on all functions yet, but mixins have return types
+disallow_untyped_defs = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
 check_untyped_defs = true
+disallow_untyped_decorators = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
+warn_return_any = true
 warn_no_return = true
 strict_equality = true
+no_implicit_reexport = true
 ignore_missing_imports = true
 show_error_codes = true
-
-[[tool.mypy.overrides]]
-module = "scrython.utils"
-ignore_errors = true
+extra_checks = true
 
 # Pytest configuration
 [tool.pytest.ini_options]

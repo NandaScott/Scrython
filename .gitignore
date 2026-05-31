@@ -25,3 +25,8 @@ dmypy.json
 # Python version
 .python-version
 docs/superpowers
+
+# Sandcastle Node tooling (project is Python; these come from @ai-hero/sandcastle)
+node_modules/
+package.json
+package-lock.json

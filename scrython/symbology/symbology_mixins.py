@@ -1,10 +1,10 @@
-from typing import Any
+from ..types import ScryfallManaCostData, ScryfallSymbolData
 
 
 class SymbologyObjectMixin:
     """Provides property accessors for card symbol objects from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallSymbolData
 
     @property
     def object(self) -> str:
@@ -153,7 +153,7 @@ class SymbologyObjectMixin:
 class ManaCostMixin:
     """Provides property accessors for mana cost parse results from the Scryfall API."""
 
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallManaCostData
 
     @property
     def object(self) -> str:

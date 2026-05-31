@@ -1,8 +1,8 @@
-from typing import Any
+from scrython.types import ScryfallSetData
 
 
 class SetsObjectMixin:
-    _scryfall_data: dict[str, Any]
+    _scryfall_data: ScryfallSetData
 
     @property
     def object(self) -> str:

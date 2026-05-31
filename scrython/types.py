@@ -107,6 +107,12 @@ class CardFaceData(TypedDict):
     illustration_id: NotRequired[UUID]
     image_uris: NotRequired[ImageUris]
     watermark: NotRequired[str]
+    cmc: NotRequired[float]
+    layout: NotRequired[str]
+    oracle_id: NotRequired[UUID]
+    printed_name: NotRequired[str]
+    printed_text: NotRequired[str]
+    printed_type_line: NotRequired[str]
 
 
 class RelatedCard(TypedDict):
@@ -171,6 +177,7 @@ class ScryfallCardData(TypedDict):
     colors: NotRequired[Colors]
     defense: NotRequired[str]
     edhrec_rank: NotRequired[int]
+    game_changer: NotRequired[bool]
     hand_modifier: NotRequired[str]
     life_modifier: NotRequired[str]
     loyalty: NotRequired[str]
@@ -256,7 +263,9 @@ class ScryfallSetData(TypedDict):
 
     # Optional fields
     mtgo_code: NotRequired[str]
+    arena_code: NotRequired[str]
     tcgplayer_id: NotRequired[int]
+    printed_size: NotRequired[int]
     parent_set_code: NotRequired[str]
     block_code: NotRequired[str]
     block: NotRequired[str]
@@ -308,3 +317,76 @@ class ScryfallCatalogData(TypedDict):
     uri: URI
     total_values: int
     data: list[str]
+
+
+class ScryfallRulingData(TypedDict):
+    """
+    TypedDict for a Scryfall Ruling object.
+
+    See: https://scryfall.com/docs/api/rulings
+    """
+
+    object: str
+    oracle_id: UUID
+    source: str
+    published_at: Date
+    comment: str
+
+
+class ScryfallMigrationData(TypedDict):
+    """
+    TypedDict for a Scryfall Migration object.
+
+    See: https://scryfall.com/docs/api/migrations
+    """
+
+    object: str
+    id: UUID
+    uri: URI
+    performed_at: str
+    migration_strategy: str
+    old_scryfall_id: UUID
+    new_scryfall_id: NotRequired[UUID]
+    note: NotRequired[str]
+    metadata: NotRequired[dict[str, Any]]
+
+
+class ScryfallSymbolData(TypedDict):
+    """
+    TypedDict for a Scryfall Card Symbol object.
+
+    See: https://scryfall.com/docs/api/card-symbols
+    """
+
+    object: str
+    symbol: str
+    english: str
+    transposable: bool
+    represents_mana: bool
+    appears_in_mana_costs: bool
+    funny: bool
+    colors: Colors
+    loose_variant: NotRequired[str]
+    mana_value: NotRequired[float]
+    cmc: NotRequired[float]
+    svg_uri: NotRequired[URI]
+    gatherer_alternates: NotRequired[list[str]]
+    hybrid: NotRequired[bool]
+    phyrexian: NotRequired[bool]
+
+
+class ScryfallManaCostData(TypedDict):
+    """
+    TypedDict for a Scryfall parsed mana cost object.
+
+    See: https://scryfall.com/docs/api/card-symbols/parse-mana
+    """
+
+    object: str
+    cost: str
+    cmc: float
+    mana_value: NotRequired[float]
+    colors: Colors
+    colorless: bool
+    monocolored: bool
+    multicolored: bool

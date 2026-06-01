@@ -5,6 +5,7 @@ import time
 
 import pytest
 
+import scrython
 from scrython.base import ScryfallError, ScrythonRequestHandler
 from scrython.rate_limiter import RateLimiter
 
@@ -457,3 +458,18 @@ class TestPerEndpointTiering:
                     defined.add(endpoint.strip("/"))
 
         assert ScryfallConnector._SLOW_ENDPOINTS <= defined
+
+
+class TestRemovedRateLimitKwarg:
+    """The per-request rate_limit= toggle is removed (issue #170 review)."""
+
+    def test_rate_limit_kwarg_warns_deprecation(self, mock_urlopen, sample_card):
+        mock_urlopen.set_response(data=sample_card)
+        with pytest.warns(DeprecationWarning):
+            scrython.cards.ById(id="abc", rate_limit=False)
+
+    def test_rate_limit_kwarg_not_sent_as_query_param(self, mock_urlopen, sample_card):
+        mock_urlopen.set_response(data=sample_card)
+        with pytest.warns(DeprecationWarning):
+            scrython.cards.ById(id="abc", rate_limit=False)
+        assert "rate_limit" not in mock_urlopen.calls[0]["url"]

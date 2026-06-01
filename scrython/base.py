@@ -1,6 +1,7 @@
 import json
 import types
 import urllib.parse
+import warnings
 from typing import Any
 
 from .cache import generate_cache_key, get_global_cache
@@ -89,12 +90,23 @@ class ScrythonRequestHandler:
                 - cache (bool): Enable caching (default: False)
                 - cache_ttl (int): Cache TTL in seconds (default: 3600)
         """
+        self._warn_removed_kwargs(kwargs)
         self._build_path(**kwargs)
         self._build_params(**kwargs)
         self._fetch(**kwargs)
 
         if self._scryfall_data["object"] == "error":
             raise ScryfallError(self._scryfall_data, self._scryfall_data["details"])
+
+    def _warn_removed_kwargs(self, kwargs: dict[str, Any]) -> None:
+        if "rate_limit" in kwargs:
+            warnings.warn(
+                "rate_limit= is removed and has no effect; configure throttling on "
+                "the connector instead, e.g. "
+                "ScryfallConnector(rate_limiter=NullRateLimiter()).",
+                DeprecationWarning,
+                stacklevel=3,
+            )
 
     def _get_connector(self, **kwargs: Any) -> Connector:
         connector: Connector | None = kwargs.get("connector")

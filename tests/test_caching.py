@@ -288,12 +288,12 @@ class TestRequestHandlerCaching:
 
         # First call with both cache and rate limit
         start = time.time()
-        _handler1 = TestHandler(fuzzy="bolt", cache=True, rate_limit=True)
+        _handler1 = TestHandler(fuzzy="bolt", cache=True)
         first_call = time.time() - start
 
         # Second call - should use cache (no rate limit delay)
         start = time.time()
-        _handler2 = TestHandler(fuzzy="bolt", cache=True, rate_limit=True)
+        _handler2 = TestHandler(fuzzy="bolt", cache=True)
         second_call = time.time() - start
 
         # Second call should be much faster (cache hit)

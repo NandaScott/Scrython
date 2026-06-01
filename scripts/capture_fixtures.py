@@ -149,6 +149,20 @@ FIXTURE_MAP: dict[str, dict] = {
         "path": "migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
         "query": {},
     },
+    # Four cards across two sets (LEA and M10) for list-helper usage tests.
+    # Ordered by name so the result order is deterministic on refresh.
+    "cards_search__multiset": {
+        "endpoint": "cards/search",
+        "path": "cards/search",
+        "query": {
+            "q": (
+                "(name:\"Counterspell\" or name:\"Lightning Bolt\") s:lea"
+                " or (name:\"Fireball\" or name:\"Giant Growth\") s:m10"
+            ),
+            "order": "name",
+            "unique": "prints",
+        },
+    },
 }
 
 

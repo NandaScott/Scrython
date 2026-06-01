@@ -1,11 +1,12 @@
 import json
 import urllib.error
 import urllib.parse
+import warnings
 from typing import Any
 from urllib.request import Request, urlopen
 
 from ..connector import Connector
-from ..rate_limiter import RateLimiter
+from ..rate_limiter import NullRateLimiter, RateLimiter, RateLimitWarning, SlowRateLimiter
 
 
 class ScryfallConnector(Connector):
@@ -22,10 +23,15 @@ class ScryfallConnector(Connector):
     _content_type: str = "application/json"
     _BASE_URL: str = "https://api.scryfall.com"
 
+    # Scryfall throttles these endpoints harder than the 10/s default.
+    _SLOW_ENDPOINTS: frozenset[str] = frozenset(
+        {"cards/search", "cards/named", "cards/random", "cards/collection"}
+    )
+
     def __init__(self, rate_limiter: RateLimiter | None = None) -> None:
-        self._rate_limiter = (
-            rate_limiter if rate_limiter is not None else RateLimiter.get_global_limiter()
-        )
+        # An injected limiter overrides per-endpoint tiering for every request.
+        # Left as None, each request uses the limiter for its endpoint's tier.
+        self._rate_limiter = rate_limiter
 
     @classmethod
     def set_user_agent(cls, user_agent: str) -> None:
@@ -51,17 +57,43 @@ class ScryfallConnector(Connector):
     ) -> dict[str, Any]:
         """Return a Scryfall-shaped response dict, including error dicts."""
         url = f"{self._BASE_URL}/{endpoint}?{urllib.parse.urlencode(params)}"
-        return self._fetch_url(url, data=data)
+        return self._fetch_url(url, limiter=self._limiter_for(endpoint), data=data)
+
+    def _tier_class(self, endpoint: str) -> type[RateLimiter]:
+        if endpoint.strip("/") in self._SLOW_ENDPOINTS:
+            return SlowRateLimiter
+        return RateLimiter
+
+    def _limiter_for(self, endpoint: str) -> RateLimiter:
+        tier_default = self._tier_class(endpoint).get_global_limiter()
+        limiter = self._rate_limiter if self._rate_limiter is not None else tier_default
+        self._warn_if_over_limit(limiter, tier_default, endpoint)
+        return limiter
+
+    def _warn_if_over_limit(
+        self, limiter: RateLimiter, tier_default: RateLimiter, endpoint: str
+    ) -> None:
+        if isinstance(limiter, NullRateLimiter):
+            return
+        if limiter.calls_per_second > tier_default.calls_per_second:
+            warnings.warn(
+                f"Rate limiter is set to {limiter.calls_per_second}/s for "
+                f"'{endpoint}', exceeding Scryfall's {tier_default.calls_per_second}/s "
+                f"limit for this endpoint; requests risk being throttled or banned.",
+                RateLimitWarning,
+                stacklevel=2,
+            )
 
     def _fetch_url(
         self,
         url: str,
         *,
+        limiter: RateLimiter | None = None,
         data: dict[str, Any] | None = None,
         rate_limit: bool = True,
     ) -> dict[str, Any]:
-        if rate_limit:
-            self._rate_limiter.wait()
+        if rate_limit and limiter is not None:
+            limiter.wait()
 
         post_data: bytes | None = None
         if data is not None:

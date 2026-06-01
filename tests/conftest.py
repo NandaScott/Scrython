@@ -57,11 +57,19 @@ def disable_rate_limiting():
     Fixture that disables rate limiting for tests.
 
     This makes tests run much faster by removing rate limit delays.
+
+    Both rate-limiter tiers are patched so slow endpoints (search/named/random/
+    collection) do not sleep either.
     """
-    with patch("scrython.connectors.scryfall_api.RateLimiter") as mock_limiter_class:
-        mock_instance = Mock()
-        mock_instance.wait = Mock()  # No-op wait method
+    mock_instance = Mock()
+    mock_instance.wait = Mock()  # No-op wait method
+    mock_instance.calls_per_second = float("inf")
+    with (
+        patch("scrython.connectors.scryfall_api.RateLimiter") as mock_limiter_class,
+        patch("scrython.connectors.scryfall_api.SlowRateLimiter") as mock_slow_limiter_class,
+    ):
         mock_limiter_class.get_global_limiter.return_value = mock_instance
+        mock_slow_limiter_class.get_global_limiter.return_value = mock_instance
         yield
 
 

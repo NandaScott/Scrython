@@ -274,8 +274,11 @@ class TestRequestHandlerRateLimiting:
 
         mock_urlopen_with_rate_limit.set_response(data=sample_card)
 
+        # Fast-tier endpoint (10/s, 0.1s interval) — the slow endpoints
+        # (search/named/random/collection) run at 2/s, which this timing math
+        # would not match.
         class TestHandler(ScrythonRequestHandler):
-            _endpoint = "cards/named"
+            _endpoint = "cards/multiverse/123"
 
         # First call
         _handler1 = TestHandler(fuzzy="Card 1")
@@ -366,3 +369,91 @@ class TestSlowRateLimiter:
         elapsed = time.time() - start
 
         assert 0.45 < elapsed < 1.0
+
+
+class TestPerEndpointTiering:
+    """ScryfallConnector owns per-endpoint rate-limit tiering (issue #170 review)."""
+
+    def _connector(self, **kwargs):
+        from scrython.connectors.scryfall_api import ScryfallConnector
+
+        return ScryfallConnector(**kwargs)
+
+    def test_slow_endpoints_use_slow_tier(self):
+        from scrython.rate_limiter import SlowRateLimiter
+
+        conn = self._connector()
+        for endpoint in ("cards/search", "cards/named", "cards/random", "cards/collection"):
+            assert isinstance(conn._limiter_for(endpoint), SlowRateLimiter)
+
+    def test_fast_endpoints_use_default_tier(self):
+        from scrython.rate_limiter import RateLimiter, SlowRateLimiter
+
+        limiter = self._connector()._limiter_for("cards/some-id")
+        assert isinstance(limiter, RateLimiter)
+        assert not isinstance(limiter, SlowRateLimiter)
+
+    def test_injected_limiter_overrides_tiering(self):
+        from scrython.rate_limiter import RateLimiter
+
+        import warnings
+
+        from scrython.rate_limiter import RateLimitWarning
+
+        fixed = RateLimiter(20.0)
+        conn = self._connector(rate_limiter=fixed)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RateLimitWarning)
+            assert conn._limiter_for("cards/search") is fixed
+            assert conn._limiter_for("cards/some-id") is fixed
+
+    def test_over_limit_injection_warns(self):
+        from scrython.rate_limiter import RateLimiter, RateLimitWarning
+
+        conn = self._connector(rate_limiter=RateLimiter(10.0))  # 10/s > slow 2/s limit
+        with pytest.warns(RateLimitWarning):
+            conn._limiter_for("cards/search")
+
+    def test_within_limit_injection_is_silent(self, recwarn):
+        from scrython.rate_limiter import RateLimiter, RateLimitWarning
+
+        self._connector(rate_limiter=RateLimiter(2.0))._limiter_for("cards/search")
+        assert not [w for w in recwarn.list if issubclass(w.category, RateLimitWarning)]
+
+    def test_default_tiered_path_is_silent(self, recwarn):
+        from scrython.rate_limiter import RateLimitWarning
+
+        conn = self._connector()
+        conn._limiter_for("cards/search")
+        conn._limiter_for("cards/some-id")
+        assert not [w for w in recwarn.list if issubclass(w.category, RateLimitWarning)]
+
+    def test_null_rate_limiter_suppresses_warning(self, recwarn):
+        from scrython.rate_limiter import NullRateLimiter, RateLimitWarning
+
+        self._connector(rate_limiter=NullRateLimiter())._limiter_for("cards/search")
+        assert not [w for w in recwarn.list if issubclass(w.category, RateLimitWarning)]
+
+    def test_null_rate_limiter_wait_is_noop(self):
+        from scrython.rate_limiter import NullRateLimiter
+
+        limiter = NullRateLimiter()
+        start = time.time()
+        for _ in range(5):
+            limiter.wait()
+        assert time.time() - start < 0.05
+
+    def test_slow_endpoint_set_matches_card_endpoints(self):
+        """Drift guard: every slow endpoint string maps to a real cards.py endpoint."""
+        from scrython.cards import cards as cards_module
+        from scrython.connectors.scryfall_api import ScryfallConnector
+
+        defined: set[str] = set()
+        for name in dir(cards_module):
+            obj = getattr(cards_module, name)
+            if isinstance(obj, type) and issubclass(obj, ScrythonRequestHandler):
+                endpoint = getattr(obj, "_endpoint", "")
+                if endpoint:
+                    defined.add(endpoint.strip("/"))
+
+        assert ScryfallConnector._SLOW_ENDPOINTS <= defined

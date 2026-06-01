@@ -65,6 +65,10 @@ def stub_response():
     (e.g. "cards/named" and "cards/id/rulings") in one test is ambiguous and
     raises; no current test does this.
 
+    Bulk download: register the CDN payload with the special endpoint key
+    "bulk-data/download" (a list of card dicts). The download() HTTP call is
+    intercepted by a separate patch on bulk_data_mixins.urlopen.
+
     Usage:
         def test_something(stub_response, load_fixture):
             stub_response("cards/named", load_fixture("cards_named_black_lotus"))
@@ -72,9 +76,10 @@ def stub_response():
             assert card.name == "Black Lotus"
     """
     registry: dict = {}
+    download_registry: list = []
 
     class _MockResponse:
-        def __init__(self, data: dict) -> None:
+        def __init__(self, data: dict | list) -> None:
             self._data = json.dumps(data).encode("utf-8")
             self._info = Mock()
             self._info.get_param = Mock(return_value="utf-8")
@@ -114,8 +119,19 @@ def stub_response():
             f"'{requested}'; cannot disambiguate (registered: {sorted(registry)})"
         )
 
-    def _register(endpoint: str, payload: dict) -> None:
-        registry[endpoint] = payload
+    def _urlopen_download(_request):
+        if not download_registry:
+            raise ValueError(
+                "stub_response: register a download payload with "
+                "stub_response('bulk-data/download', [...]) before calling download()"
+            )
+        return _MockResponse(download_registry[0])
+
+    def _register(endpoint: str, payload: dict | list) -> None:
+        if endpoint == "bulk-data/download":
+            download_registry.append(payload)
+        else:
+            registry[endpoint] = payload
 
     # Patch the limiter's wait() itself so the bypass holds regardless of which
     # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
@@ -124,6 +140,7 @@ def stub_response():
     with (
         patch.object(RateLimiter, "wait", lambda *_: None),
         patch("scrython.base.urlopen", side_effect=_urlopen),
+        patch("scrython.bulk_data.bulk_data_mixins.urlopen", side_effect=_urlopen_download),
     ):
         yield _register
 
@@ -165,3 +182,20 @@ def _make_payload_fixture(endpoint: str, key: str):
 # Register one named pytest fixture per captured payload.
 for _key, _endpoint in _PAYLOAD_FIXTURES.items():
     globals()[_key] = _make_payload_fixture(_endpoint, _key)
+
+
+# Minimal synthetic payload for bulk download tests — not a captured API response.
+_SAMPLE_BULK_CARDS: list[dict] = [
+    {
+        "object": "card",
+        "id": "f4fa7d2c-3d02-4a5e-8b4d-2e4e3e7f8c9a",
+        "oracle_id": "93c2c107-d8f9-4d79-acfa-c6e1aa0e1f1b",
+        "name": "Black Lotus",
+    },
+]
+
+
+@pytest.fixture
+def bulk_data_by_id__oracle_cards_download(stub_response, load_fixture):
+    stub_response("bulk-data/id", load_fixture("bulk_data_by_id__oracle_cards"))
+    stub_response("bulk-data/download", _SAMPLE_BULK_CARDS)

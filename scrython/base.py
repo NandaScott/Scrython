@@ -5,7 +5,7 @@ import warnings
 from typing import Any
 
 from .cache import generate_cache_key, get_global_cache
-from .connector import Connector, get_connector
+from .connector import Connector
 
 _HANDLER_KWARGS: frozenset[str] = frozenset(
     {"rate_limit", "cache", "cache_ttl", "data", "connector"}
@@ -112,7 +112,7 @@ class ScrythonRequestHandler:
         connector: Connector | None = kwargs.get("connector")
         if connector is not None:
             return connector
-        return get_connector()
+        return Connector.current()
 
     def _fetch_raw(self, url: str, cache_key: str | None = None, **kwargs: Any) -> dict[str, Any]:
         """

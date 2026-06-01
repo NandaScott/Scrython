@@ -1,0 +1,22 @@
+{
+  "cards/named": "cards_named__black_lotus",
+  "layout/normal": "cards_by_id__normal",
+  "layout/transform": "cards_by_id__transform",
+  "layout/modal_dfc": "cards_by_id__modal_dfc",
+  "layout/split": "cards_by_id__split",
+  "layout/adventure": "cards_by_id__adventure",
+  "layout/saga": "cards_by_id__saga",
+  "layout/meld": "cards_by_id__meld",
+  "layout/flip": "cards_by_id__flip",
+  "layout/leveler": "cards_by_id__leveler",
+  "layout/class": "cards_by_id__class",
+  "layout/token": "cards_by_id__token",
+  "sets/code": "sets_by_code__lea",
+  "bulk-data/id": "bulk_data_by_id__oracle_cards",
+  "catalog/creature-types": "catalogs_creature_types",
+  "cards/id/rulings": "rulings_by_id__rules_lawyer",
+  "migrations/id": "migrations_by_id__merge",
+  "symbology": "symbology_all",
+  "list_envelope": "rulings_by_id__rules_lawyer",
+  "catalog_envelope": "catalogs_creature_types"
+}

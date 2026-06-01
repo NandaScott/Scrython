@@ -1,0 +1,184 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T23:30:44.516613+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/c7d5e394-8e41-442e-ae97-a478a61e1b9d",
+    "scryfall_id": "c7d5e394-8e41-442e-ae97-a478a61e1b9d"
+  },
+  "payload": {
+    "object": "card",
+    "id": "c7d5e394-8e41-442e-ae97-a478a61e1b9d",
+    "oracle_id": "ea27c8bf-33c5-443f-b8b2-51235efc2491",
+    "multiverse_ids": [
+      472967
+    ],
+    "mtgo_id": 78096,
+    "arena_id": 70152,
+    "tcgplayer_id": 198997,
+    "cardmarket_id": 400494,
+    "name": "Ardenvale Tactician // Dizzying Swoop",
+    "lang": "en",
+    "released_at": "2019-10-04",
+    "uri": "https://api.scryfall.com/cards/c7d5e394-8e41-442e-ae97-a478a61e1b9d",
+    "scryfall_uri": "https://scryfall.com/card/eld/5/ardenvale-tactician-dizzying-swoop?utm_source=api",
+    "layout": "adventure",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
+      "normal": "https://cards.scryfall.io/normal/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
+      "large": "https://cards.scryfall.io/large/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
+      "png": "https://cards.scryfall.io/png/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.png?1572489629",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629"
+    },
+    "mana_cost": "{1}{W}{W} // {1}{W}",
+    "cmc": 3.0,
+    "type_line": "Creature — Human Knight // Instant — Adventure",
+    "power": "2",
+    "toughness": "3",
+    "colors": [
+      "W"
+    ],
+    "color_identity": [
+      "W"
+    ],
+    "keywords": [
+      "Flying"
+    ],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Ardenvale Tactician",
+        "mana_cost": "{1}{W}{W}",
+        "type_line": "Creature — Human Knight",
+        "oracle_text": "Flying",
+        "power": "2",
+        "toughness": "3",
+        "flavor_text": "In a castle that prizes loyalty above all, the bond between knight and griffin is unmatched.",
+        "artist": "Jason Rainville",
+        "artist_id": "6ed7e669-579b-443d-b223-e5cbcb2a7483",
+        "illustration_id": "627d6163-08a5-40b8-938c-264d01ec29bb"
+      },
+      {
+        "object": "card_face",
+        "name": "Dizzying Swoop",
+        "mana_cost": "{1}{W}",
+        "type_line": "Instant — Adventure",
+        "oracle_text": "Tap up to two target creatures. (Then exile this card. You may cast the creature later from exile.)",
+        "artist": "Jason Rainville",
+        "artist_id": "6ed7e669-579b-443d-b223-e5cbcb2a7483"
+      }
+    ],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "a8d50cf9-03e6-467a-aadf-84a24106ffa9",
+        "component": "combo_piece",
+        "name": "On an Adventure",
+        "type_line": "Card",
+        "uri": "https://api.scryfall.com/cards/a8d50cf9-03e6-467a-aadf-84a24106ffa9"
+      },
+      {
+        "object": "related_card",
+        "id": "bd6ccd0b-5279-431f-b65a-7fdbdffd1a90",
+        "component": "combo_piece",
+        "name": "Ardenvale Tactician // Dizzying Swoop",
+        "type_line": "Creature — Human Knight // Instant — Adventure",
+        "uri": "https://api.scryfall.com/cards/bd6ccd0b-5279-431f-b65a-7fdbdffd1a90"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "pauper": "legal",
+      "vintage": "legal",
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "arena",
+      "paper",
+      "mtgo"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "a90a7b2f-9dd8-4fc7-9f7d-8ea2797ec782",
+    "set": "eld",
+    "set_name": "Throne of Eldraine",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/a90a7b2f-9dd8-4fc7-9f7d-8ea2797ec782",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aeld&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/eld?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/c7d5e394-8e41-442e-ae97-a478a61e1b9d/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aea27c8bf-33c5-443f-b8b2-51235efc2491&unique=prints",
+    "collector_number": "5",
+    "digital": false,
+    "rarity": "common",
+    "flavor_text": "In a castle that prizes loyalty above all, the bond between knight and griffin is unmatched.",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Jason Rainville",
+    "artist_ids": [
+      "6ed7e669-579b-443d-b223-e5cbcb2a7483"
+    ],
+    "illustration_id": "627d6163-08a5-40b8-938c-264d01ec29bb",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 15543,
+    "penny_rank": 7421,
+    "preview": {
+      "source": "Wizards of the Coast",
+      "source_uri": "https://magic.wizards.com/en/articles/archive/card-preview/adventure-adventure-2019-09-12",
+      "previewed_at": "2019-09-12"
+    },
+    "prices": {
+      "usd": "0.09",
+      "usd_foil": "0.21",
+      "usd_etched": null,
+      "eur": "0.14",
+      "eur_foil": "0.14",
+      "tix": "0.03"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=472967&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DArdenvale%2BTactician%2B%252F%252F%2BDizzying%2BSwoop",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DArdenvale%2BTactician%2B%252F%252F%2BDizzying%2BSwoop",
+      "edhrec": "https://edhrec.com/route/?cc=Ardenvale+Tactician"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F198997%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=400494&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/78096?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

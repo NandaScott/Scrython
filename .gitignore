@@ -30,3 +30,7 @@ docs/superpowers
 node_modules/
 package.json
 package-lock.json
+
+# Claude Code scheduler runtime state (session-local)
+.claude/scheduled_tasks.lock
+.claude/scheduled_tasks.json

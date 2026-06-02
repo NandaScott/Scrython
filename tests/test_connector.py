@@ -22,7 +22,7 @@ class DummyConnector(Connector):
     def __init__(self, name: str = "dummy") -> None:
         self.name = name
 
-    def fetch(self, endpoint, params, *, data=None):
+    def fetch(self, endpoint, params, *, data=None):  # noqa: ARG002
         return {"object": "card", "id": self.name, "name": self.name}
 
 

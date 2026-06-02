@@ -395,8 +395,6 @@ class TestPerEndpointTiering:
         assert not isinstance(limiter, SlowRateLimiter)
 
     def test_injected_limiter_overrides_tiering(self):
-        from scrython.rate_limiter import RateLimiter
-
         import warnings
 
         from scrython.rate_limiter import RateLimitWarning
@@ -457,7 +455,7 @@ class TestPerEndpointTiering:
                 if endpoint:
                     defined.add(endpoint.strip("/"))
 
-        assert ScryfallConnector._SLOW_ENDPOINTS <= defined
+        assert defined >= ScryfallConnector._SLOW_ENDPOINTS
 
 
 class TestRemovedRateLimitKwarg:

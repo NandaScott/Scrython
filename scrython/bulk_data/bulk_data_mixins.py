@@ -3,7 +3,7 @@ import json
 from typing import Any
 from urllib.request import Request, urlopen
 
-from ..base import ScrythonRequestHandler
+from ..connectors.scryfall_api import ScryfallConnector
 
 
 class BulkDataObjectMixin:
@@ -164,7 +164,7 @@ class BulkDataObjectMixin:
         download_url = self.download_uri
 
         request = Request(download_url)
-        request.add_header("User-Agent", ScrythonRequestHandler._user_agent)
+        request.add_header("User-Agent", ScryfallConnector._user_agent)
         request.add_header("Accept-Encoding", "gzip, identity")
 
         # Optional progress bar

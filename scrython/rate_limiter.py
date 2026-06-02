@@ -15,6 +15,17 @@ import warnings
 from typing import ClassVar
 
 
+class RateLimitWarning(UserWarning):
+    """
+    Warns that the active rate limiter exceeds Scryfall's limit for an endpoint.
+
+    Emitted per-request when an injected limiter is faster than the tier the
+    endpoint belongs to. Filter it precisely with
+    ``warnings.filterwarnings("ignore", category=scrython.RateLimitWarning)``,
+    or escalate it to an error in tests with ``"error"``.
+    """
+
+
 class RateLimiter:
     """
     Thread-safe rate limiter using token bucket algorithm.
@@ -127,3 +138,20 @@ class SlowRateLimiter(RateLimiter):
 
     def __init__(self, calls_per_second: float = 2.0) -> None:
         super().__init__(calls_per_second)
+
+
+class NullRateLimiter(RateLimiter):
+    """
+    No-op limiter for callers who explicitly opt out of throttling.
+
+    ``wait()`` does nothing. The connector treats this as a sanctioned bypass
+    and suppresses RateLimitWarning for it. Use at your own risk: exceeding
+    Scryfall's published limits can get your client throttled or banned. Inject
+    via ``ScryfallConnector(rate_limiter=NullRateLimiter())``.
+    """
+
+    def __init__(self) -> None:
+        super().__init__(float("inf"))
+
+    def wait(self) -> None:
+        return

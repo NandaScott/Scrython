@@ -1,6 +1,5 @@
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
-from ..rate_limiter import SlowRateLimiter
 from ..types import ScryfallCardData
 from .cards_mixins import CardsObjectMixin
 
@@ -159,7 +158,6 @@ class Search(ScryfallListMixin, ScrythonRequestHandler):
     """
 
     _endpoint = "/cards/search"
-    _rate_limiter_class = SlowRateLimiter
     list_data_type = Object
 
 
@@ -191,7 +189,6 @@ class Named(CardsObjectMixin, ScrythonRequestHandler):
     """
 
     _endpoint = "/cards/named"
-    _rate_limiter_class = SlowRateLimiter
 
 
 class Autocomplete(ScryfallCatalogMixin, ScrythonRequestHandler):
@@ -247,7 +244,6 @@ class Random(CardsObjectMixin, ScrythonRequestHandler):
     """
 
     _endpoint = "/cards/random"
-    _rate_limiter_class = SlowRateLimiter
 
 
 class Collection(ScryfallListMixin, ScrythonRequestHandler):
@@ -280,7 +276,6 @@ class Collection(ScryfallListMixin, ScrythonRequestHandler):
     """
 
     _endpoint = "/cards/collection"
-    _rate_limiter_class = SlowRateLimiter
     list_data_type = Object
 
 

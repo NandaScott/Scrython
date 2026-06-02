@@ -10,6 +10,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from scrython.bulk_data import All, ById, ByType
+from scrython.connectors.scryfall_api import ScryfallConnector
 
 
 class TestAll:
@@ -317,8 +318,6 @@ class TestBulkDataDownload:
         """Test download sets proper User-Agent and Accept-Encoding headers."""
         from urllib.request import Request
 
-        from scrython.base import ScrythonRequestHandler
-
         mock_urlopen.set_response("bulk_data/by_id.json")
         bulk = ByType(type="oracle_cards")
 
@@ -339,5 +338,5 @@ class TestBulkDataDownload:
             assert isinstance(request, Request)
 
             # Verify headers are set correctly
-            assert request.get_header("User-agent") == ScrythonRequestHandler._user_agent
+            assert request.get_header("User-agent") == ScryfallConnector._user_agent
             assert request.get_header("Accept-encoding") == "gzip, identity"

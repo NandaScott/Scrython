@@ -1,0 +1,21 @@
+{
+  "object": "tag",
+  "id": "e4444444-4444-4444-4444-444444444444",
+  "slug": "squirrel",
+  "label": "Squirrel",
+  "uri": "https://api.scryfall.com/cards/art-tag/squirrel",
+  "type": "illustration",
+  "taggings": [
+    {
+      "object": "tagging",
+      "illustration_id": "9c1f0a2b-5678-4d12-9e2c-ec6d9a345789",
+      "weight": "median",
+      "annotation": "A squirrel perches on Chatterfang's shoulder."
+    },
+    {
+      "object": "tagging",
+      "illustration_id": "aa2f0a2b-5678-4d12-9e2c-ec6d9a34578a",
+      "weight": "weak"
+    }
+  ]
+}

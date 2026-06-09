@@ -333,6 +333,39 @@ class ScryfallRulingData(TypedDict):
     comment: str
 
 
+class ScryfallTaggingData(TypedDict):
+    """
+    TypedDict for a Scryfall Tagging object (an entry in a Tag's taggings array).
+
+    A tagging links a Tag to a single card, by illustration for art tags or by
+    oracle identity for oracle tags.
+    """
+
+    object: str
+    weight: str
+    illustration_id: NotRequired[UUID]
+    oracle_id: NotRequired[UUID]
+    annotation: NotRequired[str]
+
+
+class ScryfallTagData(TypedDict):
+    """
+    TypedDict for a Scryfall Tag object from the art_tags / oracle_tags bulk files.
+    """
+
+    object: str
+    id: UUID
+    slug: str
+    label: str
+    uri: URI
+    type: str
+    taggings: list[ScryfallTaggingData]
+    description: NotRequired[str]
+    parent_ids: NotRequired[list[UUID]]
+    child_ids: NotRequired[list[UUID]]
+    aliases: NotRequired[list[str]]
+
+
 class ScryfallMigrationData(TypedDict):
     """
     TypedDict for a Scryfall Migration object.

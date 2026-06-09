@@ -1,6 +1,7 @@
 from typing import Any
 
 from ..types import ScryfallTagData, ScryfallTaggingData
+from ..utils import to_object_array
 
 
 class TaggingObjectMixin:
@@ -147,14 +148,13 @@ class TagObjectMixin:
         return self._scryfall_data.get("aliases")
 
     @property
-    def taggings(self) -> list[Any]:
+    def taggings(self) -> list[Any] | None:
         """
         An array of tagging objects associating this tag with specific cards.
-        Present on every tag; an empty array when the tag has no direct taggings.
 
         Type: Array (Required)
         """
         # Imported lazily to avoid a circular import: tags.py imports this mixin.
         from .tags import Tagging
 
-        return [Tagging(tagging) for tagging in self._scryfall_data["taggings"]]
+        return to_object_array(Tagging, "taggings", self._scryfall_data)

@@ -1,28 +1,37 @@
 {
   "object": "tag",
-  "id": "b7c19924-b4bf-492b-9c98-1e9b0f6e4d3a",
-  "slug": "removal",
-  "label": "Removal",
-  "uri": "https://api.scryfall.com/cards/oracle-tag/removal",
+  "id": "5bf7154a-2814-4329-a310-4a1343ee3850",
+  "label": "bottom deck manipulation",
+  "slug": "bottom-deck-manipulation",
   "type": "oracle",
-  "description": "Cards that destroy, exile, or otherwise remove permanents from the battlefield.",
-  "parent_ids": ["a1111111-1111-1111-1111-111111111111"],
-  "child_ids": [
-    "c2222222-2222-2222-2222-222222222222",
-    "d3333333-3333-3333-3333-333333333333"
+  "uri": "https://tagger.scryfall.com/tags/card/bottom-deck-manipulation",
+  "description": null,
+  "parent_ids": [
+    "f2486826-9b36-4aba-88bb-c2482e72f9ec"
   ],
-  "aliases": ["interaction", "answers"],
+  "child_ids": [
+    "296e1941-a9ba-4c6e-9548-c1efe2d67a8f",
+    "762d88d7-49f6-4af9-8442-247e350ba6ca",
+    "9c30f011-97e4-457e-ba5c-94238d346cdc"
+  ],
+  "aliases": [],
   "taggings": [
     {
-      "object": "tagging",
-      "oracle_id": "f2b9983e-20d4-4d12-9e2c-ec6d9a345787",
-      "weight": "strong",
-      "annotation": "Doom Blade destroys a nonblack creature."
+      "oracle_id": "97024e8e-dfde-4769-bc27-c3d6fad19e7c",
+      "weight": "median",
+      "annotation": "If you play this with a deck that can make tokens and has no creatures, you can reorder your entire deck."
     },
     {
-      "object": "tagging",
-      "oracle_id": "0f8f7d3e-1234-4d12-9e2c-ec6d9a345788",
-      "weight": "very_strong"
+      "oracle_id": "eccc9a54-2b56-4a02-9926-258d5b2e25fb",
+      "weight": "median"
+    },
+    {
+      "oracle_id": "2c132e6f-2e9e-4b39-81a8-f88c32173cd5",
+      "weight": "median"
+    },
+    {
+      "oracle_id": "2251e34e-4ce8-4452-9dc6-d8cce8583996",
+      "weight": "median"
     }
   ]
 }

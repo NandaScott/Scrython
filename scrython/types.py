@@ -341,7 +341,6 @@ class ScryfallTaggingData(TypedDict):
     oracle identity for oracle tags.
     """
 
-    object: str
     weight: str
     illustration_id: NotRequired[UUID]
     oracle_id: NotRequired[UUID]

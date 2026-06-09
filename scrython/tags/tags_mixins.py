@@ -10,28 +10,9 @@ class TaggingObjectMixin:
     _scryfall_data: ScryfallTaggingData
 
     @property
-    def object(self) -> str:
-        """
-        A content type for this object, always "tagging".
-
-        Type: String (Required)
-        """
-        return "tagging"
-
-    @property
-    def weight(self) -> str:
-        """
-        How strongly this tagging applies. One of "very_strong", "strong",
-        "median", or "weak".
-
-        Type: String (Required)
-        """
-        return self._scryfall_data["weight"]
-
-    @property
     def illustration_id(self) -> str | None:
         """
-        The illustration this tagging applies to, present on art taggings.
+        For art tags: the illustration_id of the card artwork that has this tagging.
 
         Type: UUID (Nullable)
         """
@@ -40,16 +21,28 @@ class TaggingObjectMixin:
     @property
     def oracle_id(self) -> str | None:
         """
-        The Oracle identity this tagging applies to, present on oracle taggings.
+        For oracle tags: the oracle_id of the card that has this tagging.
 
         Type: UUID (Nullable)
         """
         return self._scryfall_data.get("oracle_id")
 
     @property
+    def weight(self) -> str:
+        """
+        How prominently the tag applies to this card. One of "very_strong" (the
+        subject is exemplary for the image or card text), "strong" (a primary
+        focus), "median" (a normal tagging with no special weight), or "weak"
+        (a minor detail or background element).
+
+        Type: String (Required)
+        """
+        return self._scryfall_data["weight"]
+
+    @property
     def annotation(self) -> str | None:
         """
-        A human-readable note describing why the tag applies.
+        An optional note providing additional context for this specific tagging.
 
         Type: String (Nullable)
         """
@@ -73,7 +66,7 @@ class TagObjectMixin:
     @property
     def id(self) -> str:
         """
-        A stable, unique identifier for this tag.
+        A unique and stable UUID for this tag.
 
         Type: UUID (Required)
         """
@@ -82,7 +75,8 @@ class TagObjectMixin:
     @property
     def slug(self) -> str:
         """
-        The URL-safe identifier for this tag.
+        A URL-safe identifier for the tag, e.g. "squirrel". Slugs may change over
+        time; use id as a stable reference.
 
         Type: String (Required)
         """
@@ -91,7 +85,7 @@ class TagObjectMixin:
     @property
     def label(self) -> str:
         """
-        The human-readable name of this tag.
+        A human-readable name for this tag, e.g. "Squirrel".
 
         Type: String (Required)
         """
@@ -100,7 +94,7 @@ class TagObjectMixin:
     @property
     def uri(self) -> str:
         """
-        A link to a Scryfall search for cards carrying this tag.
+        A link to this tag on the Tagger site.
 
         Type: URI (Required)
         """
@@ -109,7 +103,7 @@ class TagObjectMixin:
     @property
     def type(self) -> str:
         """
-        The kind of tag. Either "illustration" (art tag) or "oracle".
+        The tag type: "illustration" for art tags or "oracle" for oracle tags.
 
         Type: String (Required)
         """
@@ -118,7 +112,7 @@ class TagObjectMixin:
     @property
     def description(self) -> str | None:
         """
-        A description of what this tag represents.
+        An optional description of what this tag represents.
 
         Type: String (Nullable)
         """
@@ -127,38 +121,41 @@ class TagObjectMixin:
     @property
     def parent_ids(self) -> list[str] | None:
         """
-        The IDs of tags this tag is a child of.
+        UUIDs of parent tags in the tag hierarchy within this bulk file.
 
-        Type: Array of UUIDs (Nullable)
+        Type: Array (Nullable)
         """
         return self._scryfall_data.get("parent_ids")
 
     @property
     def child_ids(self) -> list[str] | None:
         """
-        The IDs of tags that are children of this tag.
+        UUIDs of child tags in the tag hierarchy within this bulk file.
 
-        Type: Array of UUIDs (Nullable)
+        Type: Array (Nullable)
         """
         return self._scryfall_data.get("child_ids")
 
     @property
     def aliases(self) -> list[str] | None:
         """
-        Alternate names for this tag.
+        Alternative names the community uses for this tag.
 
-        Type: Array of Strings (Nullable)
+        Type: Array (Nullable)
         """
         return self._scryfall_data.get("aliases")
 
     @property
-    def taggings(self) -> list[Any] | None:
+    def taggings(self) -> list[Any]:
         """
-        The Tagging objects linking this tag to individual cards.
+        An array of tagging objects associating this tag with specific cards.
 
-        Type: Array of Tagging objects
+        Type: Array (Required)
         """
         # Imported lazily to avoid a circular import: tags.py imports this mixin.
         from .tags import Tagging
 
-        return to_object_array(Tagging, "taggings", self._scryfall_data)
+        # taggings is a required field; return an empty list rather than None when
+        # the key is absent so callers can always iterate without a None check.
+        taggings = to_object_array(Tagging, "taggings", self._scryfall_data)
+        return taggings if taggings is not None else []

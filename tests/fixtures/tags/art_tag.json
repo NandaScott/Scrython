@@ -1,21 +1,25 @@
 {
   "object": "tag",
-  "id": "e4444444-4444-4444-4444-444444444444",
-  "slug": "squirrel",
-  "label": "Squirrel",
-  "uri": "https://api.scryfall.com/cards/art-tag/squirrel",
+  "id": "3d1b2689-29ff-41d0-9ff1-b7ae18d1edb6",
+  "label": "mirri (housecat)",
+  "slug": "mirri-housecat",
   "type": "illustration",
+  "uri": "https://tagger.scryfall.com/tags/artwork/mirri-housecat",
+  "description": "Sami's cat.",
+  "parent_ids": [
+    "504aea75-b144-4530-b014-3e3c7a1fd283",
+    "7b155ecc-bd5e-4757-bde2-c029b6978bad",
+    "b8ad94e6-a042-49ff-bf9e-b963ade6e176",
+    "b88f1b22-c601-4e52-ae99-1fc602c65534"
+  ],
+  "child_ids": [],
+  "aliases": [
+    "mirri (cat)"
+  ],
   "taggings": [
     {
-      "object": "tagging",
-      "illustration_id": "9c1f0a2b-5678-4d12-9e2c-ec6d9a345789",
-      "weight": "median",
-      "annotation": "A squirrel perches on Chatterfang's shoulder."
-    },
-    {
-      "object": "tagging",
-      "illustration_id": "aa2f0a2b-5678-4d12-9e2c-ec6d9a34578a",
-      "weight": "weak"
+      "illustration_id": "d7a21c80-7157-4965-b6d0-d1f6ba0aec33",
+      "weight": "median"
     }
   ]
 }

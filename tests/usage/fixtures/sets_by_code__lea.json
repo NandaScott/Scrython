@@ -1,0 +1,27 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T23:30:47.470707+00:00",
+    "endpoint": "sets/code",
+    "source_url": "https://api.scryfall.com/sets/lea",
+    "scryfall_id": "288bd996-960e-448b-a187-9504c1930c2c"
+  },
+  "payload": {
+    "object": "set",
+    "id": "288bd996-960e-448b-a187-9504c1930c2c",
+    "code": "lea",
+    "tcgplayer_id": 7,
+    "name": "Limited Edition Alpha",
+    "uri": "https://api.scryfall.com/sets/288bd996-960e-448b-a187-9504c1930c2c",
+    "scryfall_uri": "https://scryfall.com/sets/lea",
+    "search_uri": "https://api.scryfall.com/cards/search?include_extras=true&include_variations=true&order=set&q=e%3Alea&unique=prints",
+    "released_at": "1993-08-05",
+    "set_type": "core",
+    "card_count": 295,
+    "digital": false,
+    "nonfoil_only": true,
+    "foil_only": false,
+    "block_code": "lea",
+    "block": "Core Set",
+    "icon_svg_uri": "https://svgs.scryfall.io/sets/lea.svg?1779681600"
+  }
+}

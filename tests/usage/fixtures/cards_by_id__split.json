@@ -1,0 +1,157 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T23:30:44.266093+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/9dc20e14-e304-4c14-a87b-322a76e214d5",
+    "scryfall_id": "9dc20e14-e304-4c14-a87b-322a76e214d5"
+  },
+  "payload": {
+    "object": "card",
+    "id": "9dc20e14-e304-4c14-a87b-322a76e214d5",
+    "oracle_id": "df39fbee-6ddc-4733-a32e-cdaf369ecccf",
+    "multiverse_ids": [
+      107373
+    ],
+    "mtgo_id": 24359,
+    "tcgplayer_id": 13833,
+    "cardmarket_id": 12969,
+    "name": "Bound // Determined",
+    "lang": "en",
+    "released_at": "2006-05-05",
+    "uri": "https://api.scryfall.com/cards/9dc20e14-e304-4c14-a87b-322a76e214d5",
+    "scryfall_uri": "https://scryfall.com/card/dis/149/bound-determined?utm_source=api",
+    "layout": "split",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.jpg?1593273912",
+      "normal": "https://cards.scryfall.io/normal/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.jpg?1593273912",
+      "large": "https://cards.scryfall.io/large/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.jpg?1593273912",
+      "png": "https://cards.scryfall.io/png/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.png?1593273912",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.jpg?1593273912",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/9/d/9dc20e14-e304-4c14-a87b-322a76e214d5.jpg?1593273912"
+    },
+    "mana_cost": "{3}{B}{G} // {G}{U}",
+    "cmc": 7.0,
+    "type_line": "Instant // Instant",
+    "colors": [
+      "B",
+      "G",
+      "U"
+    ],
+    "color_identity": [
+      "B",
+      "G",
+      "U"
+    ],
+    "keywords": [],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Bound",
+        "mana_cost": "{3}{B}{G}",
+        "type_line": "Instant",
+        "oracle_text": "Sacrifice a creature. Return up to X cards from your graveyard to your hand, where X is the number of colors that creature was. Exile this card.",
+        "watermark": "golgari",
+        "artist": "Jim Nelson",
+        "artist_id": "aa9f64d1-29e1-4c82-877e-44c18183f40b",
+        "illustration_id": "7cc4186c-ea67-4ff3-b482-a0ed311153c8"
+      },
+      {
+        "object": "card_face",
+        "name": "Determined",
+        "mana_cost": "{G}{U}",
+        "type_line": "Instant",
+        "oracle_text": "Other spells you control can't be countered this turn.\nDraw a card.",
+        "watermark": "simic",
+        "artist": "Jim Nelson",
+        "artist_id": "aa9f64d1-29e1-4c82-877e-44c18183f40b"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "legal",
+      "tlr": "not_legal"
+    },
+    "games": [
+      "paper",
+      "mtgo"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "fdebeda1-b95f-4343-8a94-d125821e6b5c",
+    "set": "dis",
+    "set_name": "Dissension",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/fdebeda1-b95f-4343-8a94-d125821e6b5c",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Adis&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/dis?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/9dc20e14-e304-4c14-a87b-322a76e214d5/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Adf39fbee-6ddc-4733-a32e-cdaf369ecccf&unique=prints",
+    "collector_number": "149",
+    "digital": false,
+    "rarity": "rare",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Jim Nelson",
+    "artist_ids": [
+      "aa9f64d1-29e1-4c82-877e-44c18183f40b"
+    ],
+    "illustration_id": "7cc4186c-ea67-4ff3-b482-a0ed311153c8",
+    "border_color": "black",
+    "frame": "2003",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 23473,
+    "penny_rank": 8512,
+    "prices": {
+      "usd": "0.39",
+      "usd_foil": "3.73",
+      "usd_etched": null,
+      "eur": "0.18",
+      "eur_foil": "1.32",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=107373&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DBound%2B%252F%252F%2BDetermined",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DBound%2B%252F%252F%2BDetermined",
+      "edhrec": "https://edhrec.com/route/?cc=Bound+%2F%2F+Determined"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F13833%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=12969&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/24359?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

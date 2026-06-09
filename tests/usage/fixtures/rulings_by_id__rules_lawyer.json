@@ -1,0 +1,209 @@
+{
+  "_provenance": {
+    "captured_at": "2026-05-30T23:30:49.824054+00:00",
+    "endpoint": "cards/id/rulings",
+    "source_url": "https://api.scryfall.com/cards/6c02c575-5685-44f5-8b47-89d888529d1b/rulings"
+  },
+  "payload": {
+    "object": "list",
+    "has_more": false,
+    "data": [
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "While you control Rules Lawyer, the following is true, with the exception of not affecting Rules Lawyer itself (Comprehensive Rules references as of this writing in parentheses; check out all of 704.5 and 704.6 for anything that's been added, changed, or moved since then):"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "You don't lose the game if you're at or below 0 life. (704.5a)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "If you try to draw from an empty library, nothing happens. (704.5b)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "You could hit up an all-you-can-eat poison counter buffet no problem. (704.5c)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Creatures you control with toughness of 0 or less remain on the battlefield. (704.5f)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Creatures you control that have been dealt lethal damage remain on the battlefield. (704.5g)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Creatures you control shrug off opposing creatures with deathtouch. (704.5h)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Your planeswalkers remain on the battlefield even if they have no loyalty counters. (704.5i)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "You can control as many legendary permanents (including planeswalkers) with the same name as you want. It's like your own personal Mirror Gallery! (704.5j)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "You can control multiple permanents with the supertype world. So, that opens up some deck ideas, I'd imagine. (704.5k)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Auras you control stay on the battlefield if they're attached to an illegal permanent or if they aren't attached to a permanent (but should be). They may not do much because there probably won't be an \"enchanted [whatever],\" but they'll stay on the battlefield! (704.5m) Similarly, thanks to an unlisted silver-bordered state-based action no longer applying, your creatures with augment can now survive even if not attached to a host. If this happens, its power and toughness are 0/0. (704.5m)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Equipment and Fortifications you control can stay attached to an illegal permanent. (704.5n)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "If you somehow control a battle or creature that's attached to another permanent, that battle or creature can stay attached. If it's a creature, it can attack and block, even if another creature is carrying it. Similarly, if you control a permanent that isn't an Aura, an Equipment, or a Fortification, it can stay attached to whatever you manage to get it attached to. Strange. (704.5p)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "+1/+1 counters and -1/-1 counters on permanents you control no longer annihilate each other. (704.5q)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Good news for Rasputin Dreamweaver fans: you can ignore abilities of permanents you control that say it can't have more than a certain number of a certain kind of counter. (704.5r)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Sagas you control aren't sacrificed when they have more lore counters than chapter abilities, even if their final chapter ability isn't on the stack. Have fun stacking up lore counters! (704.5s)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "You won't choose sector designations for creatures that don't already have them if a permanent with space sculptor is on the battlefield. If this comes up, it'll be a true galaxy brain moment. (704.5u)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Battles you control with no defense counters aren't put into their owners' graveyards. Given the intrinsic ability of Sieges (310.11b), this is unlikely to come up often. (704.5v)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Battles you control with no player in the game designated as their protector do not get a new protector. In this state, they'll be impossible to attack. Even Rules Lawyer has weaknesses. (704.5w)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "If you control a Siege and you're also its protector, you'll continue to be its protector. Good luck attacking it. (704.5x)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Creatures can have as many Roles you control as you want attached to them. The casting director's job has never been easier. (704.5y)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Your Two-Headed Giant team can no longer lose because you have 0 or less life or fifteen or more poison counters. (704.6as and 704.6b)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "In Commander, you're immune to the \"commander damage rule\" that says you lose if a single commander deals 21 or more combat damage to you. (704.6d)"
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Because Rules Lawyer applies only to you and other permanents you control, tokens that leave the battlefield will continue to cease to exist. This is also true for copies of cards that might exist off the battlefield."
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Any ability that says a player wins or loses the game still works."
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Rules Lawyer's ability doesn't apply to itself. It can die for any number of reasons. If you're at 0 or less life and you lose control of Rules Lawyer, you'll immediately lose the game."
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "A creature with toughness 0 or less can still attack and block. If it blocks an attacking creature with trample, treat its toughness as 0 when determining how to assign combat damage."
+      },
+      {
+        "object": "ruling",
+        "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+        "source": "wotc",
+        "published_at": "2025-01-24",
+        "comment": "Planeswalkers with no loyalty counters and battles with no defense counters can still be attacked. Hopefully your opponents think this sounds fun and cool."
+      }
+    ]
+  }
+}

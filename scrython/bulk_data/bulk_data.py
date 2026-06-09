@@ -80,7 +80,7 @@ class ByType(BulkDataObjectMixin, ScrythonRequestHandler[ScryfallBulkDataData]):
     Args:
         type: The bulk data type (required).
             Common types: 'oracle_cards', 'unique_artwork', 'default_cards',
-                         'all_cards', 'rulings'
+                         'all_cards', 'rulings', 'art_tags', 'oracle_tags'
 
     Example:
         # Get Oracle Cards bulk data
@@ -94,6 +94,11 @@ class ByType(BulkDataObjectMixin, ScrythonRequestHandler[ScryfallBulkDataData]):
         response = requests.get(oracle.download_uri)
         cards = response.json()
         print(f"Downloaded {len(cards)} cards")
+
+        # Download a tag bulk file and wrap each entry in a typed Tag object
+        bulk = scrython.bulk_data.ByType(type='oracle_tags')
+        tags = [scrython.tags.Object(t) for t in bulk.download()]
+        print(tags[0].label, tags[0].type)
 
     See: https://scryfall.com/docs/api/bulk-data/type
     """

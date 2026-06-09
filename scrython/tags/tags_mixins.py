@@ -1,7 +1,6 @@
 from typing import Any
 
 from ..types import ScryfallTagData, ScryfallTaggingData
-from ..utils import to_object_array
 
 
 class TaggingObjectMixin:
@@ -30,10 +29,12 @@ class TaggingObjectMixin:
     @property
     def weight(self) -> str:
         """
-        How prominently the tag applies to this card. One of "very_strong" (the
-        subject is exemplary for the image or card text), "strong" (a primary
-        focus), "median" (a normal tagging with no special weight), or "weak"
-        (a minor detail or background element).
+        How prominently the tag applies to this card. One of:
+
+        - "very_strong": the subject is exemplary for the image or card text.
+        - "strong": the subject is a primary focus of the image or card text.
+        - "median": a normal tagging with no special weight applied.
+        - "weak": the subject is a minor detail or background element.
 
         Type: String (Required)
         """
@@ -149,13 +150,11 @@ class TagObjectMixin:
     def taggings(self) -> list[Any]:
         """
         An array of tagging objects associating this tag with specific cards.
+        Present on every tag; an empty array when the tag has no direct taggings.
 
         Type: Array (Required)
         """
         # Imported lazily to avoid a circular import: tags.py imports this mixin.
         from .tags import Tagging
 
-        # taggings is a required field; return an empty list rather than None when
-        # the key is absent so callers can always iterate without a None check.
-        taggings = to_object_array(Tagging, "taggings", self._scryfall_data)
-        return taggings if taggings is not None else []
+        return [Tagging(tagging) for tagging in self._scryfall_data["taggings"]]

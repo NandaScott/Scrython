@@ -72,9 +72,9 @@ class TestTaggings:
         assert all(isinstance(t, scrython.tags.Tagging) for t in tag.taggings)
         assert len(tag.taggings) == 4
 
-    def test_taggings_always_a_list_when_absent(self):
-        """taggings is a required field; it returns [] when missing, never None."""
-        tag = scrython.tags.Object({})
+    def test_taggings_empty_array_returns_empty_list(self):
+        """A tag with no direct taggings has a present, empty taggings array."""
+        tag = scrython.tags.Object({"taggings": []})
 
         assert tag.taggings == []
 

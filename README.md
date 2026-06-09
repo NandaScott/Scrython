@@ -261,9 +261,30 @@ cards = oracle_cards.download(progress=True)
 # - 'default_cards': One version of each card
 # - 'all_cards': All card printings
 # - 'rulings': All card rulings
+# - 'art_tags': Community art tags from Scryfall Tagger
+# - 'oracle_tags': Community oracle tags from Scryfall Tagger
 ```
 
 **Note:** The `download()` method automatically detects whether responses are gzip-compressed by checking HTTP `Content-Encoding` headers. This means it works seamlessly regardless of Scryfall's CDN configuration - you don't need to worry about compression formats.
+
+### Tags
+
+The `art_tags` and `oracle_tags` bulk files come from [Scryfall Tagger](https://tagger.scryfall.com). Tags have no dedicated API endpoint, so download the bulk file through `bulk_data.ByType(...).download()` and wrap each entry in `scrython.tags.Object` for typed property access. The nested `taggings` array resolves into typed `Tagging` objects.
+
+```python
+import scrython
+
+bulk = scrython.bulk_data.ByType(type='oracle_tags')
+tags = [scrython.tags.Object(tag) for tag in bulk.download()]
+
+tags[0].label                  # e.g. "removal"
+tags[0].type                   # "oracle"
+tags[0].id                     # stable UUID
+
+# Oracle taggings carry an oracle_id; art taggings carry an illustration_id
+for tagging in tags[0].taggings:
+    print(tagging.oracle_id, tagging.weight)
+```
 
 ### Error Handling
 

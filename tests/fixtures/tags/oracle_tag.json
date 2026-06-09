@@ -1,0 +1,37 @@
+{
+  "object": "tag",
+  "id": "5bf7154a-2814-4329-a310-4a1343ee3850",
+  "label": "bottom deck manipulation",
+  "slug": "bottom-deck-manipulation",
+  "type": "oracle",
+  "uri": "https://tagger.scryfall.com/tags/card/bottom-deck-manipulation",
+  "description": null,
+  "parent_ids": [
+    "f2486826-9b36-4aba-88bb-c2482e72f9ec"
+  ],
+  "child_ids": [
+    "296e1941-a9ba-4c6e-9548-c1efe2d67a8f",
+    "762d88d7-49f6-4af9-8442-247e350ba6ca",
+    "9c30f011-97e4-457e-ba5c-94238d346cdc"
+  ],
+  "aliases": [],
+  "taggings": [
+    {
+      "oracle_id": "97024e8e-dfde-4769-bc27-c3d6fad19e7c",
+      "weight": "median",
+      "annotation": "If you play this with a deck that can make tokens and has no creatures, you can reorder your entire deck."
+    },
+    {
+      "oracle_id": "eccc9a54-2b56-4a02-9926-258d5b2e25fb",
+      "weight": "median"
+    },
+    {
+      "oracle_id": "2c132e6f-2e9e-4b39-81a8-f88c32173cd5",
+      "weight": "median"
+    },
+    {
+      "oracle_id": "2251e34e-4ce8-4452-9dc6-d8cce8583996",
+      "weight": "median"
+    }
+  ]
+}

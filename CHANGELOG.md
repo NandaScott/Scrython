@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.2.0] - Unreleased
+## [2.2.0] - 2026-06-09
 
 ### Added
 - **`scrython.tags` module**: First-class `Tag` object model for the `art_tags` and `oracle_tags` bulk files. Download the bulk file through the existing `bulk_data.ByType(...).download()` path, then wrap each entry in `scrython.tags.Object` for typed accessors. The nested `taggings` array resolves into typed `scrython.tags.Tagging` objects, with one model covering both art (`illustration_id`) and oracle (`oracle_id`) taggings. Adds `ScryfallTagData` and `ScryfallTaggingData` to `scrython.types`.
 
 ---
 
-## [2.1.0] - Unreleased
+## [2.1.0] - 2026-05-30
 
 ### Added
 - **`py.typed` marker**: Scrython now ships a `py.typed` marker file, signaling to type checkers (mypy, pyright, etc.) that the package supports PEP 561 inline type hints. The `Typing :: Typed` PyPI classifier has also been added to `pyproject.toml`.

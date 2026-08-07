@@ -122,6 +122,8 @@ def stub_response():
         )
 
     def _register(endpoint: str, *payloads: dict) -> None:
+        if not payloads:
+            raise ValueError("stub_response: register at least one payload")
         registry[endpoint] = deque(payloads)
 
     # Patch the limiter's wait() itself so the bypass holds regardless of which

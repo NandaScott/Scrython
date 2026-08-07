@@ -18,9 +18,9 @@ def test_by_id__rulings__data_yields_usable_items(rulings_by_id__rules_lawyer):
     assert rulings.data[0].comment != ""
 
 
-def test_by_id__rulings__data_is_directly_iterable(rulings_by_id__rules_lawyer):
+def test_by_id__rulings__is_directly_iterable(rulings_by_id__rules_lawyer):
     rulings = scrython.rulings.ById(id=RULES_LAWYER_ID)
-    items = list(rulings.data)
+    items = list(rulings)
     assert len(items) > 0
     assert all(item.comment != "" for item in items)
 

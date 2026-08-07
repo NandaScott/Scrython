@@ -212,3 +212,43 @@ _RULINGS_MULTIPAGE_PAGE_2: dict = {
 @pytest.fixture
 def rulings_multipage(stub_response):
     stub_response("cards/id/rulings", _RULINGS_MULTIPAGE_PAGE_1, _RULINGS_MULTIPAGE_PAGE_2)
+
+
+# Synthetic payload fixtures: unlike the captured fixtures above, these are not
+# backed by a committed JSON file. They exist for scenarios a single captured
+# payload can't cover — a second, mutated payload for the same resource within
+# one test, or a fixed item count that a fixture refresh would otherwise drift.
+# They still arm the seam here in conftest.py, not in test bodies (see
+# tests/usage/CONVENTIONS.md #4).
+@pytest.fixture
+def cards_named__black_lotus_factory(stub_response, load_fixture):
+    """Arm `cards/named` with the Black Lotus payload, optionally under a different id."""
+    payload = load_fixture("cards_named__black_lotus")
+
+    def _arm(id_override: str | None = None) -> None:
+        stub_response("cards/named", {**payload, "id": id_override} if id_override else payload)
+
+    return _arm
+
+
+@pytest.fixture
+def rulings_by_id__synthetic_five_items(stub_response):
+    """Minimal rulings-list payload with a fixed item count, for the list str() format test."""
+    stub_response(
+        "cards/id/rulings",
+        {"object": "list", "has_more": False, "data": [], "total_cards": 5},
+    )
+
+
+@pytest.fixture
+def catalog_creature_types__synthetic_three_items(stub_response):
+    """Minimal catalog payload with a fixed item count, for the catalog str() format test."""
+    stub_response(
+        "catalog/creature-types",
+        {
+            "object": "catalog",
+            "uri": "https://api.scryfall.com/catalog/creature-types",
+            "total_values": 3,
+            "data": ["Advisor", "Aetherborn", "Alien"],
+        },
+    )

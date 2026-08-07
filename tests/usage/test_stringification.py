@@ -34,11 +34,7 @@ def test_set__repr__class_id_name_format(sets_by_code__lea):
     assert "Limited Edition Alpha" in r
 
 
-def test_list__str__list_count_format(stub_response):
-    stub_response(
-        "cards/id/rulings",
-        {"object": "list", "has_more": False, "data": [], "total_cards": 5},
-    )
+def test_list__str__list_count_format(rulings_by_id__synthetic_five_items):
     rulings = scrython.rulings.ById(id=RULES_LAWYER_ID)
     assert str(rulings) == "List with 5 items"
 
@@ -48,16 +44,7 @@ def test_list__repr__class_name_format(rulings_by_id__rules_lawyer):
     assert "ById" in repr(rulings)
 
 
-def test_catalog__str__catalog_count_format(stub_response):
-    stub_response(
-        "catalog/creature-types",
-        {
-            "object": "catalog",
-            "uri": "https://api.scryfall.com/catalog/creature-types",
-            "total_values": 3,
-            "data": ["Advisor", "Aetherborn", "Alien"],
-        },
-    )
+def test_catalog__str__catalog_count_format(catalog_creature_types__synthetic_three_items):
     catalog = scrython.catalogs.CreatureTypes()
     assert str(catalog) == "Catalog with 3 items"
 

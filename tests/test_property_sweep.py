@@ -81,6 +81,23 @@ def _alias_reachable(fixture: dict[str, Any], path: str | tuple[str, str]) -> bo
     return path in fixture
 
 
+# Top-level fixture keys reachable via the alias map.
+# String values are direct key aliases; tuple values expose their parent key.
+_ALIAS_MAP_TARGETS: frozenset[str] = frozenset(
+    path if isinstance(path, str) else path[0] for path in ALIAS_MAP.values()
+)
+
+# Fixture keys covered by a declared wrapper accessor (key is accessible but
+# the accessor name differs from the key and is not in ALIAS_MAP).  Extend
+# when a new wrapper is introduced; never use to silently skip real gaps.
+WRAPPER_COVERAGE: frozenset[str] = frozenset(
+    {
+        "preview",  # nested; covered by previewed_at / preview_source_uri / preview_source
+    }
+)
+
+_ALL_PROPS: frozenset[str] = frozenset(_card_properties())
+
 # ─── Parametrize lists: (fixture_name, accessor) ─────────────────────────────
 
 _PASSTHROUGH_PARAMS = [
@@ -95,6 +112,12 @@ _EXCEPTION_PARAMS = [
     for fname, fixture in CARD_CORPUS.items()
     for prop, alias in ALIAS_MAP.items()
     if _alias_reachable(fixture, alias)
+]
+
+_REVERSE_PARAMS = [
+    pytest.param(fname, key, id=f"{fname}-key:{key}")
+    for fname, fixture in CARD_CORPUS.items()
+    for key in fixture
 ]
 
 
@@ -120,3 +143,18 @@ def test_exception_sweep(fixture_name: str, accessor: str) -> None:
     assert (
         getattr(card, accessor) == expected
     ), f"accessor '{accessor}' (alias {ALIAS_MAP[accessor]!r}) mismatch for fixture '{fixture_name}'"
+
+
+@pytest.mark.parametrize("fixture_name,key", _REVERSE_PARAMS)
+def test_reverse_coverage_guard(fixture_name: str, key: str) -> None:
+    """Every top-level fixture key must be reachable through some accessor.
+
+    Passes when the key matches a property name directly, appears as a target
+    in ALIAS_MAP, or is declared in WRAPPER_COVERAGE.  A failure here means
+    Scryfall added (or the fixture contains) a field with no accessor.
+    """
+    reachable = key in _ALL_PROPS or key in _ALIAS_MAP_TARGETS or key in WRAPPER_COVERAGE
+    assert reachable, (
+        f"Fixture key '{key}' in '{fixture_name}' has no accessor — "
+        "add a property, an ALIAS_MAP entry, or a WRAPPER_COVERAGE entry"
+    )

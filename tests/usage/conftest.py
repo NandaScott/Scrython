@@ -160,6 +160,10 @@ def stub_response():
 # value is the endpoint the payload answers for.
 _PAYLOAD_FIXTURES = {
     "cards_named__black_lotus": "cards/named",
+    "cards_named__prices_mixed": "cards/named",
+    "cards_named__prices_partial": "cards/named",
+    "cards_named__prices_all_null": "cards/named",
+    "cards_named__image_none": "cards/named",
     "cards_by_id__normal": "cards/id",
     "cards_by_id__transform": "cards/id",
     "cards_by_id__modal_dfc": "cards/id",

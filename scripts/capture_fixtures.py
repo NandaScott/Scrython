@@ -50,6 +50,41 @@ FIXTURE_MAP: dict[str, dict] = {
         "path": "cards/named",
         "query": {"exact": "Black Lotus"},
     },
+    "cards_named__lightning_bolt": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Lightning Bolt"},
+    },
+    "cards_named__serra_angel": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Serra Angel"},
+    },
+    "cards_named__wrath_of_god": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Wrath of God"},
+    },
+    "cards_named__oblivion_ring": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Oblivion Ring"},
+    },
+    "cards_named__jace_beleren": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Jace Beleren"},
+    },
+    "cards_named__ornithopter": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Ornithopter"},
+    },
+    "cards_named__niv_mizzet_parun": {
+        "endpoint": "cards/named",
+        "path": "cards/named",
+        "query": {"exact": "Niv-Mizzet, Parun"},
+    },
     "cards_by_id__normal": {
         "endpoint": "cards/id",
         "path": "cards/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",

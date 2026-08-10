@@ -1,77 +1,175 @@
 {
   "_provenance": {
-    "captured_at": "2026-06-01T00:00:00+00:00",
+    "captured_at": "2026-08-10T16:40:01.499692+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Lightning+Bolt"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Lightning+Bolt",
+    "scryfall_id": "7673784e-db4b-43a1-8d55-1bb9fc1e284f"
   },
   "payload": {
     "object": "card",
-    "id": "e3285e6b-3e79-4d7c-bf96-d920f973b122",
+    "id": "7673784e-db4b-43a1-8d55-1bb9fc1e284f",
+    "oracle_id": "4457ed35-7c10-48c8-9776-456485fdf070",
+    "multiverse_ids": [],
+    "resource_id": "A59396A4D646C69A1DD41F9906BE9A9CDECE83F18DC5C53501DD7BAE50511DBB",
+    "mtgo_id": 152037,
+    "arena_id": 105816,
+    "tcgplayer_id": 697344,
+    "cardmarket_id": 892161,
     "name": "Lightning Bolt",
     "lang": "en",
+    "released_at": "2026-06-26",
+    "uri": "https://api.scryfall.com/cards/7673784e-db4b-43a1-8d55-1bb9fc1e284f",
+    "scryfall_uri": "https://scryfall.com/card/msc/806/lightning-bolt?utm_source=api",
     "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T00:36:48Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008",
+      "normal": "https://cards.scryfall.io/normal/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008",
+      "large": "https://cards.scryfall.io/large/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008",
+      "png": "https://cards.scryfall.io/png/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.png?1783903008",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008",
+      "thumb": "https://cards.scryfall.io/thumb/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.webp?1783903008",
+      "grid": "https://cards.scryfall.io/grid/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.webp?1783903008",
+      "display": "https://cards.scryfall.io/display/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.webp?1783903008",
+      "art": "https://cards.scryfall.io/art/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.webp?1783903008",
+      "crop": "https://cards.scryfall.io/crop/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.webp?1783903008"
+    },
     "mana_cost": "{R}",
     "cmc": 1.0,
     "type_line": "Instant",
     "oracle_text": "Lightning Bolt deals 3 damage to any target.",
-    "colors": ["R"],
-    "color_identity": ["R"],
+    "colors": [
+      "R"
+    ],
+    "color_identity": [
+      "R"
+    ],
     "keywords": [],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "7673784e-db4b-43a1-8d55-1bb9fc1e284f",
+        "component": "combo_piece",
+        "name": "Lightning Bolt",
+        "type_line": "Instant",
+        "uri": "https://api.scryfall.com/cards/7673784e-db4b-43a1-8d55-1bb9fc1e284f"
+      },
+      {
+        "object": "related_card",
+        "id": "4f095067-cf24-4061-8626-dc68a66a0b36",
+        "component": "combo_piece",
+        "name": "Toralf's Disciple",
+        "type_line": "Creature — Human Warrior",
+        "uri": "https://api.scryfall.com/cards/4f095067-cf24-4061-8626-dc68a66a0b36"
+      },
+      {
+        "object": "related_card",
+        "id": "69b51576-532b-450e-a8bf-0482cac04618",
+        "component": "combo_piece",
+        "name": "Thayan Evokers",
+        "type_line": "Creature — Human Wizard",
+        "uri": "https://api.scryfall.com/cards/69b51576-532b-450e-a8bf-0482cac04618"
+      },
+      {
+        "object": "related_card",
+        "id": "618806ea-7ea8-4cfb-a8c1-c3defa34e7dd",
+        "component": "combo_piece",
+        "name": "Indris, the Hydrostatic Surge",
+        "type_line": "Legendary Creature — Otter Incarnation",
+        "uri": "https://api.scryfall.com/cards/618806ea-7ea8-4cfb-a8c1-c3defa34e7dd"
+      }
+    ],
     "legalities": {
       "standard": "not_legal",
       "future": "not_legal",
-      "historic": "not_legal",
-      "timeless": "not_legal",
-      "gladiator": "not_legal",
+      "historic": "banned",
+      "timeless": "legal",
+      "gladiator": "legal",
       "pioneer": "not_legal",
       "modern": "legal",
       "legacy": "legal",
       "pauper": "legal",
       "vintage": "legal",
-      "penny": "legal",
+      "penny": "not_legal",
       "commander": "legal",
       "oathbreaker": "legal",
       "standardbrawl": "not_legal",
-      "brawl": "not_legal",
+      "brawl": "legal",
+      "competitivebrawl": "legal",
       "alchemy": "not_legal",
       "paupercommander": "legal",
       "duel": "legal",
-      "oldschool": "legal",
+      "oldschool": "not_legal",
       "premodern": "legal",
       "predh": "legal",
       "tlr": "legal"
     },
-    "games": ["paper", "mtgo"],
+    "games": [
+      "paper",
+      "mtgo",
+      "arena"
+    ],
     "reserved": false,
     "game_changer": false,
-    "foil": false,
+    "foil": true,
     "nonfoil": true,
-    "finishes": ["nonfoil"],
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": true,
     "variation": false,
-    "set": "lea",
-    "set_name": "Limited Edition Alpha",
-    "set_type": "core",
-    "collector_number": "161",
+    "set_id": "9d739461-c5ac-43a1-af41-3d5a585b5c8d",
+    "set": "msc",
+    "set_name": "Marvel Super Heroes Commander",
+    "set_type": "commander",
+    "set_uri": "https://api.scryfall.com/sets/9d739461-c5ac-43a1-af41-3d5a585b5c8d",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Amsc&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/msc?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/7673784e-db4b-43a1-8d55-1bb9fc1e284f/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A4457ed35-7c10-48c8-9776-456485fdf070&unique=prints",
+    "collector_number": "806",
     "digital": false,
-    "rarity": "common",
+    "rarity": "uncommon",
+    "flavor_text": "\"I am the god of thunder, the lord of the savage lightning, and the very skies must tremble when speaks The Mighty Thor!\"",
     "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
-    "artist": "Christopher Rush",
+    "artist": "Milivoj Ćeran",
+    "artist_ids": [
+      "1eced451-4da5-42bc-b49d-70c41246581f"
+    ],
+    "illustration_id": "58884d99-ed2d-4efd-b192-b1eb6f87c39f",
     "border_color": "black",
-    "frame": "1993",
+    "frame": "2015",
     "full_art": false,
     "textless": false,
-    "booster": true,
+    "booster": false,
     "story_spotlight": false,
+    "promo_types": [
+      "universesbeyond"
+    ],
+    "edhrec_rank": 160,
     "prices": {
-      "usd": "0.50",
-      "usd_foil": null,
+      "usd": "0.78",
+      "usd_foil": "2.77",
       "usd_etched": null,
-      "eur": "0.40",
-      "eur_foil": null,
-      "tix": null
+      "eur": "1.65",
+      "eur_foil": "1.72",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DLightning%2BBolt",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DLightning%2BBolt",
+      "edhrec": "https://edhrec.com/route/?cc=Lightning+Bolt"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F697344%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=892161&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/152037?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

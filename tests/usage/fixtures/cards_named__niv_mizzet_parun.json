@@ -1,24 +1,59 @@
 {
   "_provenance": {
-    "captured_at": "2026-06-01T00:00:00+00:00",
+    "captured_at": "2026-08-10T16:40:03.741345+00:00",
     "endpoint": "cards/named",
-    "source_url": "https://api.scryfall.com/cards/named?exact=Niv-Mizzet%2C+Parun"
+    "source_url": "https://api.scryfall.com/cards/named?exact=Niv-Mizzet%2C+Parun",
+    "scryfall_id": "86c5c337-d25f-4c3e-9762-09ed0c2d36d7"
   },
   "payload": {
     "object": "card",
-    "id": "a4b3c2d1-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "id": "86c5c337-d25f-4c3e-9762-09ed0c2d36d7",
+    "oracle_id": "33666a98-812f-4892-9f8d-33e0cbecc340",
+    "multiverse_ids": [
+      658679
+    ],
+    "mtgo_id": 124933,
+    "tcgplayer_id": 545223,
+    "cardmarket_id": 764794,
     "name": "Niv-Mizzet, Parun",
     "lang": "en",
+    "released_at": "2024-04-19",
+    "uri": "https://api.scryfall.com/cards/86c5c337-d25f-4c3e-9762-09ed0c2d36d7",
+    "scryfall_uri": "https://scryfall.com/card/otc/235/niv-mizzet-parun?utm_source=api",
     "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T03:04:57Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.jpg?1783911897",
+      "normal": "https://cards.scryfall.io/normal/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.jpg?1783911897",
+      "large": "https://cards.scryfall.io/large/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.jpg?1783911897",
+      "png": "https://cards.scryfall.io/png/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.png?1783911897",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.jpg?1783911897",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.jpg?1783911897",
+      "thumb": "https://cards.scryfall.io/thumb/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.webp?1783911897",
+      "grid": "https://cards.scryfall.io/grid/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.webp?1783911897",
+      "display": "https://cards.scryfall.io/display/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.webp?1783911897",
+      "art": "https://cards.scryfall.io/art/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.webp?1783911897",
+      "crop": "https://cards.scryfall.io/crop/front/8/6/86c5c337-d25f-4c3e-9762-09ed0c2d36d7.webp?1783911897"
+    },
     "mana_cost": "{U}{U}{U}{R}{R}{R}",
     "cmc": 6.0,
     "type_line": "Legendary Creature — Dragon Wizard",
-    "oracle_text": "This spell can't be countered.\nFlying\nWhenever you draw a card, Niv-Mizzet, Parun deals 1 damage to any target.\nWhenever a player casts an instant or sorcery spell, you draw a card.",
+    "oracle_text": "This spell can't be countered.\nFlying\nWhenever you draw a card, Niv-Mizzet deals 1 damage to any target.\nWhenever a player casts an instant or sorcery spell, you draw a card.",
     "power": "5",
     "toughness": "5",
-    "colors": ["U", "R"],
-    "color_identity": ["U", "R"],
-    "keywords": ["Flying"],
+    "colors": [
+      "R",
+      "U"
+    ],
+    "color_identity": [
+      "R",
+      "U"
+    ],
+    "keywords": [
+      "Flying"
+    ],
     "legalities": {
       "standard": "not_legal",
       "future": "not_legal",
@@ -30,50 +65,83 @@
       "legacy": "legal",
       "pauper": "not_legal",
       "vintage": "legal",
-      "penny": "not_legal",
+      "penny": "legal",
       "commander": "legal",
       "oathbreaker": "legal",
       "standardbrawl": "not_legal",
-      "brawl": "not_legal",
+      "brawl": "legal",
+      "competitivebrawl": "legal",
       "alchemy": "not_legal",
       "paupercommander": "not_legal",
       "duel": "legal",
       "oldschool": "not_legal",
       "premodern": "not_legal",
       "predh": "not_legal",
-      "tlr": "legal"
+      "tlr": "not_legal"
     },
-    "games": ["paper", "mtgo", "arena"],
+    "games": [
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
     "game_changer": false,
-    "foil": true,
+    "foil": false,
     "nonfoil": true,
-    "finishes": ["nonfoil", "foil"],
+    "finishes": [
+      "nonfoil"
+    ],
     "oversized": false,
     "promo": false,
     "reprint": true,
     "variation": false,
-    "set": "grn",
-    "set_name": "Guilds of Ravnica",
-    "set_type": "expansion",
-    "collector_number": "192",
+    "set_id": "d6548798-0c10-4509-b71a-2d8b1d14665a",
+    "set": "otc",
+    "set_name": "Outlaws of Thunder Junction Commander",
+    "set_type": "commander",
+    "set_uri": "https://api.scryfall.com/sets/d6548798-0c10-4509-b71a-2d8b1d14665a",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aotc&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/otc?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/86c5c337-d25f-4c3e-9762-09ed0c2d36d7/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A33666a98-812f-4892-9f8d-33e0cbecc340&unique=prints",
+    "collector_number": "235",
     "digital": false,
     "rarity": "rare",
     "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
     "artist": "Svetlin Velinov",
+    "artist_ids": [
+      "ffd063ae-c097-4f26-b2e6-b1e2137708bc"
+    ],
+    "illustration_id": "e0137c61-511d-4a18-91d4-cac4437f8692",
     "border_color": "black",
     "frame": "2015",
+    "frame_effects": [
+      "legendary"
+    ],
+    "security_stamp": "oval",
     "full_art": false,
     "textless": false,
-    "booster": true,
+    "booster": false,
     "story_spotlight": false,
+    "edhrec_rank": 753,
+    "penny_rank": 1437,
     "prices": {
-      "usd": "12.00",
-      "usd_foil": "20.00",
+      "usd": "5.71",
+      "usd_foil": null,
       "usd_etched": null,
-      "eur": "10.00",
+      "eur": "2.97",
       "eur_foil": null,
-      "tix": "0.50"
+      "tix": "0.07"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=658679&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DNiv-Mizzet%252C%2BParun",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DNiv-Mizzet%252C%2BParun",
+      "edhrec": "https://edhrec.com/route/?cc=Niv-Mizzet%2C+Parun"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F545223%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=764794&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/124933?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

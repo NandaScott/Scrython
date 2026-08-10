@@ -1,6 +1,7 @@
 """Pytest configuration and shared fixtures for Scrython usage tests."""
 
 import json
+from collections import deque
 from pathlib import Path
 from unittest.mock import Mock, patch
 from urllib.parse import urlsplit
@@ -75,7 +76,7 @@ def stub_response():
             card = scrython.cards.Named(exact="Black Lotus")
             assert card.name == "Black Lotus"
     """
-    registry: dict = {}
+    registry: dict[str, deque] = {}
     download_registry: list = []
 
     class _MockResponse:
@@ -104,11 +105,17 @@ def stub_response():
 
         requested = _resource(urlsplit(request.full_url).path)
         matches = [
-            payload for endpoint, payload in registry.items() if _resource(endpoint) == requested
+            (endpoint, queue)
+            for endpoint, queue in registry.items()
+            if _resource(endpoint) == requested
         ]
 
         if len(matches) == 1:
-            return _MockResponse(matches[0])
+            _, queue = matches[0]
+            # Pop from the front when multiple payloads remain (successive pages);
+            # keep the last item in place so single-payload tests never exhaust.
+            payload = queue.popleft() if len(queue) > 1 else queue[0]
+            return _MockResponse(payload)
         if not matches:
             raise ValueError(
                 f"stub_response: no registered endpoint matches requested resource "
@@ -127,11 +134,13 @@ def stub_response():
             )
         return _MockResponse(download_registry[0])
 
-    def _register(endpoint: str, payload: dict | list) -> None:
+    def _register(endpoint: str, *payloads: dict | list) -> None:
+        if not payloads:
+            raise ValueError("stub_response: register at least one payload")
         if endpoint == "bulk-data/download":
-            download_registry.append(payload)
+            download_registry.append(payloads[0])
         else:
-            registry[endpoint] = payload
+            registry[endpoint] = deque(payloads)
 
     # Patch the limiter's wait() itself so the bypass holds regardless of which
     # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
@@ -198,3 +207,81 @@ _SAMPLE_BULK_CARDS: list[dict] = [
 @pytest.fixture
 def bulk_data_by_id__oracle_cards_download(bulk_data_by_id__oracle_cards, stub_response):
     stub_response("bulk-data/download", _SAMPLE_BULK_CARDS)
+
+
+# Multi-page rulings fixture: two synthetic pages for iter_all() pagination tests.
+_RULES_LAWYER_ID = "6c02c575-5685-44f5-8b47-89d888529d1b"
+
+_RULINGS_MULTIPAGE_PAGE_1: dict = {
+    "object": "list",
+    "has_more": True,
+    "next_page": f"https://api.scryfall.com/cards/{_RULES_LAWYER_ID}/rulings?page=2",
+    "data": [
+        {
+            "object": "ruling",
+            "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+            "source": "wotc",
+            "published_at": "2025-01-24",
+            "comment": "Page one ruling.",
+        }
+    ],
+}
+
+_RULINGS_MULTIPAGE_PAGE_2: dict = {
+    "object": "list",
+    "has_more": False,
+    "data": [
+        {
+            "object": "ruling",
+            "oracle_id": "0a3d3d5e-fb77-4940-9ece-7ed62bd6413e",
+            "source": "wotc",
+            "published_at": "2025-01-24",
+            "comment": "Page two ruling.",
+        }
+    ],
+}
+
+
+@pytest.fixture
+def rulings_multipage(stub_response):
+    stub_response("cards/id/rulings", _RULINGS_MULTIPAGE_PAGE_1, _RULINGS_MULTIPAGE_PAGE_2)
+
+
+# Synthetic payload fixtures: unlike the captured fixtures above, these are not
+# backed by a committed JSON file. They exist for scenarios a single captured
+# payload can't cover — a second, mutated payload for the same resource within
+# one test, or a fixed item count that a fixture refresh would otherwise drift.
+# They still arm the seam here in conftest.py, not in test bodies (see
+# tests/usage/CONVENTIONS.md #4).
+@pytest.fixture
+def cards_named__black_lotus_factory(stub_response, load_fixture):
+    """Arm `cards/named` with the Black Lotus payload, optionally under a different id."""
+    payload = load_fixture("cards_named__black_lotus")
+
+    def _arm(id_override: str | None = None) -> None:
+        stub_response("cards/named", {**payload, "id": id_override} if id_override else payload)
+
+    return _arm
+
+
+@pytest.fixture
+def rulings_by_id__synthetic_five_items(stub_response):
+    """Minimal rulings-list payload with a fixed item count, for the list str() format test."""
+    stub_response(
+        "cards/id/rulings",
+        {"object": "list", "has_more": False, "data": [], "total_cards": 5},
+    )
+
+
+@pytest.fixture
+def catalog_creature_types__synthetic_three_items(stub_response):
+    """Minimal catalog payload with a fixed item count, for the catalog str() format test."""
+    stub_response(
+        "catalog/creature-types",
+        {
+            "object": "catalog",
+            "uri": "https://api.scryfall.com/catalog/creature-types",
+            "total_values": 3,
+            "data": ["Advisor", "Aetherborn", "Alien"],
+        },
+    )

@@ -181,6 +181,7 @@ _PAYLOAD_FIXTURES = {
     "rulings_by_id__rules_lawyer": "cards/id/rulings",
     "symbology_all": "symbology",
     "migrations_by_id__merge": "migrations/id",
+    "cards_search__multiset": "cards/search",
 }
 
 

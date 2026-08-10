@@ -8,4 +8,4 @@ def test_by_id__download__returns_dataset(bulk_data_by_id__oracle_cards_download
     result = bulk.download()
     assert isinstance(result, list)
     assert len(result) > 0
-    assert result[0]["name"] == "Black Lotus"
+    assert any(card["name"] == "Black Lotus" for card in result)

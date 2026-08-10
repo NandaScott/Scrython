@@ -196,6 +196,5 @@ _SAMPLE_BULK_CARDS: list[dict] = [
 
 
 @pytest.fixture
-def bulk_data_by_id__oracle_cards_download(stub_response, load_fixture):
-    stub_response("bulk-data/id", load_fixture("bulk_data_by_id__oracle_cards"))
+def bulk_data_by_id__oracle_cards_download(bulk_data_by_id__oracle_cards, stub_response):
     stub_response("bulk-data/download", _SAMPLE_BULK_CARDS)

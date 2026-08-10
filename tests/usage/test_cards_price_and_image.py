@@ -55,10 +55,15 @@ def test_named__exact__get_image_url__normal_card(cards_named__black_lotus):
         ),
     ],
 )
-def test_by_id__id__get_image_url__dfc_returns_front_face_url(fixture_name, card_id, request):
+def test_by_id__id__get_image_url__dfc_returns_front_face_url(
+    fixture_name, card_id, request, load_fixture
+):
     request.getfixturevalue(fixture_name)
+    front_face_url = load_fixture(fixture_name)["card_faces"][0]["image_uris"]["normal"]
+
     card = scrython.cards.ById(id=card_id)
-    assert card.get_image_url() is not None
+
+    assert card.get_image_url() == front_face_url
 
 
 def test_named__exact__get_image_url__no_image_returns_none(cards_named__image_none):

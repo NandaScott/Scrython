@@ -87,14 +87,13 @@ _ALIAS_MAP_TARGETS: frozenset[str] = frozenset(
     path if isinstance(path, str) else path[0] for path in ALIAS_MAP.values()
 )
 
-# Fixture keys covered by a declared wrapper accessor (key is accessible but
-# the accessor name differs from the key and is not in ALIAS_MAP).  Extend
-# when a new wrapper is introduced; never use to silently skip real gaps.
-WRAPPER_COVERAGE: frozenset[str] = frozenset(
-    {
-        "preview",  # nested; covered by previewed_at / preview_source_uri / preview_source
-    }
-)
+# Fixture keys covered by declared wrapper accessors (key is accessible but
+# the accessor name differs from the key and is not in ALIAS_MAP). Each entry
+# must list the accessor(s) that actually read the key, so a rename or
+# deletion of those accessors fails this test instead of going unnoticed.
+WRAPPER_COVERAGE: dict[str, tuple[str, ...]] = {
+    "preview": ("previewed_at", "preview_source_uri", "preview_source"),
+}
 
 _ALL_PROPS: frozenset[str] = frozenset(_card_properties())
 
@@ -150,11 +149,17 @@ def test_reverse_coverage_guard(fixture_name: str, key: str) -> None:
     """Every top-level fixture key must be reachable through some accessor.
 
     Passes when the key matches a property name directly, appears as a target
-    in ALIAS_MAP, or is declared in WRAPPER_COVERAGE.  A failure here means
-    Scryfall added (or the fixture contains) a field with no accessor.
+    in ALIAS_MAP, or is declared in WRAPPER_COVERAGE with accessors that still
+    exist. A failure here means Scryfall added (or the fixture contains) a
+    field with no accessor, or a WRAPPER_COVERAGE entry has gone stale.
     """
-    reachable = key in _ALL_PROPS or key in _ALIAS_MAP_TARGETS or key in WRAPPER_COVERAGE
+    wrapper_accessors = WRAPPER_COVERAGE.get(key, ())
+    wrapper_covered = bool(wrapper_accessors) and all(
+        accessor in _ALL_PROPS for accessor in wrapper_accessors
+    )
+    reachable = key in _ALL_PROPS or key in _ALIAS_MAP_TARGETS or wrapper_covered
     assert reachable, (
         f"Fixture key '{key}' in '{fixture_name}' has no accessor — "
-        "add a property, an ALIAS_MAP entry, or a WRAPPER_COVERAGE entry"
+        "add a property, an ALIAS_MAP entry, or a WRAPPER_COVERAGE entry "
+        "naming the accessor(s) that read it"
     )

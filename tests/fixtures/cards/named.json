@@ -47,8 +47,6 @@
   },
   "games": ["paper", "mtgo"],
   "reserved": true,
-  "foil": false,
-  "nonfoil": true,
   "finishes": ["nonfoil"],
   "oversized": false,
   "promo": false,

@@ -81,6 +81,22 @@ def _alias_reachable(fixture: dict[str, Any], path: str | tuple[str, str]) -> bo
     return path in fixture
 
 
+# Top-level fixture keys reachable via the alias map.
+# String values are direct key aliases; tuple values expose their parent key.
+_ALIAS_MAP_TARGETS: frozenset[str] = frozenset(
+    path if isinstance(path, str) else path[0] for path in ALIAS_MAP.values()
+)
+
+# Fixture keys covered by declared wrapper accessors (key is accessible but
+# the accessor name differs from the key and is not in ALIAS_MAP). Each entry
+# must list the accessor(s) that actually read the key, so a rename or
+# deletion of those accessors fails this test instead of going unnoticed.
+WRAPPER_COVERAGE: dict[str, tuple[str, ...]] = {
+    "preview": ("previewed_at", "preview_source_uri", "preview_source"),
+}
+
+_ALL_PROPS: frozenset[str] = frozenset(_card_properties())
+
 # ─── Parametrize lists: (fixture_name, accessor) ─────────────────────────────
 
 _PASSTHROUGH_PARAMS = [
@@ -95,6 +111,12 @@ _EXCEPTION_PARAMS = [
     for fname, fixture in CARD_CORPUS.items()
     for prop, alias in ALIAS_MAP.items()
     if _alias_reachable(fixture, alias)
+]
+
+_REVERSE_PARAMS = [
+    pytest.param(fname, key, id=f"{fname}-key:{key}")
+    for fname, fixture in CARD_CORPUS.items()
+    for key in fixture
 ]
 
 
@@ -120,3 +142,24 @@ def test_exception_sweep(fixture_name: str, accessor: str) -> None:
     assert (
         getattr(card, accessor) == expected
     ), f"accessor '{accessor}' (alias {ALIAS_MAP[accessor]!r}) mismatch for fixture '{fixture_name}'"
+
+
+@pytest.mark.parametrize("fixture_name,key", _REVERSE_PARAMS)
+def test_reverse_coverage_guard(fixture_name: str, key: str) -> None:
+    """Every top-level fixture key must be reachable through some accessor.
+
+    Passes when the key matches a property name directly, appears as a target
+    in ALIAS_MAP, or is declared in WRAPPER_COVERAGE with accessors that still
+    exist. A failure here means Scryfall added (or the fixture contains) a
+    field with no accessor, or a WRAPPER_COVERAGE entry has gone stale.
+    """
+    wrapper_accessors = WRAPPER_COVERAGE.get(key, ())
+    wrapper_covered = bool(wrapper_accessors) and all(
+        accessor in _ALL_PROPS for accessor in wrapper_accessors
+    )
+    reachable = key in _ALL_PROPS or key in _ALIAS_MAP_TARGETS or wrapper_covered
+    assert reachable, (
+        f"Fixture key '{key}' in '{fixture_name}' has no accessor — "
+        "add a property, an ALIAS_MAP entry, or a WRAPPER_COVERAGE entry "
+        "naming the accessor(s) that read it"
+    )

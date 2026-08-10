@@ -1,0 +1,14 @@
+{
+  "_provenance": {
+    "captured_at": "2026-06-01T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=No+Image+Card",
+    "note": "synthetic fixture — not a real Scryfall card; used to test get_image_url graceful degradation when no image exists"
+  },
+  "payload": {
+    "object": "card",
+    "id": "00000000-0000-0000-0000-000000000004",
+    "name": "No Image Card",
+    "layout": "normal"
+  }
+}

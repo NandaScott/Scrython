@@ -501,6 +501,17 @@ class PrintFieldsMixin:
         return self._scryfall_data.get("flavor_text")
 
     @property
+    def foil(self) -> bool | None:
+        """
+        True if this printing exists in a foil version.
+
+        Type: Boolean (Nullable)
+
+        Note: Deprecated. Use finishes instead.
+        """
+        return self._scryfall_data.get("foil")
+
+    @property
     def frame_effects(self) -> list[str] | None:
         """
         This card's frame effects, if any.
@@ -571,6 +582,17 @@ class PrintFieldsMixin:
         Type: Object (Nullable)
         """
         return self._scryfall_data.get("image_uris")
+
+    @property
+    def nonfoil(self) -> bool | None:
+        """
+        True if this printing exists in a nonfoil version.
+
+        Type: Boolean (Nullable)
+
+        Note: Deprecated. Use finishes instead.
+        """
+        return self._scryfall_data.get("nonfoil")
 
     @property
     def oversized(self) -> bool:

@@ -65,16 +65,22 @@ class BulkDataObjectMixin:
         return self._scryfall_data["description"]
 
     @property
-    def download_uri(self) -> str:
+    def jsonl_download_uri(self) -> str:
         """
-        The URI that hosts this bulk file for fetching.
+        The URI to download this bulk file in gzip-compressed JSONL format.
 
         Type: URI (Required)
-
-        Note: Files may be compressed with gzip depending on CDN/proxy configuration.
-        The download() method automatically detects encoding from HTTP headers.
         """
-        return self._scryfall_data["download_uri"]
+        return self._scryfall_data["jsonl_download_uri"]
+
+    @property
+    def compressed_size(self) -> int:
+        """
+        The size of the compressed file in integer bytes.
+
+        Type: Integer (Required)
+        """
+        return self._scryfall_data["compressed_size"]
 
     @property
     def updated_at(self) -> str:
@@ -87,33 +93,6 @@ class BulkDataObjectMixin:
         """
         return self._scryfall_data["updated_at"]
 
-    @property
-    def size(self) -> int:
-        """
-        The size of this file in integer bytes.
-
-        Type: Integer (Required)
-        """
-        return self._scryfall_data["size"]
-
-    @property
-    def content_type(self) -> str:
-        """
-        The MIME type of this file.
-
-        Type: String (Required)
-        """
-        return self._scryfall_data["content_type"]
-
-    @property
-    def content_encoding(self) -> str:
-        """
-        The Content-Encoding encoding that will be used to transmit this file when you download it.
-
-        Type: String (Required)
-        """
-        return self._scryfall_data["content_encoding"]
-
     def download(
         self,
         filepath: str | None = None,
@@ -122,17 +101,18 @@ class BulkDataObjectMixin:
         progress: bool = False,
     ) -> list[dict[str, Any]] | None:
         """
-        Download and parse bulk data file from Scryfall.
+        Download and parse the bulk JSONL file from Scryfall.
 
-        The bulk data file is downloaded from Scryfall's CDN. The method automatically
-        detects if the response is gzip-compressed by checking HTTP Content-Encoding
-        headers and handles decompression accordingly. The JSON data is then parsed
-        and optionally saved to a file.
+        The bulk data file is a gzip-compressed JSONL (newline-delimited JSON) file
+        downloaded from Scryfall's CDN. The method automatically detects if the
+        response is gzip-compressed by checking HTTP Content-Encoding headers and
+        handles decompression accordingly. Each line is parsed as a separate JSON
+        object and returned as a list.
 
         Args:
-            filepath: Optional path to save the decompressed JSON file.
+            filepath: Optional path to save the parsed data as a JSON file.
                      If None, file is not saved to disk.
-            return_data: If True, return parsed JSON data. If False and
+            return_data: If True, return parsed data. If False and
                         filepath is provided, only saves file without returning data.
                         Default: True.
             chunk_size: Download chunk size in bytes. Default: 8192.
@@ -162,7 +142,7 @@ class BulkDataObjectMixin:
             Bulk data files can be very large (100+ MB compressed, 500+ MB uncompressed).
             Be mindful of memory usage when loading entire files into memory.
         """
-        download_url = self.download_uri
+        download_url = self.jsonl_download_uri
 
         request = Request(download_url)
         request.add_header("User-Agent", ScrythonRequestHandler._user_agent)
@@ -205,7 +185,7 @@ class BulkDataObjectMixin:
                 ):
                     data = gzip.decompress(downloaded_data)
             else:
-                # Already decompressed or plain JSON
+                # Already decompressed or plain JSONL
                 data = downloaded_data
         else:
             # Download without progress bar
@@ -218,11 +198,13 @@ class BulkDataObjectMixin:
                     with gzip.GzipFile(fileobj=response) as gz_file:
                         data = gz_file.read()
                 else:
-                    # Read plain JSON
+                    # Read plain JSONL
                     data = response.read()
 
-        # Parse JSON. The annotation narrows json.loads's Any return; no cast needed.
-        parsed_data: list[dict[str, Any]] = json.loads(data.decode("utf-8"))
+        # Parse JSONL: each non-empty line is a separate JSON object.
+        parsed_data: list[dict[str, Any]] = [
+            json.loads(line) for line in data.decode("utf-8").splitlines() if line.strip()
+        ]
 
         # Save to file if requested
         if filepath:

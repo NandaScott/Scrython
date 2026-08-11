@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+- **`BulkDataObjectMixin.jsonl_download_uri`**: New accessor for the gzip-compressed JSONL download URI, replacing the removed `download_uri` field.
+- **`BulkDataObjectMixin.compressed_size`**: New accessor for the compressed file size in bytes, replacing the removed `size` field.
+
+### Changed
+- **`BulkDataObjectMixin.download()`**: Now targets `jsonl_download_uri` and parses the response as newline-delimited JSON (JSONL) rather than a single JSON array.
+- **`ScryfallBulkDataData`**: TypedDict updated to match the current Scryfall bulk-data shape — `download_uri`, `size`, `content_type`, and `content_encoding` removed; `jsonl_download_uri` and `compressed_size` added.
+
+### Removed
+- **`BulkDataObjectMixin.download_uri`**: Removed; Scryfall no longer returns this field. Use `jsonl_download_uri` instead.
+- **`BulkDataObjectMixin.size`**: Removed; Scryfall no longer returns this field. Use `compressed_size` instead.
+- **`BulkDataObjectMixin.content_type`**: Removed; Scryfall no longer returns this field.
+- **`BulkDataObjectMixin.content_encoding`**: Removed; Scryfall no longer returns this field.
+
+---
+
 ## [2.2.0] - 2026-06-09
 
 ### Added

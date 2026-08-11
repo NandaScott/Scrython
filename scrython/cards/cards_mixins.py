@@ -1,4 +1,4 @@
-from functools import cache
+from functools import cached_property
 from typing import Any, cast
 
 from ..types import (
@@ -165,8 +165,7 @@ class CoreFieldsMixin:
 class GameplayFieldsMixin:
     _scryfall_data: ScryfallCardData
 
-    @property
-    @cache
+    @cached_property
     def all_parts(self) -> list[Any] | None:
         """
         Related Card Objects for closely connected cards.
@@ -180,8 +179,7 @@ class GameplayFieldsMixin:
 
         return to_object_array(RelatedCardObject, "all_parts", self._scryfall_data)
 
-    @property
-    @cache
+    @cached_property
     def card_faces(self) -> list[Any] | None:
         """
         Array of Card Face objects for multifaced cards.

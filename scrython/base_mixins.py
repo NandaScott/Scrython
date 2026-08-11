@@ -1,6 +1,6 @@
 import warnings
 from collections.abc import Callable, Generator, Iterator
-from functools import cache
+from functools import cached_property
 from typing import Any
 
 from .types import ScryfallCatalogData, ScryfallListData
@@ -14,8 +14,7 @@ class ScryfallListMixin:
     def object(self) -> str:
         return "list"
 
-    @property
-    @cache
+    @cached_property
     def data(self) -> list[Any]:
         if self.list_data_type:
             return list(map(lambda data: self.list_data_type(data), self._scryfall_data["data"]))  # type: ignore[misc]

@@ -1,0 +1,94 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
+    "scryfall_id": "a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
+    "discovered_via": "lang:ja year>=2020 -is:dfc order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
+    "oracle_id": "oracle-a4d01e75",
+    "name": "Lightning Bolt",
+    "lang": "ja",
+    "released_at": "2022-04-29",
+    "uri": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
+    "scryfall_uri": "https://scryfall.com/card/stub/lightning-bolt",
+    "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "cmc": 1.0,
+    "type_line": "Instant",
+    "color_identity": [
+      "R"
+    ],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal",
+      "pauper": "not_legal",
+      "brawl": "not_legal"
+    },
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": true,
+    "variation": false,
+    "set_id": "abc12345-0000-4000-8000-000000000001",
+    "set": "2x2",
+    "set_name": "Double Masters 2022",
+    "set_type": "masters",
+    "set_uri": "https://api.scryfall.com/sets/stub",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:stub&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/stub",
+    "rulings_uri": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid:oracle-a4d01e75&unique=prints",
+    "collector_number": "1",
+    "digital": false,
+    "rarity": "rare",
+    "artist": "Stub Artist",
+    "artist_ids": [
+      "00000000-0000-4000-8000-000000000000"
+    ],
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "games": [
+      "paper"
+    ],
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    },
+    "related_uris": {},
+    "purchase_uris": {},
+    "mana_cost": "{R}",
+    "oracle_text": "Lightning Bolt deals 3 damage to any target.",
+    "colors": [
+      "R"
+    ],
+    "printed_name": "雷鳴",
+    "printed_text": "雷鳴はどの目標、3点のダメージを与える。",
+    "printed_type_line": "インスタント",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/a/4/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a.jpg",
+      "normal": "https://cards.scryfall.io/normal/front/a/4/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a.jpg"
+    }
+  }
+}

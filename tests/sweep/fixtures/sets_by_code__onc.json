@@ -1,0 +1,30 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "sets/code",
+    "source_url": "https://api.scryfall.com/sets/onc",
+    "scryfall_id": "d5a2bc3e-1f4a-4c5b-9e2d-8f7a6c5b4d3e",
+    "discovered_via": "sets/onc"
+  },
+  "payload": {
+    "object": "set",
+    "id": "d5a2bc3e-1f4a-4c5b-9e2d-8f7a6c5b4d3e",
+    "code": "onc",
+    "mtgo_code": "onc",
+    "arena_code": null,
+    "tcgplayer_id": 22853,
+    "name": "Phyrexia: All Will Be One Commander",
+    "uri": "https://api.scryfall.com/sets/onc",
+    "scryfall_uri": "https://scryfall.com/sets/onc",
+    "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:onc&unique=prints",
+    "released_at": "2023-02-03",
+    "set_type": "commander",
+    "card_count": 271,
+    "printed_size": 200,
+    "parent_set_code": "one",
+    "digital": false,
+    "nonfoil_only": false,
+    "foil_only": false,
+    "icon_svg_uri": "https://svgs.scryfall.io/sets/onc.svg?1691452800"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e",
+    "scryfall_id": "5b356815-736d-4468-9691-469629a45b8e",
+    "discovered_via": "is:reversible order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "5b356815-736d-4468-9691-469629a45b8e",
+    "name": "Zndrsplt, Eye of Wisdom // Okaun, Eye of Chaos",
+    "lang": "en",
+    "released_at": "2022-08-12",
+    "uri": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e",
+    "scryfall_uri": "https://scryfall.com/card/stub/reversible",
+    "layout": "reversible_card",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "cmc": 5.0,
+    "type_line": "Legendary Creature — Homunculus // Legendary Creature — Cyclops",
+    "color_identity": [
+      "U",
+      "R"
+    ],
+    "keywords": [],
+    "legalities": {
+      "commander": "legal",
+      "vintage": "legal",
+      "legacy": "legal"
+    },
+    "reserved": false,
+    "foil": false,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": true,
+    "variation": false,
+    "set_id": "abc12345-0000-4000-8000-000000000002",
+    "set": "sld",
+    "set_name": "Secret Lair Drop",
+    "set_type": "box",
+    "set_uri": "https://api.scryfall.com/sets/sld",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:sld&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/sld",
+    "rulings_uri": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?q=oracleid:oracle",
+    "collector_number": "1",
+    "digital": false,
+    "rarity": "rare",
+    "artist": "Stub Artist",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": false,
+    "story_spotlight": false,
+    "games": [
+      "paper"
+    ],
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    },
+    "related_uris": {},
+    "purchase_uris": {},
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Zndrsplt, Eye of Wisdom",
+        "oracle_id": "12345678-0000-4000-8000-000000000001",
+        "cmc": 5.0,
+        "layout": "reversible_card",
+        "mana_cost": "{4}{U}",
+        "type_line": "Legendary Creature — Homunculus",
+        "oracle_text": "Partner with Okaun, Eye of Chaos\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, draw a card.\n5/1",
+        "colors": [
+          "U"
+        ],
+        "artist": "Stub Artist",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/front/5/b/5b356815.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Okaun, Eye of Chaos",
+        "oracle_id": "12345678-0000-4000-8000-000000000002",
+        "cmc": 5.0,
+        "layout": "reversible_card",
+        "mana_cost": "{4}{R}",
+        "type_line": "Legendary Creature — Cyclops",
+        "oracle_text": "Partner with Zndrsplt, Eye of Wisdom\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, Okaun gets +2/+2 until end of turn.\n*/",
+        "colors": [
+          "R"
+        ],
+        "artist": "Stub Artist",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/back/5/b/5b356815.jpg"
+        }
+      }
+    ]
+  }
+}

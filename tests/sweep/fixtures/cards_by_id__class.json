@@ -1,0 +1,139 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/47ce8b7e-d8e1-489a-a69e-99089eeb8739",
+    "scryfall_id": "47ce8b7e-d8e1-489a-a69e-99089eeb8739",
+    "discovered_via": "t:class -is:reversible order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "47ce8b7e-d8e1-489a-a69e-99089eeb8739",
+    "oracle_id": "f0ead7f5-5c82-40fd-8e89-3e3c5d31fbad",
+    "multiverse_ids": [
+      527293
+    ],
+    "mtgo_id": 91514,
+    "arena_id": 77111,
+    "tcgplayer_id": 243329,
+    "cardmarket_id": 571501,
+    "name": "Cleric Class",
+    "lang": "en",
+    "released_at": "2021-07-23",
+    "uri": "https://api.scryfall.com/cards/47ce8b7e-d8e1-489a-a69e-99089eeb8739",
+    "scryfall_uri": "https://scryfall.com/card/afr/6/cleric-class?utm_source=api",
+    "layout": "class",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
+      "normal": "https://cards.scryfall.io/normal/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
+      "large": "https://cards.scryfall.io/large/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
+      "png": "https://cards.scryfall.io/png/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.png?1663214150",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150"
+    },
+    "mana_cost": "{W}",
+    "cmc": 1.0,
+    "type_line": "Enchantment — Class",
+    "oracle_text": "(Gain the next level as a sorcery to add its ability.)\nIf you would gain life, you gain that much life plus 1 instead.\n{3}{W}: Level 2\nWhenever you gain life, put a +1/+1 counter on target creature you control.\n{4}{W}: Level 3\nWhen this Class becomes level 3, return target creature card from your graveyard to the battlefield. You gain life equal to that creature's toughness.",
+    "colors": [
+      "W"
+    ],
+    "color_identity": [
+      "W"
+    ],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "arena",
+      "paper",
+      "mtgo"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "e1ef87ba-ba92-4573-817f-543b996d2851",
+    "set": "afr",
+    "set_name": "Adventures in the Forgotten Realms",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/e1ef87ba-ba92-4573-817f-543b996d2851",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aafr&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/afr?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/47ce8b7e-d8e1-489a-a69e-99089eeb8739/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Af0ead7f5-5c82-40fd-8e89-3e3c5d31fbad&unique=prints",
+    "collector_number": "6",
+    "digital": false,
+    "rarity": "uncommon",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Alayna Danner",
+    "artist_ids": [
+      "bb677b1a-ce51-4888-83d6-5a94de461ff9"
+    ],
+    "illustration_id": "5101c556-4c32-4277-b25c-49f6cdfed308",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 1476,
+    "penny_rank": 3913,
+    "preview": {
+      "source": "Wizards of the Coast",
+      "source_uri": "https://magic.wizards.com/en/articles/archive/card-preview/every-adventurer-needs-class-2021-07-02",
+      "previewed_at": "2021-07-02"
+    },
+    "prices": {
+      "usd": "1.70",
+      "usd_foil": "2.58",
+      "usd_etched": null,
+      "eur": "2.39",
+      "eur_foil": "3.76",
+      "tix": "0.03"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=527293&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DCleric%2BClass",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DCleric%2BClass",
+      "edhrec": "https://edhrec.com/route/?cc=Cleric+Class"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F243329%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=571501&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/91514?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

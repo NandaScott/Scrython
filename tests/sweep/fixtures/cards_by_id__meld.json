@@ -1,0 +1,164 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/e2b826be-4256-4fd6-ad4d-6c80933ee940",
+    "scryfall_id": "e2b826be-4256-4fd6-ad4d-6c80933ee940",
+    "discovered_via": "is:meld order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "e2b826be-4256-4fd6-ad4d-6c80933ee940",
+    "oracle_id": "022b42a6-ee0f-4080-b973-c1b68938c3be",
+    "multiverse_ids": [
+      588284
+    ],
+    "mtgo_id": 104944,
+    "arena_id": 82648,
+    "tcgplayer_id": 448706,
+    "cardmarket_id": 681772,
+    "name": "Phyrexian Dragon Engine",
+    "lang": "en",
+    "released_at": "2022-11-18",
+    "uri": "https://api.scryfall.com/cards/e2b826be-4256-4fd6-ad4d-6c80933ee940",
+    "scryfall_uri": "https://scryfall.com/card/bro/163/phyrexian-dragon-engine?utm_source=api",
+    "layout": "meld",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.jpg?1756757707",
+      "normal": "https://cards.scryfall.io/normal/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.jpg?1756757707",
+      "large": "https://cards.scryfall.io/large/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.jpg?1756757707",
+      "png": "https://cards.scryfall.io/png/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.png?1756757707",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.jpg?1756757707",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/e/2/e2b826be-4256-4fd6-ad4d-6c80933ee940.jpg?1756757707"
+    },
+    "mana_cost": "{3}",
+    "cmc": 3.0,
+    "type_line": "Artifact Creature — Phyrexian Dragon",
+    "oracle_text": "Double strike\nWhen this creature enters from your graveyard, you may discard your hand. If you do, draw three cards.\nUnearth {3}{R}{R}\n(Melds with Mishra, Claimed by Gix.)",
+    "power": "2",
+    "toughness": "2",
+    "colors": [],
+    "color_identity": [
+      "R"
+    ],
+    "keywords": [
+      "Unearth",
+      "Double strike"
+    ],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "e2b826be-4256-4fd6-ad4d-6c80933ee940",
+        "component": "meld_part",
+        "name": "Phyrexian Dragon Engine",
+        "type_line": "Artifact Creature — Phyrexian Dragon",
+        "uri": "https://api.scryfall.com/cards/e2b826be-4256-4fd6-ad4d-6c80933ee940"
+      },
+      {
+        "object": "related_card",
+        "id": "a469d7ec-42de-45de-9d8f-469bb979de58",
+        "component": "meld_part",
+        "name": "Mishra, Claimed by Gix",
+        "type_line": "Legendary Creature — Phyrexian Human Artificer",
+        "uri": "https://api.scryfall.com/cards/a469d7ec-42de-45de-9d8f-469bb979de58"
+      },
+      {
+        "object": "related_card",
+        "id": "0220c1e9-07bc-44f0-b39e-ca345ec4ea28",
+        "component": "meld_result",
+        "name": "Mishra, Lost to Phyrexia",
+        "type_line": "Legendary Artifact Creature — Phyrexian Artificer",
+        "uri": "https://api.scryfall.com/cards/0220c1e9-07bc-44f0-b39e-ca345ec4ea28"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "paper",
+      "mtgo",
+      "arena"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "4219a14e-6701-4ddd-a185-21dc054ab19b",
+    "set": "bro",
+    "set_name": "The Brothers' War",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/4219a14e-6701-4ddd-a185-21dc054ab19b",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Abro&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/bro?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/e2b826be-4256-4fd6-ad4d-6c80933ee940/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A022b42a6-ee0f-4080-b973-c1b68938c3be&unique=prints",
+    "collector_number": "163",
+    "digital": false,
+    "rarity": "rare",
+    "card_back_id": "2fde87ef-fb25-40c0-a69c-ab728f3304dc",
+    "artist": "Chris Rahn",
+    "artist_ids": [
+      "7742047e-0f80-4c0f-a530-d07460165e86"
+    ],
+    "illustration_id": "4cbe85d3-4b24-4fb3-9f3f-4028ff07d01b",
+    "border_color": "black",
+    "frame": "2015",
+    "security_stamp": "oval",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 8076,
+    "penny_rank": 1960,
+    "prices": {
+      "usd": "0.86",
+      "usd_foil": "1.24",
+      "usd_etched": null,
+      "eur": "0.85",
+      "eur_foil": "1.25",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=588284&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DPhyrexian%2BDragon%2BEngine",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DPhyrexian%2BDragon%2BEngine",
+      "edhrec": "https://edhrec.com/route/?cc=Phyrexian+Dragon+Engine"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F448706%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=681772&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/104944?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

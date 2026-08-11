@@ -1,0 +1,137 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/c48e9f90-4b13-4281-943c-126be4ff1ce0",
+    "scryfall_id": "c48e9f90-4b13-4281-943c-126be4ff1ce0",
+    "discovered_via": "is:leveler order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "c48e9f90-4b13-4281-943c-126be4ff1ce0",
+    "oracle_id": "ecc3e2ac-6534-4350-92f4-2c1f578d854e",
+    "multiverse_ids": [
+      193421
+    ],
+    "mtgo_id": 36356,
+    "mtgo_foil_id": 36357,
+    "tcgplayer_id": 34719,
+    "cardmarket_id": 22611,
+    "name": "Hedron-Field Purists",
+    "lang": "en",
+    "released_at": "2010-04-23",
+    "uri": "https://api.scryfall.com/cards/c48e9f90-4b13-4281-943c-126be4ff1ce0",
+    "scryfall_uri": "https://scryfall.com/card/roe/25/hedron-field-purists?utm_source=api",
+    "layout": "leveler",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.jpg?1562708426",
+      "normal": "https://cards.scryfall.io/normal/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.jpg?1562708426",
+      "large": "https://cards.scryfall.io/large/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.jpg?1562708426",
+      "png": "https://cards.scryfall.io/png/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.png?1562708426",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.jpg?1562708426",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/c/4/c48e9f90-4b13-4281-943c-126be4ff1ce0.jpg?1562708426"
+    },
+    "mana_cost": "{2}{W}",
+    "cmc": 3.0,
+    "type_line": "Creature — Human Cleric",
+    "oracle_text": "Level up {2}{W} ({2}{W}: Put a level counter on this. Level up only as a sorcery.)\nLEVEL 1-4\n1/4\nIf a source would deal damage to you or a creature you control, prevent 1 of that damage.\nLEVEL 5+\n2/5\nIf a source would deal damage to you or a creature you control, prevent 2 of that damage.",
+    "power": "0",
+    "toughness": "3",
+    "colors": [
+      "W"
+    ],
+    "color_identity": [
+      "W"
+    ],
+    "keywords": [
+      "Level Up"
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "paper",
+      "mtgo"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "eadb8a82-ec56-4623-b50e-42e7e60cb535",
+    "set": "roe",
+    "set_name": "Rise of the Eldrazi",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/eadb8a82-ec56-4623-b50e-42e7e60cb535",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aroe&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/roe?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/c48e9f90-4b13-4281-943c-126be4ff1ce0/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aecc3e2ac-6534-4350-92f4-2c1f578d854e&unique=prints",
+    "collector_number": "25",
+    "digital": false,
+    "rarity": "rare",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Scott Chou",
+    "artist_ids": [
+      "9e048547-f9c3-4958-9c2c-91e45df7c6ae"
+    ],
+    "illustration_id": "0d0e4f2b-c450-41b3-8bc6-415f72eb3711",
+    "border_color": "black",
+    "frame": "2003",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 21693,
+    "penny_rank": 13318,
+    "prices": {
+      "usd": "0.33",
+      "usd_foil": "0.69",
+      "usd_etched": null,
+      "eur": "0.25",
+      "eur_foil": "0.70",
+      "tix": "0.02"
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=193421&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DHedron-Field%2BPurists",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DHedron-Field%2BPurists",
+      "edhrec": "https://edhrec.com/route/?cc=Hedron-Field+Purists"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F34719%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=22611&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/36356?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

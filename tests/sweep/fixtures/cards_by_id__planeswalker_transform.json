@@ -1,0 +1,109 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960",
+    "scryfall_id": "39124693-514b-4246-b479-247407282960",
+    "discovered_via": "t:planeswalker is:transform order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "39124693-514b-4246-b479-247407282960",
+    "oracle_id": null,
+    "name": "Jace, Vryn's Prodigy // Jace, Telepath Unbound",
+    "lang": "en",
+    "released_at": "2015-07-17",
+    "uri": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960",
+    "scryfall_uri": "https://scryfall.com/card/stub/planeswalker-transform",
+    "layout": "transform",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "cmc": 2.0,
+    "type_line": "Legendary Creature — Human Wizard // Legendary Planeswalker — Jace",
+    "color_identity": [
+      "U"
+    ],
+    "keywords": [],
+    "legalities": {
+      "commander": "legal",
+      "vintage": "legal",
+      "legacy": "legal",
+      "modern": "legal"
+    },
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "abc12345-0000-4000-8000-000000000004",
+    "set": "ori",
+    "set_name": "Magic Origins",
+    "set_type": "core",
+    "set_uri": "https://api.scryfall.com/sets/ori",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:ori&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/ori",
+    "rulings_uri": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?q=oracleid:oracle",
+    "collector_number": "60",
+    "digital": false,
+    "rarity": "mythic",
+    "artist": "Jaime Jones",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "games": [
+      "paper",
+      "mtgo"
+    ],
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    },
+    "related_uris": {},
+    "purchase_uris": {},
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Jace, Vryn's Prodigy",
+        "mana_cost": "{1}{U}",
+        "type_line": "Legendary Creature — Human Wizard",
+        "power": "0",
+        "toughness": "2",
+        "oracle_text": "{T}: Draw a card, then discard a card. If there are five or more cards in your graveyard, exile Jace, Vryn's Prodigy, then return him to the battlefield transformed under his owner's control.",
+        "colors": [
+          "U"
+        ],
+        "artist": "Jaime Jones",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/front/3/9/39124693.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Jace, Telepath Unbound",
+        "mana_cost": "",
+        "type_line": "Legendary Planeswalker — Jace",
+        "loyalty": "5",
+        "oracle_text": "+1: Up to one target creature gets −2/−0 until your next turn.\n−3: You may cast target instant or sorcery card from your graveyard this turn. If that card would be put into your graveyard, exile it instead.\n−9: You get an emblem with \"Whenever you cast a spell, target opponent mills five cards.\"",
+        "colors": [
+          "U"
+        ],
+        "artist": "Jaime Jones",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/back/3/9/39124693.jpg"
+        }
+      }
+    ]
+  }
+}

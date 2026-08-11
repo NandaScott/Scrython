@@ -1,0 +1,91 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b",
+    "scryfall_id": "e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b",
+    "discovered_via": "t:attraction order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b",
+    "oracle_id": "oracle-e8f47c15",
+    "name": "Dart Throw",
+    "lang": "en",
+    "released_at": "2022-04-29",
+    "uri": "https://api.scryfall.com/cards/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b",
+    "scryfall_uri": "https://scryfall.com/card/stub/dart-throw",
+    "layout": "attraction",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "cmc": 0.0,
+    "type_line": "Artifact — Attraction",
+    "color_identity": [],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "legal",
+      "vintage": "legal",
+      "commander": "legal",
+      "pauper": "not_legal",
+      "brawl": "not_legal"
+    },
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": true,
+    "variation": false,
+    "set_id": "abc12345-0000-4000-8000-000000000001",
+    "set": "unf",
+    "set_name": "Unfinity",
+    "set_type": "funny",
+    "set_uri": "https://api.scryfall.com/sets/stub",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:stub&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/stub",
+    "rulings_uri": "https://api.scryfall.com/cards/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid:oracle-e8f47c15&unique=prints",
+    "collector_number": "1",
+    "digital": false,
+    "rarity": "rare",
+    "artist": "Stub Artist",
+    "artist_ids": [
+      "00000000-0000-4000-8000-000000000000"
+    ],
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "games": [
+      "paper"
+    ],
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    },
+    "related_uris": {},
+    "purchase_uris": {},
+    "colors": [],
+    "attraction_lights": [
+      2,
+      5,
+      6
+    ],
+    "oracle_text": "Visit — Throw a dart at the target. If it hits, you win the game.",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/e/8/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b.jpg",
+      "normal": "https://cards.scryfall.io/normal/front/e/8/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b.jpg"
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/28013582-403a-4135-b368-136396171850",
+    "scryfall_id": "28013582-403a-4135-b368-136396171850",
+    "discovered_via": "lang:ja is:dfc year>=2020 order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "28013582-403a-4135-b368-136396171850",
+    "oracle_id": null,
+    "name": "Fable of the Mirror-Breaker // Reflection of Kiki-Jiki",
+    "lang": "ja",
+    "released_at": "2022-02-18",
+    "uri": "https://api.scryfall.com/cards/28013582-403a-4135-b368-136396171850",
+    "scryfall_uri": "https://scryfall.com/card/stub/japanese-dfc",
+    "layout": "transform",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "cmc": 3.0,
+    "type_line": "Enchantment — Saga // Legendary Enchantment Creature — Goblin Shaman",
+    "color_identity": [
+      "R"
+    ],
+    "keywords": [],
+    "legalities": {
+      "commander": "legal",
+      "vintage": "legal",
+      "legacy": "legal",
+      "modern": "legal"
+    },
+    "reserved": false,
+    "foil": true,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil",
+      "foil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "abc12345-0000-4000-8000-000000000005",
+    "set": "neo",
+    "set_name": "Kamigawa: Neon Dynasty",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/neo",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:neo&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/neo",
+    "rulings_uri": "https://api.scryfall.com/cards/28013582-403a-4135-b368-136396171850/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?q=oracleid:oracle",
+    "collector_number": "141",
+    "digital": false,
+    "rarity": "rare",
+    "artist": "Stub Artist",
+    "border_color": "black",
+    "frame": "2015",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "games": [
+      "paper",
+      "mtgo"
+    ],
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "eur": null,
+      "tix": null
+    },
+    "related_uris": {},
+    "purchase_uris": {},
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Fable of the Mirror-Breaker",
+        "mana_cost": "{2}{R}",
+        "type_line": "Enchantment — Saga",
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Create a 2/2 red Goblin Shaman creature token with \"Whenever this creature attacks, create a Treasure token.\"\nII — You may discard up to two cards, then draw that many cards.\nIII — Exile this Saga, then return it to the battlefield transformed under your control.",
+        "colors": [
+          "R"
+        ],
+        "printed_name": "鏡割りの語り部",
+        "printed_text": "（このサーガが戰場に出たとき、およびドロー・ステップの後、毅力カウンターを置く。IIIの後、生贮に捕符する。）",
+        "printed_type_line": "エンチャントメント・サーガ",
+        "artist": "Stub Artist",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/front/2/8/28013582.jpg"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Reflection of Kiki-Jiki",
+        "mana_cost": "",
+        "type_line": "Legendary Enchantment Creature — Goblin Shaman",
+        "power": "2",
+        "toughness": "2",
+        "oracle_text": "Haste\n{T}: Create a token that's a copy of another target nonlegendary creature you control, except it has haste. Sacrifice it at the beginning of the next end step.",
+        "colors": [
+          "R"
+        ],
+        "printed_name": "髏木吉の山居",
+        "printed_text": "速車\n{T}：あなたがコントロールする传説でない他のクリーチャーのコピー・トークンを生成する。",
+        "printed_type_line": "伝説のエンチャントメントクリーチャー・ゴブリン・シャーマン",
+        "artist": "Stub Artist",
+        "image_uris": {
+          "normal": "https://cards.scryfall.io/normal/back/2/8/28013582.jpg"
+        }
+      }
+    ]
+  }
+}

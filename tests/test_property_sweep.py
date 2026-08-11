@@ -1,21 +1,141 @@
-"""Property sweep engine: auto-asserts card accessor passthroughs against the fixture corpus."""
+"""Property sweep engine: auto-asserts accessor passthroughs against the fixture corpus.
+
+Every object type registers one SweepSpec below. The three parametrized tests
+then run against all specs, so extending coverage to a new object type is a
+single table entry rather than a new copy of the engine.
+"""
 
 import inspect
 import json
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 import pytest
 
+from scrython.base_mixins import ScryfallCatalogMixin, ScryfallListMixin
+from scrython.bulk_data import Object as BulkDataObject
 from scrython.cards import Object
+from scrython.sets import Object as SetsObject
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
+
+AliasPath = str | tuple[str, str]
 
 
 def _load_json(rel_path: str) -> dict[str, Any]:
     with open(FIXTURES_DIR / rel_path) as fh:
-        return json.load(fh)
+        data: dict[str, Any] = json.load(fh)
+    return data
 
+
+def _properties(cls: type) -> list[str]:
+    """Return all non-private @property names on a class."""
+    return sorted(
+        name
+        for name, attr in inspect.getmembers(cls, predicate=lambda v: isinstance(v, property))
+        if not name.startswith("_")
+    )
+
+
+def _resolve_alias(fixture: dict[str, Any], path: AliasPath) -> Any:
+    """Look up a value via a simple key or a (parent, child) key path."""
+    if isinstance(path, tuple):
+        parent = fixture.get(path[0])
+        return parent.get(path[1]) if isinstance(parent, dict) else None
+    return fixture.get(path)
+
+
+def _alias_reachable(fixture: dict[str, Any], path: AliasPath) -> bool:
+    """True when the alias target key (or its parent) exists in the fixture."""
+    if isinstance(path, tuple):
+        return path[0] in fixture
+    return path in fixture
+
+
+# ─── Bare wrapper classes for list/catalog ────────────────────────────────────
+
+
+class _BareList(ScryfallListMixin):
+    """Instantiable from a dict; list_data_type=None keeps data as a raw passthrough."""
+
+    list_data_type: type | None = None
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
+
+
+class _WrappedList(_BareList):
+    """List envelope that wraps its items, mirroring how cards.Search is configured."""
+
+    list_data_type = Object
+
+
+class _BareCatalog(ScryfallCatalogMixin):
+    """Instantiable from a dict."""
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
+
+
+# ─── Sweep spec ───────────────────────────────────────────────────────────────
+
+
+@dataclass(frozen=True)
+class SweepSpec:
+    """One object type's sweep configuration.
+
+    Args:
+        name: Spec label; prefixes every generated test id.
+        cls: Class introspected for @property accessors.
+        build: Builds an instance from a fixture dict. Typed loosely because
+            fixture dicts cross into TypedDict-annotated constructors here;
+            this is the rehydration boundary.
+        corpus: Fixture name to fixture JSON.
+        exceptions: Accessors excluded from the passthrough sweep.
+        aliases: Exception-set accessor to backing fixture path.
+            str -> fixture[key]; tuple[str, str] -> fixture[t[0]][t[1]].
+        wrappers: Fixture key to accessor(s) that read it, for keys reachable
+            only through a wrapper whose name differs from the key.
+    """
+
+    name: str
+    cls: type
+    build: Callable[[Any], Any]
+    corpus: dict[str, dict[str, Any]]
+    exceptions: frozenset[str] = frozenset()
+    aliases: dict[str, AliasPath] = field(default_factory=dict)
+    wrappers: dict[str, tuple[str, ...]] = field(default_factory=dict)
+
+    @property
+    def properties(self) -> frozenset[str]:
+        return frozenset(_properties(self.cls))
+
+    @property
+    def alias_targets(self) -> frozenset[str]:
+        """Top-level fixture keys reachable via the alias map.
+
+        String values are direct key aliases; tuple values expose their parent key.
+        """
+        return frozenset(
+            path if isinstance(path, str) else path[0] for path in self.aliases.values()
+        )
+
+    def reaches(self, key: str) -> bool:
+        """True when some accessor exposes this top-level fixture key.
+
+        A wrapper entry only counts while every accessor it names still exists,
+        so renaming or deleting those accessors turns a stale entry red.
+        """
+        wrapper_accessors = self.wrappers.get(key, ())
+        wrapper_covered = bool(wrapper_accessors) and all(
+            accessor in self.properties for accessor in wrapper_accessors
+        )
+        return key in self.properties or key in self.alias_targets or wrapper_covered
+
+
+# ─── Corpora ──────────────────────────────────────────────────────────────────
 
 # Card object fixtures (direct card JSON, not list/catalog wrappers)
 CARD_CORPUS: dict[str, dict[str, Any]] = {
@@ -23,11 +143,41 @@ CARD_CORPUS: dict[str, dict[str, Any]] = {
     "random": _load_json("cards/random.json"),
 }
 
+# Single set object fixtures; the list envelope's items are set objects too
+SET_CORPUS: dict[str, dict[str, Any]] = {
+    "by_code": _load_json("sets/by_code.json"),
+    "all_item": _load_json("sets/all.json")["data"][0],
+}
+
+# Single bulk data object fixtures; the list envelope's items are bulk objects too
+BULK_DATA_CORPUS: dict[str, dict[str, Any]] = {
+    "by_id": _load_json("bulk_data/by_id.json"),
+    "all_item": _load_json("bulk_data/all.json")["data"][0],
+}
+
+# List envelope fixtures (object == "list"). migrations/all.json is the only
+# corpus fixture carrying next_page, so it is what covers that accessor.
+LIST_CORPUS: dict[str, dict[str, Any]] = {
+    "cards_search": _load_json("cards/search.json"),
+    "sets_all": _load_json("sets/all.json"),
+    "bulk_data_all": _load_json("bulk_data/all.json"),
+    "migrations_all": _load_json("migrations/all.json"),
+    "symbology_all": _load_json("symbology/all.json"),
+}
+
+# Catalog envelope fixtures (object == "catalog")
+CATALOG_CORPUS: dict[str, dict[str, Any]] = {
+    "card_names": _load_json("catalogs/card_names.json"),
+    "creature_types": _load_json("catalogs/creature_types.json"),
+    "keyword_abilities": _load_json("catalogs/keyword_abilities.json"),
+    "autocomplete": _load_json("cards/autocomplete.json"),
+}
+
 
 # ─── Hand-maintained artifacts (one line to extend each) ─────────────────────
 
-# Accessor names excluded from the passthrough auto-sweep
-EXCEPTION_SET: frozenset[str] = frozenset(
+# Card accessor names excluded from the passthrough auto-sweep
+CARD_EXCEPTIONS: frozenset[str] = frozenset(
     {
         "card_id",  # renamed: fixture key is "id"
         "all_parts",  # wrapped: returns RelatedCardObject list, not raw dicts
@@ -44,78 +194,64 @@ EXCEPTION_SET: frozenset[str] = frozenset(
     }
 )
 
-# Maps assertable exception-set accessors to their backing fixture path.
-# str  → fixture[key]
-# tuple[str, str] → fixture[t[0]][t[1]]
-ALIAS_MAP: dict[str, str | tuple[str, str]] = {
+CARD_ALIASES: dict[str, AliasPath] = {
     "card_id": "id",
     "previewed_at": ("preview", "previewed_at"),
     "preview_source_uri": ("preview", "source_uri"),
     "preview_source": ("preview", "source"),
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-def _card_properties() -> list[str]:
-    """Return all non-private @property names on the card Object class."""
-    return sorted(
-        name
-        for name, attr in inspect.getmembers(Object, predicate=lambda v: isinstance(v, property))
-        if not name.startswith("_")
-    )
-
-
-def _resolve_alias(fixture: dict[str, Any], path: str | tuple[str, str]) -> Any:
-    """Look up a value via a simple key or a (parent, child) key path."""
-    if isinstance(path, tuple):
-        parent = fixture.get(path[0])
-        return parent.get(path[1]) if isinstance(parent, dict) else None
-    return fixture.get(path)
-
-
-def _alias_reachable(fixture: dict[str, Any], path: str | tuple[str, str]) -> bool:
-    """True when the alias target key (or its parent) exists in the fixture."""
-    if isinstance(path, tuple):
-        return path[0] in fixture
-    return path in fixture
-
-
-# Top-level fixture keys reachable via the alias map.
-# String values are direct key aliases; tuple values expose their parent key.
-_ALIAS_MAP_TARGETS: frozenset[str] = frozenset(
-    path if isinstance(path, str) else path[0] for path in ALIAS_MAP.values()
-)
-
-# Fixture keys covered by declared wrapper accessors (key is accessible but
-# the accessor name differs from the key and is not in ALIAS_MAP). Each entry
-# must list the accessor(s) that actually read the key, so a rename or
-# deletion of those accessors fails this test instead of going unnoticed.
-WRAPPER_COVERAGE: dict[str, tuple[str, ...]] = {
+CARD_WRAPPERS: dict[str, tuple[str, ...]] = {
     "preview": ("previewed_at", "preview_source_uri", "preview_source"),
 }
 
-_ALL_PROPS: frozenset[str] = frozenset(_card_properties())
+# Sets, bulk data, list and catalog envelopes have no renamed or nested
+# accessors, so they need no exceptions or aliases. Their `object` accessor is a
+# hardcoded literal rather than a dict read; the passthrough sweep is still
+# meaningful there because it pins that literal to the value Scryfall returns.
+SWEEP_SPECS: tuple[SweepSpec, ...] = (
+    SweepSpec(
+        name="card",
+        cls=Object,
+        build=Object.from_dict,
+        corpus=CARD_CORPUS,
+        exceptions=CARD_EXCEPTIONS,
+        aliases=CARD_ALIASES,
+        wrappers=CARD_WRAPPERS,
+    ),
+    SweepSpec(name="set", cls=SetsObject, build=SetsObject, corpus=SET_CORPUS),
+    SweepSpec(name="bulk_data", cls=BulkDataObject, build=BulkDataObject, corpus=BULK_DATA_CORPUS),
+    SweepSpec(name="list", cls=_BareList, build=_BareList, corpus=LIST_CORPUS),
+    SweepSpec(name="catalog", cls=_BareCatalog, build=_BareCatalog, corpus=CATALOG_CORPUS),
+)
 
-# ─── Parametrize lists: (fixture_name, accessor) ─────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+
+_SPECS_BY_NAME: dict[str, SweepSpec] = {spec.name: spec for spec in SWEEP_SPECS}
+
+
+# ─── Parametrize lists ────────────────────────────────────────────────────────
 
 _PASSTHROUGH_PARAMS = [
-    pytest.param(fname, prop, id=f"{fname}-{prop}")
-    for fname, fixture in CARD_CORPUS.items()
-    for prop in _card_properties()
-    if prop not in EXCEPTION_SET and prop in fixture
+    pytest.param(spec.name, fname, prop, id=f"{spec.name}-{fname}-{prop}")
+    for spec in SWEEP_SPECS
+    for fname, fixture in spec.corpus.items()
+    for prop in sorted(spec.properties)
+    if prop not in spec.exceptions and prop in fixture
 ]
 
 _EXCEPTION_PARAMS = [
-    pytest.param(fname, prop, id=f"{fname}-{prop}")
-    for fname, fixture in CARD_CORPUS.items()
-    for prop, alias in ALIAS_MAP.items()
+    pytest.param(spec.name, fname, prop, id=f"{spec.name}-{fname}-{prop}")
+    for spec in SWEEP_SPECS
+    for fname, fixture in spec.corpus.items()
+    for prop, alias in spec.aliases.items()
     if _alias_reachable(fixture, alias)
 ]
 
 _REVERSE_PARAMS = [
-    pytest.param(fname, key, id=f"{fname}-key:{key}")
-    for fname, fixture in CARD_CORPUS.items()
+    pytest.param(spec.name, fname, key, id=f"{spec.name}-{fname}-key:{key}")
+    for spec in SWEEP_SPECS
+    for fname, fixture in spec.corpus.items()
     for key in fixture
 ]
 
@@ -123,43 +259,62 @@ _REVERSE_PARAMS = [
 # ─── Tests ────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("fixture_name,accessor", _PASSTHROUGH_PARAMS)
-def test_passthrough_sweep(fixture_name: str, accessor: str) -> None:
+@pytest.mark.parametrize("spec_name,fixture_name,accessor", _PASSTHROUGH_PARAMS)
+def test_passthrough_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
     """Each passthrough accessor returns the same value as its fixture key."""
-    fixture = CARD_CORPUS[fixture_name]
-    card = Object.from_dict(fixture)
+    spec = _SPECS_BY_NAME[spec_name]
+    fixture = spec.corpus[fixture_name]
+    obj = spec.build(fixture)
     assert (
-        getattr(card, accessor) == fixture[accessor]
-    ), f"accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
+        getattr(obj, accessor) == fixture[accessor]
+    ), f"{spec_name} accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
 
 
-@pytest.mark.parametrize("fixture_name,accessor", _EXCEPTION_PARAMS)
-def test_exception_sweep(fixture_name: str, accessor: str) -> None:
+@pytest.mark.parametrize("spec_name,fixture_name,accessor", _EXCEPTION_PARAMS)
+def test_exception_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
     """Each exception-set accessor is asserted against its aliased fixture value."""
-    fixture = CARD_CORPUS[fixture_name]
-    card = Object.from_dict(fixture)
-    expected = _resolve_alias(fixture, ALIAS_MAP[accessor])
-    assert (
-        getattr(card, accessor) == expected
-    ), f"accessor '{accessor}' (alias {ALIAS_MAP[accessor]!r}) mismatch for fixture '{fixture_name}'"
+    spec = _SPECS_BY_NAME[spec_name]
+    fixture = spec.corpus[fixture_name]
+    obj = spec.build(fixture)
+    alias = spec.aliases[accessor]
+    assert getattr(obj, accessor) == _resolve_alias(
+        fixture, alias
+    ), f"{spec_name} accessor '{accessor}' (alias {alias!r}) mismatch for fixture '{fixture_name}'"
 
 
-@pytest.mark.parametrize("fixture_name,key", _REVERSE_PARAMS)
-def test_reverse_coverage_guard(fixture_name: str, key: str) -> None:
+@pytest.mark.parametrize("spec_name,fixture_name,key", _REVERSE_PARAMS)
+def test_reverse_coverage_guard(spec_name: str, fixture_name: str, key: str) -> None:
     """Every top-level fixture key must be reachable through some accessor.
 
     Passes when the key matches a property name directly, appears as a target
-    in ALIAS_MAP, or is declared in WRAPPER_COVERAGE with accessors that still
-    exist. A failure here means Scryfall added (or the fixture contains) a
-    field with no accessor, or a WRAPPER_COVERAGE entry has gone stale.
+    in the spec's alias map, or is declared in the spec's wrapper map with
+    accessors that still exist. A failure here means Scryfall added (or the
+    fixture contains) a field with no accessor, or a wrapper entry has gone
+    stale.
     """
-    wrapper_accessors = WRAPPER_COVERAGE.get(key, ())
-    wrapper_covered = bool(wrapper_accessors) and all(
-        accessor in _ALL_PROPS for accessor in wrapper_accessors
+    spec = _SPECS_BY_NAME[spec_name]
+    assert spec.reaches(key), (
+        f"Fixture key '{key}' in {spec_name} fixture '{fixture_name}' has no accessor — "
+        f"add a property, an alias entry, or a wrapper entry naming the accessor(s) "
+        f"that read it"
     )
-    reachable = key in _ALL_PROPS or key in _ALIAS_MAP_TARGETS or wrapper_covered
-    assert reachable, (
-        f"Fixture key '{key}' in '{fixture_name}' has no accessor — "
-        "add a property, an ALIAS_MAP entry, or a WRAPPER_COVERAGE entry "
-        "naming the accessor(s) that read it"
-    )
+
+
+# ─── Wrapped list envelope ────────────────────────────────────────────────────
+
+# The specs above sweep _BareList (list_data_type=None), which leaves the
+# item-wrapping half of ScryfallListMixin.data untested. Search-style endpoints
+# set list_data_type, so assert that path against the same fixture.
+
+
+def test_wrapped_list_data_wraps_every_item() -> None:
+    """A list envelope with list_data_type builds one wrapper per raw item."""
+    wrapped = _WrappedList(LIST_CORPUS["cards_search"])
+    assert all(isinstance(item, Object) for item in wrapped.data)
+
+
+def test_wrapped_list_data_preserves_items() -> None:
+    """Wrapping items does not alter their underlying data."""
+    fixture = LIST_CORPUS["cards_search"]
+    wrapped = _WrappedList(fixture)
+    assert wrapped.to_list() == fixture["data"]

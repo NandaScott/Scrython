@@ -1,0 +1,20 @@
+{
+  "_provenance": {
+    "captured_at": "2026-01-01T00:00:00+00:00",
+    "endpoint": "catalog/creature-types",
+    "source_url": "https://api.scryfall.com/catalog/creature-types"
+  },
+  "payload": {
+    "object": "catalog",
+    "uri": "https://api.scryfall.com/catalog/creature-types",
+    "total_values": 6,
+    "data": [
+      "Elf",
+      "Goblin",
+      "Human",
+      "Dragon",
+      "Wizard",
+      "Soldier"
+    ]
+  }
+}

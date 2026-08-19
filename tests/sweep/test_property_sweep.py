@@ -27,7 +27,13 @@ AliasPath = str | tuple[str, str]
 def _load_json(rel_path: str) -> dict[str, Any]:
     with open(FIXTURES_DIR / rel_path) as fh:
         data: dict[str, Any] = json.load(fh)
-    return data
+    payload = data.get("payload")
+    if not isinstance(payload, dict):
+        raise ValueError(
+            f"Sweep fixture '{rel_path}' is missing a 'payload' field. "
+            "Re-run the fixture capture script to refresh it."
+        )
+    return payload
 
 
 def _properties(cls: type) -> list[str]:
@@ -96,6 +102,10 @@ class SweepSpec:
         exceptions: Accessors excluded from the passthrough sweep.
         aliases: Exception-set accessor to backing fixture path.
             str -> fixture[key]; tuple[str, str] -> fixture[t[0]][t[1]].
+        covered_elsewhere: Exception-set accessors not in aliases, mapped to the
+            test or issue that owns their coverage. Every exception must appear
+            in aliases or covered_elsewhere; the self-test in
+            test_sweep_engine_self.py enforces this invariant.
         wrappers: Fixture key to accessor(s) that read it, for keys reachable
             only through a wrapper whose name differs from the key.
     """
@@ -106,6 +116,7 @@ class SweepSpec:
     corpus: dict[str, dict[str, Any]]
     exceptions: frozenset[str] = frozenset()
     aliases: dict[str, AliasPath] = field(default_factory=dict)
+    covered_elsewhere: dict[str, str] = field(default_factory=dict)
     wrappers: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
     @property
@@ -201,6 +212,20 @@ CARD_ALIASES: dict[str, AliasPath] = {
     "preview_source": ("preview", "source"),
 }
 
+# Alias-less exceptions: each maps to the test or issue that owns its coverage.
+# The self-test in test_sweep_engine_self.py asserts that every name in
+# CARD_EXCEPTIONS appears in CARD_ALIASES or here.
+CARD_COVERED_ELSEWHERE: dict[str, str] = {
+    "all_parts": "tests/test_property_types.py::GAMEPLAY_FIELDS_PROPERTIES",
+    "card_faces": "tests/test_property_types.py::GAMEPLAY_FIELDS_PROPERTIES",
+    "is_creature": "#208",
+    "is_instant": "#208",
+    "is_sorcery": "#208",
+    "is_enchantment": "#208",
+    "is_artifact": "#208",
+    "is_planeswalker": "#208",
+}
+
 CARD_WRAPPERS: dict[str, tuple[str, ...]] = {
     "preview": ("previewed_at", "preview_source_uri", "preview_source"),
 }
@@ -217,6 +242,7 @@ SWEEP_SPECS: tuple[SweepSpec, ...] = (
         corpus=CARD_CORPUS,
         exceptions=CARD_EXCEPTIONS,
         aliases=CARD_ALIASES,
+        covered_elsewhere=CARD_COVERED_ELSEWHERE,
         wrappers=CARD_WRAPPERS,
     ),
     SweepSpec(name="set", cls=SetsObject, build=SetsObject, corpus=SET_CORPUS),
@@ -259,15 +285,20 @@ _REVERSE_PARAMS = [
 # ─── Tests ────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("spec_name,fixture_name,accessor", _PASSTHROUGH_PARAMS)
-def test_passthrough_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
-    """Each passthrough accessor returns the same value as its fixture key."""
-    spec = _SPECS_BY_NAME[spec_name]
+def _run_passthrough_check(spec: SweepSpec, fixture_name: str, accessor: str) -> None:
+    """Core passthrough assertion: accessor value must equal its fixture key value."""
     fixture = spec.corpus[fixture_name]
     obj = spec.build(fixture)
     assert (
         getattr(obj, accessor) == fixture[accessor]
-    ), f"{spec_name} accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
+    ), f"{spec.name} accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
+
+
+@pytest.mark.parametrize("spec_name,fixture_name,accessor", _PASSTHROUGH_PARAMS)
+def test_passthrough_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
+    """Each passthrough accessor returns the same value as its fixture key."""
+    spec = _SPECS_BY_NAME[spec_name]
+    _run_passthrough_check(spec, fixture_name, accessor)
 
 
 @pytest.mark.parametrize("spec_name,fixture_name,accessor", _EXCEPTION_PARAMS)

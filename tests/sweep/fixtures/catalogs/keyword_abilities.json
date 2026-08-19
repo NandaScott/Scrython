@@ -1,0 +1,18 @@
+{
+  "_provenance": {
+    "captured_at": "2026-01-01T00:00:00+00:00",
+    "endpoint": "catalog/keyword-abilities",
+    "source_url": "https://api.scryfall.com/catalog/keyword-abilities"
+  },
+  "payload": {
+    "object": "catalog",
+    "uri": "https://api.scryfall.com/catalog/keyword-abilities",
+    "total_values": 4,
+    "data": [
+      "Flying",
+      "Trample",
+      "Haste",
+      "Vigilance"
+    ]
+  }
+}

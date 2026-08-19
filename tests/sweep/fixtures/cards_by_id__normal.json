@@ -1,0 +1,135 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-19T20:38:35.947371+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",
+    "scryfall_id": "a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",
+    "discovered_via": "is:normal order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",
+    "oracle_id": "38c5c952-8153-4d98-89b5-a75260383345",
+    "multiverse_ids": [
+      792
+    ],
+    "tcgplayer_id": 9050,
+    "cardmarket_id": 4923,
+    "name": "False Orders",
+    "lang": "en",
+    "released_at": "1993-12-01",
+    "uri": "https://api.scryfall.com/cards/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5",
+    "scryfall_uri": "https://scryfall.com/card/2ed/148/false-orders?utm_source=api",
+    "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T13:15:58Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.jpg?1783948558",
+      "normal": "https://cards.scryfall.io/normal/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.jpg?1783948558",
+      "large": "https://cards.scryfall.io/large/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.jpg?1783948558",
+      "png": "https://cards.scryfall.io/png/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.png?1783948558",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.jpg?1783948558",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.jpg?1783948558",
+      "thumb": "https://cards.scryfall.io/thumb/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.webp?1783948558",
+      "grid": "https://cards.scryfall.io/grid/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.webp?1783948558",
+      "display": "https://cards.scryfall.io/display/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.webp?1783948558",
+      "art": "https://cards.scryfall.io/art/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.webp?1783948558",
+      "crop": "https://cards.scryfall.io/crop/front/a/5/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5.webp?1783948558"
+    },
+    "mana_cost": "{R}",
+    "cmc": 1.0,
+    "type_line": "Instant",
+    "oracle_text": "Cast this spell only during the declare blockers step.\nRemove target creature defending player controls from combat. Creatures it was blocking that had become blocked by only that creature this combat become unblocked. You may have it block an attacking creature of your choice.",
+    "colors": [
+      "R"
+    ],
+    "color_identity": [
+      "R"
+    ],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "legal",
+      "pauper": "legal",
+      "vintage": "legal",
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "legal",
+      "duel": "legal",
+      "oldschool": "legal",
+      "premodern": "not_legal",
+      "predh": "legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "paper"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": false,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": true,
+    "variation": false,
+    "set_id": "cd7694b9-339c-405d-a991-14413d4f6d5c",
+    "set": "2ed",
+    "set_name": "Unlimited Edition",
+    "set_type": "core",
+    "set_uri": "https://api.scryfall.com/sets/cd7694b9-339c-405d-a991-14413d4f6d5c",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3A2ed&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/2ed?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/a59c24d9-804b-45d0-b60c-cfc7a6af7ef5/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A38c5c952-8153-4d98-89b5-a75260383345&unique=prints",
+    "collector_number": "148",
+    "digital": false,
+    "rarity": "common",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Anson Maddocks",
+    "artist_ids": [
+      "634430a7-b5c3-4e4a-b2ac-164e084e47c9"
+    ],
+    "illustration_id": "2176498c-8e56-4eff-a55e-717904c6d757",
+    "border_color": "white",
+    "frame": "1993",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "edhrec_rank": 24070,
+    "prices": {
+      "usd": "3.23",
+      "usd_foil": null,
+      "usd_etched": null,
+      "eur": "1.60",
+      "eur_foil": null,
+      "tix": null
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=792&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DFalse%2BOrders",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DFalse%2BOrders",
+      "edhrec": "https://edhrec.com/route/?cc=False+Orders"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F9050%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=4923&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=False+Orders&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

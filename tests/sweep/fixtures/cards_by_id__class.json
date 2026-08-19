@@ -1,6 +1,6 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:38.049342+00:00",
     "endpoint": "cards/id",
     "source_url": "https://api.scryfall.com/cards/47ce8b7e-d8e1-489a-a69e-99089eeb8739",
     "scryfall_id": "47ce8b7e-d8e1-489a-a69e-99089eeb8739",
@@ -25,13 +25,19 @@
     "layout": "class",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T07:08:58Z",
     "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
-      "normal": "https://cards.scryfall.io/normal/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
-      "large": "https://cards.scryfall.io/large/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
-      "png": "https://cards.scryfall.io/png/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.png?1663214150",
-      "art_crop": "https://cards.scryfall.io/art_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150",
-      "border_crop": "https://cards.scryfall.io/border_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1663214150"
+      "small": "https://cards.scryfall.io/small/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1783926538",
+      "normal": "https://cards.scryfall.io/normal/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1783926538",
+      "large": "https://cards.scryfall.io/large/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1783926538",
+      "png": "https://cards.scryfall.io/png/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.png?1783926538",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1783926538",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.jpg?1783926538",
+      "thumb": "https://cards.scryfall.io/thumb/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.webp?1783926538",
+      "grid": "https://cards.scryfall.io/grid/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.webp?1783926538",
+      "display": "https://cards.scryfall.io/display/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.webp?1783926538",
+      "art": "https://cards.scryfall.io/art/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.webp?1783926538",
+      "crop": "https://cards.scryfall.io/crop/front/4/7/47ce8b7e-d8e1-489a-a69e-99089eeb8739.webp?1783926538"
     },
     "mana_cost": "{W}",
     "cmc": 1.0,
@@ -60,6 +66,7 @@
       "oathbreaker": "legal",
       "standardbrawl": "not_legal",
       "brawl": "legal",
+      "competitivebrawl": "legal",
       "alchemy": "not_legal",
       "paupercommander": "not_legal",
       "duel": "legal",
@@ -109,19 +116,19 @@
     "textless": false,
     "booster": true,
     "story_spotlight": false,
-    "edhrec_rank": 1476,
-    "penny_rank": 3913,
+    "edhrec_rank": 1493,
+    "penny_rank": 3893,
     "preview": {
       "source": "Wizards of the Coast",
       "source_uri": "https://magic.wizards.com/en/articles/archive/card-preview/every-adventurer-needs-class-2021-07-02",
       "previewed_at": "2021-07-02"
     },
     "prices": {
-      "usd": "1.70",
-      "usd_foil": "2.58",
+      "usd": "2.05",
+      "usd_foil": "2.91",
       "usd_etched": null,
-      "eur": "2.39",
-      "eur_foil": "3.76",
+      "eur": "2.91",
+      "eur_foil": "3.79",
       "tix": "0.03"
     },
     "related_uris": {

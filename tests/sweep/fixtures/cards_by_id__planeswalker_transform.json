@@ -1,36 +1,149 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:43.431902+00:00",
     "endpoint": "cards/id",
-    "source_url": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960",
-    "scryfall_id": "39124693-514b-4246-b479-247407282960",
+    "source_url": "https://api.scryfall.com/cards/58c39df6-b237-40d1-bdcb-2fe5d05392a9",
+    "scryfall_id": "58c39df6-b237-40d1-bdcb-2fe5d05392a9",
     "discovered_via": "t:planeswalker is:transform order:released dir:asc"
   },
   "payload": {
     "object": "card",
-    "id": "39124693-514b-4246-b479-247407282960",
-    "oracle_id": null,
-    "name": "Jace, Vryn's Prodigy // Jace, Telepath Unbound",
+    "id": "58c39df6-b237-40d1-bdcb-2fe5d05392a9",
+    "oracle_id": "e49d745c-5130-4b54-bcbb-643b08528456",
+    "multiverse_ids": [
+      398428,
+      398429
+    ],
+    "mtgo_id": 57876,
+    "mtgo_foil_id": 57877,
+    "tcgplayer_id": 99958,
+    "cardmarket_id": 283342,
+    "name": "Kytheon, Hero of Akros // Gideon, Battle-Forged",
     "lang": "en",
     "released_at": "2015-07-17",
-    "uri": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960",
-    "scryfall_uri": "https://scryfall.com/card/stub/planeswalker-transform",
+    "uri": "https://api.scryfall.com/cards/58c39df6-b237-40d1-bdcb-2fe5d05392a9",
+    "scryfall_uri": "https://scryfall.com/card/ori/23/kytheon-hero-of-akros-gideon-battle-forged?utm_source=api",
     "layout": "transform",
     "highres_image": true,
     "image_status": "highres_scan",
-    "cmc": 2.0,
-    "type_line": "Legendary Creature — Human Wizard // Legendary Planeswalker — Jace",
+    "image_updated_at": "2026-07-13T10:26:04Z",
+    "cmc": 1.0,
+    "type_line": "Legendary Creature — Human Soldier // Legendary Planeswalker — Gideon",
     "color_identity": [
-      "U"
+      "W"
     ],
-    "keywords": [],
+    "keywords": [
+      "Transform"
+    ],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "name": "Kytheon, Hero of Akros",
+        "mana_cost": "{W}",
+        "type_line": "Legendary Creature — Human Soldier",
+        "oracle_text": "At end of combat, if Kytheon and at least two other creatures attacked this combat, exile Kytheon, then return him to the battlefield transformed under his owner's control.\n{2}{W}: Kytheon gains indestructible until end of turn.",
+        "colors": [
+          "W"
+        ],
+        "power": "2",
+        "toughness": "1",
+        "artist": "Willian Murai",
+        "artist_id": "5a553c8e-e3b9-40e0-bde5-1db621c53939",
+        "illustration_id": "abc512f2-9ddf-46cd-975b-69b0ff395851",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "normal": "https://cards.scryfall.io/normal/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "large": "https://cards.scryfall.io/large/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "png": "https://cards.scryfall.io/png/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.png?1783938364",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "thumb": "https://cards.scryfall.io/thumb/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "grid": "https://cards.scryfall.io/grid/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "display": "https://cards.scryfall.io/display/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "art": "https://cards.scryfall.io/art/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "crop": "https://cards.scryfall.io/crop/front/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364"
+        }
+      },
+      {
+        "object": "card_face",
+        "name": "Gideon, Battle-Forged",
+        "mana_cost": "",
+        "type_line": "Legendary Planeswalker — Gideon",
+        "oracle_text": "+2: Up to one target creature an opponent controls attacks Gideon during its controller's next turn if able.\n+1: Until your next turn, target creature gains indestructible. Untap that creature.\n0: Until end of turn, Gideon becomes a 4/4 Human Soldier creature with indestructible that's still a planeswalker. Prevent all damage that would be dealt to him this turn.",
+        "colors": [
+          "W"
+        ],
+        "color_indicator": [
+          "W"
+        ],
+        "loyalty": "3",
+        "artist": "Willian Murai",
+        "artist_id": "5a553c8e-e3b9-40e0-bde5-1db621c53939",
+        "illustration_id": "e57a3c5b-2b82-475e-a8b8-92d05d60962b",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "normal": "https://cards.scryfall.io/normal/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "large": "https://cards.scryfall.io/large/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "png": "https://cards.scryfall.io/png/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.png?1783938364",
+          "art_crop": "https://cards.scryfall.io/art_crop/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "border_crop": "https://cards.scryfall.io/border_crop/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.jpg?1783938364",
+          "thumb": "https://cards.scryfall.io/thumb/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "grid": "https://cards.scryfall.io/grid/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "display": "https://cards.scryfall.io/display/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "art": "https://cards.scryfall.io/art/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364",
+          "crop": "https://cards.scryfall.io/crop/back/5/8/58c39df6-b237-40d1-bdcb-2fe5d05392a9.webp?1783938364"
+        }
+      }
+    ],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "f3dcc7b5-c911-44c9-be5a-087298ddb492",
+        "component": "combo_piece",
+        "name": "Magic Origins Checklist",
+        "type_line": "Card",
+        "uri": "https://api.scryfall.com/cards/f3dcc7b5-c911-44c9-be5a-087298ddb492"
+      },
+      {
+        "object": "related_card",
+        "id": "58c39df6-b237-40d1-bdcb-2fe5d05392a9",
+        "component": "combo_piece",
+        "name": "Kytheon, Hero of Akros // Gideon, Battle-Forged",
+        "type_line": "Legendary Creature — Human Soldier // Legendary Planeswalker — Gideon",
+        "uri": "https://api.scryfall.com/cards/58c39df6-b237-40d1-bdcb-2fe5d05392a9"
+      }
+    ],
     "legalities": {
-      "commander": "legal",
-      "vintage": "legal",
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "legal",
+      "modern": "legal",
       "legacy": "legal",
-      "modern": "legal"
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "competitivebrawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
     },
+    "games": [
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
     "finishes": [
@@ -41,69 +154,52 @@
     "promo": false,
     "reprint": false,
     "variation": false,
-    "set_id": "abc12345-0000-4000-8000-000000000004",
+    "set_id": "0eeb9a9a-20ac-404d-b55f-aeb7a43a7f62",
     "set": "ori",
     "set_name": "Magic Origins",
     "set_type": "core",
-    "set_uri": "https://api.scryfall.com/sets/ori",
-    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:ori&unique=prints",
-    "scryfall_set_uri": "https://scryfall.com/sets/ori",
-    "rulings_uri": "https://api.scryfall.com/cards/39124693-514b-4246-b479-247407282960/rulings",
-    "prints_search_uri": "https://api.scryfall.com/cards/search?q=oracleid:oracle",
-    "collector_number": "60",
+    "set_uri": "https://api.scryfall.com/sets/0eeb9a9a-20ac-404d-b55f-aeb7a43a7f62",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aori&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/ori?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/58c39df6-b237-40d1-bdcb-2fe5d05392a9/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Ae49d745c-5130-4b54-bcbb-643b08528456&unique=prints",
+    "collector_number": "23",
     "digital": false,
     "rarity": "mythic",
-    "artist": "Jaime Jones",
+    "artist": "Willian Murai",
+    "artist_ids": [
+      "5a553c8e-e3b9-40e0-bde5-1db621c53939"
+    ],
     "border_color": "black",
     "frame": "2015",
+    "frame_effects": [
+      "originpwdfc"
+    ],
+    "security_stamp": "oval",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
-    "games": [
-      "paper",
-      "mtgo"
-    ],
+    "edhrec_rank": 11334,
+    "penny_rank": 131,
     "prices": {
-      "usd": null,
-      "usd_foil": null,
-      "eur": null,
-      "tix": null
+      "usd": "1.75",
+      "usd_foil": "6.40",
+      "usd_etched": null,
+      "eur": "1.86",
+      "eur_foil": "4.88",
+      "tix": "0.02"
     },
-    "related_uris": {},
-    "purchase_uris": {},
-    "card_faces": [
-      {
-        "object": "card_face",
-        "name": "Jace, Vryn's Prodigy",
-        "mana_cost": "{1}{U}",
-        "type_line": "Legendary Creature — Human Wizard",
-        "power": "0",
-        "toughness": "2",
-        "oracle_text": "{T}: Draw a card, then discard a card. If there are five or more cards in your graveyard, exile Jace, Vryn's Prodigy, then return him to the battlefield transformed under his owner's control.",
-        "colors": [
-          "U"
-        ],
-        "artist": "Jaime Jones",
-        "image_uris": {
-          "normal": "https://cards.scryfall.io/normal/front/3/9/39124693.jpg"
-        }
-      },
-      {
-        "object": "card_face",
-        "name": "Jace, Telepath Unbound",
-        "mana_cost": "",
-        "type_line": "Legendary Planeswalker — Jace",
-        "loyalty": "5",
-        "oracle_text": "+1: Up to one target creature gets −2/−0 until your next turn.\n−3: You may cast target instant or sorcery card from your graveyard this turn. If that card would be put into your graveyard, exile it instead.\n−9: You get an emblem with \"Whenever you cast a spell, target opponent mills five cards.\"",
-        "colors": [
-          "U"
-        ],
-        "artist": "Jaime Jones",
-        "image_uris": {
-          "normal": "https://cards.scryfall.io/normal/back/3/9/39124693.jpg"
-        }
-      }
-    ]
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=398428&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DKytheon%252C%2BHero%2Bof%2BAkros%2B%252F%252F%2BGideon%252C%2BBattle-Forged",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DKytheon%252C%2BHero%2Bof%2BAkros%2B%252F%252F%2BGideon%252C%2BBattle-Forged",
+      "edhrec": "https://edhrec.com/route/?cc=Kytheon%2C+Hero+of+Akros"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F99958%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=283342&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards/57876?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
   }
 }

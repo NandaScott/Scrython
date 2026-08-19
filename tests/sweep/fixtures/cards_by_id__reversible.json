@@ -1,109 +1,199 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:42.948479+00:00",
     "endpoint": "cards/id",
-    "source_url": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e",
-    "scryfall_id": "5b356815-736d-4468-9691-469629a45b8e",
+    "source_url": "https://api.scryfall.com/cards/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf",
+    "scryfall_id": "d5dfd236-b1da-4552-b94f-ebf6bb9dafdf",
     "discovered_via": "is:reversible order:released dir:asc"
   },
   "payload": {
     "object": "card",
-    "id": "5b356815-736d-4468-9691-469629a45b8e",
-    "name": "Zndrsplt, Eye of Wisdom // Okaun, Eye of Chaos",
+    "id": "d5dfd236-b1da-4552-b94f-ebf6bb9dafdf",
+    "multiverse_ids": [],
+    "tcgplayer_id": 259216,
+    "cardmarket_id": 657817,
+    "name": "Zndrsplt, Eye of Wisdom // Zndrsplt, Eye of Wisdom",
     "lang": "en",
-    "released_at": "2022-08-12",
-    "uri": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e",
-    "scryfall_uri": "https://scryfall.com/card/stub/reversible",
+    "released_at": "2022-04-22",
+    "uri": "https://api.scryfall.com/cards/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf",
+    "scryfall_uri": "https://scryfall.com/card/sld/379/zndrsplt-eye-of-wisdom-zndrsplt-eye-of-wisdom?utm_source=api",
     "layout": "reversible_card",
     "highres_image": true,
     "image_status": "highres_scan",
-    "cmc": 5.0,
-    "type_line": "Legendary Creature — Homunculus // Legendary Creature — Cyclops",
+    "image_updated_at": "2026-07-13T06:18:59Z",
     "color_identity": [
-      "U",
-      "R"
+      "U"
     ],
-    "keywords": [],
+    "keywords": [
+      "Partner with",
+      "Partner"
+    ],
+    "card_faces": [
+      {
+        "object": "card_face",
+        "oracle_id": "502849a6-8e65-40f3-b348-a41c4f939768",
+        "layout": "normal",
+        "name": "Zndrsplt, Eye of Wisdom",
+        "mana_cost": "{4}{U}",
+        "cmc": 5.0,
+        "type_line": "Legendary Creature — Homunculus",
+        "oracle_text": "Partner with Okaun, Eye of Chaos (When this creature enters, target player may put Okaun into their hand from their library, then shuffle.)\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, draw a card.",
+        "colors": [
+          "U"
+        ],
+        "power": "1",
+        "toughness": "4",
+        "artist": "Alexis Ziritt",
+        "artist_id": "add4cc84-9254-4c0b-8fcd-af4a238bdbd5",
+        "illustration_id": "6d336a32-95a6-4a15-964c-358f11500f0a",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "normal": "https://cards.scryfall.io/normal/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "large": "https://cards.scryfall.io/large/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "png": "https://cards.scryfall.io/png/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.png?1783923539",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "thumb": "https://cards.scryfall.io/thumb/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "grid": "https://cards.scryfall.io/grid/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "display": "https://cards.scryfall.io/display/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "art": "https://cards.scryfall.io/art/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "crop": "https://cards.scryfall.io/crop/front/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539"
+        }
+      },
+      {
+        "object": "card_face",
+        "oracle_id": "502849a6-8e65-40f3-b348-a41c4f939768",
+        "layout": "normal",
+        "name": "Zndrsplt, Eye of Wisdom",
+        "mana_cost": "{4}{U}",
+        "cmc": 5.0,
+        "type_line": "Legendary Creature — Homunculus",
+        "oracle_text": "Partner with Okaun, Eye of Chaos (When this creature enters, target player may put Okaun into their hand from their library, then shuffle.)\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, draw a card.",
+        "colors": [
+          "U"
+        ],
+        "power": "1",
+        "toughness": "4",
+        "artist": "Alexis Ziritt",
+        "artist_id": "add4cc84-9254-4c0b-8fcd-af4a238bdbd5",
+        "illustration_id": "c5e6cb8f-c7bd-4ba7-988f-1332bd6d595b",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "normal": "https://cards.scryfall.io/normal/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "large": "https://cards.scryfall.io/large/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "png": "https://cards.scryfall.io/png/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.png?1783923539",
+          "art_crop": "https://cards.scryfall.io/art_crop/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "border_crop": "https://cards.scryfall.io/border_crop/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.jpg?1783923539",
+          "thumb": "https://cards.scryfall.io/thumb/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "grid": "https://cards.scryfall.io/grid/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "display": "https://cards.scryfall.io/display/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "art": "https://cards.scryfall.io/art/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539",
+          "crop": "https://cards.scryfall.io/crop/back/d/5/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf.webp?1783923539"
+        }
+      }
+    ],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "e25ce640-baf5-442b-8b75-d05dd9fb20dd",
+        "component": "combo_piece",
+        "name": "Zndrsplt, Eye of Wisdom // Zndrsplt, Eye of Wisdom",
+        "type_line": "Legendary Creature — Homunculus // Legendary Creature — Homunculus",
+        "uri": "https://api.scryfall.com/cards/e25ce640-baf5-442b-8b75-d05dd9fb20dd"
+      },
+      {
+        "object": "related_card",
+        "id": "8421ad46-dc7f-4b66-800b-e41c30835300",
+        "component": "combo_piece",
+        "name": "Okaun, Eye of Chaos // Okaun, Eye of Chaos",
+        "type_line": "Legendary Creature — Cyclops Berserker // Legendary Creature — Cyclops Berserker",
+        "uri": "https://api.scryfall.com/cards/8421ad46-dc7f-4b66-800b-e41c30835300"
+      }
+    ],
     "legalities": {
-      "commander": "legal",
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
       "vintage": "legal",
-      "legacy": "legal"
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "not_legal"
     },
+    "games": [
+      "paper"
+    ],
     "reserved": false,
-    "foil": false,
-    "nonfoil": true,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": false,
     "finishes": [
-      "nonfoil"
+      "foil"
     ],
     "oversized": false,
     "promo": false,
     "reprint": true,
     "variation": false,
-    "set_id": "abc12345-0000-4000-8000-000000000002",
+    "set_id": "4d92a8a7-ccb0-437d-abdc-9d70fc5ed672",
     "set": "sld",
     "set_name": "Secret Lair Drop",
     "set_type": "box",
-    "set_uri": "https://api.scryfall.com/sets/sld",
-    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:sld&unique=prints",
-    "scryfall_set_uri": "https://scryfall.com/sets/sld",
-    "rulings_uri": "https://api.scryfall.com/cards/5b356815-736d-4468-9691-469629a45b8e/rulings",
-    "prints_search_uri": "https://api.scryfall.com/cards/search?q=oracleid:oracle",
-    "collector_number": "1",
+    "set_uri": "https://api.scryfall.com/sets/4d92a8a7-ccb0-437d-abdc-9d70fc5ed672",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Asld&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/sld?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A502849a6-8e65-40f3-b348-a41c4f939768&unique=prints",
+    "collector_number": "379",
     "digital": false,
     "rarity": "rare",
-    "artist": "Stub Artist",
-    "border_color": "black",
+    "artist": "Alexis Ziritt",
+    "artist_ids": [
+      "add4cc84-9254-4c0b-8fcd-af4a238bdbd5"
+    ],
+    "border_color": "borderless",
     "frame": "2015",
-    "full_art": false,
+    "frame_effects": [
+      "legendary",
+      "inverted"
+    ],
+    "security_stamp": "oval",
+    "full_art": true,
     "textless": false,
     "booster": false,
     "story_spotlight": false,
-    "games": [
-      "paper"
-    ],
+    "edhrec_rank": 11174,
     "prices": {
       "usd": null,
-      "usd_foil": null,
+      "usd_foil": "31.75",
+      "usd_etched": null,
       "eur": null,
+      "eur_foil": "28.22",
       "tix": null
     },
-    "related_uris": {},
-    "purchase_uris": {},
-    "card_faces": [
-      {
-        "object": "card_face",
-        "name": "Zndrsplt, Eye of Wisdom",
-        "oracle_id": "12345678-0000-4000-8000-000000000001",
-        "cmc": 5.0,
-        "layout": "reversible_card",
-        "mana_cost": "{4}{U}",
-        "type_line": "Legendary Creature — Homunculus",
-        "oracle_text": "Partner with Okaun, Eye of Chaos\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, draw a card.\n5/1",
-        "colors": [
-          "U"
-        ],
-        "artist": "Stub Artist",
-        "image_uris": {
-          "normal": "https://cards.scryfall.io/normal/front/5/b/5b356815.jpg"
-        }
-      },
-      {
-        "object": "card_face",
-        "name": "Okaun, Eye of Chaos",
-        "oracle_id": "12345678-0000-4000-8000-000000000002",
-        "cmc": 5.0,
-        "layout": "reversible_card",
-        "mana_cost": "{4}{R}",
-        "type_line": "Legendary Creature — Cyclops",
-        "oracle_text": "Partner with Zndrsplt, Eye of Wisdom\nAt the beginning of combat on your turn, flip a coin until you lose a flip.\nWhenever a player wins a coin flip, Okaun gets +2/+2 until end of turn.\n*/",
-        "colors": [
-          "R"
-        ],
-        "artist": "Stub Artist",
-        "image_uris": {
-          "normal": "https://cards.scryfall.io/normal/back/5/b/5b356815.jpg"
-        }
-      }
-    ]
+    "related_uris": {
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DZndrsplt%252C%2BEye%2Bof%2BWisdom%2B%252F%252F%2BZndrsplt%252C%2BEye%2Bof%2BWisdom",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DZndrsplt%252C%2BEye%2Bof%2BWisdom%2B%252F%252F%2BZndrsplt%252C%2BEye%2Bof%2BWisdom",
+      "edhrec": "https://edhrec.com/route/?cc=Zndrsplt%2C+Eye+of+Wisdom+%2F%2F+Zndrsplt%2C+Eye+of+Wisdom"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F259216%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=657817&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Zndrsplt%2C+Eye+of+Wisdom+%2F%2F+Zndrsplt%2C+Eye+of+Wisdom&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
   }
 }

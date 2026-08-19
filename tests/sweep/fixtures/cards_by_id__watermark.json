@@ -1,96 +1,138 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:42.705037+00:00",
     "endpoint": "cards/id",
-    "source_url": "https://api.scryfall.com/cards/6c467926-847e-4579-9702-58073a4b6c9f",
-    "scryfall_id": "6c467926-847e-4579-9702-58073a4b6c9f",
-    "discovered_via": "has:watermark order:released dir:asc"
+    "source_url": "https://api.scryfall.com/cards/a5423cb8-38a2-4769-8999-de6ab5ebc294",
+    "scryfall_id": "a5423cb8-38a2-4769-8999-de6ab5ebc294",
+    "discovered_via": "has:watermark -is:dfc order:released dir:asc"
   },
   "payload": {
     "object": "card",
-    "id": "6c467926-847e-4579-9702-58073a4b6c9f",
-    "oracle_id": "oracle-6c467926",
-    "name": "Dimir Cutpurse",
+    "id": "a5423cb8-38a2-4769-8999-de6ab5ebc294",
+    "oracle_id": "0cc6d683-366f-4ae4-be60-20ad9621fdaf",
+    "multiverse_ids": [],
+    "tcgplayer_id": 38272,
+    "cardmarket_id": 17600,
+    "name": "Stroke of Genius",
     "lang": "en",
-    "released_at": "2022-04-29",
-    "uri": "https://api.scryfall.com/cards/6c467926-847e-4579-9702-58073a4b6c9f",
-    "scryfall_uri": "https://scryfall.com/card/stub/dimir-cutpurse",
+    "released_at": "1998-01-01",
+    "uri": "https://api.scryfall.com/cards/a5423cb8-38a2-4769-8999-de6ab5ebc294",
+    "scryfall_uri": "https://scryfall.com/card/jgp/2/stroke-of-genius?utm_source=api",
     "layout": "normal",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T12:42:59Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.jpg?1783946579",
+      "normal": "https://cards.scryfall.io/normal/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.jpg?1783946579",
+      "large": "https://cards.scryfall.io/large/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.jpg?1783946579",
+      "png": "https://cards.scryfall.io/png/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.png?1783946579",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.jpg?1783946579",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.jpg?1783946579",
+      "thumb": "https://cards.scryfall.io/thumb/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.webp?1783946579",
+      "grid": "https://cards.scryfall.io/grid/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.webp?1783946579",
+      "display": "https://cards.scryfall.io/display/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.webp?1783946579",
+      "art": "https://cards.scryfall.io/art/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.webp?1783946579",
+      "crop": "https://cards.scryfall.io/crop/front/a/5/a5423cb8-38a2-4769-8999-de6ab5ebc294.webp?1783946579"
+    },
+    "mana_cost": "{X}{2}{U}",
     "cmc": 3.0,
-    "type_line": "Creature — Faerie Rogue",
+    "type_line": "Instant",
+    "oracle_text": "Target player draws X cards.",
+    "colors": [
+      "U"
+    ],
     "color_identity": [
-      "U",
-      "B"
+      "U"
     ],
     "keywords": [],
     "legalities": {
       "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
       "pioneer": "not_legal",
       "modern": "not_legal",
       "legacy": "legal",
-      "vintage": "legal",
-      "commander": "legal",
       "pauper": "not_legal",
-      "brawl": "not_legal"
+      "vintage": "legal",
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "legal",
+      "predh": "legal",
+      "tlr": "legal"
     },
-    "reserved": false,
-    "foil": true,
-    "nonfoil": true,
-    "finishes": [
-      "nonfoil",
-      "foil"
-    ],
-    "oversized": false,
-    "promo": false,
-    "reprint": true,
-    "variation": false,
-    "set_id": "abc12345-0000-4000-8000-000000000001",
-    "set": "rav",
-    "set_name": "Ravnica: City of Guilds",
-    "set_type": "expansion",
-    "set_uri": "https://api.scryfall.com/sets/stub",
-    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:stub&unique=prints",
-    "scryfall_set_uri": "https://scryfall.com/sets/stub",
-    "rulings_uri": "https://api.scryfall.com/cards/6c467926-847e-4579-9702-58073a4b6c9f/rulings",
-    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid:oracle-6c467926&unique=prints",
-    "collector_number": "1",
-    "digital": false,
-    "rarity": "rare",
-    "artist": "Stub Artist",
-    "artist_ids": [
-      "00000000-0000-4000-8000-000000000000"
-    ],
-    "border_color": "black",
-    "frame": "2015",
-    "full_art": false,
-    "textless": false,
-    "booster": true,
-    "story_spotlight": false,
     "games": [
       "paper"
     ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": true,
+    "nonfoil": false,
+    "finishes": [
+      "foil"
+    ],
+    "oversized": false,
+    "promo": true,
+    "reprint": true,
+    "variation": false,
+    "set_id": "804c01dd-4714-440a-950e-2f2130d781f3",
+    "set": "jgp",
+    "set_name": "Judge Gift Cards 1998",
+    "set_type": "promo",
+    "set_uri": "https://api.scryfall.com/sets/804c01dd-4714-440a-950e-2f2130d781f3",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Ajgp&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/jgp?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/a5423cb8-38a2-4769-8999-de6ab5ebc294/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A0cc6d683-366f-4ae4-be60-20ad9621fdaf&unique=prints",
+    "collector_number": "2",
+    "digital": false,
+    "rarity": "rare",
+    "watermark": "wotc",
+    "flavor_text": "After a hundred failed experiments, Urza was stunned to find that common silver passed through the portal undamaged. He immediately designed a golem made of the metal.",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Stephen Daniele",
+    "artist_ids": [
+      "a267f9bb-072b-410a-a704-50f4d19020d8"
+    ],
+    "illustration_id": "dd3f514c-a057-4083-ab5c-d8d1f271d813",
+    "border_color": "black",
+    "frame": "1997",
+    "full_art": false,
+    "textless": false,
+    "booster": false,
+    "story_spotlight": false,
+    "promo_types": [
+      "judgegift"
+    ],
+    "edhrec_rank": 3555,
+    "penny_rank": 1283,
     "prices": {
       "usd": null,
-      "usd_foil": null,
+      "usd_foil": "50.79",
+      "usd_etched": null,
       "eur": null,
+      "eur_foil": "27.23",
       "tix": null
     },
-    "related_uris": {},
-    "purchase_uris": {},
-    "colors": [
-      "U",
-      "B"
-    ],
-    "mana_cost": "{1}{U}{B}",
-    "watermark": "dimir",
-    "power": "2",
-    "toughness": "1",
-    "oracle_text": "Whenever Dimir Cutpurse deals combat damage to a player, that player discards a card and you draw a card.",
-    "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/6/c/6c467926-847e-4579-9702-58073a4b6c9f.jpg",
-      "normal": "https://cards.scryfall.io/normal/front/6/c/6c467926-847e-4579-9702-58073a4b6c9f.jpg"
+    "related_uris": {
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DStroke%2Bof%2BGenius",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DStroke%2Bof%2BGenius",
+      "edhrec": "https://edhrec.com/route/?cc=Stroke+of+Genius"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F38272%3Fpage%3D1",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=17600&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Stroke+of+Genius&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

@@ -1,40 +1,86 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:38.827020+00:00",
     "endpoint": "cards/id",
-    "source_url": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
-    "scryfall_id": "a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
-    "discovered_via": "lang:ja year>=2020 -is:dfc order:released dir:asc"
+    "source_url": "https://api.scryfall.com/cards/914b70d4-a822-4bb3-bb4a-75a9c826fd55",
+    "scryfall_id": "914b70d4-a822-4bb3-bb4a-75a9c826fd55",
+    "discovered_via": "lang:ja year>=2020 -is:dfc order:released dir:asc include_multilingual=true"
   },
   "payload": {
     "object": "card",
-    "id": "a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
-    "oracle_id": "oracle-a4d01e75",
-    "name": "Lightning Bolt",
+    "id": "914b70d4-a822-4bb3-bb4a-75a9c826fd55",
+    "oracle_id": "1ae54fe7-b1d3-4c13-a8ef-f502cf3eb1a0",
+    "multiverse_ids": [
+      477526
+    ],
+    "name": "The Birth of Meletis",
+    "printed_name": "メレティス誕生",
     "lang": "ja",
-    "released_at": "2022-04-29",
-    "uri": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
-    "scryfall_uri": "https://scryfall.com/card/stub/lightning-bolt",
-    "layout": "normal",
-    "highres_image": true,
-    "image_status": "highres_scan",
-    "cmc": 1.0,
-    "type_line": "Instant",
+    "released_at": "2020-01-24",
+    "uri": "https://api.scryfall.com/cards/914b70d4-a822-4bb3-bb4a-75a9c826fd55",
+    "scryfall_uri": "https://scryfall.com/card/thb/5/ja/%E3%83%A1%E3%83%AC%E3%83%86%E3%82%A3%E3%82%B9%E8%AA%95%E7%94%9F-(the-birth-of-meletis)?utm_source=api",
+    "layout": "saga",
+    "highres_image": false,
+    "image_status": "lowres",
+    "image_updated_at": "2026-07-01T13:21:51Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.jpg?1782912111",
+      "normal": "https://cards.scryfall.io/normal/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.jpg?1782912111",
+      "large": "https://cards.scryfall.io/large/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.jpg?1782912111",
+      "png": "https://cards.scryfall.io/png/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.png?1782912111",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.jpg?1782912111",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.jpg?1782912111",
+      "thumb": "https://cards.scryfall.io/thumb/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.webp?1782912111",
+      "grid": "https://cards.scryfall.io/grid/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.webp?1782912111",
+      "display": "https://cards.scryfall.io/display/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.webp?1782912111",
+      "art": "https://cards.scryfall.io/art/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.webp?1782912111",
+      "crop": "https://cards.scryfall.io/crop/front/9/1/914b70d4-a822-4bb3-bb4a-75a9c826fd55.webp?1782912111"
+    },
+    "mana_cost": "{1}{W}",
+    "cmc": 2.0,
+    "type_line": "Enchantment — Saga",
+    "printed_type_line": "エンチャント — 英雄譚",
+    "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Search your library for a basic Plains card, reveal it, put it into your hand, then shuffle.\nII — Create a 0/4 colorless Wall artifact creature token with defender.\nIII — You gain 2 life.",
+    "printed_text": "（この英雄譚が出た際とあなたのドロー・ステップの後に、伝承カウンターを１個加える。IIIの後に、生け贄に捧げる。）\nI ― あなたのライブラリーから基本平地・カード１枚を探し、公開し、あなたの手札に加え、その後あなたのライブラリーを切り直す。\nII ― 防衛を持つ無色の０/４の壁・アーティファクト・クリーチャー・トークンを１体生成する。\nIII ― あなたは２点のライフを得る。",
+    "colors": [
+      "W"
+    ],
     "color_identity": [
-      "R"
+      "W"
     ],
     "keywords": [],
     "legalities": {
       "standard": "not_legal",
-      "pioneer": "not_legal",
-      "modern": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "legal",
+      "modern": "legal",
       "legacy": "legal",
-      "vintage": "legal",
-      "commander": "legal",
       "pauper": "not_legal",
-      "brawl": "not_legal"
+      "vintage": "legal",
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "competitivebrawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
     },
+    "games": [
+      "arena",
+      "paper",
+      "mtgo"
+    ],
     "reserved": false,
+    "game_changer": false,
     "foil": true,
     "nonfoil": true,
     "finishes": [
@@ -43,52 +89,52 @@
     ],
     "oversized": false,
     "promo": false,
-    "reprint": true,
+    "reprint": false,
     "variation": false,
-    "set_id": "abc12345-0000-4000-8000-000000000001",
-    "set": "2x2",
-    "set_name": "Double Masters 2022",
-    "set_type": "masters",
-    "set_uri": "https://api.scryfall.com/sets/stub",
-    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e:stub&unique=prints",
-    "scryfall_set_uri": "https://scryfall.com/sets/stub",
-    "rulings_uri": "https://api.scryfall.com/cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a/rulings",
-    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid:oracle-a4d01e75&unique=prints",
-    "collector_number": "1",
+    "set_id": "5f23a78d-cda1-462a-8be3-a62b40c34913",
+    "set": "thb",
+    "set_name": "Theros Beyond Death",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/5f23a78d-cda1-462a-8be3-a62b40c34913",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Athb&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/thb?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/914b70d4-a822-4bb3-bb4a-75a9c826fd55/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A1ae54fe7-b1d3-4c13-a8ef-f502cf3eb1a0&unique=prints",
+    "collector_number": "5",
     "digital": false,
-    "rarity": "rare",
-    "artist": "Stub Artist",
+    "rarity": "uncommon",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Tyler Jacobson",
     "artist_ids": [
-      "00000000-0000-4000-8000-000000000000"
+      "522af130-8db4-4b4b-950c-6e2b246339cf"
     ],
+    "illustration_id": "d9601fdc-83f5-4bc7-b391-de994cc3436a",
     "border_color": "black",
     "frame": "2015",
     "full_art": false,
     "textless": false,
     "booster": true,
     "story_spotlight": false,
-    "games": [
-      "paper"
-    ],
+    "edhrec_rank": 7430,
+    "penny_rank": 820,
     "prices": {
       "usd": null,
       "usd_foil": null,
+      "usd_etched": null,
       "eur": null,
+      "eur_foil": null,
       "tix": null
     },
-    "related_uris": {},
-    "purchase_uris": {},
-    "mana_cost": "{R}",
-    "oracle_text": "Lightning Bolt deals 3 damage to any target.",
-    "colors": [
-      "R"
-    ],
-    "printed_name": "雷鳴",
-    "printed_text": "雷鳴はどの目標、3点のダメージを与える。",
-    "printed_type_line": "インスタント",
-    "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/a/4/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a.jpg",
-      "normal": "https://cards.scryfall.io/normal/front/a/4/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a.jpg"
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=477526&printed=true",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DThe%2BBirth%2Bof%2BMeletis",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DThe%2BBirth%2Bof%2BMeletis",
+      "edhrec": "https://edhrec.com/route/?cc=The+Birth+of+Meletis"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fmagic%2Fproduct%3FproductLineName%3Dmagic%26q%3DThe%2BBirth%2Bof%2BMeletis%26view%3Dgrid",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products/Search?referrer=scryfall&searchString=The+Birth+of+Meletis&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=The+Birth+of+Meletis&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
   }
 }

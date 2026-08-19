@@ -1,6 +1,6 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:36.392459+00:00",
     "endpoint": "cards/id",
     "source_url": "https://api.scryfall.com/cards/c470539a-9cc7-4175-8f7c-c982b6072b6d",
     "scryfall_id": "c470539a-9cc7-4175-8f7c-c982b6072b6d",
@@ -26,6 +26,7 @@
     "layout": "modal_dfc",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T07:57:05Z",
     "cmc": 7.0,
     "type_line": "Sorcery // Land",
     "color_identity": [
@@ -50,12 +51,17 @@
         "artist_id": "20871267-2d8a-41d5-b03a-be3d557c5734",
         "illustration_id": "0bd76506-0572-4170-bff5-53cc1ebc24c2",
         "image_uris": {
-          "small": "https://cards.scryfall.io/small/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "normal": "https://cards.scryfall.io/normal/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "large": "https://cards.scryfall.io/large/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "png": "https://cards.scryfall.io/png/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.png?1604195709",
-          "art_crop": "https://cards.scryfall.io/art_crop/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "border_crop": "https://cards.scryfall.io/border_crop/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709"
+          "small": "https://cards.scryfall.io/small/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "normal": "https://cards.scryfall.io/normal/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "large": "https://cards.scryfall.io/large/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "png": "https://cards.scryfall.io/png/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.png?1783929425",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "thumb": "https://cards.scryfall.io/thumb/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "grid": "https://cards.scryfall.io/grid/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "display": "https://cards.scryfall.io/display/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "art": "https://cards.scryfall.io/art/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "crop": "https://cards.scryfall.io/crop/front/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425"
         }
       },
       {
@@ -70,12 +76,17 @@
         "artist_id": "20871267-2d8a-41d5-b03a-be3d557c5734",
         "illustration_id": "7e4ebfcb-0a84-4510-b0e5-c7cb2138d4da",
         "image_uris": {
-          "small": "https://cards.scryfall.io/small/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "normal": "https://cards.scryfall.io/normal/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "large": "https://cards.scryfall.io/large/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "png": "https://cards.scryfall.io/png/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.png?1604195709",
-          "art_crop": "https://cards.scryfall.io/art_crop/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709",
-          "border_crop": "https://cards.scryfall.io/border_crop/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1604195709"
+          "small": "https://cards.scryfall.io/small/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "normal": "https://cards.scryfall.io/normal/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "large": "https://cards.scryfall.io/large/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "png": "https://cards.scryfall.io/png/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.png?1783929425",
+          "art_crop": "https://cards.scryfall.io/art_crop/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "border_crop": "https://cards.scryfall.io/border_crop/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.jpg?1783929425",
+          "thumb": "https://cards.scryfall.io/thumb/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "grid": "https://cards.scryfall.io/grid/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "display": "https://cards.scryfall.io/display/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "art": "https://cards.scryfall.io/art/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425",
+          "crop": "https://cards.scryfall.io/crop/back/c/4/c470539a-9cc7-4175-8f7c-c982b6072b6d.webp?1783929425"
         }
       }
     ],
@@ -113,6 +124,7 @@
       "oathbreaker": "legal",
       "standardbrawl": "not_legal",
       "brawl": "legal",
+      "competitivebrawl": "legal",
       "alchemy": "not_legal",
       "paupercommander": "not_legal",
       "duel": "legal",
@@ -161,19 +173,19 @@
     "textless": false,
     "booster": true,
     "story_spotlight": false,
-    "edhrec_rank": 2813,
+    "edhrec_rank": 2825,
     "preview": {
       "source": "Luis Salvatto",
       "source_uri": "https://twitter.com/LuisSalvatto/status/1301287364980023296",
       "previewed_at": "2020-09-02"
     },
     "prices": {
-      "usd": "5.69",
-      "usd_foil": "4.02",
+      "usd": "4.19",
+      "usd_foil": "4.82",
       "usd_etched": null,
-      "eur": "2.72",
-      "eur_foil": "3.82",
-      "tix": "0.39"
+      "eur": "2.90",
+      "eur_foil": "3.55",
+      "tix": "0.41"
     },
     "related_uris": {
       "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=491633&printed=false",

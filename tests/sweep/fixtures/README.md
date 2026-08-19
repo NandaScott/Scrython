@@ -41,19 +41,25 @@ as they are refreshed and extended under their respective pressures.
 
 One card per accessor group not reliably covered by the layout corpus.
 
+Single-faced pins carry `-is:dfc` so the target field lands on the card itself
+rather than only on one of its faces; the face pins below cover that side.
+
 | Fixture | Discovery query | Covered fields |
 |---|---|---|
 | `cards_by_id__vanguard` | `t:vanguard order:released dir:asc` | `hand_modifier`, `life_modifier`, `promo_types` |
-| `cards_by_id__japanese` | `lang:ja year>=2020 -is:dfc order:released dir:asc` | `printed_name`, `printed_text`, `printed_type_line` |
+| `cards_by_id__japanese` | `lang:ja year>=2020 -is:dfc order:released dir:asc include_multilingual=true` | `printed_name`, `printed_text`, `printed_type_line` |
 | `cards_by_id__attraction` | `t:attraction order:released dir:asc` | `attraction_lights` |
-| `cards_by_id__indicator` | `has:indicator order:released dir:asc` | `color_indicator` |
+| `cards_by_id__indicator` | `has:indicator -is:dfc order:released dir:asc` | `color_indicator` |
 | `cards_by_id__content_warning` | `is:contentwarning order:released dir:asc` | `content_warning` |
 | `cards_by_id__battle` | `t:battle -is:dfc order:released dir:asc` | `defense` |
-| `cards_by_id__flavor_name` | `has:flavorname order:released dir:asc` | `flavor_name` |
-| `cards_by_id__planeswalker` | `t:planeswalker order:released dir:asc` | `loyalty` |
+| `cards_by_id__flavor_name` | `has:flavorname -is:dfc order:released dir:asc` | `flavor_name` |
+| `cards_by_id__planeswalker` | `t:planeswalker -is:dfc order:released dir:asc` | `loyalty` |
 | `cards_by_id__etched` | `is:etched order:released dir:asc` | `tcgplayer_etched_id` |
 | `cards_by_id__variation` | `is:variation order:released dir:asc` | `variation_of` |
-| `cards_by_id__watermark` | `has:watermark order:released dir:asc` | `watermark` |
+| `cards_by_id__watermark` | `has:watermark -is:dfc order:released dir:asc` | `watermark` |
+
+Japanese pins need `include_multilingual=true`; without it Scryfall search
+returns only English printings, which carry no `printed_*` fields.
 
 ### Card face accessor pins (4)
 
@@ -64,7 +70,7 @@ Cards chosen because their `card_faces` array contains the target field.
 | `cards_by_id__reversible` | `is:reversible order:released dir:asc` | `cmc`, `layout`, `oracle_id` |
 | `cards_by_id__battle_dfc` | `t:battle is:dfc order:released dir:asc` | `defense` |
 | `cards_by_id__planeswalker_transform` | `t:planeswalker is:transform order:released dir:asc` | `loyalty` |
-| `cards_by_id__japanese_dfc` | `lang:ja is:dfc year>=2020 order:released dir:asc` | `printed_name`, `printed_text`, `printed_type_line` |
+| `cards_by_id__japanese_dfc` | `lang:ja is:dfc year>=2020 order:released dir:asc include_multilingual=true` | `printed_name`, `printed_text`, `printed_type_line` |
 
 ### Non-card fixtures (6)
 
@@ -73,9 +79,13 @@ Cards chosen because their `card_faces` array contains the target field.
 | `sets_by_code__onc` | Set object; ONC covers 21/21 set accessors (LEA in usage covers 14) |
 | `bulk_data_by_id__oracle_cards` | Bulk-data object |
 | `catalogs_creature_types` | Catalog envelope |
-| `cards_search__lea_red` | List envelope covering `has_more` and `total_cards` |
-| `cards_search__mana_t_warning` | List envelope covering `warnings` |
+| `cards_search__lea_red` | List envelope covering `has_more` and `total_cards` (`q=set:lea c:red cmc>=6`, one card) |
+| `cards_search__mana_t_warning` | List envelope covering `warnings` (`q=set:lea c:red cmc>=6 mana:{T}`) |
 | `cards_search__paginated` | List envelope covering `next_page` (truncated; see below) |
+
+`mana:{T}` alone is a 400 — Scryfall ignores every term and returns an error
+object, not a list.  Appended to valid terms it returns 200 and reports the
+ignored term in `warnings`, which is what this fixture needs to cover.
 
 `/sets` is not captured — 1047 objects / 621 KB; the set spec item corpus
 comes from the single set object (`sets_by_code__onc`).

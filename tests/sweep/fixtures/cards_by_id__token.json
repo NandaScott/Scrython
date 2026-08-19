@@ -1,6 +1,6 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:38.265282+00:00",
     "endpoint": "cards/id",
     "source_url": "https://api.scryfall.com/cards/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9",
     "scryfall_id": "40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9",
@@ -20,13 +20,19 @@
     "layout": "token",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T12:45:07Z",
     "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1562908403",
-      "normal": "https://cards.scryfall.io/normal/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1562908403",
-      "large": "https://cards.scryfall.io/large/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1562908403",
-      "png": "https://cards.scryfall.io/png/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.png?1562908403",
-      "art_crop": "https://cards.scryfall.io/art_crop/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1562908403",
-      "border_crop": "https://cards.scryfall.io/border_crop/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1562908403"
+      "small": "https://cards.scryfall.io/small/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1783946707",
+      "normal": "https://cards.scryfall.io/normal/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1783946707",
+      "large": "https://cards.scryfall.io/large/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1783946707",
+      "png": "https://cards.scryfall.io/png/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.png?1783946707",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1783946707",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.jpg?1783946707",
+      "thumb": "https://cards.scryfall.io/thumb/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.webp?1783946707",
+      "grid": "https://cards.scryfall.io/grid/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.webp?1783946707",
+      "display": "https://cards.scryfall.io/display/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.webp?1783946707",
+      "art": "https://cards.scryfall.io/art/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.webp?1783946707",
+      "crop": "https://cards.scryfall.io/crop/front/4/0/40b9dcb9-05c1-4a2e-b0cb-6554483ca5c9.webp?1783946707"
     },
     "mana_cost": "",
     "cmc": 0.0,
@@ -51,6 +57,7 @@
       "oathbreaker": "not_legal",
       "standardbrawl": "not_legal",
       "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
       "alchemy": "not_legal",
       "paupercommander": "not_legal",
       "duel": "not_legal",
@@ -94,7 +101,7 @@
     "booster": false,
     "story_spotlight": false,
     "prices": {
-      "usd": "2.48",
+      "usd": null,
       "usd_foil": null,
       "usd_etched": null,
       "eur": null,

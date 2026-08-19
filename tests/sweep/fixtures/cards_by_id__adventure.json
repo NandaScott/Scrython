@@ -1,6 +1,6 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:38:36.848886+00:00",
     "endpoint": "cards/id",
     "source_url": "https://api.scryfall.com/cards/c7d5e394-8e41-442e-ae97-a478a61e1b9d",
     "scryfall_id": "c7d5e394-8e41-442e-ae97-a478a61e1b9d",
@@ -25,13 +25,19 @@
     "layout": "adventure",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T08:51:17Z",
     "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
-      "normal": "https://cards.scryfall.io/normal/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
-      "large": "https://cards.scryfall.io/large/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
-      "png": "https://cards.scryfall.io/png/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.png?1572489629",
-      "art_crop": "https://cards.scryfall.io/art_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629",
-      "border_crop": "https://cards.scryfall.io/border_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1572489629"
+      "small": "https://cards.scryfall.io/small/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1783932677",
+      "normal": "https://cards.scryfall.io/normal/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1783932677",
+      "large": "https://cards.scryfall.io/large/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1783932677",
+      "png": "https://cards.scryfall.io/png/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.png?1783932677",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1783932677",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.jpg?1783932677",
+      "thumb": "https://cards.scryfall.io/thumb/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.webp?1783932677",
+      "grid": "https://cards.scryfall.io/grid/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.webp?1783932677",
+      "display": "https://cards.scryfall.io/display/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.webp?1783932677",
+      "art": "https://cards.scryfall.io/art/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.webp?1783932677",
+      "crop": "https://cards.scryfall.io/crop/front/c/7/c7d5e394-8e41-442e-ae97-a478a61e1b9d.webp?1783932677"
     },
     "mana_cost": "{1}{W}{W} // {1}{W}",
     "cmc": 3.0,
@@ -105,6 +111,7 @@
       "oathbreaker": "legal",
       "standardbrawl": "not_legal",
       "brawl": "legal",
+      "competitivebrawl": "legal",
       "alchemy": "not_legal",
       "paupercommander": "legal",
       "duel": "legal",
@@ -155,19 +162,19 @@
     "textless": false,
     "booster": true,
     "story_spotlight": false,
-    "edhrec_rank": 15543,
-    "penny_rank": 7421,
+    "edhrec_rank": 15985,
+    "penny_rank": 7432,
     "preview": {
       "source": "Wizards of the Coast",
       "source_uri": "https://magic.wizards.com/en/articles/archive/card-preview/adventure-adventure-2019-09-12",
       "previewed_at": "2019-09-12"
     },
     "prices": {
-      "usd": "0.09",
-      "usd_foil": "0.21",
+      "usd": "0.06",
+      "usd_foil": "0.20",
       "usd_etched": null,
-      "eur": "0.14",
-      "eur_foil": "0.14",
+      "eur": "0.12",
+      "eur_foil": "0.12",
       "tix": "0.03"
     },
     "related_uris": {

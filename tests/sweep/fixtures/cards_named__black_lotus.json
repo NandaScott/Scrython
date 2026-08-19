@@ -1,10 +1,10 @@
 {
   "_provenance": {
-    "captured_at": "2026-08-11T00:00:00.000000+00:00",
+    "captured_at": "2026-08-19T20:39:40.871790+00:00",
     "endpoint": "cards/named",
     "source_url": "https://api.scryfall.com/cards/named?exact=Black+Lotus",
     "scryfall_id": "bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd",
-    "discovered_via": "cards/named (exact search for Black Lotus)"
+    "discovered_via": "cards/named?exact=Black Lotus (pinned by name, not by search)"
   },
   "payload": {
     "object": "card",
@@ -23,13 +23,19 @@
     "layout": "normal",
     "highres_image": true,
     "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T10:42:12Z",
     "image_uris": {
-      "small": "https://cards.scryfall.io/small/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1614638838",
-      "normal": "https://cards.scryfall.io/normal/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1614638838",
-      "large": "https://cards.scryfall.io/large/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1614638838",
-      "png": "https://cards.scryfall.io/png/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.png?1614638838",
-      "art_crop": "https://cards.scryfall.io/art_crop/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1614638838",
-      "border_crop": "https://cards.scryfall.io/border_crop/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1614638838"
+      "small": "https://cards.scryfall.io/small/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1783939332",
+      "normal": "https://cards.scryfall.io/normal/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1783939332",
+      "large": "https://cards.scryfall.io/large/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1783939332",
+      "png": "https://cards.scryfall.io/png/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.png?1783939332",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1783939332",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.jpg?1783939332",
+      "thumb": "https://cards.scryfall.io/thumb/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.webp?1783939332",
+      "grid": "https://cards.scryfall.io/grid/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.webp?1783939332",
+      "display": "https://cards.scryfall.io/display/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.webp?1783939332",
+      "art": "https://cards.scryfall.io/art/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.webp?1783939332",
+      "crop": "https://cards.scryfall.io/crop/front/b/d/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd.webp?1783939332"
     },
     "mana_cost": "{0}",
     "cmc": 0.0,
@@ -44,6 +50,24 @@
       "R",
       "U",
       "W"
+    ],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd",
+        "component": "combo_piece",
+        "name": "Black Lotus",
+        "type_line": "Artifact",
+        "uri": "https://api.scryfall.com/cards/bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd"
+      },
+      {
+        "object": "related_card",
+        "id": "85f81500-1b1b-47e7-93a1-db5f6de95e87",
+        "component": "combo_piece",
+        "name": "Arzakon",
+        "type_line": "Legendary Planeswalker — Arzakon",
+        "uri": "https://api.scryfall.com/cards/85f81500-1b1b-47e7-93a1-db5f6de95e87"
+      }
     ],
     "legalities": {
       "standard": "not_legal",
@@ -61,6 +85,7 @@
       "oathbreaker": "banned",
       "standardbrawl": "not_legal",
       "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
       "alchemy": "not_legal",
       "paupercommander": "not_legal",
       "duel": "banned",
@@ -115,7 +140,7 @@
       "usd_etched": null,
       "eur": null,
       "eur_foil": null,
-      "tix": "75.20"
+      "tix": "58.78"
     },
     "related_uris": {
       "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=382866&printed=false",

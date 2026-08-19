@@ -176,6 +176,7 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "endpoint": "cards/named",
             "path": "cards/named",
             "query": {"exact": "Black Lotus"},
+            "discovered_via": "cards/named?exact=Black Lotus (pinned by name, not by search)",
         },
         "cards_by_id__normal": {
             "endpoint": "cards/id",
@@ -244,116 +245,107 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "discovered_via": "is:token order:released dir:asc",
         },
         # ── Card accessor pins (11) ───────────────────────────────────────────
-        # Each pin is the oldest result (order:released dir:asc) for its query,
-        # then pinned by id for stability.  Re-derive by running the query on
-        # Scryfall and taking the first card's id.
+        # Each pin is the oldest result (order:released dir:asc) for the query in
+        # its `discovered_via`, then pinned by id for stability.  Re-derive by
+        # running that query on Scryfall and taking the first card's id.
+        #
+        # Single-faced pins carry `-is:dfc` so the target field lands on the card
+        # itself rather than only on a face; the face pins below cover the other
+        # side of that split.
         "cards_by_id__vanguard": {
             "endpoint": "cards/id",
-            # Re-derive: t:vanguard order:released dir:asc → first result id
-            "path": "cards/26e6fefd-5935-4cf6-9014-7ad8e2b0c8c8",
+            "path": "cards/5cbb9b5d-9199-4a5b-957d-8fa681caeb7c",
             "query": {},
             "discovered_via": "t:vanguard order:released dir:asc",
         },
+        # Japanese pins need include_multilingual=true; without it Scryfall
+        # search only returns English printings and the printed_* fields are absent.
         "cards_by_id__japanese": {
             "endpoint": "cards/id",
-            # Re-derive: lang:ja year>=2020 -is:dfc order:released dir:asc
-            "path": "cards/a4d01e75-1a2b-4dfa-9a13-f08a6e0bc43a",
+            "path": "cards/914b70d4-a822-4bb3-bb4a-75a9c826fd55",
             "query": {},
-            "discovered_via": "lang:ja year>=2020 -is:dfc order:released dir:asc",
+            "discovered_via": "lang:ja year>=2020 -is:dfc order:released dir:asc include_multilingual=true",
         },
         "cards_by_id__attraction": {
             "endpoint": "cards/id",
-            # Re-derive: t:attraction order:released dir:asc → first result id
-            "path": "cards/e8f47c15-ba9c-4f24-b8a3-c3e9d0a16f5b",
+            "path": "cards/2e9eaed8-e956-4fb2-a23d-3d442cd2fa5c",
             "query": {},
             "discovered_via": "t:attraction order:released dir:asc",
         },
         "cards_by_id__indicator": {
             "endpoint": "cards/id",
-            # Re-derive: has:indicator order:released dir:asc → first result id
-            "path": "cards/d7b23e94-f1a5-4c38-9e72-2d7f8b1c4a6e",
+            "path": "cards/0186a93c-000a-4b8f-983d-e1471185dc1f",
             "query": {},
-            "discovered_via": "has:indicator order:released dir:asc",
+            "discovered_via": "has:indicator -is:dfc order:released dir:asc",
         },
         "cards_by_id__content_warning": {
             "endpoint": "cards/id",
-            # Re-derive: is:contentwarning order:released dir:asc → first id
-            "path": "cards/c6a12d83-e0b4-4b27-8d61-1c6e7a0b3f5d",
+            "path": "cards/b6c7705a-2987-4ef1-92b1-2c55d989ec6f",
             "query": {},
             "discovered_via": "is:contentwarning order:released dir:asc",
         },
         "cards_by_id__battle": {
             "endpoint": "cards/id",
-            # Re-derive: t:battle -is:dfc order:released dir:asc → first id
-            "path": "cards/b5913c72-d9c3-4a16-7c50-0b5d6f9a2e4c",
+            "path": "cards/0ccb6224-276f-4452-a57b-602b589fba3b",
             "query": {},
             "discovered_via": "t:battle -is:dfc order:released dir:asc",
         },
         "cards_by_id__flavor_name": {
             "endpoint": "cards/id",
-            # Re-derive: has:flavorname order:released dir:asc → first result id
-            "path": "cards/a4802b61-c8b2-4913-6b4f-9a4e5d8c7f3b",
+            "path": "cards/9a0639a0-c898-4a07-975c-a02bdd53175b",
             "query": {},
-            "discovered_via": "has:flavorname order:released dir:asc",
+            "discovered_via": "has:flavorname -is:dfc order:released dir:asc",
         },
         "cards_by_id__planeswalker": {
             "endpoint": "cards/id",
-            # Re-derive: t:planeswalker order:released dir:asc → first result id
-            "path": "cards/9f7a1c50-b7b1-4802-5a3e-8b3c6d7e0f2a",
+            "path": "cards/43da8995-77da-4ec4-94a5-5e7932a3c969",
             "query": {},
-            "discovered_via": "t:planeswalker order:released dir:asc",
+            "discovered_via": "t:planeswalker -is:dfc order:released dir:asc",
         },
         "cards_by_id__etched": {
             "endpoint": "cards/id",
-            # Re-derive: is:etched order:released dir:asc → first result id
-            "path": "cards/8e690b4f-a6a0-3791-4924-7a2b5c6d8e1f",
+            "path": "cards/be898edb-35dd-4896-96d9-323aca64a2ce",
             "query": {},
             "discovered_via": "is:etched order:released dir:asc",
         },
         "cards_by_id__variation": {
             "endpoint": "cards/id",
-            # Re-derive: is:variation order:released dir:asc → first result id
-            "path": "cards/7d578a3e-958f-4680-8813-691840b5c70e",
+            "path": "cards/9899352a-a4c9-47bf-b9cb-0c34060ae1c4",
             "query": {},
             "discovered_via": "is:variation order:released dir:asc",
         },
         "cards_by_id__watermark": {
             "endpoint": "cards/id",
-            # Re-derive: has:watermark order:released dir:asc → first result id
-            "path": "cards/6c467926-847e-4579-9702-58073a4b6c9f",
+            "path": "cards/a5423cb8-38a2-4769-8999-de6ab5ebc294",
             "query": {},
-            "discovered_via": "has:watermark order:released dir:asc",
+            "discovered_via": "has:watermark -is:dfc order:released dir:asc",
         },
         # ── Face accessor pins (4) ────────────────────────────────────────────
         # These cover accessors on card_faces objects; the card itself is chosen
         # because its faces expose the target field(s).
         "cards_by_id__reversible": {
             "endpoint": "cards/id",
-            # Re-derive: is:reversible order:released dir:asc → first result id
-            "path": "cards/5b356815-736d-4468-9691-469629a45b8e",
+            "path": "cards/d5dfd236-b1da-4552-b94f-ebf6bb9dafdf",
             "query": {},
             "discovered_via": "is:reversible order:released dir:asc",
         },
         "cards_by_id__battle_dfc": {
             "endpoint": "cards/id",
-            # Re-derive: t:battle is:dfc order:released dir:asc → first id
-            "path": "cards/4a245704-625c-4357-8580-358518394070",
+            "path": "cards/73f8fc4f-2f36-4932-8d04-3c2651c116dc",
             "query": {},
             "discovered_via": "t:battle is:dfc order:released dir:asc",
         },
         "cards_by_id__planeswalker_transform": {
             "endpoint": "cards/id",
-            # Re-derive: t:planeswalker is:transform order:released dir:asc
-            "path": "cards/39124693-514b-4246-b479-247407282960",
+            "path": "cards/58c39df6-b237-40d1-bdcb-2fe5d05392a9",
             "query": {},
             "discovered_via": "t:planeswalker is:transform order:released dir:asc",
         },
         "cards_by_id__japanese_dfc": {
             "endpoint": "cards/id",
-            # Re-derive: lang:ja is:dfc year>=2020 order:released dir:asc
-            "path": "cards/28013582-403a-4135-b368-136396171850",
+            "path": "cards/cb7ca9d3-b935-4859-9b0c-f51bd6c61ea3",
             "query": {},
-            "discovered_via": "lang:ja is:dfc year>=2020 order:released dir:asc",
+            "discovered_via": "lang:ja is:dfc year>=2020 order:released dir:asc include_multilingual=true",
         },
         # ── Non-card fixtures (6) ─────────────────────────────────────────────
         # ONC covers 21/21 set accessors (LEA in the usage corpus covers 14).
@@ -376,21 +368,23 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "query": {},
             "discovered_via": "catalog/creature-types",
         },
-        # List envelope: small query so the response is compact; covers has_more
-        # and total_cards.
+        # List envelope: narrowed to a single card so the response stays compact;
+        # covers has_more and total_cards.
         "cards_search__lea_red": {
             "endpoint": "cards/search",
             "path": "cards/search",
-            "query": {"q": "set:lea c:red"},
-            "discovered_via": "q=set:lea c:red (small, bounded result set)",
+            "query": {"q": "set:lea c:red cmc>=6"},
+            "discovered_via": "q=set:lea c:red cmc>=6 (narrowed to one card)",
         },
-        # List envelope with warnings: deliberately malformed mana query; covers
-        # the warnings accessor.
+        # List envelope with warnings: a malformed mana term appended to the
+        # narrowed query above.  `mana:{T}` on its own is a 400 (every term
+        # ignored); paired with valid terms Scryfall returns 200 and reports the
+        # ignored term in warnings, which is the accessor this fixture covers.
         "cards_search__mana_t_warning": {
             "endpoint": "cards/search",
             "path": "cards/search",
-            "query": {"q": "mana:{T}"},
-            "discovered_via": "q=mana:{T} (triggers Scryfall interpretation warning)",
+            "query": {"q": "set:lea c:red cmc>=6 mana:{T}"},
+            "discovered_via": "q=set:lea c:red cmc>=6 mana:{T} (malformed term triggers warnings)",
         },
         # List envelope with next_page: any large query; truncated because
         # narrowing cannot preserve has_more.  Covers next_page.

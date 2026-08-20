@@ -96,11 +96,11 @@ class TestBulkDataMixins:
         assert bulk.type == "oracle_cards"
         assert bulk.name == "Oracle Cards"
         assert (
-            bulk.download_uri
-            == "https://api.scryfall.com/bulk-data/27bf3214-1271-490b-bdfe-c0be6c23d02e/download"
+            bulk.jsonl_download_uri
+            == "https://data.scryfall.io/oracle-cards/oracle-cards-20260820090157.jsonl.gz"
         )
-        assert bulk.updated_at == "2025-01-01T12:00:00.000Z"
-        assert bulk.size == 123456789
+        assert bulk.updated_at == "2026-08-20T09:01:57.484+00:00"
+        assert bulk.compressed_size == 24530127
 
     def test_bulk_data_object_from_list(self, mock_urlopen):
         """Test that BulkDataObject wrapper works correctly."""
@@ -122,9 +122,10 @@ class TestBulkDataDownload:
         mock_urlopen.set_response("bulk_data/by_id.json")
         bulk = ByType(type="oracle_cards")
 
-        # Mock the download URL response
+        # Mock the download URL response with JSONL format
         test_data = [{"id": "card1", "name": "Test Card"}]
-        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+        jsonl_data = "\n".join(json.dumps(obj) for obj in test_data).encode("utf-8")
+        compressed_data = gzip.compress(jsonl_data)
 
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             # Wrap compressed data in BytesIO for proper file-like behavior
@@ -147,7 +148,8 @@ class TestBulkDataDownload:
         bulk = ByType(type="oracle_cards")
 
         test_data = [{"id": "card1", "name": "Test Card"}]
-        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+        jsonl_data = "\n".join(json.dumps(obj) for obj in test_data).encode("utf-8")
+        compressed_data = gzip.compress(jsonl_data)
 
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tmp:
             tmp_path = tmp.name
@@ -182,7 +184,8 @@ class TestBulkDataDownload:
         bulk = ByType(type="oracle_cards")
 
         test_data = [{"id": "card1", "name": "Test Card"}]
-        compressed_data = gzip.compress(json.dumps(test_data).encode("utf-8"))
+        jsonl_data = "\n".join(json.dumps(obj) for obj in test_data).encode("utf-8")
+        compressed_data = gzip.compress(jsonl_data)
 
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tmp:
             tmp_path = tmp.name
@@ -252,56 +255,55 @@ class TestBulkDataDownload:
         bulk = ByType(type="oracle_cards")
 
         with (
-            patch("scrython.bulk_data.bulk_data_mixins.urlopen"),
+            patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_bulk_urlopen,
             patch.dict("sys.modules", {"tqdm": None}),
             pytest.raises(ImportError, match="tqdm is required"),
         ):
             bulk.download(progress=True)
 
-    def test_download_uncompressed_no_progress(self, mock_urlopen):
-        """Test download handles uncompressed JSON without progress bar."""
+        mock_bulk_urlopen.assert_not_called()
+
+    def test_download_without_content_encoding_header_no_progress(self, mock_urlopen):
+        """Test download decompresses when the CDN sends no Content-Encoding header.
+
+        data.scryfall.io serves the .jsonl.gz file as content-type application/gzip
+        and sends no Content-Encoding header, because the gzip is the file format
+        rather than a transport encoding.
+        """
         mock_urlopen.set_response("bulk_data/by_id.json")
         bulk = ByType(type="oracle_cards")
 
-        # Test with plain JSON (not gzip compressed)
-        test_data = [{"id": "card1", "name": "Test Card"}]
-        plain_json = json.dumps(test_data).encode("utf-8")
+        test_data = [{"id": "jace", "name": "Jace, the Mind Sculptor"}]
+        jsonl_data = "\n".join(json.dumps(obj) for obj in test_data).encode("utf-8")
+        compressed_data = gzip.compress(jsonl_data)
 
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
-            # Create mock with NO Content-Encoding header (empty string)
-            mock_response = MagicMock()
-            mock_response.read.return_value = plain_json
-            mock_response.info.return_value.get.return_value = ""  # No encoding header
-            mock_response.__enter__.return_value = mock_response
-            mock_response.__exit__.return_value = None
-            mock_download.return_value = mock_response
+            mock_response = BytesIO(compressed_data)
+            mock_response.info = MagicMock(return_value=MagicMock(get=MagicMock(return_value="")))
+            mock_download.return_value.__enter__.return_value = mock_response
 
             result = bulk.download()
 
             assert result == test_data
-            assert len(result) == 1
-            assert result[0]["name"] == "Test Card"
 
-    def test_download_uncompressed_with_progress(self, mock_urlopen):
-        """Test download handles uncompressed JSON with progress bar."""
+    def test_download_without_content_encoding_header_with_progress(self, mock_urlopen):
+        """Test the progress path decompresses when no Content-Encoding header is sent."""
         # Skip if tqdm is not installed
         pytest.importorskip("tqdm")
 
         mock_urlopen.set_response("bulk_data/by_id.json")
         bulk = ByType(type="oracle_cards")
 
-        # Test with plain JSON (not gzip compressed)
-        test_data = [{"id": "card1", "name": "Test Card"}]
-        plain_json = json.dumps(test_data).encode("utf-8")
+        test_data = [{"id": "liliana", "name": "Liliana of the Veil"}]
+        jsonl_data = "\n".join(json.dumps(obj) for obj in test_data).encode("utf-8")
+        compressed_data = gzip.compress(jsonl_data)
 
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
-            # Create mock with NO Content-Encoding header
             mock_response = MagicMock()
             mock_response.read.side_effect = [
-                plain_json,
+                compressed_data,
                 b"",
             ]  # Return data then empty to signal EOF
-            mock_response.headers.get.return_value = str(len(plain_json))
             mock_response.info.return_value.get.return_value = ""  # No encoding header
             mock_response.__enter__.return_value = mock_response
             mock_response.__exit__.return_value = None
@@ -310,11 +312,8 @@ class TestBulkDataDownload:
             result = bulk.download(progress=True)
 
             assert result == test_data
-            assert len(result) == 1
-            assert result[0]["name"] == "Test Card"
 
-    def test_download_sets_headers(self, mock_urlopen):
-        """Test download sets proper User-Agent and Accept-Encoding headers."""
+    def test_download_sets_user_agent(self, mock_urlopen):
         from urllib.request import Request
 
         from scrython.base import ScrythonRequestHandler
@@ -324,12 +323,9 @@ class TestBulkDataDownload:
 
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             # Set up mock to allow inspection of the Request object
-            mock_response = MagicMock()
-            mock_response.read.return_value = b"[]"
-            mock_response.info.return_value.get.return_value = ""
-            mock_response.__enter__.return_value = mock_response
-            mock_response.__exit__.return_value = None
-            mock_download.return_value = mock_response
+            mock_response = BytesIO(gzip.compress(b""))
+            mock_response.info = MagicMock(return_value=MagicMock(get=MagicMock(return_value="")))
+            mock_download.return_value.__enter__.return_value = mock_response
 
             bulk.download()
 
@@ -340,4 +336,3 @@ class TestBulkDataDownload:
 
             # Verify headers are set correctly
             assert request.get_header("User-agent") == ScrythonRequestHandler._user_agent
-            assert request.get_header("Accept-encoding") == "gzip, identity"

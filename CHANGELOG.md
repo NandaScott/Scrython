@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [3.0.0] - 2026-08-20
 
 ### Added
 - **`BulkDataObjectMixin.jsonl_download_uri`**: New accessor for the gzip-compressed JSONL download URI, replacing the removed `download_uri` field.

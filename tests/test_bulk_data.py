@@ -130,10 +130,6 @@ class TestBulkDataDownload:
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             # Wrap compressed data in BytesIO for proper file-like behavior
             mock_response = BytesIO(compressed_data)
-            # Add info() method to mock for header checking
-            mock_response.info = MagicMock(
-                return_value=MagicMock(get=MagicMock(return_value="gzip"))
-            )
             mock_download.return_value.__enter__.return_value = mock_response
 
             result = bulk.download()
@@ -158,10 +154,6 @@ class TestBulkDataDownload:
             with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
                 # Wrap compressed data in BytesIO for proper file-like behavior
                 mock_response = BytesIO(compressed_data)
-                # Add info() method to mock for header checking
-                mock_response.info = MagicMock(
-                    return_value=MagicMock(get=MagicMock(return_value="gzip"))
-                )
                 mock_download.return_value.__enter__.return_value = mock_response
 
                 result = bulk.download(filepath=tmp_path)
@@ -194,10 +186,6 @@ class TestBulkDataDownload:
             with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
                 # Wrap compressed data in BytesIO for proper file-like behavior
                 mock_response = BytesIO(compressed_data)
-                # Add info() method to mock for header checking
-                mock_response.info = MagicMock(
-                    return_value=MagicMock(get=MagicMock(return_value="gzip"))
-                )
                 mock_download.return_value.__enter__.return_value = mock_response
 
                 result = bulk.download(filepath=tmp_path, return_data=False)
@@ -221,7 +209,6 @@ class TestBulkDataDownload:
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             mock_response = MagicMock()
             mock_response.read.return_value = b"not gzipped data"
-            mock_response.info.return_value.get.return_value = "gzip"  # Claims to be gzip but isn't
             mock_response.__enter__.return_value = mock_response
             mock_response.__exit__.return_value = None
             mock_download.return_value = mock_response
@@ -240,10 +227,6 @@ class TestBulkDataDownload:
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             # Wrap compressed data in BytesIO for proper file-like behavior
             mock_response = BytesIO(compressed_data)
-            # Add info() method to mock for header checking
-            mock_response.info = MagicMock(
-                return_value=MagicMock(get=MagicMock(return_value="gzip"))
-            )
             mock_download.return_value.__enter__.return_value = mock_response
 
             with pytest.raises(json.JSONDecodeError):
@@ -263,8 +246,8 @@ class TestBulkDataDownload:
 
         mock_bulk_urlopen.assert_not_called()
 
-    def test_download_without_content_encoding_header_no_progress(self, mock_urlopen):
-        """Test download decompresses when the CDN sends no Content-Encoding header.
+    def test_download_decompresses_gzip_body_no_progress(self, mock_urlopen):
+        """Test download decompresses the response body unconditionally.
 
         data.scryfall.io serves the .jsonl.gz file as content-type application/gzip
         and sends no Content-Encoding header, because the gzip is the file format
@@ -279,15 +262,14 @@ class TestBulkDataDownload:
 
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             mock_response = BytesIO(compressed_data)
-            mock_response.info = MagicMock(return_value=MagicMock(get=MagicMock(return_value="")))
             mock_download.return_value.__enter__.return_value = mock_response
 
             result = bulk.download()
 
             assert result == test_data
 
-    def test_download_without_content_encoding_header_with_progress(self, mock_urlopen):
-        """Test the progress path decompresses when no Content-Encoding header is sent."""
+    def test_download_decompresses_gzip_body_with_progress(self, mock_urlopen):
+        """Test the progress path decompresses the response body unconditionally."""
         # Skip if tqdm is not installed
         pytest.importorskip("tqdm")
 
@@ -304,7 +286,6 @@ class TestBulkDataDownload:
                 compressed_data,
                 b"",
             ]  # Return data then empty to signal EOF
-            mock_response.info.return_value.get.return_value = ""  # No encoding header
             mock_response.__enter__.return_value = mock_response
             mock_response.__exit__.return_value = None
             mock_download.return_value = mock_response
@@ -324,7 +305,6 @@ class TestBulkDataDownload:
         with patch("scrython.bulk_data.bulk_data_mixins.urlopen") as mock_download:
             # Set up mock to allow inspection of the Request object
             mock_response = BytesIO(gzip.compress(b""))
-            mock_response.info = MagicMock(return_value=MagicMock(get=MagicMock(return_value="")))
             mock_download.return_value.__enter__.return_value = mock_response
 
             bulk.download()

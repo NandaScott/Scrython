@@ -226,11 +226,9 @@ BULK_DATA_OBJECT_PROPERTIES = [
     ("type", str, False, "Bulk data type"),
     ("name", str, False, "Bulk data name"),
     ("description", str, False, "Description"),
-    ("download_uri", str, False, "Download URI"),
+    ("jsonl_download_uri", str, False, "JSONL download URI"),
     ("updated_at", str, False, "Last updated timestamp"),
-    ("size", int, False, "File size in bytes"),
-    ("content_type", str, False, "MIME type"),
-    ("content_encoding", str, False, "Content encoding"),
+    ("compressed_size", int, False, "Compressed file size in bytes"),
 ]
 
 

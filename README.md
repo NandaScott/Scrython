@@ -231,7 +231,7 @@ all_bulk = scrython.bulk_data.All()
 
 for bulk in all_bulk.data:
     print(f"{bulk.name}: {bulk.description}")
-    print(f"Size: {bulk.size / 1_000_000:.1f} MB")
+    print(f"Compressed size: {bulk.compressed_size / 1_000_000:.1f} MB")
 
 # Download oracle cards (all unique cards with Oracle text)
 oracle_cards = scrython.bulk_data.ByType(type='oracle_cards')

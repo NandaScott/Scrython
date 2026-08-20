@@ -1,4 +1,5 @@
 import gzip
+import io
 import json
 from typing import Any
 from urllib.request import Request, urlopen
@@ -103,11 +104,9 @@ class BulkDataObjectMixin:
         """
         Download and parse the bulk JSONL file from Scryfall.
 
-        The bulk data file is a gzip-compressed JSONL (newline-delimited JSON) file
-        downloaded from Scryfall's CDN. The method automatically detects if the
-        response is gzip-compressed by checking HTTP Content-Encoding headers and
-        handles decompression accordingly. Each line is parsed as a separate JSON
-        object and returned as a list.
+        Scryfall documents jsonl_download_uri as hosting this bulk file as
+        .jsonl.gz, so the response body is always a gzip file. It is decompressed
+        and parsed one line at a time, and each line is a separate JSON object.
 
         Args:
             filepath: Optional path to save the parsed data as a JSON file.
@@ -115,7 +114,8 @@ class BulkDataObjectMixin:
             return_data: If True, return parsed data. If False and
                         filepath is provided, only saves file without returning data.
                         Default: True.
-            chunk_size: Download chunk size in bytes. Default: 8192.
+            chunk_size: Read size in bytes for the progress bar. Ignored when
+                       progress is False. Default: 8192.
             progress: If True, display a progress bar during download (requires tqdm).
                      Default: False.
 
@@ -142,13 +142,6 @@ class BulkDataObjectMixin:
             Bulk data files can be very large (100+ MB compressed, 500+ MB uncompressed).
             Be mindful of memory usage when loading entire files into memory.
         """
-        download_url = self.jsonl_download_uri
-
-        request = Request(download_url)
-        request.add_header("User-Agent", ScrythonRequestHandler._user_agent)
-        request.add_header("Accept-Encoding", "gzip, identity")
-
-        # Optional progress bar
         if progress:
             try:
                 from tqdm.auto import tqdm
@@ -158,15 +151,14 @@ class BulkDataObjectMixin:
                     "Install with: pip install scrython[progress] or pip install tqdm"
                 ) from exc
 
-            # Download with progress bar
-            with urlopen(request) as response:
-                # Check actual HTTP Content-Encoding header
-                content_encoding = response.info().get("Content-Encoding", "").lower()
+        request = Request(self.jsonl_download_uri)
+        request.add_header("User-Agent", ScrythonRequestHandler._user_agent)
 
-                total_size = int(response.headers.get("Content-Length", 0))
-                pbar = tqdm(total=total_size, unit="B", unit_scale=True, desc="Downloading")
-
-                # Read in chunks
+        with urlopen(request) as response:
+            if progress:
+                pbar = tqdm(
+                    total=self.compressed_size, unit="B", unit_scale=True, desc="Downloading"
+                )
                 chunks = []
                 while True:
                     chunk = response.read(chunk_size)
@@ -175,41 +167,18 @@ class BulkDataObjectMixin:
                     chunks.append(chunk)
                     pbar.update(len(chunk))
                 pbar.close()
-
-                downloaded_data = b"".join(chunks)
-
-            # Conditionally decompress based on HTTP header
-            if content_encoding == "gzip":
-                with tqdm(
-                    total=len(downloaded_data), unit="B", unit_scale=True, desc="Decompressing"
-                ):
-                    data = gzip.decompress(downloaded_data)
+                compressed_stream: Any = io.BytesIO(b"".join(chunks))
             else:
-                # Already decompressed or plain JSONL
-                data = downloaded_data
-        else:
-            # Download without progress bar
-            with urlopen(request) as response:
-                # Check actual HTTP Content-Encoding header
-                content_encoding = response.info().get("Content-Encoding", "").lower()
+                compressed_stream = response
 
-                if content_encoding == "gzip":
-                    # Decompress with streaming
-                    with gzip.GzipFile(fileobj=response) as gz_file:
-                        data = gz_file.read()
-                else:
-                    # Read plain JSONL
-                    data = response.read()
+            # Parse JSONL: each non-empty line is a separate JSON object.
+            with gzip.GzipFile(fileobj=compressed_stream) as jsonl_stream:
+                parsed_data: list[dict[str, Any]] = [
+                    json.loads(line) for line in jsonl_stream if line.strip()
+                ]
 
-        # Parse JSONL: each non-empty line is a separate JSON object.
-        parsed_data: list[dict[str, Any]] = [
-            json.loads(line) for line in data.decode("utf-8").splitlines() if line.strip()
-        ]
-
-        # Save to file if requested
         if filepath:
             with open(filepath, "w", encoding="utf-8") as f:
                 json.dump(parsed_data, f, indent=2)
 
-        # Return data if requested
         return parsed_data if return_data else None

@@ -223,9 +223,9 @@ def sample_bulk_data():
         "type": "oracle_cards",
         "name": "Oracle Cards",
         "description": "All cards, each uniquely identified by Oracle ID",
-        "jsonl_download_uri": "https://data.scryfall.io/oracle-cards/oracle-cards-20260811090155.jsonl.gz",
-        "updated_at": "2026-08-11T09:01:55.863+00:00",
-        "compressed_size": 24502785,
+        "jsonl_download_uri": "https://data.scryfall.io/oracle-cards/oracle-cards-20260820090157.jsonl.gz",
+        "updated_at": "2026-08-20T09:01:57.484+00:00",
+        "compressed_size": 24530127,
     }
 
 

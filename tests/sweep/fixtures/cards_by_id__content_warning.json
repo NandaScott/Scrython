@@ -1,0 +1,125 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-19T20:38:41.143615+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/b6c7705a-2987-4ef1-92b1-2c55d989ec6f",
+    "scryfall_id": "b6c7705a-2987-4ef1-92b1-2c55d989ec6f",
+    "discovered_via": "is:contentwarning order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "b6c7705a-2987-4ef1-92b1-2c55d989ec6f",
+    "oracle_id": "b18b9869-8490-4875-a5bb-484c3299f2c5",
+    "multiverse_ids": [
+      973
+    ],
+    "name": "Jihad",
+    "lang": "en",
+    "released_at": "1993-12-17",
+    "uri": "https://api.scryfall.com/cards/b6c7705a-2987-4ef1-92b1-2c55d989ec6f",
+    "scryfall_uri": "https://scryfall.com/card/arn/5/jihad?utm_source=api",
+    "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T13:13:14Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.jpg?1783948394",
+      "normal": "https://cards.scryfall.io/normal/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.jpg?1783948394",
+      "large": "https://cards.scryfall.io/large/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.jpg?1783948394",
+      "png": "https://cards.scryfall.io/png/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.png?1783948394",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.jpg?1783948394",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.jpg?1783948394",
+      "thumb": "https://cards.scryfall.io/thumb/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.webp?1783948394",
+      "grid": "https://cards.scryfall.io/grid/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.webp?1783948394",
+      "display": "https://cards.scryfall.io/display/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.webp?1783948394",
+      "art": "https://cards.scryfall.io/art/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.webp?1783948394",
+      "crop": "https://cards.scryfall.io/crop/front/b/6/b6c7705a-2987-4ef1-92b1-2c55d989ec6f.webp?1783948394"
+    },
+    "mana_cost": "{W}{W}{W}",
+    "cmc": 3.0,
+    "type_line": "Enchantment",
+    "oracle_text": "As this enchantment enters, choose a color and an opponent.\nWhite creatures get +2/+1 as long as the chosen player controls a nontoken permanent of the chosen color.\nWhen the chosen player controls no nontoken permanents of the chosen color, sacrifice this enchantment.",
+    "colors": [
+      "W"
+    ],
+    "color_identity": [
+      "W"
+    ],
+    "keywords": [],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "not_legal",
+      "timeless": "not_legal",
+      "gladiator": "not_legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "banned",
+      "pauper": "not_legal",
+      "vintage": "banned",
+      "penny": "not_legal",
+      "commander": "banned",
+      "oathbreaker": "banned",
+      "standardbrawl": "not_legal",
+      "brawl": "not_legal",
+      "competitivebrawl": "not_legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "banned",
+      "oldschool": "legal",
+      "premodern": "not_legal",
+      "predh": "banned",
+      "tlr": "not_legal"
+    },
+    "games": [
+      "paper"
+    ],
+    "reserved": true,
+    "game_changer": false,
+    "foil": false,
+    "nonfoil": true,
+    "finishes": [
+      "nonfoil"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": false,
+    "variation": false,
+    "set_id": "856f63eb-e056-43e5-8a56-7a58e1608940",
+    "set": "arn",
+    "set_name": "Arabian Nights",
+    "set_type": "expansion",
+    "set_uri": "https://api.scryfall.com/sets/856f63eb-e056-43e5-8a56-7a58e1608940",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aarn&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/arn?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/b6c7705a-2987-4ef1-92b1-2c55d989ec6f/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Ab18b9869-8490-4875-a5bb-484c3299f2c5&unique=prints",
+    "collector_number": "5",
+    "digital": false,
+    "rarity": "rare",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Brian Snõddy",
+    "artist_ids": [
+      "770b4e16-de76-49ed-949f-84e6d2e06d25"
+    ],
+    "illustration_id": "f2abb1de-12b0-4489-bdcc-c229eacb4836",
+    "border_color": "black",
+    "frame": "1993",
+    "full_art": false,
+    "textless": false,
+    "booster": true,
+    "story_spotlight": false,
+    "content_warning": true,
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "usd_etched": null,
+      "eur": null,
+      "eur_foil": null,
+      "tix": null
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=973&printed=false"
+    }
+  }
+}

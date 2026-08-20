@@ -20,6 +20,17 @@ const MODEL = "claude-sonnet-4-6";
 const DEFAULT_BASE = "develop";
 const DRY_RUN = process.env.DRY_RUN === "1";
 
+// Dispatch is capped because every in-flight agent counts against the org's
+// per-minute input-token limit. Fanning out all issues at once blew the
+// 30k-ITPM tier-1 ceiling and 429'd every request but the first. A small pool
+// keeps concurrent token burn under the limit; 429s that still slip through are
+// absorbed by the backoff below. Both knobs are env-tunable for higher tiers.
+const MAX_CONCURRENCY = Number(process.env.SANDCASTLE_CONCURRENCY ?? "2");
+const MAX_RETRIES = Number(process.env.SANDCASTLE_MAX_RETRIES ?? "4");
+// The 429 limit is per-minute, so the first backoff waits a full window before
+// retrying; subsequent retries double it (60s, 120s, 240s, 480s).
+const BACKOFF_BASE_MS = 60_000;
+
 const promptFile = fileURLToPath(new URL("./prompt.md", import.meta.url));
 
 interface Issue {
@@ -229,6 +240,65 @@ async function runIssue(plan: Plan) {
   return { plan, branch, result };
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// A 429 surfaces as a thrown error whose message carries the status and the
+// rate-limit text Anthropic returns, so match on either.
+function isRateLimited(err: unknown): boolean {
+  const message = errorMessage(err).toLowerCase();
+  return message.includes("429") || message.includes("rate limit");
+}
+
+// Retry only on rate limiting; any other failure is the agent's own and should
+// surface immediately. Backoff is exponential off a one-minute base with jitter
+// so retries from sibling agents do not realign onto the same minute boundary.
+async function runIssueWithBackoff(plan: Plan) {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await runIssue(plan);
+    } catch (err) {
+      if (!isRateLimited(err) || attempt >= MAX_RETRIES) {
+        throw err;
+      }
+      const waitMs = BACKOFF_BASE_MS * 2 ** attempt + Math.floor(Math.random() * 1000);
+      attempt += 1;
+      console.log(
+        `[issue-${plan.issue.number}] rate limited (429); retry ${attempt}/${MAX_RETRIES} in ${Math.round(waitMs / 1000)}s`,
+      );
+      await sleep(waitMs);
+    }
+  }
+}
+
+// Rolling pool: keep at most `limit` workers in flight, pulling the next index
+// as each finishes, so a slow agent never stalls the others (unlike fixed
+// batches). Returns settled results in input order to match the dispatch map.
+async function mapWithConcurrency<T, R>(
+  items: readonly T[],
+  limit: number,
+  worker: (item: T) => Promise<R>,
+): Promise<PromiseSettledResult<R>[]> {
+  const results = new Array<PromiseSettledResult<R>>(items.length);
+  let next = 0;
+  async function pump(): Promise<void> {
+    while (next < items.length) {
+      const index = next;
+      next += 1;
+      try {
+        results[index] = { status: "fulfilled", value: await worker(items[index]!) };
+      } catch (reason) {
+        results[index] = { status: "rejected", reason };
+      }
+    }
+  }
+  const runners = Array.from({ length: Math.min(limit, items.length) }, pump);
+  await Promise.all(runners);
+  return results;
+}
+
 function openPullRequest(plan: Plan, branch: string, commitCount: number): Outcome {
   try {
     git("push", "origin", branch);
@@ -355,7 +425,10 @@ if (plans.length === 0) {
   process.exit(0);
 }
 
-const settled = await Promise.allSettled(plans.map(runIssue));
+console.log(
+  `Dispatching ${plans.length} issue(s) at concurrency ${MAX_CONCURRENCY} (429 backoff: up to ${MAX_RETRIES} retries).`,
+);
+const settled = await mapWithConcurrency(plans, MAX_CONCURRENCY, runIssueWithBackoff);
 
 const dispatched: Outcome[] = settled.map((entry, index) => {
   const plan = plans[index]!;

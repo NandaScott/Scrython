@@ -1,0 +1,168 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-19T20:40:20.183288+00:00",
+    "endpoint": "cards/search",
+    "source_url": "https://api.scryfall.com/cards/search?q=set%3Alea+c%3Ared+cmc%3E%3D6+mana%3A%7BT%7D",
+    "discovered_via": "q=set:lea c:red cmc>=6 mana:{T} (malformed term triggers warnings)"
+  },
+  "payload": {
+    "object": "list",
+    "total_cards": 1,
+    "has_more": false,
+    "warnings": [
+      "Invalid expression “mana:{t}” was ignored. Unknown mana symbols “{T}”."
+    ],
+    "data": [
+      {
+        "object": "card",
+        "id": "fefbf149-f988-4f8b-9f53-56f5878116a6",
+        "oracle_id": "711eea87-0fa3-46e0-a42b-fa5a86455f04",
+        "multiverse_ids": [
+          222
+        ],
+        "tcgplayer_id": 1257,
+        "cardmarket_id": 5408,
+        "name": "Shivan Dragon",
+        "lang": "en",
+        "released_at": "1993-08-05",
+        "uri": "https://api.scryfall.com/cards/fefbf149-f988-4f8b-9f53-56f5878116a6",
+        "scryfall_uri": "https://scryfall.com/card/lea/174/shivan-dragon?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_updated_at": "2026-07-13T13:18:01Z",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.jpg?1783948681",
+          "normal": "https://cards.scryfall.io/normal/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.jpg?1783948681",
+          "large": "https://cards.scryfall.io/large/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.jpg?1783948681",
+          "png": "https://cards.scryfall.io/png/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.png?1783948681",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.jpg?1783948681",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.jpg?1783948681",
+          "thumb": "https://cards.scryfall.io/thumb/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.webp?1783948681",
+          "grid": "https://cards.scryfall.io/grid/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.webp?1783948681",
+          "display": "https://cards.scryfall.io/display/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.webp?1783948681",
+          "art": "https://cards.scryfall.io/art/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.webp?1783948681",
+          "crop": "https://cards.scryfall.io/crop/front/f/e/fefbf149-f988-4f8b-9f53-56f5878116a6.webp?1783948681"
+        },
+        "mana_cost": "{4}{R}{R}",
+        "cmc": 6.0,
+        "type_line": "Creature — Dragon",
+        "oracle_text": "Flying\n{R}: This creature gets +1/+0 until end of turn.",
+        "power": "5",
+        "toughness": "5",
+        "colors": [
+          "R"
+        ],
+        "color_identity": [
+          "R"
+        ],
+        "keywords": [
+          "Flying"
+        ],
+        "all_parts": [
+          {
+            "object": "related_card",
+            "id": "fefbf149-f988-4f8b-9f53-56f5878116a6",
+            "component": "combo_piece",
+            "name": "Shivan Dragon",
+            "type_line": "Creature — Dragon",
+            "uri": "https://api.scryfall.com/cards/fefbf149-f988-4f8b-9f53-56f5878116a6"
+          },
+          {
+            "object": "related_card",
+            "id": "2a43b352-d84b-4714-bbcd-3ad282c8aa9d",
+            "component": "combo_piece",
+            "name": "Sarkhan, Wanderer to Shiv",
+            "type_line": "Legendary Planeswalker — Sarkhan",
+            "uri": "https://api.scryfall.com/cards/2a43b352-d84b-4714-bbcd-3ad282c8aa9d"
+          }
+        ],
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "competitivebrawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "legal",
+          "premodern": "legal",
+          "predh": "legal",
+          "tlr": "not_legal"
+        },
+        "games": [
+          "paper"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": false,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "288bd996-960e-448b-a187-9504c1930c2c",
+        "set": "lea",
+        "set_name": "Limited Edition Alpha",
+        "set_type": "core",
+        "set_uri": "https://api.scryfall.com/sets/288bd996-960e-448b-a187-9504c1930c2c",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Alea&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/lea?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/fefbf149-f988-4f8b-9f53-56f5878116a6/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A711eea87-0fa3-46e0-a42b-fa5a86455f04&unique=prints",
+        "collector_number": "174",
+        "digital": false,
+        "rarity": "rare",
+        "flavor_text": "While it's true most Dragons are cruel, the Shivan Dragon seems to take particular glee in the misery of others, often tormenting its victims much like a cat plays with a mouse before delivering the final blow.",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Melissa A. Benson",
+        "artist_ids": [
+          "9ade7727-1436-4828-9a1d-487c3d2ad1d9"
+        ],
+        "illustration_id": "d326c884-fed0-4b92-bd88-fd4989597c20",
+        "border_color": "black",
+        "frame": "1993",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 11080,
+        "penny_rank": 11108,
+        "prices": {
+          "usd": null,
+          "usd_foil": null,
+          "usd_etched": null,
+          "eur": "6375.04",
+          "eur_foil": null,
+          "tix": null
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=222&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DShivan%2BDragon",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DShivan%2BDragon",
+          "edhrec": "https://edhrec.com/route/?cc=Shivan+Dragon"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F1257%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=5408&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Shivan+Dragon&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
+      }
+    ]
+  }
+}

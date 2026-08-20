@@ -1,7 +1,9 @@
 """Pytest configuration and shared fixtures for Scrython usage tests."""
 
+import gzip
 import json
 from collections import deque
+from io import BytesIO
 from pathlib import Path
 from unittest.mock import Mock, patch
 from urllib.parse import urlsplit
@@ -68,7 +70,8 @@ def stub_response():
 
     Bulk download: register the CDN payload with the special endpoint key
     "bulk-data/download" (a list of card dicts). The download() HTTP call is
-    intercepted by a separate patch on bulk_data_mixins.urlopen.
+    intercepted by a separate patch on bulk_data_mixins.urlopen, and the list
+    is served back as gzip-compressed JSONL to match what the CDN sends.
 
     Usage:
         def test_something(stub_response, load_fixture):
@@ -90,6 +93,28 @@ def stub_response():
 
         def info(self):
             return self._info
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            pass
+
+    class _MockDownloadResponse:
+        """
+        Stands in for the CDN response to download(), which is not plain JSON.
+
+        Scryfall hosts jsonl_download_uri as a .jsonl.gz file, so download()
+        feeds the response straight to gzip.GzipFile. That reads in sized
+        chunks, which is why this cannot reuse _MockResponse.
+        """
+
+        def __init__(self, cards: list) -> None:
+            jsonl = "\n".join(json.dumps(card) for card in cards).encode("utf-8")
+            self._stream = BytesIO(gzip.compress(jsonl))
+
+        def read(self, size: int = -1) -> bytes:
+            return self._stream.read(size)
 
         def __enter__(self):
             return self
@@ -132,7 +157,7 @@ def stub_response():
                 "stub_response: register a download payload with "
                 "stub_response('bulk-data/download', [...]) before calling download()"
             )
-        return _MockResponse(download_registry[0])
+        return _MockDownloadResponse(download_registry[0])
 
     def _register(endpoint: str, *payloads: dict | list) -> None:
         if not payloads:

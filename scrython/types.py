@@ -285,10 +285,8 @@ class ScryfallBulkDataData(TypedDict):
     uri: URI
     name: str
     description: str
-    download_uri: URI
-    size: int
-    content_type: str
-    content_encoding: str
+    jsonl_download_uri: URI
+    compressed_size: int
 
 
 class ScryfallListData(TypedDict):

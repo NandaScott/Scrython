@@ -575,6 +575,15 @@ class PrintFieldsMixin:
         return self._scryfall_data["image_status"]
 
     @property
+    def image_updated_at(self) -> str | None:
+        """
+        The timestamp of the last update to this card's imagery.
+
+        Type: Timestamp (Nullable)
+        """
+        return self._scryfall_data.get("image_updated_at")
+
+    @property
     def image_uris(self) -> ImageUris | None:
         """
         An object listing available imagery for this card.

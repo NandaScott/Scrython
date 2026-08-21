@@ -7,6 +7,7 @@ the alias resolver in isolation, and the real card spec pins the split between
 the passthrough sweep and the exception sweep.
 """
 
+from importlib import import_module
 from typing import Any
 
 import pytest
@@ -15,13 +16,27 @@ from tests.sweep.test_property_sweep import (
     _EXCEPTION_PARAMS,
     _PASSTHROUGH_PARAMS,
     _SPECS_BY_NAME,
-    CARD_ALIASES,
-    CARD_COVERED_ELSEWHERE,
-    CARD_EXCEPTIONS,
+    SWEEP_SPECS,
     SweepSpec,
     _resolve_alias,
     _run_passthrough_check,
 )
+
+
+def _resolve_node_id(node_id: str) -> Any:
+    """Resolve a 'path/to/test_file.py::Class::func' node id to the object it names."""
+    module_path, *attribute_names = node_id.split("::")
+    target: Any = import_module(module_path.removesuffix(".py").replace("/", "."))
+    for attribute_name in attribute_names:
+        target = getattr(target, attribute_name)
+    return target
+
+
+_COVERAGE_REFERENCE_PARAMS = [
+    pytest.param(spec.name, accessor, node_id, id=f"{spec.name}-{accessor}")
+    for spec in SWEEP_SPECS
+    for accessor, node_id in spec.covered_elsewhere.items()
+]
 
 
 class _SynthObject:
@@ -135,11 +150,27 @@ def test_wrong_valued_passthrough_fails() -> None:
         _run_passthrough_check(broken_spec, "synth", "name")
 
 
-def test_all_card_exceptions_covered() -> None:
-    """Every card exception must appear in CARD_ALIASES or CARD_COVERED_ELSEWHERE."""
-    uncovered = CARD_EXCEPTIONS - frozenset(CARD_ALIASES) - frozenset(CARD_COVERED_ELSEWHERE)
-    assert not uncovered, (
-        f"Card exceptions with no coverage declaration: {sorted(uncovered)}. "
-        "Add each to CARD_ALIASES (if renamed/nested) or CARD_COVERED_ELSEWHERE "
-        "(if tested by another test or issue)."
+@pytest.mark.parametrize("spec", SWEEP_SPECS, ids=lambda spec: spec.name)
+def test_every_exception_declares_coverage(spec: SweepSpec) -> None:
+    """Every exception-set accessor is either aliased or declared covered elsewhere."""
+    undeclared = spec.exceptions - frozenset(spec.aliases) - frozenset(spec.covered_elsewhere)
+
+    assert not undeclared, (
+        f"{spec.name} exceptions with no coverage declaration: {sorted(undeclared)}. "
+        "Add each to the spec's aliases (if renamed or nested) or to its "
+        "covered_elsewhere (naming the pytest node id of the owning test)."
     )
+
+
+@pytest.mark.parametrize("spec_name,accessor,node_id", _COVERAGE_REFERENCE_PARAMS)
+def test_covered_elsewhere_reference_resolves(spec_name: str, accessor: str, node_id: str) -> None:
+    """Each covered_elsewhere node id resolves to a test that still exists."""
+    try:
+        owning_test = _resolve_node_id(node_id)
+    except (ImportError, AttributeError) as error:
+        pytest.fail(
+            f"{spec_name} accessor '{accessor}' names owning test '{node_id}', "
+            f"which does not resolve: {error}"
+        )
+
+    assert callable(owning_test), f"'{node_id}' resolves to {owning_test!r}, not a test function"

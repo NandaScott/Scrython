@@ -46,19 +46,25 @@ def _properties(cls: type) -> list[str]:
     )
 
 
+def _alias_parts(path: AliasPath) -> tuple[str, str | None]:
+    """Split an alias path into its top-level fixture key and optional nested child key."""
+    if isinstance(path, tuple):
+        return path[0], path[1]
+    return path, None
+
+
 def _resolve_alias(fixture: dict[str, Any], path: AliasPath) -> Any:
     """Look up a value via a simple key or a (parent, child) key path."""
-    if isinstance(path, tuple):
-        parent = fixture.get(path[0])
-        return parent.get(path[1]) if isinstance(parent, dict) else None
-    return fixture.get(path)
+    key, child = _alias_parts(path)
+    value = fixture.get(key)
+    if child is None:
+        return value
+    return value.get(child) if isinstance(value, dict) else None
 
 
 def _alias_reachable(fixture: dict[str, Any], path: AliasPath) -> bool:
     """True when the alias target key (or its parent) exists in the fixture."""
-    if isinstance(path, tuple):
-        return path[0] in fixture
-    return path in fixture
+    return _alias_parts(path)[0] in fixture
 
 
 # ─── Bare wrapper classes for list/catalog ────────────────────────────────────
@@ -148,9 +154,7 @@ class SweepSpec:
 
         String values are direct key aliases; tuple values expose their parent key.
         """
-        return frozenset(
-            path if isinstance(path, str) else path[0] for path in self.aliases.values()
-        )
+        return frozenset(_alias_parts(path)[0] for path in self.aliases.values())
 
     def reaches(self, key: str) -> bool:
         """True when some accessor exposes this top-level fixture key.

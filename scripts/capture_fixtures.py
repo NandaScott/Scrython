@@ -160,6 +160,55 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "path": "migrations/f75b2d8b-c73b-4352-91f7-3b9239bd3c9f",
             "query": {},
         },
+        "cards_named__lightning_bolt": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Lightning Bolt"},
+        },
+        "cards_named__serra_angel": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Serra Angel"},
+        },
+        "cards_named__wrath_of_god": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Wrath of God"},
+        },
+        "cards_named__oblivion_ring": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Oblivion Ring"},
+        },
+        "cards_named__jace_beleren": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Jace Beleren"},
+        },
+        "cards_named__ornithopter": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Ornithopter"},
+        },
+        "cards_named__niv_mizzet_parun": {
+            "endpoint": "cards/named",
+            "path": "cards/named",
+            "query": {"exact": "Niv-Mizzet, Parun"},
+        },
+        # Four cards across two sets (LEA and M10) for list-helper usage tests.
+        # Ordered by name so the result order is deterministic on refresh.
+        "cards_search__multiset": {
+            "endpoint": "cards/search",
+            "path": "cards/search",
+            "query": {
+                "q": (
+                    "(name:\"Counterspell\" or name:\"Lightning Bolt\") s:lea"
+                    " or (name:\"Fireball\" or name:\"Giant Growth\") s:m10"
+                ),
+                "order": "name",
+                "unique": "prints",
+            },
+        },
     },
     # ── SWEEP domain ────────────────────────────────────────────────────────────
     # Selection criterion: accessor coverage.  Every non-trivial accessor on

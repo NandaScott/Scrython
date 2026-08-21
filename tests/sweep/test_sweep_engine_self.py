@@ -18,6 +18,7 @@ from tests.sweep.test_property_sweep import (
     _SPECS_BY_NAME,
     SWEEP_SPECS,
     SweepSpec,
+    _alias_reachable,
     _resolve_alias,
     _run_passthrough_check,
 )
@@ -174,3 +175,48 @@ def test_covered_elsewhere_reference_resolves(spec_name: str, accessor: str, nod
         )
 
     assert callable(owning_test), f"'{node_id}' resolves to {owning_test!r}, not a test function"
+
+
+# ─── Hard-fail completeness guard ─────────────────────────────────────────────
+
+_COMPLETENESS_PARAMS = [
+    pytest.param(spec.name, accessor, id=f"{spec.name}-{accessor}")
+    for spec in SWEEP_SPECS
+    for accessor in sorted(spec.properties)
+]
+
+
+@pytest.mark.parametrize("spec_name,accessor", _COMPLETENESS_PARAMS)
+def test_every_accessor_is_asserted(spec_name: str, accessor: str) -> None:
+    """Every accessor must be value-asserted by passthrough, exception, or covered_elsewhere.
+
+    Fails when an accessor is present on the class but its key never appears in
+    any fixture AND it has no alias AND it has no covered_elsewhere entry. Deleting
+    a fixture or removing an assertion turns this test red.
+    """
+    spec = _SPECS_BY_NAME[spec_name]
+
+    if accessor in spec.covered_elsewhere:
+        return
+
+    if accessor in spec.exceptions:
+        if accessor in spec.aliases:
+            alias = spec.aliases[accessor]
+            asserted = any(_alias_reachable(fixture, alias) for fixture in spec.corpus.values())
+            assert asserted, (
+                f"{spec_name} accessor '{accessor}' is aliased to {alias!r} "
+                "but that target appears in no fixture — "
+                "add a fixture that exposes it or declare covered_elsewhere"
+            )
+        else:
+            pytest.fail(
+                f"{spec_name} accessor '{accessor}' is an exception with no alias "
+                "and no covered_elsewhere entry"
+            )
+        return
+
+    asserted = any(accessor in fixture for fixture in spec.corpus.values())
+    assert asserted, (
+        f"{spec_name} accessor '{accessor}' appears in no fixture — "
+        "add a fixture that exposes this field or declare it covered_elsewhere"
+    )

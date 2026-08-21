@@ -17,6 +17,7 @@ import pytest
 from scrython.base_mixins import ScryfallCatalogMixin, ScryfallListMixin
 from scrython.bulk_data import Object as BulkDataObject
 from scrython.cards import Object
+from scrython.cards.cards_mixins import CardFaceMixin, RelatedCardsObjectMixin
 from scrython.sets import Object as SetsObject
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -80,6 +81,20 @@ class _WrappedList(_BareList):
 
 class _BareCatalog(ScryfallCatalogMixin):
     """Instantiable from a dict."""
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
+
+
+class _BareCardFace(CardFaceMixin):
+    """Instantiable from a face dict; used to sweep CardFaceMixin in isolation."""
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self._scryfall_data = data  # type: ignore[assignment]
+
+
+class _BareRelatedCard(RelatedCardsObjectMixin):
+    """Instantiable from a part dict; used to sweep RelatedCardsObjectMixin in isolation."""
 
     def __init__(self, data: dict[str, Any]) -> None:
         self._scryfall_data = data  # type: ignore[assignment]
@@ -161,6 +176,22 @@ def _load_corpus(*fixture_names: str) -> dict[str, dict[str, Any]]:
     return {name.split("__", 1)[-1]: _load_json(f"{name}.json") for name in fixture_names}
 
 
+def _load_subitem_corpus(*fixture_names: str, key: str) -> dict[str, dict[str, Any]]:
+    """Extract sub-array items from card fixtures, keyed by fixture stem and item index.
+
+    Each item in payload[key] becomes a separate corpus entry, so every face or
+    related-card object can be swept independently as a first-class fixture row.
+    """
+    corpus: dict[str, dict[str, Any]] = {}
+    for name in fixture_names:
+        payload = _load_json(f"{name}.json")
+        items: list[dict[str, Any]] = payload.get(key) or []
+        stem = name.split("__", 1)[-1]
+        for idx, item in enumerate(items):
+            corpus[f"{stem}_{idx}"] = item
+    return corpus
+
+
 # Card object fixtures: 12 layout pins plus 11 accessor pins, so that between
 # them every optional card field lands on at least one fixture.
 CARD_CORPUS: dict[str, dict[str, Any]] = _load_corpus(
@@ -209,6 +240,37 @@ LIST_CORPUS: dict[str, dict[str, Any]] = _load_corpus(
 # Catalog envelope fixtures (object == "catalog")
 CATALOG_CORPUS: dict[str, dict[str, Any]] = _load_corpus("catalogs_creature_types")
 
+# Card face fixtures: one entry per face object extracted from multi-face card
+# captures. Together these 9 fixtures cover all 23 CardFaceMixin accessors.
+CARD_FACE_CORPUS: dict[str, dict[str, Any]] = _load_subitem_corpus(
+    "cards_by_id__adventure",
+    "cards_by_id__battle_dfc",
+    "cards_by_id__flip",
+    "cards_by_id__japanese_dfc",
+    "cards_by_id__modal_dfc",
+    "cards_by_id__planeswalker_transform",
+    "cards_by_id__reversible",
+    "cards_by_id__split",
+    "cards_by_id__transform",
+    key="card_faces",
+)
+
+# Related-card fixtures: one entry per all_parts item. All 6 RelatedCardsObjectMixin
+# accessors appear in every fixture, so a single fixture would suffice, but including
+# several gives richer parametrization.
+RELATED_CARD_CORPUS: dict[str, dict[str, Any]] = _load_subitem_corpus(
+    "cards_named__black_lotus",
+    "cards_by_id__adventure",
+    "cards_by_id__attraction",
+    "cards_by_id__etched",
+    "cards_by_id__meld",
+    "cards_by_id__modal_dfc",
+    "cards_by_id__planeswalker_transform",
+    "cards_by_id__reversible",
+    "cards_by_id__transform",
+    key="all_parts",
+)
+
 
 # ─── Hand-maintained artifacts (one line to extend each) ─────────────────────
 
@@ -237,13 +299,12 @@ CARD_ALIASES: dict[str, AliasPath] = {
     "preview_source": ("preview", "source"),
 }
 
-# Alias-less exceptions: each maps to the pytest node id of the test that owns
-# its coverage. The wrapped list accessors are covered by the gameplay-field
-# type sweep, which parametrizes over them; the computed predicates are covered
-# one test apiece.
+# Wrapped-list exceptions: each maps to the pytest node id of the test that owns
+# its coverage. card_faces and all_parts are swept by dedicated specs below;
+# the computed predicates are covered one test apiece.
 CARD_COVERED_ELSEWHERE: dict[str, str] = {
-    "all_parts": "tests/test_property_types.py::TestCardGameplayFields::test_gameplay_field_type",
-    "card_faces": "tests/test_property_types.py::TestCardGameplayFields::test_gameplay_field_type",
+    "all_parts": "tests/sweep/test_property_sweep.py::test_passthrough_sweep",
+    "card_faces": "tests/sweep/test_property_sweep.py::test_passthrough_sweep",
     "is_creature": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_creature",
     "is_instant": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_instant",
     "is_sorcery": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_sorcery",
@@ -275,6 +336,18 @@ SWEEP_SPECS: tuple[SweepSpec, ...] = (
     SweepSpec(name="bulk_data", cls=BulkDataObject, build=BulkDataObject, corpus=BULK_DATA_CORPUS),
     SweepSpec(name="list", cls=_BareList, build=_BareList, corpus=LIST_CORPUS),
     SweepSpec(name="catalog", cls=_BareCatalog, build=_BareCatalog, corpus=CATALOG_CORPUS),
+    SweepSpec(
+        name="card_face",
+        cls=CardFaceMixin,
+        build=_BareCardFace,
+        corpus=CARD_FACE_CORPUS,
+    ),
+    SweepSpec(
+        name="related_card",
+        cls=RelatedCardsObjectMixin,
+        build=_BareRelatedCard,
+        corpus=RELATED_CARD_CORPUS,
+    ),
 )
 
 # ─────────────────────────────────────────────────────────────────────────────

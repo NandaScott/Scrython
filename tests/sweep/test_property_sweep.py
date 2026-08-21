@@ -181,11 +181,21 @@ def _load_subitem_corpus(*fixture_names: str, key: str) -> dict[str, dict[str, A
 
     Each item in payload[key] becomes a separate corpus entry, so every face or
     related-card object can be swept independently as a first-class fixture row.
+
+    Raises:
+        ValueError: A named fixture carries no items under `key`. Such a fixture
+            would contribute no rows and no signal, so it fails loudly instead.
     """
     corpus: dict[str, dict[str, Any]] = {}
     for name in fixture_names:
         payload = _load_json(f"{name}.json")
         items: list[dict[str, Any]] = payload.get(key) or []
+        if not items:
+            raise ValueError(
+                f"Sweep fixture '{name}' has no '{key}' items and so contributes nothing "
+                f"to this corpus. Drop it from the corpus list, or re-capture it from a "
+                f"card that carries {key}."
+            )
         stem = name.split("__", 1)[-1]
         for idx, item in enumerate(items):
             corpus[f"{stem}_{idx}"] = item
@@ -300,11 +310,12 @@ CARD_ALIASES: dict[str, AliasPath] = {
 }
 
 # Wrapped-list exceptions: each maps to the pytest node id of the test that owns
-# its coverage. card_faces and all_parts are swept by dedicated specs below;
-# the computed predicates are covered one test apiece.
+# its coverage. The card_face and related_card specs sweep the unwrapped items,
+# so the wrapping itself is owned by a test apiece at the foot of this module;
+# the computed predicates are covered one test apiece too.
 CARD_COVERED_ELSEWHERE: dict[str, str] = {
-    "all_parts": "tests/sweep/test_property_sweep.py::test_passthrough_sweep",
-    "card_faces": "tests/sweep/test_property_sweep.py::test_passthrough_sweep",
+    "all_parts": "tests/sweep/test_property_sweep.py::test_all_parts_wraps_every_raw_part",
+    "card_faces": "tests/sweep/test_property_sweep.py::test_card_faces_wraps_every_raw_face",
     "is_creature": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_creature",
     "is_instant": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_instant",
     "is_sorcery": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_sorcery",
@@ -448,3 +459,34 @@ def test_wrapped_list_data_preserves_items() -> None:
     fixture = LIST_CORPUS["lea_red"]
     wrapped = _WrappedList(fixture)
     assert wrapped.to_list() == fixture["data"]
+
+
+# ─── Wrapped card sub-object accessors ────────────────────────────────────────
+
+# card_faces and all_parts wrap their raw items, so the passthrough sweep skips
+# them and the card_face/related_card specs sweep the unwrapped items instead.
+# That leaves the wrapping itself unasserted, which is what these two tests own.
+
+_WRAPPING_FIXTURE = CARD_CORPUS["transform"]
+
+
+def test_card_faces_wraps_every_raw_face() -> None:
+    """Card.card_faces builds one CardFaceMixin per raw face, in fixture order."""
+    faces = Object.from_dict(_WRAPPING_FIXTURE).card_faces
+    assert (
+        faces is not None
+    ), "fixture 'transform' must carry card_faces for this test to mean anything"
+
+    assert all(isinstance(face, CardFaceMixin) for face in faces)
+    assert [face.name for face in faces] == [raw["name"] for raw in _WRAPPING_FIXTURE["card_faces"]]
+
+
+def test_all_parts_wraps_every_raw_part() -> None:
+    """Card.all_parts builds one RelatedCardsObjectMixin per raw part, in fixture order."""
+    parts = Object.from_dict(_WRAPPING_FIXTURE).all_parts
+    assert (
+        parts is not None
+    ), "fixture 'transform' must carry all_parts for this test to mean anything"
+
+    assert all(isinstance(part, RelatedCardsObjectMixin) for part in parts)
+    assert [part.id for part in parts] == [raw["id"] for raw in _WRAPPING_FIXTURE["all_parts"]]

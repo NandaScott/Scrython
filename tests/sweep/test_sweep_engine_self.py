@@ -8,7 +8,7 @@ the passthrough sweep and the exception sweep.
 """
 
 from importlib import import_module
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
@@ -18,7 +18,6 @@ from tests.sweep.test_property_sweep import (
     _SPECS_BY_NAME,
     SWEEP_SPECS,
     SweepSpec,
-    _alias_reachable,
     _resolve_alias,
     _run_passthrough_check,
 )
@@ -31,6 +30,18 @@ def _resolve_node_id(node_id: str) -> Any:
     for attribute_name in attribute_names:
         target = getattr(target, attribute_name)
     return target
+
+
+def _referenced_names(func: Any) -> frozenset[str]:
+    """Names a function's own body reads, as attributes, globals, or string literals.
+
+    Read off the code object rather than the source text, so a test that merely
+    carries an accessor's name in its own function name does not count as
+    referencing it.
+    """
+    code = func.__code__
+    literals = {const for const in code.co_consts if isinstance(const, str)}
+    return frozenset(set(code.co_names) | literals)
 
 
 _COVERAGE_REFERENCE_PARAMS = [
@@ -177,6 +188,25 @@ def test_covered_elsewhere_reference_resolves(spec_name: str, accessor: str, nod
     assert callable(owning_test), f"'{node_id}' resolves to {owning_test!r}, not a test function"
 
 
+@pytest.mark.parametrize("spec_name,accessor,node_id", _COVERAGE_REFERENCE_PARAMS)
+def test_covered_elsewhere_owner_reads_the_accessor(
+    spec_name: str, accessor: str, node_id: str
+) -> None:
+    """Each covered_elsewhere owner must actually read the accessor it claims.
+
+    Resolving to a callable is not coverage. Without this, an entry can name any
+    test at all — including one of the engine's own parametrized sweeps, which
+    reads accessors through getattr and so covers no accessor in particular.
+    """
+    owning_test = _resolve_node_id(node_id)
+
+    assert accessor in _referenced_names(owning_test), (
+        f"{spec_name} accessor '{accessor}' names owning test '{node_id}', "
+        f"whose body never reads '{accessor}' — point the entry at a test that "
+        f"asserts this accessor, or write one"
+    )
+
+
 # ─── Hard-fail completeness guard ─────────────────────────────────────────────
 
 _COMPLETENESS_PARAMS = [
@@ -185,38 +215,30 @@ _COMPLETENESS_PARAMS = [
     for accessor in sorted(spec.properties)
 ]
 
+# Read off the sweep's own parametrize lists rather than re-deriving which
+# accessors they reach, so an accessor that drops out of both sweeps cannot stay
+# green here through a second copy of the selection logic drifting out of step.
+_SWEPT_ACCESSORS: frozenset[tuple[str, str]] = frozenset(
+    cast("tuple[str, str]", (param.values[0], param.values[2]))
+    for param in _PASSTHROUGH_PARAMS + _EXCEPTION_PARAMS
+)
+
 
 @pytest.mark.parametrize("spec_name,accessor", _COMPLETENESS_PARAMS)
 def test_every_accessor_is_asserted(spec_name: str, accessor: str) -> None:
     """Every accessor must be value-asserted by passthrough, exception, or covered_elsewhere.
 
-    Fails when an accessor is present on the class but its key never appears in
-    any fixture AND it has no alias AND it has no covered_elsewhere entry. Deleting
-    a fixture or removing an assertion turns this test red.
+    Fails when an accessor is reached by neither sweep and has no covered_elsewhere
+    entry. Deleting the fixture that carries a field turns this test red, as does
+    dropping an alias for a renamed or nested field.
     """
     spec = _SPECS_BY_NAME[spec_name]
 
     if accessor in spec.covered_elsewhere:
         return
 
-    if accessor in spec.exceptions:
-        if accessor in spec.aliases:
-            alias = spec.aliases[accessor]
-            asserted = any(_alias_reachable(fixture, alias) for fixture in spec.corpus.values())
-            assert asserted, (
-                f"{spec_name} accessor '{accessor}' is aliased to {alias!r} "
-                "but that target appears in no fixture — "
-                "add a fixture that exposes it or declare covered_elsewhere"
-            )
-        else:
-            pytest.fail(
-                f"{spec_name} accessor '{accessor}' is an exception with no alias "
-                "and no covered_elsewhere entry"
-            )
-        return
-
-    asserted = any(accessor in fixture for fixture in spec.corpus.values())
-    assert asserted, (
-        f"{spec_name} accessor '{accessor}' appears in no fixture — "
-        "add a fixture that exposes this field or declare it covered_elsewhere"
+    assert (spec_name, accessor) in _SWEPT_ACCESSORS, (
+        f"{spec_name} accessor '{accessor}' is asserted by neither sweep — "
+        "add a fixture carrying its field, add an alias if the fixture key is "
+        "renamed or nested, or declare covered_elsewhere naming the owning test"
     )

@@ -27,7 +27,13 @@ AliasPath = str | tuple[str, str]
 def _load_json(rel_path: str) -> dict[str, Any]:
     with open(FIXTURES_DIR / rel_path) as fh:
         data: dict[str, Any] = json.load(fh)
-    return data
+    payload = data.get("payload")
+    if not isinstance(payload, dict):
+        raise ValueError(
+            f"Sweep fixture '{rel_path}' is missing a 'payload' field. "
+            "Re-run the fixture capture script to refresh it."
+        )
+    return payload
 
 
 def _properties(cls: type) -> list[str]:
@@ -96,8 +102,16 @@ class SweepSpec:
         exceptions: Accessors excluded from the passthrough sweep.
         aliases: Exception-set accessor to backing fixture path.
             str -> fixture[key]; tuple[str, str] -> fixture[t[0]][t[1]].
+        covered_elsewhere: Exception-set accessor to the pytest node id of the
+            test that owns its coverage. Node ids rather than prose so the
+            self-tests can resolve them; a renamed owning test turns its entry
+            red instead of rotting silently.
         wrappers: Fixture key to accessor(s) that read it, for keys reachable
             only through a wrapper whose name differs from the key.
+
+    Every exception must appear in aliases or covered_elsewhere. The self-tests
+    in test_sweep_engine_self.py enforce that across all specs, and resolve
+    every covered_elsewhere node id to a real test function.
     """
 
     name: str
@@ -106,6 +120,7 @@ class SweepSpec:
     corpus: dict[str, dict[str, Any]]
     exceptions: frozenset[str] = frozenset()
     aliases: dict[str, AliasPath] = field(default_factory=dict)
+    covered_elsewhere: dict[str, str] = field(default_factory=dict)
     wrappers: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
     @property
@@ -137,41 +152,62 @@ class SweepSpec:
 
 # ─── Corpora ──────────────────────────────────────────────────────────────────
 
-# Card object fixtures (direct card JSON, not list/catalog wrappers)
-CARD_CORPUS: dict[str, dict[str, Any]] = {
-    "named": _load_json("cards/named.json"),
-    "random": _load_json("cards/random.json"),
-}
+# Every corpus below names captured fixtures from tests/sweep/fixtures/. See the
+# README there for why each fixture was captured and which fields it pins.
 
-# Single set object fixtures; the list envelope's items are set objects too
-SET_CORPUS: dict[str, dict[str, Any]] = {
-    "by_code": _load_json("sets/by_code.json"),
-    "all_item": _load_json("sets/all.json")["data"][0],
-}
 
-# Single bulk data object fixtures; the list envelope's items are bulk objects too
-BULK_DATA_CORPUS: dict[str, dict[str, Any]] = {
-    "by_id": _load_json("bulk_data/by_id.json"),
-    "all_item": _load_json("bulk_data/all.json")["data"][0],
-}
+def _load_corpus(*fixture_names: str) -> dict[str, dict[str, Any]]:
+    """Load the named captured fixtures, keyed by the name minus its endpoint prefix."""
+    return {name.split("__", 1)[-1]: _load_json(f"{name}.json") for name in fixture_names}
 
-# List envelope fixtures (object == "list"). migrations/all.json is the only
-# corpus fixture carrying next_page, so it is what covers that accessor.
-LIST_CORPUS: dict[str, dict[str, Any]] = {
-    "cards_search": _load_json("cards/search.json"),
-    "sets_all": _load_json("sets/all.json"),
-    "bulk_data_all": _load_json("bulk_data/all.json"),
-    "migrations_all": _load_json("migrations/all.json"),
-    "symbology_all": _load_json("symbology/all.json"),
-}
+
+# Card object fixtures: 12 layout pins plus 11 accessor pins, so that between
+# them every optional card field lands on at least one fixture.
+CARD_CORPUS: dict[str, dict[str, Any]] = _load_corpus(
+    "cards_named__black_lotus",
+    "cards_by_id__normal",
+    "cards_by_id__transform",
+    "cards_by_id__modal_dfc",
+    "cards_by_id__split",
+    "cards_by_id__adventure",
+    "cards_by_id__saga",
+    "cards_by_id__meld",
+    "cards_by_id__flip",
+    "cards_by_id__leveler",
+    "cards_by_id__class",
+    "cards_by_id__token",
+    "cards_by_id__vanguard",
+    "cards_by_id__japanese",
+    "cards_by_id__japanese_dfc",
+    "cards_by_id__attraction",
+    "cards_by_id__indicator",
+    "cards_by_id__content_warning",
+    "cards_by_id__battle",
+    "cards_by_id__battle_dfc",
+    "cards_by_id__flavor_name",
+    "cards_by_id__planeswalker",
+    "cards_by_id__planeswalker_transform",
+    "cards_by_id__reversible",
+    "cards_by_id__etched",
+    "cards_by_id__variation",
+    "cards_by_id__watermark",
+)
+
+SET_CORPUS: dict[str, dict[str, Any]] = _load_corpus("sets_by_code__onc")
+
+BULK_DATA_CORPUS: dict[str, dict[str, Any]] = _load_corpus("bulk_data_by_id__oracle_cards")
+
+# List envelope fixtures (object == "list"). Only the paginated search carries
+# next_page and only the mana_t search carries warnings, so those two fixtures
+# are what cover those accessors.
+LIST_CORPUS: dict[str, dict[str, Any]] = _load_corpus(
+    "cards_search__lea_red",
+    "cards_search__paginated",
+    "cards_search__mana_t_warning",
+)
 
 # Catalog envelope fixtures (object == "catalog")
-CATALOG_CORPUS: dict[str, dict[str, Any]] = {
-    "card_names": _load_json("catalogs/card_names.json"),
-    "creature_types": _load_json("catalogs/creature_types.json"),
-    "keyword_abilities": _load_json("catalogs/keyword_abilities.json"),
-    "autocomplete": _load_json("cards/autocomplete.json"),
-}
+CATALOG_CORPUS: dict[str, dict[str, Any]] = _load_corpus("catalogs_creature_types")
 
 
 # ─── Hand-maintained artifacts (one line to extend each) ─────────────────────
@@ -201,6 +237,21 @@ CARD_ALIASES: dict[str, AliasPath] = {
     "preview_source": ("preview", "source"),
 }
 
+# Alias-less exceptions: each maps to the pytest node id of the test that owns
+# its coverage. The wrapped list accessors are covered by the gameplay-field
+# type sweep, which parametrizes over them; the computed predicates are covered
+# one test apiece.
+CARD_COVERED_ELSEWHERE: dict[str, str] = {
+    "all_parts": "tests/test_property_types.py::TestCardGameplayFields::test_gameplay_field_type",
+    "card_faces": "tests/test_property_types.py::TestCardGameplayFields::test_gameplay_field_type",
+    "is_creature": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_creature",
+    "is_instant": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_instant",
+    "is_sorcery": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_sorcery",
+    "is_enchantment": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_enchantment",
+    "is_artifact": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_artifact",
+    "is_planeswalker": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_planeswalker",
+}
+
 CARD_WRAPPERS: dict[str, tuple[str, ...]] = {
     "preview": ("previewed_at", "preview_source_uri", "preview_source"),
 }
@@ -217,6 +268,7 @@ SWEEP_SPECS: tuple[SweepSpec, ...] = (
         corpus=CARD_CORPUS,
         exceptions=CARD_EXCEPTIONS,
         aliases=CARD_ALIASES,
+        covered_elsewhere=CARD_COVERED_ELSEWHERE,
         wrappers=CARD_WRAPPERS,
     ),
     SweepSpec(name="set", cls=SetsObject, build=SetsObject, corpus=SET_CORPUS),
@@ -259,15 +311,20 @@ _REVERSE_PARAMS = [
 # ─── Tests ────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("spec_name,fixture_name,accessor", _PASSTHROUGH_PARAMS)
-def test_passthrough_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
-    """Each passthrough accessor returns the same value as its fixture key."""
-    spec = _SPECS_BY_NAME[spec_name]
+def _run_passthrough_check(spec: SweepSpec, fixture_name: str, accessor: str) -> None:
+    """Core passthrough assertion: accessor value must equal its fixture key value."""
     fixture = spec.corpus[fixture_name]
     obj = spec.build(fixture)
     assert (
         getattr(obj, accessor) == fixture[accessor]
-    ), f"{spec_name} accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
+    ), f"{spec.name} accessor '{accessor}' value mismatch for fixture '{fixture_name}'"
+
+
+@pytest.mark.parametrize("spec_name,fixture_name,accessor", _PASSTHROUGH_PARAMS)
+def test_passthrough_sweep(spec_name: str, fixture_name: str, accessor: str) -> None:
+    """Each passthrough accessor returns the same value as its fixture key."""
+    spec = _SPECS_BY_NAME[spec_name]
+    _run_passthrough_check(spec, fixture_name, accessor)
 
 
 @pytest.mark.parametrize("spec_name,fixture_name,accessor", _EXCEPTION_PARAMS)
@@ -309,12 +366,12 @@ def test_reverse_coverage_guard(spec_name: str, fixture_name: str, key: str) -> 
 
 def test_wrapped_list_data_wraps_every_item() -> None:
     """A list envelope with list_data_type builds one wrapper per raw item."""
-    wrapped = _WrappedList(LIST_CORPUS["cards_search"])
+    wrapped = _WrappedList(LIST_CORPUS["lea_red"])
     assert all(isinstance(item, Object) for item in wrapped.data)
 
 
 def test_wrapped_list_data_preserves_items() -> None:
     """Wrapping items does not alter their underlying data."""
-    fixture = LIST_CORPUS["cards_search"]
+    fixture = LIST_CORPUS["lea_red"]
     wrapped = _WrappedList(fixture)
     assert wrapped.to_list() == fixture["data"]

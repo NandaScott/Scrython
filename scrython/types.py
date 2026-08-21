@@ -227,6 +227,7 @@ class ScryfallCardData(TypedDict):
     foil: NotRequired[bool]
     frame_effects: NotRequired[list[str]]
     illustration_id: NotRequired[UUID]
+    image_updated_at: NotRequired[str]
     image_uris: NotRequired[ImageUris]
     nonfoil: NotRequired[bool]
     oversized: NotRequired[bool]

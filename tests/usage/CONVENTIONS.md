@@ -44,10 +44,10 @@ assert card.scryfall_data.name == "Black Lotus"
 assert "exact=Black+Lotus" in mock_urlopen.calls[0]["url"]
 ```
 
-## 3. Assert stable identity fields, not volatile ones
+## 3. Assert stable identity fields, not volatile values
 
-Some fields change between fixture refreshes (prices, `updated_at`, print
-counts).  Assertions must target stable identity fields that do not drift:
+Some field *values* change between fixture refreshes (prices, `updated_at`, print
+counts).  Assertions must target stable identity fields whose values do not drift:
 
 | Stable (assert these) | Volatile (exclude) |
 |---|---|
@@ -55,7 +55,13 @@ counts).  Assertions must target stable identity fields that do not drift:
 | `oracle_text`, `set`, `set_name` | `updated_at`, `size` |
 | `id` (when testing a by-ID endpoint) | any field that changes per-printing |
 
-A fixture refresh should never redden the suite.
+A fixture refresh should never redden the **usage** suite.
+
+New or removed *keys* are a different matter: the property sweep's reverse
+coverage guard (in `tests/sweep/`) is designed to redden when Scryfall adds or
+removes a top-level field.  A guard failure after a fixture refresh is not a
+regression — it is the guard doing its job.  Add the missing accessor (or alias
+or wrapper entry) to clear it.
 
 ## 4. Arm the seam through an injected payload fixture
 

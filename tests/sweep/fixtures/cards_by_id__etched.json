@@ -1,0 +1,174 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-19T20:38:42.140248+00:00",
+    "endpoint": "cards/id",
+    "source_url": "https://api.scryfall.com/cards/be898edb-35dd-4896-96d9-323aca64a2ce",
+    "scryfall_id": "be898edb-35dd-4896-96d9-323aca64a2ce",
+    "discovered_via": "is:etched order:released dir:asc"
+  },
+  "payload": {
+    "object": "card",
+    "id": "be898edb-35dd-4896-96d9-323aca64a2ce",
+    "oracle_id": "09619943-6aec-4080-ace5-a0c6ebb23f1c",
+    "multiverse_ids": [
+      503317
+    ],
+    "tcgplayer_etched_id": 226819,
+    "cardmarket_id": 510725,
+    "name": "Najeela, the Blade-Blossom",
+    "lang": "en",
+    "released_at": "2020-11-20",
+    "uri": "https://api.scryfall.com/cards/be898edb-35dd-4896-96d9-323aca64a2ce",
+    "scryfall_uri": "https://scryfall.com/card/cmr/514/najeela-the-blade-blossom?utm_source=api",
+    "layout": "normal",
+    "highres_image": true,
+    "image_status": "highres_scan",
+    "image_updated_at": "2026-07-13T07:44:30Z",
+    "image_uris": {
+      "small": "https://cards.scryfall.io/small/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.jpg?1783928670",
+      "normal": "https://cards.scryfall.io/normal/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.jpg?1783928670",
+      "large": "https://cards.scryfall.io/large/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.jpg?1783928670",
+      "png": "https://cards.scryfall.io/png/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.png?1783928670",
+      "art_crop": "https://cards.scryfall.io/art_crop/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.jpg?1783928670",
+      "border_crop": "https://cards.scryfall.io/border_crop/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.jpg?1783928670",
+      "thumb": "https://cards.scryfall.io/thumb/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.webp?1783928670",
+      "grid": "https://cards.scryfall.io/grid/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.webp?1783928670",
+      "display": "https://cards.scryfall.io/display/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.webp?1783928670",
+      "art": "https://cards.scryfall.io/art/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.webp?1783928670",
+      "crop": "https://cards.scryfall.io/crop/front/b/e/be898edb-35dd-4896-96d9-323aca64a2ce.webp?1783928670"
+    },
+    "mana_cost": "{2}{R}",
+    "cmc": 3.0,
+    "type_line": "Legendary Creature — Human Warrior",
+    "oracle_text": "Whenever a Warrior attacks, you may have its controller create a 1/1 white Warrior creature token that's tapped and attacking.\n{W}{U}{B}{R}{G}: Untap all attacking creatures. They gain trample, lifelink, and haste until end of turn. After this phase, there is an additional combat phase. Activate only during combat.",
+    "power": "3",
+    "toughness": "2",
+    "colors": [
+      "R"
+    ],
+    "color_identity": [
+      "B",
+      "G",
+      "R",
+      "U",
+      "W"
+    ],
+    "keywords": [],
+    "all_parts": [
+      {
+        "object": "related_card",
+        "id": "be898edb-35dd-4896-96d9-323aca64a2ce",
+        "component": "combo_piece",
+        "name": "Najeela, the Blade-Blossom",
+        "type_line": "Legendary Creature — Human Warrior",
+        "uri": "https://api.scryfall.com/cards/be898edb-35dd-4896-96d9-323aca64a2ce"
+      },
+      {
+        "object": "related_card",
+        "id": "3053e02b-7157-4fb6-9427-d64a68ea29c3",
+        "component": "token",
+        "name": "Warrior",
+        "type_line": "Token Creature — Warrior",
+        "uri": "https://api.scryfall.com/cards/3053e02b-7157-4fb6-9427-d64a68ea29c3"
+      }
+    ],
+    "legalities": {
+      "standard": "not_legal",
+      "future": "not_legal",
+      "historic": "legal",
+      "timeless": "legal",
+      "gladiator": "legal",
+      "pioneer": "not_legal",
+      "modern": "not_legal",
+      "legacy": "legal",
+      "pauper": "not_legal",
+      "vintage": "legal",
+      "penny": "not_legal",
+      "commander": "legal",
+      "oathbreaker": "legal",
+      "standardbrawl": "not_legal",
+      "brawl": "legal",
+      "competitivebrawl": "legal",
+      "alchemy": "not_legal",
+      "paupercommander": "not_legal",
+      "duel": "legal",
+      "oldschool": "not_legal",
+      "premodern": "not_legal",
+      "predh": "not_legal",
+      "tlr": "legal"
+    },
+    "games": [
+      "paper",
+      "mtgo"
+    ],
+    "reserved": false,
+    "game_changer": false,
+    "foil": false,
+    "nonfoil": false,
+    "finishes": [
+      "etched"
+    ],
+    "oversized": false,
+    "promo": false,
+    "reprint": true,
+    "variation": false,
+    "set_id": "39de6fbf-1f11-48d0-8f04-f0407f6a0732",
+    "set": "cmr",
+    "set_name": "Commander Legends",
+    "set_type": "draft_innovation",
+    "set_uri": "https://api.scryfall.com/sets/39de6fbf-1f11-48d0-8f04-f0407f6a0732",
+    "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Acmr&unique=prints",
+    "scryfall_set_uri": "https://scryfall.com/sets/cmr?utm_source=api",
+    "rulings_uri": "https://api.scryfall.com/cards/be898edb-35dd-4896-96d9-323aca64a2ce/rulings",
+    "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A09619943-6aec-4080-ace5-a0c6ebb23f1c&unique=prints",
+    "collector_number": "514",
+    "digital": false,
+    "rarity": "mythic",
+    "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+    "artist": "Matt Stewart",
+    "artist_ids": [
+      "20871267-2d8a-41d5-b03a-be3d557c5734"
+    ],
+    "illustration_id": "16365509-863b-4416-b554-0e236b6ac74c",
+    "border_color": "black",
+    "frame": "2015",
+    "frame_effects": [
+      "inverted",
+      "etched",
+      "legendary"
+    ],
+    "security_stamp": "oval",
+    "full_art": false,
+    "textless": false,
+    "booster": false,
+    "story_spotlight": false,
+    "promo_types": [
+      "boosterfun"
+    ],
+    "edhrec_rank": 5483,
+    "preview": {
+      "source": "El Cristian Rojas",
+      "source_uri": "https://www.youtube.com/watch?v=9GCCAFW1K4E",
+      "previewed_at": "2020-10-29"
+    },
+    "prices": {
+      "usd": null,
+      "usd_foil": null,
+      "usd_etched": "4.09",
+      "eur": null,
+      "eur_foil": null,
+      "tix": null
+    },
+    "related_uris": {
+      "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=503317&printed=false",
+      "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DNajeela%252C%2Bthe%2BBlade-Blossom",
+      "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DNajeela%252C%2Bthe%2BBlade-Blossom",
+      "edhrec": "https://edhrec.com/route/?cc=Najeela%2C+the+Blade-Blossom"
+    },
+    "purchase_uris": {
+      "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fmagic%2Fproduct%3FproductLineName%3Dmagic%26q%3DNajeela%252C%2Bthe%2BBlade-Blossom%26view%3Dgrid",
+      "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=510725&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+      "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Najeela%2C+the+Blade-Blossom&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+    }
+  }
+}

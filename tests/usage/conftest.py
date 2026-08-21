@@ -68,10 +68,11 @@ def stub_response():
     (e.g. "cards/named" and "cards/id/rulings") in one test is ambiguous and
     raises; no current test does this.
 
-    Bulk download: register the CDN payload with the special endpoint key
-    "bulk-data/download" (a list of card dicts). The download() HTTP call is
-    intercepted by a separate patch on bulk_data_mixins.urlopen, and the list
-    is served back as gzip-compressed JSONL to match what the CDN sends.
+    Bulk download: register the CDN payload with stub_response.download([...])
+    (a list of card dicts) rather than stub_response(endpoint, payload) — the
+    download() HTTP call is intercepted by a separate patch on
+    bulk_data_mixins.urlopen, and the list is served back as gzip-compressed
+    JSONL to match what the CDN sends, so it does not share the JSON registry.
 
     Usage:
         def test_something(stub_response, load_fixture):
@@ -80,7 +81,7 @@ def stub_response():
             assert card.name == "Black Lotus"
     """
     registry: dict[str, deque] = {}
-    download_registry: list = []
+    download_slot: list = []  # 0 or 1 item; single-slot, overwritten on re-register
 
     class _MockResponse:
         def __init__(self, data: dict | list) -> None:
@@ -152,20 +153,22 @@ def stub_response():
         )
 
     def _urlopen_download(_request):
-        if not download_registry:
+        if not download_slot:
             raise ValueError(
                 "stub_response: register a download payload with "
-                "stub_response('bulk-data/download', [...]) before calling download()"
+                "stub_response.download([...]) before calling download()"
             )
-        return _MockDownloadResponse(download_registry[0])
+        return _MockDownloadResponse(download_slot[0])
 
     def _register(endpoint: str, *payloads: dict | list) -> None:
         if not payloads:
             raise ValueError("stub_response: register at least one payload")
-        if endpoint == "bulk-data/download":
-            download_registry.append(payloads[0])
-        else:
-            registry[endpoint] = deque(payloads)
+        registry[endpoint] = deque(payloads)
+
+    def _register_download(payload: list) -> None:
+        download_slot[:] = [payload]
+
+    _register.download = _register_download
 
     # Patch the limiter's wait() itself so the bypass holds regardless of which
     # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
@@ -243,7 +246,7 @@ _SAMPLE_BULK_CARDS: list[dict] = [
 
 @pytest.fixture
 def bulk_data_by_id__oracle_cards_download(bulk_data_by_id__oracle_cards, stub_response):
-    stub_response("bulk-data/download", _SAMPLE_BULK_CARDS)
+    stub_response.download(_SAMPLE_BULK_CARDS)
 
 
 # Multi-page rulings fixture: two synthetic pages for iter_all() pagination tests.

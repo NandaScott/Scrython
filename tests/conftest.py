@@ -4,16 +4,12 @@ import http.client
 import io
 import json
 import urllib.error
-from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
 
 from scrython.cache import reset_global_cache
 from scrython.rate_limiter import RateLimiter
-
-# Path to fixture files
-FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.fixture(autouse=True)
@@ -28,27 +24,6 @@ def reset_globals():
     yield
     RateLimiter.reset_all_limiters()
     reset_global_cache()
-
-
-@pytest.fixture
-def fixtures_dir():
-    """Return the path to the fixtures directory."""
-    return FIXTURES_DIR
-
-
-def load_fixture(fixture_path):
-    """
-    Load a JSON fixture file.
-
-    Args:
-        fixture_path: Path to the fixture file relative to tests/fixtures/
-
-    Returns:
-        Parsed JSON data from the fixture file
-    """
-    full_path = FIXTURES_DIR / fixture_path
-    with open(full_path) as f:
-        return json.load(f)
 
 
 @pytest.fixture
@@ -74,7 +49,7 @@ def mock_urlopen(disable_rate_limiting):  # noqa: ARG001
 
     Usage in tests:
         def test_something(mock_urlopen):
-            mock_urlopen.set_response('cards/named.json')
+            mock_urlopen.set_response(data={"object": "card", "name": "Black Lotus"})
             card = scrython.Cards(fuzzy='Black Lotus')
             assert card.name == 'Black Lotus'
     """
@@ -103,22 +78,18 @@ def mock_urlopen(disable_rate_limiting):  # noqa: ARG001
             self.response_data = None
             self.calls = []
 
-        def set_response(self, fixture_path=None, data=None, status=200):
+        def set_response(self, data=None, status=200):
             """
             Set the mock response data.
 
             Args:
-                fixture_path: Path to a JSON fixture file (e.g., 'cards/named.json')
                 data: Direct data to return (dict or string)
                 status: HTTP status code (default: 200)
             """
-            if fixture_path:
-                self.response_data = json.dumps(load_fixture(fixture_path))
-            elif data:
-                self.response_data = json.dumps(data) if isinstance(data, dict) else data
-            else:
-                raise ValueError("Must provide either fixture_path or data")
+            if not data:
+                raise ValueError("Must provide data")
 
+            self.response_data = json.dumps(data) if isinstance(data, dict) else data
             self.status = status
 
         def set_error_response(self, error_data):
@@ -197,45 +168,3 @@ def sample_card():
         "artist": "Christopher Rush",
         "prices": {"usd": "25000.00", "usd_foil": None, "eur": None, "tix": None},
     }
-
-
-@pytest.fixture
-def sample_set():
-    """Sample set data for testing."""
-    return {
-        "object": "set",
-        "id": "1d4e-28d6-4726-b9fd-3f52-f5fdca",
-        "code": "lea",
-        "name": "Limited Edition Alpha",
-        "uri": "https://api.scryfall.com/sets/1d4e-28d6-4726-b9fd-3f52-f5fdca",
-        "released_at": "1993-08-05",
-        "set_type": "core",
-        "card_count": 295,
-    }
-
-
-@pytest.fixture
-def sample_bulk_data():
-    """Sample bulk data object for testing."""
-    return {
-        "object": "bulk_data",
-        "id": "27bf3214-1271-490b-bdfe-c0be6c23d02e",
-        "type": "oracle_cards",
-        "name": "Oracle Cards",
-        "description": "All cards, each uniquely identified by Oracle ID",
-        "download_uri": "https://api.scryfall.com/bulk-data/27bf3214-1271-490b-bdfe-c0be6c23d02e/download",
-        "updated_at": "2025-01-01T12:00:00.000Z",
-        "size": 123456789,
-    }
-
-
-@pytest.fixture
-def sample_list_response():
-    """Sample list response structure."""
-    return {"object": "list", "has_more": False, "data": []}
-
-
-@pytest.fixture
-def sample_catalog_response():
-    """Sample catalog response structure."""
-    return {"object": "catalog", "total_values": 0, "data": []}

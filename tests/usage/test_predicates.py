@@ -56,6 +56,12 @@ def test_named__has_color__colorless_card_has_no_colors(cards_named__black_lotus
 
 
 # ---------- type predicates ----------
+#
+# These six own the sweep's coverage of the is_* accessors: they are computed
+# from type_line, so no fixture key exists for the property sweep to assert
+# against, and CARD_COVERED_ELSEWHERE in tests/sweep/test_property_sweep.py
+# names each of them by node id. Renaming one, or moving its accessor read into
+# a helper, reddens tests/sweep/test_sweep_engine_self.py. See CONVENTIONS.md #7.
 
 
 def test_named__is_creature__returns_true(cards_named__serra_angel):

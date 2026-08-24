@@ -38,6 +38,10 @@ def _referenced_names(func: Any) -> frozenset[str]:
     Read off the code object rather than the source text, so a test that merely
     carries an accessor's name in its own function name does not count as
     referencing it.
+
+    Only the function's *own* body counts. A read that happens inside a helper
+    the test calls is invisible here, which is why owning tests must touch the
+    accessor directly — see test_covered_elsewhere_owner_reads_the_accessor.
     """
     code = func.__code__
     literals = {const for const in code.co_consts if isinstance(const, str)}
@@ -189,8 +193,12 @@ def test_covered_elsewhere_owner_reads_the_accessor(
 
     assert accessor in _referenced_names(owning_test), (
         f"{spec_name} accessor '{accessor}' names owning test '{node_id}', "
-        f"whose body never reads '{accessor}' — point the entry at a test that "
-        f"asserts this accessor, or write one"
+        f"whose body never reads '{accessor}'.\n"
+        f"If you just refactored that test and its coverage is intact, the read "
+        f"has most likely moved into a helper — only the test's own body counts "
+        f"here, so read '{accessor}' directly in it.\n"
+        f"Otherwise point the entry at a test that asserts this accessor, or "
+        f"write one."
     )
 
 

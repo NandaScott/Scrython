@@ -120,6 +120,27 @@ The layout corpus pins one card per Scryfall `layout`. Each is discovered with
 **pinned by id** in `FIXTURE_MAP` (the `discovered_via` note records the query).
 Corpus tests fetch via `scrython.cards.ById` and assert only `layout`.
 
+## 7. Some usage tests are named by the property sweep
+
+A few tests here are the declared owner of an accessor's coverage. The property
+sweep cannot assert an accessor it has no fixture key for — the `is_*` type
+predicates are computed from `type_line` — so `CARD_COVERED_ELSEWHERE` in
+`tests/sweep/test_property_sweep.py` names, by pytest node id, the test that
+owns each one. The owners today are the six type-predicate tests in
+`test_predicates.py`.
+
+Two constraints follow, both enforced by `tests/sweep/test_sweep_engine_self.py`:
+
+- **Do not rename or delete an owning test** without updating its row in
+  `CARD_COVERED_ELSEWHERE`.
+- **The owning test must read the accessor in its own body.** The guard reads
+  the test's code object, so moving the read into a shared helper makes it
+  invisible even though coverage is unchanged. This is the cost of the guard:
+  those tests stay one-liners on purpose.
+
+A failure in `tests/sweep/` after editing a file here almost always means one of
+these two.
+
 ## Canonical template
 
 `tests/usage/test_cards_named.py` is the copyable template for every new usage

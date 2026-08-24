@@ -224,9 +224,12 @@ class ScryfallCardData(TypedDict):
     content_warning: NotRequired[bool]
     flavor_name: NotRequired[str]
     flavor_text: NotRequired[str]
+    foil: NotRequired[bool]
     frame_effects: NotRequired[list[str]]
     illustration_id: NotRequired[UUID]
+    image_updated_at: NotRequired[str]
     image_uris: NotRequired[ImageUris]
+    nonfoil: NotRequired[bool]
     oversized: NotRequired[bool]
     preview: NotRequired[Preview]
     printed_name: NotRequired[str]
@@ -285,10 +288,8 @@ class ScryfallBulkDataData(TypedDict):
     uri: URI
     name: str
     description: str
-    download_uri: URI
-    size: int
-    content_type: str
-    content_encoding: str
+    jsonl_download_uri: URI
+    compressed_size: int
 
 
 class ScryfallListData(TypedDict):
@@ -331,6 +332,38 @@ class ScryfallRulingData(TypedDict):
     source: str
     published_at: Date
     comment: str
+
+
+class ScryfallTaggingData(TypedDict):
+    """
+    TypedDict for a Scryfall Tagging object (an entry in a Tag's taggings array).
+
+    A tagging links a Tag to a single card, by illustration for art tags or by
+    oracle identity for oracle tags.
+    """
+
+    weight: str
+    illustration_id: NotRequired[UUID]
+    oracle_id: NotRequired[UUID]
+    annotation: NotRequired[str]
+
+
+class ScryfallTagData(TypedDict):
+    """
+    TypedDict for a Scryfall Tag object from the art_tags / oracle_tags bulk files.
+    """
+
+    object: str
+    id: UUID
+    slug: str
+    label: str
+    uri: URI
+    type: str
+    taggings: list[ScryfallTaggingData]
+    description: NotRequired[str]
+    parent_ids: NotRequired[list[UUID]]
+    child_ids: NotRequired[list[UUID]]
+    aliases: NotRequired[list[str]]
 
 
 class ScryfallMigrationData(TypedDict):

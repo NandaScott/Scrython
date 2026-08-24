@@ -30,7 +30,7 @@ internal implementation details and must not appear in test bodies:
 |---|---|
 | `card.scryfall_data` | Internal parsed-response object |
 | `card._scryfall_data` | Private attribute |
-| `mock_urlopen.calls[0]["url"]` | Request URL — implementation detail of the `urlopen` seam |
+| The requested URL or endpoint | Request routing — implementation detail of the mock seam |
 | Patch objects of any kind | Seam internals leak through |
 
 ```python
@@ -41,13 +41,13 @@ assert card.name == "Black Lotus"
 assert card.scryfall_data.name == "Black Lotus"
 
 # wrong — inspects the mock seam
-assert "exact=Black+Lotus" in mock_urlopen.calls[0]["url"]
+assert "exact=Black+Lotus" in requested_url
 ```
 
-## 3. Assert stable identity fields, not volatile ones
+## 3. Assert stable identity fields, not volatile values
 
-Some fields change between fixture refreshes (prices, `updated_at`, print
-counts).  Assertions must target stable identity fields that do not drift:
+Some field *values* change between fixture refreshes (prices, `updated_at`, print
+counts).  Assertions must target stable identity fields whose values do not drift:
 
 | Stable (assert these) | Volatile (exclude) |
 |---|---|
@@ -55,7 +55,13 @@ counts).  Assertions must target stable identity fields that do not drift:
 | `oracle_text`, `set`, `set_name` | `updated_at`, `size` |
 | `id` (when testing a by-ID endpoint) | any field that changes per-printing |
 
-A fixture refresh should never redden the suite.
+A fixture refresh should never redden the **usage** suite.
+
+New or removed *keys* are a different matter: the property sweep's reverse
+coverage guard (in `tests/sweep/`) is designed to redden when Scryfall adds or
+removes a top-level field.  A guard failure after a fixture refresh is not a
+regression — it is the guard doing its job.  Add the missing accessor (or alias
+or wrapper entry) to clear it.
 
 ## 4. Arm the seam through an injected payload fixture
 
@@ -73,8 +79,15 @@ def test_named__exact__returns_correct_name(cards_named__black_lotus):
 
 The fixture parameter is intentionally unreferenced — requesting it is what
 registers the payload (`tests/usage/test_*.py` ignores `ARG001` for this).
-Test bodies must not import or call `mock_urlopen`, `patch`, `urlopen`,
-`stub_response`, or `load_fixture` directly.
+Test bodies must not import or call `patch`, `urlopen`, `stub_response`, or
+`load_fixture` directly.
+
+When an assertion needs a value the payload carries but rule 3 forbids
+hardcoding (an image URL, say, whose cache-busting suffix drifts on refresh),
+the payload fixture arms the seam *and* returns that value, so the test body
+still never reads a payload itself. `cards_by_id__dfc_front_image` is the
+example: it parametrizes over both double-faced captures and returns the card
+id and front-face URL as a tuple.
 
 ### Seam-isolation rationale
 
@@ -106,6 +119,27 @@ The layout corpus pins one card per Scryfall `layout`. Each is discovered with
 `released asc` so the first result does not drift as new sets release, and then
 **pinned by id** in `FIXTURE_MAP` (the `discovered_via` note records the query).
 Corpus tests fetch via `scrython.cards.ById` and assert only `layout`.
+
+## 7. Some usage tests are named by the property sweep
+
+A few tests here are the declared owner of an accessor's coverage. The property
+sweep cannot assert an accessor it has no fixture key for — the `is_*` type
+predicates are computed from `type_line` — so `CARD_COVERED_ELSEWHERE` in
+`tests/sweep/test_property_sweep.py` names, by pytest node id, the test that
+owns each one. The owners today are the six type-predicate tests in
+`test_predicates.py`.
+
+Two constraints follow, both enforced by `tests/sweep/test_sweep_engine_self.py`:
+
+- **Do not rename or delete an owning test** without updating its row in
+  `CARD_COVERED_ELSEWHERE`.
+- **The owning test must read the accessor in its own body.** The guard reads
+  the test's code object, so moving the read into a shared helper makes it
+  invisible even though coverage is unchanged. This is the cost of the guard:
+  those tests stay one-liners on purpose.
+
+A failure in `tests/sweep/` after editing a file here almost always means one of
+these two.
 
 ## Canonical template
 

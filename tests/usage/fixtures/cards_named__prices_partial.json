@@ -1,0 +1,22 @@
+{
+  "_provenance": {
+    "captured_at": "2026-06-01T00:00:00.000000+00:00",
+    "endpoint": "cards/named",
+    "source_url": "https://api.scryfall.com/cards/named?exact=Prices+Partial+Card",
+    "note": "synthetic fixture — not a real Scryfall card; used for price-selection tests with partial nulls"
+  },
+  "payload": {
+    "object": "card",
+    "id": "00000000-0000-0000-0000-000000000002",
+    "name": "Prices Partial Card",
+    "layout": "normal",
+    "prices": {
+      "usd": null,
+      "usd_foil": "7.00",
+      "usd_etched": null,
+      "eur": null,
+      "eur_foil": null,
+      "tix": null
+    }
+  }
+}

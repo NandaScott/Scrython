@@ -215,8 +215,10 @@ def _load_subitem_corpus(*fixture_names: str, key: str) -> dict[str, dict[str, A
     return corpus
 
 
-# Card object fixtures: 12 layout pins plus 11 accessor pins, so that between
-# them every optional card field lands on at least one fixture.
+# Card object fixtures: 12 layout pins, 11 card accessor pins and 4 face
+# accessor pins, so that between them every optional card field lands on at
+# least one fixture. The face pins are in this corpus too — their cards are
+# swept whole here, and their faces feed CARD_FACE_CORPUS below.
 CARD_CORPUS: dict[str, dict[str, Any]] = _load_corpus(
     "cards_named__black_lotus",
     "cards_by_id__normal",

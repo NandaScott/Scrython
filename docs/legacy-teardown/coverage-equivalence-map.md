@@ -73,7 +73,7 @@ instruction to keep anything.
 | `TestByTCGPlayerId::test_get_card_by_tcgplayer_id` | **GAP** |
 | `TestByCardMarketId::test_get_card_by_cardmarket_id` | **GAP** |
 | `TestById::test_get_card_by_id` | Covered — `usage/test_layout_corpus.py` (11 fixtures via `ById`) |
-| `TestCardsMixins::test_core_fields_mixin` | Covered, more rigorously — `sweep/test_property_sweep.py` (introspects every `CoreFieldsMixin` `@property` against 26 fixtures, value-level not just type-level) |
+| `TestCardsMixins::test_core_fields_mixin` | Covered, more rigorously — `sweep/test_property_sweep.py` (introspects every `CoreFieldsMixin` `@property` against 27 fixtures, value-level not just type-level) |
 | `TestCardsMixins::test_gameplay_fields_mixin` | Covered, more rigorously — same |
 | `TestCardsMixins::test_print_fields_mixin` | Covered, more rigorously — same |
 
@@ -169,7 +169,7 @@ instruction to keep anything.
 **Fully replaced, more rigorously.** `sweep/test_property_sweep.py::test_passthrough_sweep`
 introspects every `@property` on `CoreFieldsMixin`/`GameplayFieldsMixin`/
 `PrintFieldsMixin`/sets/bulk-data mixins via `inspect.getmembers` and asserts
-actual *value* passthrough (not just type) against 26 card fixtures spanning
+actual *value* passthrough (not just type) against 27 card fixtures spanning
 every layout, plus dedicated set/bulk-data fixtures. The sweep engine's own
 self-tests (`test_sweep_engine_self.py::test_every_accessor_is_asserted`,
 `test_covered_elsewhere_owner_reads_the_accessor`) enforce that no accessor can

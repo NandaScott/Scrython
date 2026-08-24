@@ -202,8 +202,8 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "path": "cards/search",
             "query": {
                 "q": (
-                    "(name:\"Counterspell\" or name:\"Lightning Bolt\") s:lea"
-                    " or (name:\"Fireball\" or name:\"Giant Growth\") s:m10"
+                    '(name:"Counterspell" or name:"Lightning Bolt") s:lea'
+                    ' or (name:"Fireball" or name:"Giant Growth") s:m10'
                 ),
                 "order": "name",
                 "unique": "prints",

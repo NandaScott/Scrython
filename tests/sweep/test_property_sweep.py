@@ -366,27 +366,69 @@ _SPECS_BY_NAME: dict[str, SweepSpec] = {spec.name: spec for spec in SWEEP_SPECS}
 
 # ─── Parametrize lists ────────────────────────────────────────────────────────
 
+# One case per accessor (or per fixture key), not per accessor × fixture. The
+# swept accessors are plain dict reads with no data-dependent branch, and
+# `reaches()` does not look at the fixture at all, so running either against a
+# second fixture re-executes the same line and proves nothing further. The
+# corpus stays broad because *which keys exist* differs per fixture — that is
+# what feeds the reverse guard — but each key only needs asserting once.
+
+
+def _witness_fixtures(spec: SweepSpec) -> dict[str, str]:
+    """Map each top-level corpus key to the fixture that best witnesses it.
+
+    Prefers a fixture whose value for the key is non-null: a null value makes the
+    passthrough assertion vacuous (None == None) and so proves nothing about the
+    accessor. Falls back to the first fixture carrying the key at all, so a key
+    that is null everywhere is still swept and still reaches the reverse guard.
+    """
+    non_null: dict[str, str] = {}
+    present: dict[str, str] = {}
+    for fixture_name, fixture in spec.corpus.items():
+        for key, value in fixture.items():
+            present.setdefault(key, fixture_name)
+            if value is not None:
+                non_null.setdefault(key, fixture_name)
+    return {key: non_null.get(key, fixture_name) for key, fixture_name in present.items()}
+
+
+def _alias_witness_fixture(spec: SweepSpec, path: AliasPath) -> str | None:
+    """Return the fixture that best witnesses an alias, or None if none reaches it.
+
+    Same preference as `_witness_fixtures`, applied to the resolved value rather
+    than a top-level key, so a nested alias lands on a fixture that actually
+    carries the child key.
+    """
+    fallback: str | None = None
+    for fixture_name, fixture in spec.corpus.items():
+        if not _alias_reachable(fixture, path):
+            continue
+        if _resolve_alias(fixture, path) is not None:
+            return fixture_name
+        fallback = fallback or fixture_name
+    return fallback
+
+
+_WITNESSES: dict[str, dict[str, str]] = {spec.name: _witness_fixtures(spec) for spec in SWEEP_SPECS}
+
 _PASSTHROUGH_PARAMS = [
-    pytest.param(spec.name, fname, prop, id=f"{spec.name}-{fname}-{prop}")
+    pytest.param(spec.name, _WITNESSES[spec.name][prop], prop, id=f"{spec.name}-{prop}")
     for spec in SWEEP_SPECS
-    for fname, fixture in spec.corpus.items()
     for prop in sorted(spec.properties)
-    if prop not in spec.exceptions and prop in fixture
+    if prop not in spec.exceptions and prop in _WITNESSES[spec.name]
 ]
 
 _EXCEPTION_PARAMS = [
-    pytest.param(spec.name, fname, prop, id=f"{spec.name}-{fname}-{prop}")
+    pytest.param(spec.name, fixture_name, prop, id=f"{spec.name}-{prop}")
     for spec in SWEEP_SPECS
-    for fname, fixture in spec.corpus.items()
     for prop, alias in spec.aliases.items()
-    if _alias_reachable(fixture, alias)
+    if (fixture_name := _alias_witness_fixture(spec, alias)) is not None
 ]
 
 _REVERSE_PARAMS = [
-    pytest.param(spec.name, fname, key, id=f"{spec.name}-{fname}-key:{key}")
+    pytest.param(spec.name, fixture_name, key, id=f"{spec.name}-key:{key}")
     for spec in SWEEP_SPECS
-    for fname, fixture in spec.corpus.items()
-    for key in fixture
+    for key, fixture_name in sorted(_WITNESSES[spec.name].items())
 ]
 
 

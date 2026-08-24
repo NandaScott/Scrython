@@ -81,7 +81,6 @@ SYNTH_SPEC = SweepSpec(
     cls=_SynthObject,
     build=_SynthObject,
     corpus={"synth": SYNTH_FIXTURE},
-    exceptions=frozenset({"synth_id", "previewed_at"}),
     aliases={"synth_id": "id", "previewed_at": ("preview", "previewed_at")},
     wrappers={"preview": ("previewed_at",)},
 )
@@ -160,18 +159,6 @@ def test_wrong_valued_passthrough_fails() -> None:
 
     with pytest.raises(AssertionError):
         _run_passthrough_check(broken_spec, "synth", "name")
-
-
-@pytest.mark.parametrize("spec", SWEEP_SPECS, ids=lambda spec: spec.name)
-def test_every_exception_declares_coverage(spec: SweepSpec) -> None:
-    """Every exception-set accessor is either aliased or declared covered elsewhere."""
-    undeclared = spec.exceptions - frozenset(spec.aliases) - frozenset(spec.covered_elsewhere)
-
-    assert not undeclared, (
-        f"{spec.name} exceptions with no coverage declaration: {sorted(undeclared)}. "
-        "Add each to the spec's aliases (if renamed or nested) or to its "
-        "covered_elsewhere (naming the pytest node id of the owning test)."
-    )
 
 
 @pytest.mark.parametrize("spec_name,accessor,node_id", _COVERAGE_REFERENCE_PARAMS)

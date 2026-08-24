@@ -158,7 +158,7 @@ introspects every `@property` on `CoreFieldsMixin`/`GameplayFieldsMixin`/
 actual *value* passthrough (not just type) against 26 card fixtures spanning
 every layout, plus dedicated set/bulk-data fixtures. The sweep engine's own
 self-tests (`test_sweep_engine_self.py::test_every_accessor_is_asserted`,
-`test_every_exception_declares_coverage`) enforce that no accessor can
+`test_covered_elsewhere_owner_reads_the_accessor`) enforce that no accessor can
 silently fall out of the sweep. This is a strict superset of what
 `test_property_types.py`'s type-only parametrized checks did. No gap.
 

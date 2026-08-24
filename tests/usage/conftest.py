@@ -233,6 +233,20 @@ for _key, _endpoint in _PAYLOAD_FIXTURES.items():
     globals()[_key] = _make_payload_fixture(_endpoint, _key)
 
 
+# Arms the seam for each double-faced capture in turn and hands back the card id
+# plus the front-face image URL that payload carries. The URL has to come from
+# the payload rather than a literal in the test body: image URIs carry a
+# cache-busting suffix that drifts on every fixture refresh.
+@pytest.fixture(
+    params=["cards_by_id__transform", "cards_by_id__modal_dfc"],
+    ids=["transform", "modal_dfc"],
+)
+def cards_by_id__dfc_front_image(request, stub_response, load_fixture):
+    payload = load_fixture(request.param)
+    stub_response("cards/id", payload)
+    return payload["id"], payload["card_faces"][0]["image_uris"]["normal"]
+
+
 # Minimal synthetic payload for bulk download tests — not a captured API response.
 _SAMPLE_BULK_CARDS: list[dict] = [
     {

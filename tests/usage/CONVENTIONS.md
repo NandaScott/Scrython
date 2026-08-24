@@ -82,6 +82,13 @@ registers the payload (`tests/usage/test_*.py` ignores `ARG001` for this).
 Test bodies must not import or call `patch`, `urlopen`, `stub_response`, or
 `load_fixture` directly.
 
+When an assertion needs a value the payload carries but rule 3 forbids
+hardcoding (an image URL, say, whose cache-busting suffix drifts on refresh),
+the payload fixture arms the seam *and* returns that value, so the test body
+still never reads a payload itself. `cards_by_id__dfc_front_image` is the
+example: it parametrizes over both double-faced captures and returns the card
+id and front-face URL as a tuple.
+
 ### Seam-isolation rationale
 
 `stub_response` exists so that the entire usage suite can be migrated to the

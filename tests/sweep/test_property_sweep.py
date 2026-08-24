@@ -120,29 +120,38 @@ class SweepSpec:
             fixture dicts cross into TypedDict-annotated constructors here;
             this is the rehydration boundary.
         corpus: Fixture name to fixture JSON.
-        exceptions: Accessors excluded from the passthrough sweep.
-        aliases: Exception-set accessor to backing fixture path.
+        aliases: Accessor to backing fixture path, for accessors whose name
+            differs from the key they read.
             str -> fixture[key]; tuple[str, str] -> fixture[t[0]][t[1]].
-        covered_elsewhere: Exception-set accessor to the pytest node id of the
-            test that owns its coverage. Node ids rather than prose so the
-            self-tests can resolve them; a renamed owning test turns its entry
-            red instead of rotting silently.
+        covered_elsewhere: Accessor to the pytest node id of the test that owns
+            its coverage. Node ids rather than prose so the self-tests can
+            resolve them; a renamed owning test turns its entry red instead of
+            rotting silently.
         wrappers: Fixture key to accessor(s) that read it, for keys reachable
             only through a wrapper whose name differs from the key.
 
-    Every exception must appear in aliases or covered_elsewhere. The self-tests
-    in test_sweep_engine_self.py enforce that across all specs, and resolve
-    every covered_elsewhere node id to a real test function.
+    Declaring an accessor in aliases or covered_elsewhere is what excludes it
+    from the passthrough sweep — see `exceptions`. The self-tests in
+    test_sweep_engine_self.py resolve every covered_elsewhere node id to a real
+    test function.
     """
 
     name: str
     cls: type
     build: Callable[[Any], Any]
     corpus: dict[str, dict[str, Any]]
-    exceptions: frozenset[str] = frozenset()
     aliases: dict[str, AliasPath] = field(default_factory=dict)
     covered_elsewhere: dict[str, str] = field(default_factory=dict)
     wrappers: dict[str, tuple[str, ...]] = field(default_factory=dict)
+
+    @property
+    def exceptions(self) -> frozenset[str]:
+        """Accessors excluded from the passthrough sweep.
+
+        Derived rather than declared: an accessor is exempt exactly when it
+        declares where its coverage lives instead, so the two cannot drift.
+        """
+        return frozenset(self.aliases) | frozenset(self.covered_elsewhere)
 
     @property
     def properties(self) -> frozenset[str]:
@@ -288,24 +297,8 @@ RELATED_CARD_CORPUS: dict[str, dict[str, Any]] = _load_subitem_corpus(
 
 # ─── Hand-maintained artifacts (one line to extend each) ─────────────────────
 
-# Card accessor names excluded from the passthrough auto-sweep
-CARD_EXCEPTIONS: frozenset[str] = frozenset(
-    {
-        "card_id",  # renamed: fixture key is "id"
-        "all_parts",  # wrapped: returns RelatedCardObject list, not raw dicts
-        "card_faces",  # wrapped: returns CardFaceObject list, not raw dicts
-        "previewed_at",  # nested: fixture["preview"]["previewed_at"]
-        "preview_source_uri",  # nested: fixture["preview"]["source_uri"]
-        "preview_source",  # nested: fixture["preview"]["source"]
-        "is_creature",  # computed from type_line; no matching fixture key
-        "is_instant",  # computed from type_line; no matching fixture key
-        "is_sorcery",  # computed from type_line; no matching fixture key
-        "is_enchantment",  # computed from type_line; no matching fixture key
-        "is_artifact",  # computed from type_line; no matching fixture key
-        "is_planeswalker",  # computed from type_line; no matching fixture key
-    }
-)
-
+# Card accessors whose name differs from the fixture key they read: "card_id" is
+# renamed, the preview trio is nested under fixture["preview"].
 CARD_ALIASES: dict[str, AliasPath] = {
     "card_id": "id",
     "previewed_at": ("preview", "previewed_at"),
@@ -313,10 +306,12 @@ CARD_ALIASES: dict[str, AliasPath] = {
     "preview_source": ("preview", "source"),
 }
 
-# Wrapped-list exceptions: each maps to the pytest node id of the test that owns
-# its coverage. The card_face and related_card specs sweep the unwrapped items,
-# so the wrapping itself is owned by a test apiece at the foot of this module;
-# the computed predicates are covered one test apiece too.
+# Card accessors the passthrough sweep cannot assert, each mapped to the pytest
+# node id of the test that owns its coverage. all_parts and card_faces return
+# wrapper objects rather than the raw dicts (the card_face and related_card specs
+# sweep the unwrapped items, so the wrapping itself is owned by a test apiece at
+# the foot of this module); the is_* predicates are computed from type_line and
+# have no fixture key at all.
 CARD_COVERED_ELSEWHERE: dict[str, str] = {
     "all_parts": "tests/sweep/test_property_sweep.py::test_all_parts_wraps_every_raw_part",
     "card_faces": "tests/sweep/test_property_sweep.py::test_card_faces_wraps_every_raw_face",
@@ -333,16 +328,15 @@ CARD_WRAPPERS: dict[str, tuple[str, ...]] = {
 }
 
 # Sets, bulk data, list and catalog envelopes have no renamed or nested
-# accessors, so they need no exceptions or aliases. Their `object` accessor is a
-# hardcoded literal rather than a dict read; the passthrough sweep is still
-# meaningful there because it pins that literal to the value Scryfall returns.
+# accessors, so they need no aliases. Their `object` accessor is a hardcoded
+# literal rather than a dict read; the passthrough sweep is still meaningful
+# there because it pins that literal to the value Scryfall returns.
 SWEEP_SPECS: tuple[SweepSpec, ...] = (
     SweepSpec(
         name="card",
         cls=Object,
         build=Object.from_dict,
         corpus=CARD_CORPUS,
-        exceptions=CARD_EXCEPTIONS,
         aliases=CARD_ALIASES,
         covered_elsewhere=CARD_COVERED_ELSEWHERE,
         wrappers=CARD_WRAPPERS,

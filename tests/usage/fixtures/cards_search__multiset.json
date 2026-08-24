@@ -1,0 +1,563 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-10T16:15:32.978486+00:00",
+    "endpoint": "cards/search",
+    "source_url": "https://api.scryfall.com/cards/search?q=%28name%3A%22Counterspell%22+or+name%3A%22Lightning+Bolt%22%29+s%3Alea+or+%28name%3A%22Fireball%22+or+name%3A%22Giant+Growth%22%29+s%3Am10&order=name&unique=prints"
+  },
+  "payload": {
+    "object": "list",
+    "total_cards": 4,
+    "has_more": false,
+    "data": [
+      {
+        "object": "card",
+        "id": "0df55e3f-14de-46ef-b6b1-616618724d9e",
+        "oracle_id": "cc187110-1148-4090-bbb8-e205694a39f5",
+        "multiverse_ids": [
+          102
+        ],
+        "tcgplayer_id": 1073,
+        "cardmarket_id": 5288,
+        "name": "Counterspell",
+        "lang": "en",
+        "released_at": "1993-08-05",
+        "uri": "https://api.scryfall.com/cards/0df55e3f-14de-46ef-b6b1-616618724d9e",
+        "scryfall_uri": "https://scryfall.com/card/lea/54/counterspell?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_updated_at": "2026-07-13T13:18:27Z",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.jpg?1783948707",
+          "normal": "https://cards.scryfall.io/normal/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.jpg?1783948707",
+          "large": "https://cards.scryfall.io/large/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.jpg?1783948707",
+          "png": "https://cards.scryfall.io/png/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.png?1783948707",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.jpg?1783948707",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.jpg?1783948707",
+          "thumb": "https://cards.scryfall.io/thumb/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.webp?1783948707",
+          "grid": "https://cards.scryfall.io/grid/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.webp?1783948707",
+          "display": "https://cards.scryfall.io/display/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.webp?1783948707",
+          "art": "https://cards.scryfall.io/art/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.webp?1783948707",
+          "crop": "https://cards.scryfall.io/crop/front/0/d/0df55e3f-14de-46ef-b6b1-616618724d9e.webp?1783948707"
+        },
+        "mana_cost": "{U}{U}",
+        "cmc": 2.0,
+        "type_line": "Instant",
+        "oracle_text": "Counter target spell.",
+        "colors": [
+          "U"
+        ],
+        "color_identity": [
+          "U"
+        ],
+        "keywords": [],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "not_legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "legal",
+          "competitivebrawl": "legal",
+          "alchemy": "not_legal",
+          "paupercommander": "legal",
+          "duel": "legal",
+          "oldschool": "legal",
+          "premodern": "legal",
+          "predh": "legal",
+          "tlr": "legal"
+        },
+        "games": [
+          "paper"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": false,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "288bd996-960e-448b-a187-9504c1930c2c",
+        "set": "lea",
+        "set_name": "Limited Edition Alpha",
+        "set_type": "core",
+        "set_uri": "https://api.scryfall.com/sets/288bd996-960e-448b-a187-9504c1930c2c",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Alea&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/lea?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/0df55e3f-14de-46ef-b6b1-616618724d9e/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Acc187110-1148-4090-bbb8-e205694a39f5&unique=prints",
+        "collector_number": "54",
+        "digital": false,
+        "rarity": "uncommon",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Mark Poole",
+        "artist_ids": [
+          "bfdeaf09-f915-4058-8e8b-bcac3bc43c33"
+        ],
+        "illustration_id": "911ff9e4-cc26-4d32-a3ab-887d55af04c6",
+        "border_color": "black",
+        "frame": "1993",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 16,
+        "penny_rank": 8,
+        "prices": {
+          "usd": "548.98",
+          "usd_foil": null,
+          "usd_etched": null,
+          "eur": "756.92",
+          "eur_foil": null,
+          "tix": null
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=102&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DCounterspell",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DCounterspell",
+          "edhrec": "https://edhrec.com/route/?cc=Counterspell"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F1073%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=5288&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Counterspell&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
+      },
+      {
+        "object": "card",
+        "id": "1dc84106-aec3-4e52-8dcb-1ed545bf3058",
+        "oracle_id": "aa7714b0-2bfb-458a-8ebf-37ec2c53383e",
+        "multiverse_ids": [
+          191076
+        ],
+        "mtgo_id": 33043,
+        "mtgo_foil_id": 33044,
+        "tcgplayer_id": 32611,
+        "cardmarket_id": 21182,
+        "name": "Fireball",
+        "lang": "en",
+        "released_at": "2009-07-17",
+        "uri": "https://api.scryfall.com/cards/1dc84106-aec3-4e52-8dcb-1ed545bf3058",
+        "scryfall_uri": "https://scryfall.com/card/m10/136/fireball?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_updated_at": "2026-07-13T11:32:54Z",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.jpg?1783942374",
+          "normal": "https://cards.scryfall.io/normal/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.jpg?1783942374",
+          "large": "https://cards.scryfall.io/large/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.jpg?1783942374",
+          "png": "https://cards.scryfall.io/png/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.png?1783942374",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.jpg?1783942374",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.jpg?1783942374",
+          "thumb": "https://cards.scryfall.io/thumb/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.webp?1783942374",
+          "grid": "https://cards.scryfall.io/grid/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.webp?1783942374",
+          "display": "https://cards.scryfall.io/display/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.webp?1783942374",
+          "art": "https://cards.scryfall.io/art/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.webp?1783942374",
+          "crop": "https://cards.scryfall.io/crop/front/1/d/1dc84106-aec3-4e52-8dcb-1ed545bf3058.webp?1783942374"
+        },
+        "mana_cost": "{X}{R}",
+        "cmc": 1.0,
+        "type_line": "Sorcery",
+        "oracle_text": "This spell costs {1} more to cast for each target beyond the first.\nFireball deals X damage divided evenly, rounded down, among any number of targets.",
+        "colors": [
+          "R"
+        ],
+        "color_identity": [
+          "R"
+        ],
+        "keywords": [],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "not_legal",
+          "timeless": "not_legal",
+          "gladiator": "not_legal",
+          "pioneer": "not_legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "legal",
+          "vintage": "legal",
+          "penny": "legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "not_legal",
+          "competitivebrawl": "not_legal",
+          "alchemy": "not_legal",
+          "paupercommander": "legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "legal",
+          "predh": "legal",
+          "tlr": "legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "0dba38a9-6b9d-4768-9831-4e03e8970a0b",
+        "set": "m10",
+        "set_name": "Magic 2010",
+        "set_type": "core",
+        "set_uri": "https://api.scryfall.com/sets/0dba38a9-6b9d-4768-9831-4e03e8970a0b",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Am10&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/m10?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/1dc84106-aec3-4e52-8dcb-1ed545bf3058/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aaa7714b0-2bfb-458a-8ebf-37ec2c53383e&unique=prints",
+        "collector_number": "136",
+        "digital": false,
+        "rarity": "uncommon",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Dave Dorman",
+        "artist_ids": [
+          "9235458b-ce92-45bd-a430-a72ecd8e6176"
+        ],
+        "illustration_id": "bae72844-d1ea-457b-aa1a-195193f1436d",
+        "border_color": "black",
+        "frame": "2003",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 4414,
+        "penny_rank": 6847,
+        "prices": {
+          "usd": "0.11",
+          "usd_foil": "0.86",
+          "usd_etched": null,
+          "eur": "0.08",
+          "eur_foil": "0.70",
+          "tix": "0.03"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=191076&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DFireball",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DFireball",
+          "edhrec": "https://edhrec.com/route/?cc=Fireball"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F32611%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=21182&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/33043?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
+      },
+      {
+        "object": "card",
+        "id": "3df3116a-ce5c-44d1-9286-7deb5d516c90",
+        "oracle_id": "5748ebf1-24e3-499d-ab7c-c2cebd462a24",
+        "multiverse_ids": [
+          189879
+        ],
+        "mtgo_id": 32611,
+        "mtgo_foil_id": 32612,
+        "tcgplayer_id": 32618,
+        "cardmarket_id": 21230,
+        "name": "Giant Growth",
+        "lang": "en",
+        "released_at": "2009-07-17",
+        "uri": "https://api.scryfall.com/cards/3df3116a-ce5c-44d1-9286-7deb5d516c90",
+        "scryfall_uri": "https://scryfall.com/card/m10/184/giant-growth?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_updated_at": "2026-07-13T11:32:43Z",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.jpg?1783942363",
+          "normal": "https://cards.scryfall.io/normal/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.jpg?1783942363",
+          "large": "https://cards.scryfall.io/large/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.jpg?1783942363",
+          "png": "https://cards.scryfall.io/png/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.png?1783942363",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.jpg?1783942363",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.jpg?1783942363",
+          "thumb": "https://cards.scryfall.io/thumb/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.webp?1783942363",
+          "grid": "https://cards.scryfall.io/grid/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.webp?1783942363",
+          "display": "https://cards.scryfall.io/display/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.webp?1783942363",
+          "art": "https://cards.scryfall.io/art/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.webp?1783942363",
+          "crop": "https://cards.scryfall.io/crop/front/3/d/3df3116a-ce5c-44d1-9286-7deb5d516c90.webp?1783942363"
+        },
+        "mana_cost": "{G}",
+        "cmc": 1.0,
+        "type_line": "Instant",
+        "oracle_text": "Target creature gets +3/+3 until end of turn.",
+        "colors": [
+          "G"
+        ],
+        "color_identity": [
+          "G"
+        ],
+        "keywords": [],
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "legal",
+          "vintage": "legal",
+          "penny": "legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "competitivebrawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "legal",
+          "predh": "legal",
+          "tlr": "legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "0dba38a9-6b9d-4768-9831-4e03e8970a0b",
+        "set": "m10",
+        "set_name": "Magic 2010",
+        "set_type": "core",
+        "set_uri": "https://api.scryfall.com/sets/0dba38a9-6b9d-4768-9831-4e03e8970a0b",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Am10&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/m10?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/3df3116a-ce5c-44d1-9286-7deb5d516c90/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A5748ebf1-24e3-499d-ab7c-c2cebd462a24&unique=prints",
+        "collector_number": "184",
+        "digital": false,
+        "rarity": "common",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Matt Cavotta",
+        "artist_ids": [
+          "2e6a0611-9411-4ba4-98e3-c0e18cbf9f83"
+        ],
+        "illustration_id": "ee1355e2-23a9-4cc5-9543-750100de724e",
+        "border_color": "black",
+        "frame": "2003",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 3385,
+        "penny_rank": 3971,
+        "prices": {
+          "usd": "0.14",
+          "usd_foil": "0.33",
+          "usd_etched": null,
+          "eur": "0.09",
+          "eur_foil": "0.37",
+          "tix": "0.03"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=189879&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DGiant%2BGrowth",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DGiant%2BGrowth",
+          "edhrec": "https://edhrec.com/route/?cc=Giant+Growth"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F32618%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=21230&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/32611?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
+      },
+      {
+        "object": "card",
+        "id": "d573ef03-4730-45aa-93dd-e45ac1dbaf4a",
+        "oracle_id": "4457ed35-7c10-48c8-9776-456485fdf070",
+        "multiverse_ids": [
+          209
+        ],
+        "tcgplayer_id": 1174,
+        "cardmarket_id": 5395,
+        "name": "Lightning Bolt",
+        "lang": "en",
+        "released_at": "1993-08-05",
+        "uri": "https://api.scryfall.com/cards/d573ef03-4730-45aa-93dd-e45ac1dbaf4a",
+        "scryfall_uri": "https://scryfall.com/card/lea/161/lightning-bolt?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_updated_at": "2026-07-13T13:18:04Z",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.jpg?1783948684",
+          "normal": "https://cards.scryfall.io/normal/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.jpg?1783948684",
+          "large": "https://cards.scryfall.io/large/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.jpg?1783948684",
+          "png": "https://cards.scryfall.io/png/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.png?1783948684",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.jpg?1783948684",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.jpg?1783948684",
+          "thumb": "https://cards.scryfall.io/thumb/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.webp?1783948684",
+          "grid": "https://cards.scryfall.io/grid/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.webp?1783948684",
+          "display": "https://cards.scryfall.io/display/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.webp?1783948684",
+          "art": "https://cards.scryfall.io/art/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.webp?1783948684",
+          "crop": "https://cards.scryfall.io/crop/front/d/5/d573ef03-4730-45aa-93dd-e45ac1dbaf4a.webp?1783948684"
+        },
+        "mana_cost": "{R}",
+        "cmc": 1.0,
+        "type_line": "Instant",
+        "oracle_text": "Lightning Bolt deals 3 damage to any target.",
+        "colors": [
+          "R"
+        ],
+        "color_identity": [
+          "R"
+        ],
+        "keywords": [],
+        "all_parts": [
+          {
+            "object": "related_card",
+            "id": "d573ef03-4730-45aa-93dd-e45ac1dbaf4a",
+            "component": "combo_piece",
+            "name": "Lightning Bolt",
+            "type_line": "Instant",
+            "uri": "https://api.scryfall.com/cards/d573ef03-4730-45aa-93dd-e45ac1dbaf4a"
+          },
+          {
+            "object": "related_card",
+            "id": "4f095067-cf24-4061-8626-dc68a66a0b36",
+            "component": "combo_piece",
+            "name": "Toralf's Disciple",
+            "type_line": "Creature — Human Warrior",
+            "uri": "https://api.scryfall.com/cards/4f095067-cf24-4061-8626-dc68a66a0b36"
+          },
+          {
+            "object": "related_card",
+            "id": "69b51576-532b-450e-a8bf-0482cac04618",
+            "component": "combo_piece",
+            "name": "Thayan Evokers",
+            "type_line": "Creature — Human Wizard",
+            "uri": "https://api.scryfall.com/cards/69b51576-532b-450e-a8bf-0482cac04618"
+          },
+          {
+            "object": "related_card",
+            "id": "618806ea-7ea8-4cfb-a8c1-c3defa34e7dd",
+            "component": "combo_piece",
+            "name": "Indris, the Hydrostatic Surge",
+            "type_line": "Legendary Creature — Otter Incarnation",
+            "uri": "https://api.scryfall.com/cards/618806ea-7ea8-4cfb-a8c1-c3defa34e7dd"
+          }
+        ],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "banned",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "not_legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "legal",
+          "competitivebrawl": "legal",
+          "alchemy": "not_legal",
+          "paupercommander": "legal",
+          "duel": "legal",
+          "oldschool": "legal",
+          "premodern": "legal",
+          "predh": "legal",
+          "tlr": "legal"
+        },
+        "games": [
+          "paper"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": false,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "288bd996-960e-448b-a187-9504c1930c2c",
+        "set": "lea",
+        "set_name": "Limited Edition Alpha",
+        "set_type": "core",
+        "set_uri": "https://api.scryfall.com/sets/288bd996-960e-448b-a187-9504c1930c2c",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Alea&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/lea?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/d573ef03-4730-45aa-93dd-e45ac1dbaf4a/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A4457ed35-7c10-48c8-9776-456485fdf070&unique=prints",
+        "collector_number": "161",
+        "digital": false,
+        "rarity": "common",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Christopher Rush",
+        "artist_ids": [
+          "c96773f0-346c-4f7d-9271-2d98cc5d86e1"
+        ],
+        "illustration_id": "2cb6200c-d05b-419c-bd10-8b9c146e2339",
+        "border_color": "black",
+        "frame": "1993",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 160,
+        "prices": {
+          "usd": "620.00",
+          "usd_foil": null,
+          "usd_etched": null,
+          "eur": "409.41",
+          "eur_foil": null,
+          "tix": null
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=209&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DLightning%2BBolt",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DLightning%2BBolt",
+          "edhrec": "https://edhrec.com/route/?cc=Lightning+Bolt"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F1174%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=5395&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Lightning+Bolt&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
+      }
+    ]
+  }
+}

@@ -79,10 +79,10 @@ pytest
 pytest -v
 
 # Run a specific test file
-pytest tests/test_cards.py
+pytest tests/usage/test_cards_named.py
 
 # Run a specific test function
-pytest tests/test_cards.py::test_card_named
+pytest tests/usage/test_cards_named.py::test_named__exact__returns_correct_name
 
 # Run tests with coverage report
 pytest --cov=scrython --cov-report=html

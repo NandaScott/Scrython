@@ -30,7 +30,7 @@ internal implementation details and must not appear in test bodies:
 |---|---|
 | `card.scryfall_data` | Internal parsed-response object |
 | `card._scryfall_data` | Private attribute |
-| `mock_urlopen.calls[0]["url"]` | Request URL — implementation detail of the `urlopen` seam |
+| The requested URL or endpoint | Request routing — implementation detail of the mock seam |
 | Patch objects of any kind | Seam internals leak through |
 
 ```python
@@ -41,7 +41,7 @@ assert card.name == "Black Lotus"
 assert card.scryfall_data.name == "Black Lotus"
 
 # wrong — inspects the mock seam
-assert "exact=Black+Lotus" in mock_urlopen.calls[0]["url"]
+assert "exact=Black+Lotus" in requested_url
 ```
 
 ## 3. Assert stable identity fields, not volatile values
@@ -79,8 +79,8 @@ def test_named__exact__returns_correct_name(cards_named__black_lotus):
 
 The fixture parameter is intentionally unreferenced — requesting it is what
 registers the payload (`tests/usage/test_*.py` ignores `ARG001` for this).
-Test bodies must not import or call `mock_urlopen`, `patch`, `urlopen`,
-`stub_response`, or `load_fixture` directly.
+Test bodies must not import or call `patch`, `urlopen`, `stub_response`, or
+`load_fixture` directly.
 
 ### Seam-isolation rationale
 

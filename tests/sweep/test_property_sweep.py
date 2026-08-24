@@ -320,12 +320,12 @@ CARD_ALIASES: dict[str, AliasPath] = {
 CARD_COVERED_ELSEWHERE: dict[str, str] = {
     "all_parts": "tests/sweep/test_property_sweep.py::test_all_parts_wraps_every_raw_part",
     "card_faces": "tests/sweep/test_property_sweep.py::test_card_faces_wraps_every_raw_face",
-    "is_creature": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_creature",
-    "is_instant": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_instant",
-    "is_sorcery": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_sorcery",
-    "is_enchantment": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_enchantment",
-    "is_artifact": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_artifact",
-    "is_planeswalker": "tests/test_convenience.py::TestCardConvenienceMethods::test_is_planeswalker",
+    "is_creature": "tests/usage/test_predicates.py::test_named__is_creature__returns_true",
+    "is_instant": "tests/usage/test_predicates.py::test_named__is_instant__returns_true",
+    "is_sorcery": "tests/usage/test_predicates.py::test_named__is_sorcery__returns_true",
+    "is_enchantment": "tests/usage/test_predicates.py::test_named__is_enchantment__returns_true",
+    "is_artifact": "tests/usage/test_predicates.py::test_named__is_artifact__returns_true",
+    "is_planeswalker": "tests/usage/test_predicates.py::test_named__is_planeswalker__returns_true",
 }
 
 CARD_WRAPPERS: dict[str, tuple[str, ...]] = {

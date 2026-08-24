@@ -245,7 +245,7 @@ integrating with a live-ish request flow.
 | File | Deleted class | Status |
 |---|---|---|
 | `test_base.py` | `TestRequestHandlerFetch::test_successful_fetch` | Covered — implicitly by every usage test (a successful fetch is the precondition for all of them) |
-| `test_base.py` | `TestRequestHandlerFetch::test_fetch_with_error_response_raises_scryfall_error` | **GAP** — no usage/sweep test ever arms an error response; `ScryfallError` being raised by a real `_fetch()` is untested once this goes |
+| `test_base.py` | `TestRequestHandlerFetch::test_fetch_with_error_response_raises_scryfall_error` | ~~GAP~~ Covered — `usage/test_errors.py`; the seam gained `stub_response.error(status, body)`, which delivers a Scryfall error body as the `HTTPError` urllib raises, so a real `_fetch()` raises `ScryfallError` |
 | `test_base.py` | `TestRequestHandlerFetch::test_request_headers` | **GAP** — User-Agent on the regular fetch path (distinct from the download path) not asserted elsewhere |
 | `test_base.py` | `TestRequestHandlerFetch::test_endpoint_property` | **GAP**, low severity |
 | `test_base.py` | `TestScryfallDataReadOnly` (6 cases) | **GAP, entire class, structurally** — `tests/usage/CONVENTIONS.md` rule 2 forbids asserting on `.scryfall_data` in usage tests. Nothing currently proves the SimpleNamespace wrapper is read-only, dot-accessible, non-leaking on mutation, cached, or correctly nests dicts/lists. |

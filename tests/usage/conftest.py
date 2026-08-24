@@ -3,9 +3,11 @@
 import gzip
 import json
 from collections import deque
+from email.message import Message
 from io import BytesIO
 from pathlib import Path
 from unittest.mock import Mock, patch
+from urllib.error import HTTPError
 from urllib.parse import urlsplit
 
 import pytest
@@ -53,6 +55,128 @@ def load_fixture():
     return _load
 
 
+class _MockResponse:
+    """Stands in for a plain JSON API response."""
+
+    def __init__(self, data: dict) -> None:
+        self._data = json.dumps(data).encode("utf-8")
+        self._info = Mock()
+        self._info.get_param = Mock(return_value="utf-8")
+
+    def read(self) -> bytes:
+        return self._data
+
+    def info(self):
+        return self._info
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args) -> None:
+        pass
+
+
+class _MockDownloadResponse:
+    """
+    Stands in for the CDN response to download(), which is not plain JSON.
+
+    Scryfall hosts jsonl_download_uri as a .jsonl.gz file, so download()
+    feeds the response straight to gzip.GzipFile. That reads in sized
+    chunks, which is why this cannot reuse _MockResponse.
+    """
+
+    def __init__(self, cards: list) -> None:
+        jsonl = "\n".join(json.dumps(card) for card in cards).encode("utf-8")
+        self._stream = BytesIO(gzip.compress(jsonl))
+
+    def read(self, size: int = -1) -> bytes:
+        return self._stream.read(size)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args) -> None:
+        pass
+
+
+class _Stub:
+    """
+    The mock seam: what a request gets back, and through which transport.
+
+    Three ways to arm it, one per transport the library uses. `__call__`
+    registers a JSON payload for an endpoint, `download` registers the
+    gzipped JSONL a bulk download reads, and `error` arms the HTTP failure
+    Scryfall answers a bad request with.
+    """
+
+    def __init__(self) -> None:
+        self.registry: dict[str, deque] = {}
+        self.download_payload: list | None = None
+        self.failure: HTTPError | None = None
+
+    def __call__(self, endpoint: str, *payloads: dict) -> None:
+        """Register one payload per successive request to `endpoint`."""
+        if not payloads:
+            raise ValueError("stub_response: register at least one payload")
+        self.registry[endpoint] = deque(payloads)
+
+    def download(self, cards: list) -> None:
+        """Register the card list a bulk download serves back as gzipped JSONL."""
+        self.download_payload = cards
+
+    def error(self, status: int, body: dict) -> None:
+        """Arm a Scryfall JSON error body, delivered the way urllib delivers one."""
+        headers = Message()
+        headers["Content-Type"] = "application/json; charset=utf-8"
+        self.failure = HTTPError(
+            "https://api.scryfall.com/",
+            status,
+            body.get("details", ""),
+            headers,  # type: ignore[arg-type]
+            BytesIO(json.dumps(body).encode("utf-8")),
+        )
+
+    def open(self, request) -> _MockResponse:
+        """Answer a request on the JSON transport, or fail it if an error is armed."""
+        if self.failure is not None:
+            raise self.failure
+        if not self.registry:
+            raise ValueError(
+                "stub_response: call stub_response(endpoint, payload) before making requests"
+            )
+
+        requested = _resource(urlsplit(request.full_url).path)
+        matches = [
+            (endpoint, queue)
+            for endpoint, queue in self.registry.items()
+            if _resource(endpoint) == requested
+        ]
+
+        if len(matches) == 1:
+            _, queue = matches[0]
+            # Pop from the front when multiple payloads remain (successive pages);
+            # keep the last item in place so single-payload tests never exhaust.
+            return _MockResponse(queue.popleft() if len(queue) > 1 else queue[0])
+        if not matches:
+            raise ValueError(
+                f"stub_response: no registered endpoint matches requested resource "
+                f"'{requested}' (registered: {sorted(self.registry)})"
+            )
+        raise ValueError(
+            f"stub_response: multiple registered endpoints match resource "
+            f"'{requested}'; cannot disambiguate (registered: {sorted(self.registry)})"
+        )
+
+    def open_download(self, _request) -> _MockDownloadResponse:
+        """Answer a request on the bulk-download transport."""
+        if self.download_payload is None:
+            raise ValueError(
+                "stub_response: register a download payload with "
+                "stub_response.download([...]) before calling download()"
+            )
+        return _MockDownloadResponse(self.download_payload)
+
+
 @pytest.fixture
 def stub_response():
     """
@@ -68,11 +192,9 @@ def stub_response():
     (e.g. "cards/named" and "cards/id/rulings") in one test is ambiguous and
     raises; no current test does this.
 
-    Bulk download: register the CDN payload with stub_response.download([...])
-    (a list of card dicts) rather than stub_response(endpoint, payload) — the
-    download() HTTP call is intercepted by a separate patch on
-    bulk_data_mixins.urlopen, and the list is served back as gzip-compressed
-    JSONL to match what the CDN sends, so it does not share the JSON registry.
+    See _Stub for the two transports that do not carry plain JSON: bulk
+    downloads (stub_response.download) and error responses
+    (stub_response.error), each armed separately from the JSON registry.
 
     Usage:
         def test_something(stub_response, load_fixture):
@@ -80,95 +202,7 @@ def stub_response():
             card = scrython.cards.Named(exact="Black Lotus")
             assert card.name == "Black Lotus"
     """
-    registry: dict[str, deque] = {}
-    download_slot: list = []  # 0 or 1 item; single-slot, overwritten on re-register
-
-    class _MockResponse:
-        def __init__(self, data: dict | list) -> None:
-            self._data = json.dumps(data).encode("utf-8")
-            self._info = Mock()
-            self._info.get_param = Mock(return_value="utf-8")
-
-        def read(self) -> bytes:
-            return self._data
-
-        def info(self):
-            return self._info
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
-            pass
-
-    class _MockDownloadResponse:
-        """
-        Stands in for the CDN response to download(), which is not plain JSON.
-
-        Scryfall hosts jsonl_download_uri as a .jsonl.gz file, so download()
-        feeds the response straight to gzip.GzipFile. That reads in sized
-        chunks, which is why this cannot reuse _MockResponse.
-        """
-
-        def __init__(self, cards: list) -> None:
-            jsonl = "\n".join(json.dumps(card) for card in cards).encode("utf-8")
-            self._stream = BytesIO(gzip.compress(jsonl))
-
-        def read(self, size: int = -1) -> bytes:
-            return self._stream.read(size)
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
-            pass
-
-    def _urlopen(request):
-        if not registry:
-            raise ValueError(
-                "stub_response: call stub_response(endpoint, payload) before making requests"
-            )
-
-        requested = _resource(urlsplit(request.full_url).path)
-        matches = [
-            (endpoint, queue)
-            for endpoint, queue in registry.items()
-            if _resource(endpoint) == requested
-        ]
-
-        if len(matches) == 1:
-            _, queue = matches[0]
-            # Pop from the front when multiple payloads remain (successive pages);
-            # keep the last item in place so single-payload tests never exhaust.
-            payload = queue.popleft() if len(queue) > 1 else queue[0]
-            return _MockResponse(payload)
-        if not matches:
-            raise ValueError(
-                f"stub_response: no registered endpoint matches requested resource "
-                f"'{requested}' (registered: {sorted(registry)})"
-            )
-        raise ValueError(
-            f"stub_response: multiple registered endpoints match resource "
-            f"'{requested}'; cannot disambiguate (registered: {sorted(registry)})"
-        )
-
-    def _urlopen_download(_request):
-        if not download_slot:
-            raise ValueError(
-                "stub_response: register a download payload with "
-                "stub_response.download([...]) before calling download()"
-            )
-        return _MockDownloadResponse(download_slot[0])
-
-    def _register(endpoint: str, *payloads: dict | list) -> None:
-        if not payloads:
-            raise ValueError("stub_response: register at least one payload")
-        registry[endpoint] = deque(payloads)
-
-    def _register_download(payload: list) -> None:
-        download_slot[:] = [payload]
-
-    _register.download = _register_download
+    stub = _Stub()
 
     # Patch the limiter's wait() itself so the bypass holds regardless of which
     # _rate_limiter_class an endpoint uses; SlowRateLimiter inherits wait, so one
@@ -176,10 +210,10 @@ def stub_response():
     # not work: _rate_limiter_class captures the class object at import time.)
     with (
         patch.object(RateLimiter, "wait", lambda *_: None),
-        patch("scrython.base.urlopen", side_effect=_urlopen),
-        patch("scrython.bulk_data.bulk_data_mixins.urlopen", side_effect=_urlopen_download),
+        patch("scrython.base.urlopen", side_effect=stub.open),
+        patch("scrython.bulk_data.bulk_data_mixins.urlopen", side_effect=stub.open_download),
     ):
-        yield _register
+        yield stub
 
 
 # Injected payload fixtures: each arms the stub seam for one captured payload so
@@ -339,3 +373,20 @@ def catalog_creature_types__synthetic_three_items(stub_response):
             "data": ["Advisor", "Aetherborn", "Alien"],
         },
     )
+
+
+# Scryfall answers an unmatched card name with 404 and this body. Synthetic
+# because the capture script refuses to write a payload whose object is "error".
+_NOT_FOUND_ERROR: dict = {
+    "object": "error",
+    "code": "not_found",
+    "status": 404,
+    "details": "No cards found matching “Chandra Nalaar, Pyromaster”",
+    "warnings": ["Did you mean Chandra Nalaar?"],
+}
+
+
+@pytest.fixture
+def cards_named__not_found_error(stub_response):
+    """Arm `cards/named` to fail the way Scryfall fails an unmatched exact name."""
+    stub_response.error(404, _NOT_FOUND_ERROR)

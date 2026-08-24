@@ -4,6 +4,17 @@ Issue: #211 (gate for #182, blocked by #180/#181, both closed). Per-case
 list of which legacy tests are safe to delete now vs. which must be kept.
 Writes no production change and deletes nothing itself.
 
+## Status
+
+The teardown this file gated is **done**. Every legacy file below is
+deleted; the retained component classes it vouches for are still in
+`test_base.py`, `test_caching.py` and `test_rate_limiting.py`.
+
+This file outlives the teardown because
+[#244](https://github.com/NandaScott/Scrython/issues/244) points at it for
+the per-case detail behind that issue's five summarised gaps — which legacy
+test each one traces back to. **Delete it when #244 closes, not before.**
+
 ## Resolution (2026-08-21)
 
 Reviewed with @NandaScott: proceed with the deletion slices on the
@@ -14,8 +25,11 @@ is done).
 
 ## How to read the tables
 
-Each row is one legacy test case. **Covered** rows are safe to delete now.
-**GAP** rows are not — keep them until #244 closes that gap.
+Each row is one legacy test case. The **Covered** / **GAP** split was the
+gate's recommendation, not the final decision: per the Resolution above,
+every row shipped as a deletion, GAP rows included. A GAP row now records a
+behavior that has no test anywhere, for #244 to close — it is not an
+instruction to keep anything.
 
 - **Covered** — a named test (usage or sweep suite) exercises the same
   observable behavior through the public API. Verified by reading both
@@ -267,7 +281,12 @@ deletion, but they don't prove the *integration* points above.
 
 ---
 
-## Full suite run (standing evidence)
+## Full suite run (evidence as of the gate, 2026-08-21)
+
+Counts below are from the gate run and are no longer current: the property
+sweep has since been deduped to assert each accessor once rather than once
+per fixture, which took the suite from ~4400 cases to ~650 without changing
+what it asserts. Re-run rather than citing these numbers.
 
 ```
 ./venv/bin/python -m pytest -q

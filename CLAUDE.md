@@ -92,7 +92,7 @@ From Contributing.md:
 
 ## Important Notes
 
-- **Built-in rate limiting**: Automatic per-endpoint rate limiting (10/s default, 2/s for search/named/random/collection). See `scrython/rate_limiter.py`. Users can override with `rate_limit_per_second` kwarg or disable with `rate_limit=False`.
+- **Built-in rate limiting**: Automatic per-endpoint rate limiting (10/s default, 2/s for search/named/random/collection, 10/minute for manifest). See `scrython/rate_limiter.py`. Users can override with `rate_limit_per_second` kwarg or disable with `rate_limit=False`.
 - **No backwards compatibility**: Breaking changes expected as Scryfall API evolves
 - **Python 3.10+ required**: Uses `X | Y` union syntax and `type[X]` annotations throughout
 - **Dependencies**: urllib (standard library), no external HTTP dependencies

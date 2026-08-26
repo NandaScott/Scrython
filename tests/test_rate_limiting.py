@@ -163,6 +163,19 @@ class TestSlowRateLimiter:
         assert 0.45 < elapsed < 1.0
 
 
+class TestManifestRateLimiter:
+    """Test the ManifestRateLimiter class."""
+
+    def test_manifest_rate_limiter_default_rate(self):
+        """Test that ManifestRateLimiter defaults to 10 calls per minute."""
+        from scrython.rate_limiter import ManifestRateLimiter
+
+        limiter = ManifestRateLimiter()
+
+        assert limiter.calls_per_second == pytest.approx(10 / 60)
+        assert limiter.min_interval == pytest.approx(6.0)
+
+
 class TestEndpointRateLimiterAssignment:
     """Test that endpoint classes declare the correct rate limiter class."""
 
@@ -201,3 +214,9 @@ class TestEndpointRateLimiterAssignment:
         from scrython.rate_limiter import RateLimiter
 
         assert ByCodeNumber._rate_limiter_class is RateLimiter
+
+    def test_manifest_uses_manifest_limiter(self):
+        from scrython.cards.cards import Manifest
+        from scrython.rate_limiter import ManifestRateLimiter
+
+        assert Manifest._rate_limiter_class is ManifestRateLimiter

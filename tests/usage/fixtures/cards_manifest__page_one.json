@@ -1,0 +1,38 @@
+{
+  "_provenance": {
+    "captured_at": "2026-08-24T20:25:53.101200+00:00",
+    "endpoint": "cards/manifest",
+    "source_url": "https://api.scryfall.com/cards/manifest?lang=en&page=1",
+    "truncated_to": 2
+  },
+  "payload": {
+    "object": "list",
+    "total_cards": 114105,
+    "has_more": true,
+    "next_page": "https://api.scryfall.com/cards/manifest?lang=en&page=2",
+    "data": [
+      {
+        "id": "17379220-f223-4d2f-80ed-27c9794c3b92",
+        "oracle_id": null,
+        "name": "Darksteel Monolith",
+        "set_code": "slz",
+        "collector_number": "223",
+        "lang": "en",
+        "created_at": null,
+        "data_updated_at": null,
+        "image_updated_at": "2026-08-24T12:04:53Z"
+      },
+      {
+        "id": "175de57f-80d7-4434-878d-253966bc84f2",
+        "oracle_id": null,
+        "name": "Baleful Strix",
+        "set_code": "slz",
+        "collector_number": "209",
+        "lang": "en",
+        "created_at": null,
+        "data_updated_at": null,
+        "image_updated_at": "2026-08-24T12:05:24Z"
+      }
+    ]
+  }
+}

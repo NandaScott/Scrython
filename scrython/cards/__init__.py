@@ -7,7 +7,9 @@ from .cards import (
     ByMTGOId,
     ByMultiverseId,
     ByTCGPlayerId,
+    CardManifestObject,
     Collection,
+    Manifest,
     Named,
     Object,
     Random,
@@ -28,4 +30,6 @@ __all__ = [
     "ByTCGPlayerId",
     "ByCardMarketId",
     "ById",
+    "Manifest",
+    "CardManifestObject",
 ]

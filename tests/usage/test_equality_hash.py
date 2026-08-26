@@ -44,6 +44,52 @@ def test_card__usable_as_dict_key(cards_named__black_lotus):
     assert lookup[card] == "owned"
 
 
+def test_manifest__same_printing__row_equals_full_card(
+    cards_manifest__row_and_card_same_printing,
+):
+    row = scrython.cards.Manifest().data[0]
+    card = scrython.cards.Search(q="Black Lotus").data[0]
+    assert row == card
+
+
+def test_manifest__same_printing__full_card_equals_row(
+    cards_manifest__row_and_card_same_printing,
+):
+    row = scrython.cards.Manifest().data[0]
+    card = scrython.cards.Search(q="Black Lotus").data[0]
+    assert card == row
+
+
+def test_manifest__same_printing__collapses_in_a_set(
+    cards_manifest__row_and_card_same_printing,
+):
+    row = scrython.cards.Manifest().data[0]
+    card = scrython.cards.Search(q="Black Lotus").data[0]
+    assert len({row, card}) == 1
+
+
+def test_manifest__different_printing__row_not_equal_to_full_card(
+    cards_manifest__row_and_card_different_printings,
+):
+    row = scrython.cards.Manifest().data[0]
+    card = scrython.cards.Search(q="Black Lotus").data[0]
+    assert row != card
+
+
+def test_manifest__distinct_rows__same_id_are_equal(cards_manifest__page_one):
+    row_a = scrython.cards.Manifest().data[0]
+    row_b = scrython.cards.Manifest().data[0]
+    # Guards the premise: instance identity must not be what makes them equal.
+    assert row_a is not row_b
+    assert row_a == row_b
+
+
+def test_manifest__row__usable_as_dict_key(cards_manifest__page_one):
+    row = scrython.cards.Manifest().data[0]
+    lookup = {row: "seen"}
+    assert lookup[row] == "seen"
+
+
 def test_catalog__id_less__same_instance_is_equal(catalogs_creature_types):
     catalog = scrython.catalogs.CreatureTypes()
     assert catalog == catalog

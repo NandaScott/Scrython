@@ -195,6 +195,16 @@ FIXTURE_MAP: dict[str, dict[str, dict]] = {
             "path": "cards/named",
             "query": {"exact": "Niv-Mizzet, Parun"},
         },
+        # Page one of the card manifest, truncated to two rows. The endpoint
+        # serves 15,000 rows per page and leads with the most recently released
+        # set, so which cards land here drifts on every refresh; the tests read
+        # the values back off the payload rather than hardcoding them.
+        "cards_manifest__page_one": {
+            "endpoint": "cards/manifest",
+            "path": "cards/manifest",
+            "query": {"lang": "en", "page": 1},
+            "truncated_to": 2,
+        },
         # Four cards across two sets (LEA and M10) for list-helper usage tests.
         # Ordered by name so the result order is deterministic on refresh.
         "cards_search__multiset": {

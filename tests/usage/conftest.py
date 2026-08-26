@@ -145,11 +145,19 @@ class _Stub:
                 "stub_response: call stub_response(endpoint, payload) before making requests"
             )
 
-        requested = _resource(urlsplit(request.full_url).path)
+        requested_path = urlsplit(request.full_url).path.strip("/")
+        # An endpoint registered under its full path answers only that path.
+        # Endpoints whose real URL carries an id (e.g. "cards/id" standing in
+        # for "cards/<uuid>") have no exact match, so they fall back to the
+        # resource segment as before.
         matches = [
             (endpoint, queue)
             for endpoint, queue in self.registry.items()
-            if _resource(endpoint) == requested
+            if endpoint.strip("/") == requested_path
+        ] or [
+            (endpoint, queue)
+            for endpoint, queue in self.registry.items()
+            if _resource(endpoint) == _resource(requested_path)
         ]
 
         if len(matches) == 1:
@@ -159,12 +167,13 @@ class _Stub:
             return _MockResponse(queue.popleft() if len(queue) > 1 else queue[0])
         if not matches:
             raise ValueError(
-                f"stub_response: no registered endpoint matches requested resource "
-                f"'{requested}' (registered: {sorted(self.registry)})"
+                f"stub_response: no registered endpoint matches requested path "
+                f"'{requested_path}' (registered: {sorted(self.registry)})"
             )
         raise ValueError(
             f"stub_response: multiple registered endpoints match resource "
-            f"'{requested}'; cannot disambiguate (registered: {sorted(self.registry)})"
+            f"'{_resource(requested_path)}'; cannot disambiguate "
+            f"(registered: {sorted(self.registry)})"
         )
 
     def open_download(self, _request) -> _MockDownloadResponse:
@@ -187,10 +196,12 @@ def stub_response():
     MockConnector + use_connector() with no test-body changes required.
 
     Requests are routed back to the right payload by matching the registered
-    endpoint's resource (its leading path segment) against the resource of the
-    URL actually requested. Registering two endpoints under the same resource
-    (e.g. "cards/named" and "cards/id/rulings") in one test is ambiguous and
-    raises; no current test does this.
+    endpoint against the URL actually requested: first on the full path, then
+    on the resource (leading path segment) for endpoints registered without
+    their id, such as "cards/id". Two endpoints sharing a resource can both be
+    registered as long as each is reached by its exact path; registrations that
+    only the resource fallback can reach (e.g. "cards/named" and
+    "cards/id/rulings") are ambiguous and raise.
 
     See _Stub for the two transports that do not carry plain JSON: bulk
     downloads (stub_response.download) and error responses
@@ -350,6 +361,73 @@ def cards_named__black_lotus_factory(stub_response, load_fixture):
         stub_response("cards/named", {**payload, "id": id_override} if id_override else payload)
 
     return _arm
+
+
+# The manifest capture is page one of /cards/manifest, truncated to two rows.
+# Scryfall serves oracle_id, created_at and data_updated_at as null on every row
+# it currently returns, so the second row is the captured row with those three
+# filled in: one row exactly as captured, one doctored to reach the accessors the
+# live payload leaves empty. Which cards land in the capture drifts on refresh,
+# so the fixture hands both rows back for tests to read their values from.
+_MANIFEST_POPULATED_FIELDS: dict = {
+    "oracle_id": "e9c1d0b6-4a2f-4d18-8e73-5b6a0f9c2d14",
+    "created_at": "2007-10-12T00:00:00Z",
+    "data_updated_at": "2026-08-01T09:14:22Z",
+}
+
+
+@pytest.fixture
+def cards_manifest__page_one(stub_response, load_fixture):
+    """Arm `cards/manifest` with one captured row and one doctored row, and return both."""
+    payload = load_fixture("cards_manifest__page_one")
+    captured_row, second_row = payload["data"]
+    doctored_row = {**second_row, **_MANIFEST_POPULATED_FIELDS}
+
+    stub_response("cards/manifest", {**payload, "data": [captured_row, doctored_row]})
+    return captured_row, doctored_row
+
+
+def _manifest_row_for(card: dict, id_override: str | None = None) -> dict:
+    """Build the thin manifest view of a captured card payload."""
+    return {
+        "id": id_override or card["id"],
+        "oracle_id": card.get("oracle_id"),
+        "name": card["name"],
+        "set_code": card["set"],
+        "collector_number": card["collector_number"],
+        "lang": card["lang"],
+    }
+
+
+def _arm_manifest_and_search(stub_response, row: dict, card: dict) -> None:
+    """Arm one manifest page and one search page carrying the full card.
+
+    Search is the counterpart here because its list items are full `Object`
+    cards, which is the comparison under test.
+    """
+    stub_response(
+        "cards/manifest",
+        {"object": "list", "has_more": False, "total_cards": 1, "data": [row]},
+    )
+    stub_response(
+        "cards/search",
+        {"object": "list", "has_more": False, "total_cards": 1, "data": [card]},
+    )
+
+
+@pytest.fixture
+def cards_manifest__row_and_card_same_printing(stub_response, load_fixture):
+    """Serve a manifest row and the full card object for one printing."""
+    card = load_fixture("cards_named__black_lotus")
+    _arm_manifest_and_search(stub_response, _manifest_row_for(card), card)
+
+
+@pytest.fixture
+def cards_manifest__row_and_card_different_printings(stub_response, load_fixture):
+    """Serve a manifest row and a full card object carrying different IDs."""
+    card = load_fixture("cards_named__black_lotus")
+    row = _manifest_row_for(card, id_override="ffffffff-0000-4000-8000-ffffffffffff")
+    _arm_manifest_and_search(stub_response, row, card)
 
 
 @pytest.fixture

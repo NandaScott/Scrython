@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+- **`scrython.cards.Manifest`**: New endpoint class for `GET /cards/manifest`, which lists Scryfall's current card offerings as thin rows for comparison against a downstream system. Paginates 15,000 entries per page and accepts `lang`, `order`, and `page`.
+- **`scrython.cards.CardManifestObject`**: Wrapper for a manifest row, exposing `card_id`, `oracle_id`, `lang`, `name`, `set_code`, `collector_number`, `created_at`, `data_updated_at`, and `image_updated_at`. Full card accessors are absent by design; refetch a printing with `ById` or `Collection` to get them.
+- **`ManifestRateLimiter`**: Enforces Scryfall's documented 10 requests/minute on the manifest endpoint.
+- **`ScryfallThinCardData`** and **`ScryfallManifestCardData`**: TypedDicts for the fields shared with full cards and for the manifest-only fields.
+
+### Changed
+- **Card equality**: A `CardManifestObject` and an `Object` describing the same printing now compare equal and hash alike, so a manifest row can be matched against a full card without unwrapping either.
+
+---
+
 ## [3.0.0] - 2026-08-20
 
 ### Added

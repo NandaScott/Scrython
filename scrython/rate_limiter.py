@@ -127,3 +127,15 @@ class SlowRateLimiter(RateLimiter):
 
     def __init__(self, calls_per_second: float = 2.0) -> None:
         super().__init__(calls_per_second)
+
+
+class ManifestRateLimiter(RateLimiter):
+    """
+    Rate limiter for the cards manifest endpoint.
+
+    Scryfall documents /cards/manifest as "10/minute", expressed here as a
+    fractional per-second rate.
+    """
+
+    def __init__(self, calls_per_second: float = 10 / 60) -> None:
+        super().__init__(calls_per_second)

@@ -10,21 +10,26 @@ from ..types import (
     RelatedCard,
     RelatedUris,
     ScryfallCardData,
+    ScryfallManifestCardData,
+    ScryfallThinCardData,
 )
 from ..utils import to_object_array
 
 
-class CoreFieldsMixin:
-    _scryfall_data: ScryfallCardData
+class ThinCardDataMixin:
+    """
+    Declares where the thin field mixins read from, and nothing else.
 
-    @property
-    def arena_id(self) -> int | None:
-        """
-        This card's Arena ID, if any. A large percentage of cards are not available on Arena.
+    The field mixins below are siblings in every card wrapper's MRO, so mypy
+    requires them to agree on the type of _scryfall_data. Declaring it once
+    here lets each wrapper narrow it to the payload it actually holds.
+    """
 
-        Type: Integer (Nullable)
-        """
-        return self._scryfall_data.get("arena_id")
+    _scryfall_data: ScryfallThinCardData
+
+
+class ThinCoreFieldsMixin(ThinCardDataMixin):
+    """Core fields carried by both full card objects and thin manifest rows."""
 
     @property
     def card_id(self) -> str:
@@ -43,6 +48,28 @@ class CoreFieldsMixin:
         Type: String (Required)
         """
         return self._scryfall_data["lang"]
+
+    @property
+    def oracle_id(self) -> str | None:
+        """
+        Consistent ID across reprints of same card.
+
+        Type: UUID (Nullable)
+        """
+        return self._scryfall_data.get("oracle_id")
+
+
+class CoreFieldsMixin(ThinCoreFieldsMixin):
+    _scryfall_data: ScryfallCardData
+
+    @property
+    def arena_id(self) -> int | None:
+        """
+        This card's Arena ID, if any. A large percentage of cards are not available on Arena.
+
+        Type: Integer (Nullable)
+        """
+        return self._scryfall_data.get("arena_id")
 
     @property
     def mtgo_id(self) -> int | None:
@@ -117,15 +144,6 @@ class CoreFieldsMixin:
         return self._scryfall_data["layout"]
 
     @property
-    def oracle_id(self) -> str | None:
-        """
-        Consistent ID across reprints of same card.
-
-        Type: UUID (Nullable)
-        """
-        return self._scryfall_data.get("oracle_id")
-
-    @property
     def prints_search_uri(self) -> str:
         """
         Link to all reprints via API.
@@ -162,7 +180,20 @@ class CoreFieldsMixin:
         return self._scryfall_data["uri"]
 
 
-class GameplayFieldsMixin:
+class ThinGameplayFieldsMixin(ThinCardDataMixin):
+    """Gameplay fields carried by both full card objects and thin manifest rows."""
+
+    @property
+    def name(self) -> str:
+        """
+        Card name; multiface cards show both names separated.
+
+        Type: String (Required)
+        """
+        return self._scryfall_data["name"]
+
+
+class GameplayFieldsMixin(ThinGameplayFieldsMixin):
     _scryfall_data: ScryfallCardData
 
     @property
@@ -315,15 +346,6 @@ class GameplayFieldsMixin:
         return self._scryfall_data.get("mana_cost")
 
     @property
-    def name(self) -> str:
-        """
-        Card name; multiface cards show both names separated.
-
-        Type: String (Required)
-        """
-        return self._scryfall_data["name"]
-
-    @property
     def oracle_text(self) -> str | None:
         """
         Official card ability text.
@@ -389,7 +411,29 @@ class GameplayFieldsMixin:
         return self._scryfall_data["type_line"]
 
 
-class PrintFieldsMixin:
+class ThinPrintFieldsMixin(ThinCardDataMixin):
+    """Print fields carried by both full card objects and thin manifest rows."""
+
+    @property
+    def collector_number(self) -> str:
+        """
+        This card's collector number. Note that collector numbers can contain non-numeric characters, such as letters or ★.
+
+        Type: String (Required)
+        """
+        return self._scryfall_data["collector_number"]
+
+    @property
+    def image_updated_at(self) -> str | None:
+        """
+        The timestamp of the last update to this card's imagery.
+
+        Type: Timestamp (Nullable)
+        """
+        return self._scryfall_data.get("image_updated_at")
+
+
+class PrintFieldsMixin(ThinPrintFieldsMixin):
     _scryfall_data: ScryfallCardData
 
     @property
@@ -445,15 +489,6 @@ class PrintFieldsMixin:
         Type: UUID (Nullable)
         """
         return self._scryfall_data.get("card_back_id")
-
-    @property
-    def collector_number(self) -> str:
-        """
-        This card's collector number. Note that collector numbers can contain non-numeric characters, such as letters or ★.
-
-        Type: String (Required)
-        """
-        return self._scryfall_data["collector_number"]
 
     @property
     def content_warning(self) -> bool | None:
@@ -573,15 +608,6 @@ class PrintFieldsMixin:
         Type: String (Required)
         """
         return self._scryfall_data["image_status"]
-
-    @property
-    def image_updated_at(self) -> str | None:
-        """
-        The timestamp of the last update to this card's imagery.
-
-        Type: Timestamp (Nullable)
-        """
-        return self._scryfall_data.get("image_updated_at")
 
     @property
     def image_uris(self) -> ImageUris | None:
@@ -1131,6 +1157,46 @@ class RelatedCardsObjectMixin:
         Type: URI (Required)
         """
         return self._scryfall_data["uri"]
+
+
+class CardsManifestObjectMixin(ThinCoreFieldsMixin, ThinGameplayFieldsMixin, ThinPrintFieldsMixin):
+    """
+    Field accessors for the thin card rows returned by GET /cards/manifest.
+
+    The thin field subset shared with full cards, plus the fields Scryfall only
+    emits on the manifest.
+
+    See: https://scryfall.com/docs/api/cards/manifest
+    """
+
+    _scryfall_data: ScryfallManifestCardData
+
+    @property
+    def set_code(self) -> str:
+        """
+        The code of the set this printing belongs to. Full card objects expose the same value as `set`.
+
+        Type: String (Required)
+        """
+        return self._scryfall_data["set_code"]
+
+    @property
+    def created_at(self) -> str | None:
+        """
+        The timestamp of when this printing entered Scryfall's database.
+
+        Type: Timestamp (Nullable)
+        """
+        return self._scryfall_data.get("created_at")
+
+    @property
+    def data_updated_at(self) -> str | None:
+        """
+        The timestamp of the last update to this card's data, as opposed to its imagery.
+
+        Type: Timestamp (Nullable)
+        """
+        return self._scryfall_data.get("data_updated_at")
 
 
 class CardsObjectMixin(CoreFieldsMixin, GameplayFieldsMixin, PrintFieldsMixin):

@@ -1,52 +1,32 @@
+import sys
 from typing import Any, cast
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 from ..base import ScrythonRequestHandler
 from ..base_mixins import ScryfallCatalogMixin, ScryfallListMixin
-from ..rate_limiter import SlowRateLimiter
-from ..types import ScryfallCardData, ScryfallCatalogData, ScryfallListData
-from .cards_mixins import CardsObjectMixin
+from ..rate_limiter import ManifestRateLimiter, SlowRateLimiter
+from ..types import (
+    ScryfallCardData,
+    ScryfallCatalogData,
+    ScryfallListData,
+    ScryfallManifestCardData,
+    ScryfallThinCardData,
+)
+from .cards_mixins import CardsManifestObjectMixin, CardsObjectMixin, ThinCardDataMixin
 
 
-class Object(CardsObjectMixin):
+class ObjectIdentity(ThinCardDataMixin):
     """
-    Wrapper class for individual card objects from Scryfall API responses.
+    Scryfall-ID equality and hashing for wrapped card objects.
 
-    Provides access to all card properties through mixins (Core, Gameplay, Print fields).
+    Identity here means "the same printing", not "the same class", so the thin
+    manifest view of a card and the full card view of it compare equal. Scoped
+    to card object wrappers: request handlers carry their own comparison.
     """
-
-    def __init__(self, data: ScryfallCardData) -> None:
-        self._scryfall_data = data
-
-    def __repr__(self) -> str:
-        """
-        Developer-friendly representation showing class name and key identifiers.
-
-        Returns a string in the format: Object(id='...', name='...')
-
-        Example:
-            Object(id='bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd', name='Lightning Bolt')
-        """
-        obj_id = self._scryfall_data.get("id")
-        name = self._scryfall_data.get("name")
-
-        parts = [f"id='{obj_id}'"] if obj_id else []
-        if name:
-            parts.append(f"name='{name}'")
-
-        return f"Object({', '.join(parts)})"
-
-    def __str__(self) -> str:
-        """
-        User-friendly string representation.
-
-        Returns "Card Name (SET)" format
-
-        Example:
-            "Lightning Bolt (LEA)"
-        """
-        name = self._scryfall_data.get("name", "")
-        set_code = self._scryfall_data.get("set", "").upper()
-        return f"{name} ({set_code})" if set_code else name
 
     def __eq__(self, other: object) -> bool:
         """
@@ -58,7 +38,7 @@ class Object(CardsObjectMixin):
         Returns:
             True if objects have the same Scryfall ID, False otherwise
         """
-        if not isinstance(other, Object):
+        if not isinstance(other, ObjectIdentity):
             return False
 
         self_id = self._scryfall_data.get("id")
@@ -82,7 +62,54 @@ class Object(CardsObjectMixin):
 
         return hash(id(self))
 
-    def to_dict(self) -> ScryfallCardData:
+
+class ObjectHelperMethods(ObjectIdentity):
+    """
+    Construction, representation and export behavior shared by card wrappers.
+
+    Subclasses supply the field accessors matching the shape of the data they
+    hold: the full card fields, or the thin manifest subset.
+    """
+
+    def __init__(self, data: ScryfallThinCardData) -> None:
+        self._scryfall_data = data
+
+    def __repr__(self) -> str:
+        """
+        Developer-friendly representation showing class name and key identifiers.
+
+        Returns a string in the format: ClassName(id='...', name='...')
+
+        Example:
+            Object(id='bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd', name='Lightning Bolt')
+        """
+        obj_id = self._scryfall_data.get("id")
+        name = self._scryfall_data.get("name")
+
+        parts = [f"id='{obj_id}'"] if obj_id else []
+        if name:
+            parts.append(f"name='{name}'")
+
+        return f"{type(self).__name__}({', '.join(parts)})"
+
+    def __str__(self) -> str:
+        """
+        User-friendly string representation.
+
+        Returns "Card Name (SET)" format
+
+        Example:
+            "Lightning Bolt (LEA)"
+        """
+        name = self._scryfall_data.get("name", "")
+        set_code = self._get_set_code()
+        return f"{name} ({set_code.upper()})" if set_code else name
+
+    def _get_set_code(self) -> str:
+        """The set code str() shows. Subclasses read it off their own payload."""
+        return ""
+
+    def to_dict(self) -> ScryfallThinCardData:
         """
         Export card data as a dictionary.
 
@@ -108,18 +135,53 @@ class Object(CardsObjectMixin):
         return json.dumps(self._scryfall_data, **kwargs)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Object":
+    def from_dict(cls, data: dict[str, Any]) -> Self:
         """
-        Construct an Object from a dictionary without making an API request.
+        Construct a card wrapper from a dictionary without making an API request.
 
         Args:
-            data: Dictionary containing Scryfall card data
+            data: Dictionary containing Scryfall card data. Manifest rows are
+                accepted by CardManifestObject, full card payloads by Object.
 
         Returns:
-            Object instance populated with the provided data
+            Instance of the calling class populated with the provided data
         """
         # Rehydration boundary: caller-supplied dict is asserted to be card data.
-        return cls(cast(ScryfallCardData, data.copy()))
+        return cls(cast(Any, data.copy()))
+
+
+class Object(ObjectHelperMethods, CardsObjectMixin):
+    """
+    Wrapper class for individual card objects from Scryfall API responses.
+
+    Provides access to all card properties through mixins (Core, Gameplay, Print fields).
+    """
+
+    def to_dict(self) -> ScryfallCardData:
+        """Export the full card payload as a dictionary."""
+        return self._scryfall_data.copy()
+
+    def _get_set_code(self) -> str:
+        return self._scryfall_data.get("set", "")
+
+
+class CardManifestObject(ObjectHelperMethods, CardsManifestObjectMixin):
+    """
+    Wrapper class for the thin card objects returned by GET /cards/manifest.
+
+    A manifest row carries only what a sync process needs: identity (card_id,
+    oracle_id, lang), name, set_code, collector_number, and the created_at,
+    data_updated_at and image_updated_at timestamps. Full card accessors such
+    as type_line are absent by design — refetch the printing with ById or
+    Collection to get them.
+    """
+
+    def to_dict(self) -> ScryfallManifestCardData:
+        """Export the manifest row as a dictionary."""
+        return self._scryfall_data.copy()
+
+    def _get_set_code(self) -> str:
+        return self._scryfall_data["set_code"]
 
 
 class Search(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
@@ -443,3 +505,47 @@ class ById(CardsObjectMixin, ScrythonRequestHandler[ScryfallCardData]):
     """
 
     _endpoint = "/cards/:id"
+
+
+class Manifest(ScryfallListMixin, ScrythonRequestHandler[ScryfallListData]):
+    """
+    List Scryfall's current card offerings as thin manifest rows.
+
+    Endpoint: GET /cards/manifest
+
+    Returns a list object containing thin cards. Each row carries just enough
+    information to compare Scryfall's catalog against a downstream system or
+    sync process; hydrate the printings you actually care about with ById or
+    Collection.
+
+    A page holds 15,000 entries. The endpoint is rate limited to 10 requests
+    per minute, offers deliberately limited sorting and filtering, and does not
+    support the pretty JSON option.
+
+    Args:
+        lang: A 2-3 character language code (optional). Omitted means Scryfall's
+            default results: English cards mixed with localized cards where no
+            English version exists.
+        order: Method to sort returned cards (optional). Sorting is always
+            descending. Options: 'released' (default), 'imageupdated'
+        page: The page number to return (optional, default: 1).
+
+    Example:
+        # First page of the English manifest
+        manifest = scrython.cards.Manifest(lang='en')
+        print(manifest.total_cards)
+
+        for card in manifest:
+            print(card.name, card.set_code, card.image_updated_at)
+
+        # Cards whose imagery changed most recently, across every page
+        recent = scrython.cards.Manifest(lang='en', order='imageupdated')
+        for card in recent.iter_all():
+            print(card.card_id, card.image_updated_at)
+
+    See: https://scryfall.com/docs/api/cards/manifest
+    """
+
+    _endpoint = "/cards/manifest"
+    _rate_limiter_class = ManifestRateLimiter
+    list_data_type = CardManifestObject

@@ -21,6 +21,17 @@ def test_card__repr__class_id_name_format(cards_named__black_lotus):
     assert "Black Lotus" in r
 
 
+def test_manifest__row__str__reads_set_code(cards_manifest__page_one):
+    captured_row, _ = cards_manifest__page_one
+    row = scrython.cards.Manifest().data[0]
+    assert str(row) == f"{captured_row['name']} ({captured_row['set_code'].upper()})"
+
+
+def test_manifest__row__repr__names_its_own_class(cards_manifest__page_one):
+    row = scrython.cards.Manifest().data[0]
+    assert repr(row).startswith("CardManifestObject(")
+
+
 def test_set__str__name_code_format(sets_by_code__lea):
     s = scrython.sets.ByCode(code="lea")
     assert str(s) == "Limited Edition Alpha (LEA)"

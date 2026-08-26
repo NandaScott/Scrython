@@ -37,6 +37,7 @@ pyright my_script.py
 Scrython automatically enforces Scryfall's tiered rate limits:
 - **10 requests/second** for most endpoints (cards by ID, sets, bulk data, autocomplete, etc.)
 - **2 requests/second** for heavier endpoints: `Search`, `Named`, `Random`, and `Collection`
+- **10 requests/minute** for `Manifest`, which serves 15,000 cards per page
 
 See [Scryfall's rate limit documentation](https://scryfall.com/docs/api/rate-limits) for details.
 

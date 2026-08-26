@@ -134,7 +134,48 @@ class Preview(TypedDict):
     previewed_at: Date
 
 
-class ScryfallCardData(TypedDict):
+class ScryfallThinCardData(TypedDict):
+    """
+    The card fields Scryfall emits on both full Card objects and thin manifest rows.
+
+    See: https://scryfall.com/docs/api/cards
+    """
+
+    # Core required fields
+    id: UUID
+    lang: str
+
+    # Core optional fields. Scryfall omits oracle_id on reversible_card layouts
+    # and serves it as null on manifest rows, so it is both optional and nullable.
+    oracle_id: NotRequired[UUID | None]
+
+    # Gameplay required fields
+    name: str
+
+    # Print required fields
+    collector_number: str
+
+    # Print optional fields
+    image_updated_at: NotRequired[str]
+
+
+class ScryfallManifestCardData(ScryfallThinCardData):
+    """
+    A row of the /cards/manifest list: the thin card fields plus manifest-only ones.
+
+    Separate from ScryfallThinCardData because Scryfall's manifest representation
+    remaps the 'set' key to 'set_code'. The timestamps are sent as JSON null when
+    unset rather than being omitted.
+
+    See: https://scryfall.com/docs/api/cards/manifest
+    """
+
+    set_code: str
+    created_at: NotRequired[str | None]
+    data_updated_at: NotRequired[str | None]
+
+
+class ScryfallCardData(ScryfallThinCardData):
     """
     Complete TypedDict for a Scryfall Card object.
 
@@ -142,9 +183,7 @@ class ScryfallCardData(TypedDict):
     """
 
     # Core required fields
-    id: UUID
     object: str
-    lang: str
     layout: str
     prints_search_uri: URI
     rulings_uri: URI
@@ -159,10 +198,8 @@ class ScryfallCardData(TypedDict):
     tcgplayer_id: NotRequired[int]
     tcgplayer_etched_id: NotRequired[int]
     cardmarket_id: NotRequired[int]
-    oracle_id: NotRequired[UUID]
 
     # Gameplay required fields
-    name: str
     type_line: str
     cmc: float
     color_identity: Colors
@@ -192,7 +229,6 @@ class ScryfallCardData(TypedDict):
     booster: bool
     border_color: str
     card_back_id: UUID
-    collector_number: str
     digital: bool
     finishes: list[str]
     frame: str
@@ -227,7 +263,6 @@ class ScryfallCardData(TypedDict):
     foil: NotRequired[bool]
     frame_effects: NotRequired[list[str]]
     illustration_id: NotRequired[UUID]
-    image_updated_at: NotRequired[str]
     image_uris: NotRequired[ImageUris]
     nonfoil: NotRequired[bool]
     oversized: NotRequired[bool]

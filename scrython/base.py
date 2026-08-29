@@ -406,7 +406,7 @@ class ScrythonRequestHandler(Generic[DataT]):
         Generate hash based on Scryfall ID to enable use in sets and dicts.
 
         Returns:
-            Hash of the Scryfall ID, or hash of class name if no ID available
+            Hash of the Scryfall ID, or hash of instance identity if no ID available
 
         Example:
             unique_cards = {card1, card2, card3}
